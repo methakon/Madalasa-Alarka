@@ -1,93 +1,20 @@
 package org.madalasa.madalasa.ui.figma
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
-/**
- * P-55 — Optional Google Drive backup
- * Canonical Figma handoff: docs/ui/figma-functional-handoff/
- * Requirements: FR-011; milestone P2.
+/** P-55: Optional Google Drive backup; Figma functional handoff.
  * TODO(INTEGRATION/API): Google OAuth least scopes; user-selected Drive target; resumable transfer
- * TODO(INTEGRATION/SECURITY): Optional OFF until approved processor, retention, encryption review
- * TODO(INTEGRATION/ERROR): Revoked OAuth; quota; backup incomplete
+ * TODO(INTEGRATION/GATE): Optional OFF until approved processor, retention, encryption review
+ * TODO(INTEGRATION/FAILURE): Revoked OAuth; quota; backup incomplete
  * Acceptance: Nothing uploaded before explicit account owner opt-in.
- * Visual-only screen: actions deliberately disabled; no user records or permissions accessed.
+ * UI-only; exact per-node screenshot QA remains necessary.
  */
-@Composable
-fun P55Screen(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
-        .verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("MADALASA", style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary)
-            Spacer(Modifier.weight(1f))
-            Text("P-55", style = MaterialTheme.typography.labelMedium)
-        }
-        Text("Optional Google Drive backup", style = MaterialTheme.typography.headlineMedium)
-        Text("User-owned backup destination", style = MaterialTheme.typography.bodyLarge)
-        Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
-            Text("No device permissions or monitoring enabled in this design", Modifier.padding(16.dp),
-                style = MaterialTheme.typography.bodyMedium)
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("01", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("Drive account selection", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("02", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("scope", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("03", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("upload progress", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("04", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("restore policy", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Button(onClick = { /* TODO(INTEGRATION): connect verified action */ }, enabled = false,
-            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
-            Text("Connect Drive account")
-        }
-        Text("Preview only · no action or data access", style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
+@Composable fun P55Screen(modifier: Modifier = Modifier) {
+    HandoffDesign(
+        id = "P-55", title = "Optional Google Drive backup", hero = "User-owned backup destination",
+        kind = "privacy", milestone = "P2", requirement = "FR-011",
+        details = listOf("Drive account selection", "scope", "upload progress", "restore policy"),
+        action = "Connect Drive account", modifier = modifier
+    )
 }
