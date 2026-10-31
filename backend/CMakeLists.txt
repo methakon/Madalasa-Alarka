@@ -88,6 +88,10 @@ add_executable(test_admin_session tests/cpp/test_admin_session.cc)
 target_link_libraries(test_admin_session PRIVATE ma_core ma_oidc)
 add_test(NAME admin_session_negative COMMAND test_admin_session)
 
+add_executable(test_admin_auth tests/cpp/test_admin_auth.cc)
+target_link_libraries(test_admin_auth PRIVATE ma_core ma_oidc)
+add_test(NAME admin_auth_backoffice_negative COMMAND test_admin_auth)
+
 add_executable(test_admin_oidc tests/cpp/test_admin_oidc.cc)
 target_link_libraries(test_admin_oidc PRIVATE ma_core ma_oidc)
 add_test(NAME admin_oidc_negative COMMAND test_admin_oidc)

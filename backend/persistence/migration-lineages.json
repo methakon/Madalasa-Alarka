@@ -168,6 +168,12 @@
       "path": "backend/persistence/migrations/0021_parent_oidc_session_bridge.sql",
       "sha256": "fb4cba03345256250720aa516e700539bdb278d4cb98398ec73c03dea229dd1d",
       "published": true
+    },
+    {
+      "id": "v2:0022",
+      "path": "backend/persistence/migrations/0022_admin_session_bridge_and_back_office.sql",
+      "sha256": "dcc7fcee66c1707478e65c850ba36d150da649440a71e7956fcba5f88b5e7d49",
+      "published": true
     }
   ]
 }

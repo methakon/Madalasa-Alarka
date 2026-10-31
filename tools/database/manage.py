@@ -395,7 +395,7 @@ def load_migration_manifest(verify=True):
             raise ValueError('Invalid migration checksum: ' + identity)
         if verify and digest is not None and (not path.is_file() or sha256(path) != digest):
             raise ValueError('Migration checksum drift: ' + identity)
-    expected = {'common:0001', 'compat:m1_pre_v2_0016', 'compat:m1_pre_v2_0017'} | {'m1:%04d' % n for n in range(2, 7)} | {'v2:%04d' % n for n in range(2, 22)}
+    expected = {'common:0001', 'compat:m1_pre_v2_0016', 'compat:m1_pre_v2_0017'} | {'m1:%04d' % n for n in range(2, 7)} | {'v2:%04d' % n for n in range(2, 23)}
     if ids != expected:
         raise ValueError('Incomplete or unknown manifest identities')
     return entries
@@ -430,7 +430,7 @@ def migration_plan(entries, lineage='v2', through=None, applied=()):
         # historical renewal staging relation, and the bridge is a no-op when
         # that relation never existed. It is additive, never historical replay.
         ids += ['compat:m1_pre_v2_0017']
-        ids += ['v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021']
+        ids += ['v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022']
     if through:
         target = through if ':' in through else ('common:0001' if through == '0001' else lineage + ':' + through)
         if target not in ids:

@@ -17,12 +17,97 @@
 #include "children_create.h"
 #include "device_revoke.h"
 #include "admin_session.h"
+#include "admin_auth.h"
+#include "admin_backoffice.h"
 #include "admin_applicant.h"
 #include "admin_owner.h"
 #include "admin_faq_read.h"
 #include "http_support.h"
 #include "pairing.h"
 #include "parent_session.h"
+
+namespace {
+// Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
+void registerAdminBackOffice() {
+  using namespace drogon;
+  app().registerHandler(
+      "/v1/admin/auth/challenge",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_login_challenge(std::move(req)); },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/auth/google",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_login_google(std::move(req)); },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/auth/csrf",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_rotate_csrf(std::move(req)); },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/auth/session",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_logout(std::move(req)); },
+      {Delete});
+  app().registerHandler(
+      "/v1/admin/access/profile",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_save_profile(std::move(req)); },
+      {Put});
+  app().registerHandler(
+      "/v1/admin/access/requests",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_submit_request(std::move(req)); },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/owner/access-requests/{requestId}/decision",
+      [](HttpRequestPtr req, std::string requestId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::admin_decide_request(std::move(req), std::move(requestId));
+      },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/faqs",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> {
+        co_return co_await ma::admin_faq_draft(std::move(req), std::nullopt);
+      },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/faqs/{faqId}",
+      [](HttpRequestPtr req, std::string faqId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::admin_faq_draft(std::move(req), std::move(faqId));
+      },
+      {Put});
+  app().registerHandler(
+      "/v1/admin/faqs/{faqId}/publish",
+      [](HttpRequestPtr req, std::string faqId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::admin_faq_publish(std::move(req), std::move(faqId));
+      },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/support/tickets",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_list_tickets(std::move(req)); },
+      {Get});
+  app().registerHandler(
+      "/v1/admin/support/tickets/{ticketId}/messages",
+      [](HttpRequestPtr req, std::string ticketId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::admin_ticket_messages(std::move(req), std::move(ticketId));
+      },
+      {Get});
+  app().registerHandler(
+      "/v1/admin/support/tickets/{ticketId}/reply",
+      [](HttpRequestPtr req, std::string ticketId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::admin_ticket_reply(std::move(req), std::move(ticketId));
+      },
+      {Post});
+  app().registerHandler(
+      "/v1/admin/subscribers",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_subscribers(std::move(req)); },
+      {Get});
+  app().registerHandler(
+      "/v1/admin/usage/parents",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_parent_usage(std::move(req)); },
+      {Get});
+  app().registerHandler(
+      "/v1/admin/security/audit",
+      [](HttpRequestPtr req) -> Task<HttpResponsePtr> { co_return co_await ma::admin_security_audit(std::move(req)); },
+      {Get});
+}
+}  // namespace
 
 int main() {
   using namespace drogon;
@@ -43,6 +128,18 @@ int main() {
   const auto session_ttl = ma::parse_parent_session_ttl(std::getenv("MA_PARENT_SESSION_TTL_SECONDS"));
   if (!session_ttl) {
     std::cerr << "invalid MA_PARENT_SESSION_TTL_SECONDS (300..43200)" << std::endl;
+    return 78;
+  }
+  // Admin back office: exact browser Origin (scheme://host[:port]) gates login and
+  // every admin mutation. Unset => admin login and writes are closed (503/403).
+  const char* admin_origin = std::getenv("MA_ADMIN_ORIGIN");
+  if (admin_origin && *admin_origin && !ma::valid_admin_origin(admin_origin)) {
+    std::cerr << "invalid MA_ADMIN_ORIGIN (scheme://host[:port])" << std::endl;
+    return 78;
+  }
+  const auto admin_ttl = ma::parse_admin_session_ttl(std::getenv("MA_ADMIN_SESSION_TTL_SECONDS"));
+  if (!admin_ttl) {
+    std::cerr << "invalid MA_ADMIN_SESSION_TTL_SECONDS (300..3600)" << std::endl;
     return 78;
   }
   const char* port_env = std::getenv("MA_LISTEN_PORT");
@@ -96,7 +193,8 @@ int main() {
     // Session issuance uses a SEPARATE login (member of ap_auth_issuer only).
     // The runtime role can never mint sessions, so the two must differ.
     const char* auth_user = std::getenv("MA_PG_AUTH_USER");
-    if (*parent_mode == ma::ParentAuthMode::V2Session && auth_user && *auth_user) {
+    // Used by the parent session exchange (v2_session mode) and the admin login.
+    if (auth_user && *auth_user) {
       if (std::string(auth_user) == cfg.username) {
         std::cerr << "MA_PG_AUTH_USER must differ from the runtime MA_PG_USER" << std::endl;
         return 78;
@@ -107,8 +205,8 @@ int main() {
       issuer.connectionNumber = 2;
       issuer.name = ma::kAuthDbClientName;
       app().addDbClient(issuer);
-    } else if (*parent_mode == ma::ParentAuthMode::V2Session) {
-      LOG_WARN << "MA_PG_AUTH_USER not set: parent session exchange answers 503";
+    } else {
+      LOG_WARN << "MA_PG_AUTH_USER not set: parent session exchange and admin login answer 503";
     }
   } else {
     LOG_WARN << "MA_PG_DB not set: routes that need the database answer 503";
@@ -122,6 +220,14 @@ int main() {
     return 78;
   }
   const ma::ParentAuth parent{*parent_mode, authenticate};
+  try {
+    ma::admin_web_config() = ma::AdminWebConfig{admin_origin ? std::string(admin_origin) : std::string(),
+                                                 *admin_ttl, ma::select_admin_verifier()};
+  } catch (const std::invalid_argument&) {
+    std::cerr << "invalid admin Google OIDC client configuration" << std::endl;
+    return 78;
+  }
+  registerAdminBackOffice();
   if (*parent_mode == ma::ParentAuthMode::V2Session) {
     // Identity exchange: verified ID token in, server-generated opaque session out.
     app().registerHandler(

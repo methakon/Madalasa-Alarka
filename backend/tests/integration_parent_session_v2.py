@@ -85,7 +85,15 @@ def server(binary, overrides):
                 time.sleep(.05)
         else:
             raise Failure('backend health check did not become ready')
-        yield url, log_path
+        try:
+            yield url, log_path
+        except BaseException:
+            tail = log_path.read_text(errors='replace')[-4000:]
+            for secret in SECRETS:
+                if secret:
+                    tail = tail.replace(secret, '[REDACTED]')
+            print(f'--- backend exit={proc.poll()} log tail (redacted) ---\n{tail}', file=sys.stderr, flush=True)
+            raise
         expect(proc.poll() is None, 'backend survived every request')
     finally:
         proc.terminate()

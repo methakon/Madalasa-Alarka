@@ -14,7 +14,7 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_owner_access_requests(
     drogon::HttpRequestPtr req) {
   using namespace drogon;
   const auto rid=request_id_of(req);
-  const auto token=admin_session_cookie(req->getHeader("cookie"));
+  const auto token=admin_session_cookie(req);
   if(!token) co_return error_response("UNAUTHENTICATED","administrator session required",rid);
   if(!app().hasDbClient(kDbClientName))
     co_return error_response("SERVICE_UNAVAILABLE","database unavailable",rid,true);
