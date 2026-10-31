@@ -72,3 +72,7 @@ Use `docs/roadmap/AGENT_EXECUTION_AND_TEST_EVIDENCE.md` for exact task evidence,
 ## 2026-11-01 email and artwork checkpoint
 
 Eleven branded HTML and text email template pairs exist at email/templates/ plus a manifest (commit c611dfaf). Outbound email test success is worker-reported; mail schedule, actual rendered template delivery and inbound replies remain unverified. Figma AI produced a candidate original Theme C family-safety illustration at node 144:2 in the existing Figma file: https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=144-2 . Illustration generation does not imply Android asset placement, screen integration or visual PASS. Keep statuses TEMPLATE_SOURCE_PRESENT and ARTWORK_GENERATED_NOT_ANDROID_INTEGRATED.
+
+## ADMIN-STACK-01..06 — Approved frontend stack migration (2026-11-01)
+
+Owner approved **Drogon server-rendered HTML/CSS + HTMX + Alpine.js CSP-compatible distribution**, superseding prior UI technology TBD; React/Vite prototype remains existing source pending validated replacement. Follow [Admin frontend stack ADR](../phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md) for freeze/inventory, secure template/fragment foundation, all Figma BO screens, auth/FAQ/support/billing integration, adversarial tests and reviewed promotion. Status DECISION_APPROVED / IMPLEMENTATION_PENDING; base DAG tasks not falsely passed.
