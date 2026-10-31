@@ -199,3 +199,7 @@ Madalasa Support
 **MAIL-06** Review legal communication requirements, privacy retention, support staffing, Google Play prepaid product eligibility, real-provider sandbox test and release controls.
 
 **Acceptance:** no customer-facing dispatch until transport/delivery evidence, security review, verified entitlement lifecycle and owner approval exist. Product implementation is pending.
+
+## Source artifact and test-evidence reconciliation — 2026-11-01
+
+Eleven HTML/plain-text template pairs plus a manifest are now present at email/templates/ (commit c611dfaf). Owner reports that a local worker successfully sent outbound test emails using configured mailboxes; this report has not been independently checked against sanitized SMTP/provider logs. Existing successful test sends do not prove these specific templates, scheduled expiry alerts, payment fallback or inbound ticket replies work. No secrets were inspected. Status: TEMPLATE_SOURCE_PRESENT; OUTBOUND_SEND_WORKER_REPORTED; INTEGRATED_LIFECYCLE_NOT_VERIFIED.
