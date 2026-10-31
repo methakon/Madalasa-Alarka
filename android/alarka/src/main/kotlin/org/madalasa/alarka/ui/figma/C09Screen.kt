@@ -1,82 +1,20 @@
 package org.madalasa.alarka.ui.figma
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
-/**
- * C-09 — Battery & background guide
- * Canonical Figma handoff: docs/ui/figma-functional-handoff/
- * Requirements: FR-018/036; milestone M2.
+/** C-09: Battery & background guide; Figma functional handoff.
  * TODO(INTEGRATION/API): OS battery restriction read; vendor settings; WorkManager scheduling
- * TODO(INTEGRATION/SECURITY): No bypass of Android Doze/background launch restrictions
- * TODO(INTEGRATION/ERROR): Restricted; OEM kills process; unavailable intent
+ * TODO(INTEGRATION/GATE): No bypass of Android Doze/background launch restrictions
+ * TODO(INTEGRATION/FAILURE): Restricted; OEM kills process; unavailable intent
  * Acceptance: Timings remain best-effort, status accurate.
- * Visual-only screen: actions deliberately disabled; no user records or permissions accessed.
+ * UI-only; exact per-node screenshot QA remains necessary.
  */
-@Composable
-fun C09Screen(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
-        .verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("ALARKA", style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary)
-            Spacer(Modifier.weight(1f))
-            Text("C-09", style = MaterialTheme.typography.labelMedium)
-        }
-        Text("Battery & background guide", style = MaterialTheme.typography.headlineMedium)
-        Text("Power policy impacts observation age", style = MaterialTheme.typography.bodyLarge)
-        Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
-            Text("No device permissions or monitoring enabled in this design", Modifier.padding(16.dp),
-                style = MaterialTheme.typography.bodyMedium)
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("01", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("Battery restrictions", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("02", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("delayed jobs", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("03", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("Eco explanation", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Button(onClick = { /* TODO(INTEGRATION): connect verified action */ }, enabled = false,
-            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
-            Text("Open system battery settings")
-        }
-        Text("Preview only · no action or data access", style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
+@Composable fun C09Screen(modifier: Modifier = Modifier) {
+    HandoffDesign(
+        id = "C-09", title = "Battery & background guide", hero = "Power policy impacts observation age",
+        kind = "permission", milestone = "M2", requirement = "FR-018/036",
+        details = listOf("Battery restrictions", "delayed jobs", "Eco explanation"),
+        action = "Open system battery settings", modifier = modifier
+    )
 }

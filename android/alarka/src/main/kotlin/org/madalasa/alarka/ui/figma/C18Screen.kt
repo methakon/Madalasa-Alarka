@@ -1,89 +1,20 @@
 package org.madalasa.alarka.ui.figma
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
-/**
- * C-18 — Child settings & appearance
- * Canonical Figma handoff: docs/ui/figma-functional-handoff/
- * Requirements: FR-041; milestone M1.
+/** C-18: Child settings & appearance; Figma functional handoff.
  * TODO(INTEGRATION/API): Local DataStore; child capability+policy read
- * TODO(INTEGRATION/SECURITY): Theme implementation left to developers; visual design one style
- * TODO(INTEGRATION/ERROR): Preference unavailable; no server; permission denied
+ * TODO(INTEGRATION/GATE): Theme implementation left to developers; visual design one style
+ * TODO(INTEGRATION/FAILURE): Preference unavailable; no server; permission denied
  * Acceptance: Privacy notice available regardless of selected theme.
- * Visual-only screen: actions deliberately disabled; no user records or permissions accessed.
+ * UI-only; exact per-node screenshot QA remains necessary.
  */
-@Composable
-fun C18Screen(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
-        .verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("ALARKA", style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary)
-            Spacer(Modifier.weight(1f))
-            Text("C-18", style = MaterialTheme.typography.labelMedium)
-        }
-        Text("Child settings & appearance", style = MaterialTheme.typography.headlineMedium)
-        Text("Simple device-level preferences", style = MaterialTheme.typography.bodyLarge)
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("01", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("Light/dark/eco future handoff", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("02", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("disclosure", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("03", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("help", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer, modifier = Modifier.size(34.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Text("04", style = MaterialTheme.typography.labelMedium) }
-                }
-                Column(Modifier.weight(1f)) {
-                    Text("permission shortcuts", style = MaterialTheme.typography.bodyMedium)
-                    Text("Not connected", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-        Button(onClick = { /* TODO(INTEGRATION): connect verified action */ }, enabled = false,
-            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
-            Text("Open app settings")
-        }
-        Text("Preview only · no action or data access", style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
+@Composable fun C18Screen(modifier: Modifier = Modifier) {
+    HandoffDesign(
+        id = "C-18", title = "Child settings & appearance", hero = "Simple device-level preferences",
+        kind = "detail", milestone = "M1", requirement = "FR-041",
+        details = listOf("Light/dark/eco future handoff", "disclosure", "help", "permission shortcuts"),
+        action = "Open app settings", modifier = modifier
+    )
 }
