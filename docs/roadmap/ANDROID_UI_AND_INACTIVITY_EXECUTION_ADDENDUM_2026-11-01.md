@@ -76,3 +76,11 @@ Eleven branded HTML and text email template pairs exist at email/templates/ plus
 ## ADMIN-STACK-01..06 — Approved frontend stack migration (2026-11-01)
 
 Owner approved **Drogon server-rendered HTML/CSS + HTMX + Alpine.js CSP-compatible distribution**, superseding prior UI technology TBD; React/Vite prototype remains existing source pending validated replacement. Follow [Admin frontend stack ADR](../phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md) for freeze/inventory, secure template/fragment foundation, all Figma BO screens, auth/FAQ/support/billing integration, adversarial tests and reviewed promotion. Status DECISION_APPROVED / IMPLEMENTATION_PENDING; base DAG tasks not falsely passed.
+
+## 2026-11-01 — UI artwork and support screen implementation checkpoint
+
+- Parent: native scalable Theme C vector illustration `ThemeCArtwork.kt` integrated into the reusable hero panels across P-01..P-60 on `parent`, commit `ffa4f23a4d4e350dfb12baa361c90074160d0993`.
+- Child: corresponding vector artwork integrated into C-01..C-21 on `child`, commit `c0e2133cdf19ed99c13ac6519821d0f36ef891c6`.
+- These are functional native vector motifs; **detailed Figma AI raster artwork has not yet been exported and placed as Android drawable assets**. Exact screenshots/device builds are not verified, so do not mark comprehensive artwork/visual QA PASS.
+- Support: AI-generated illustration directly in Figma at node [145:2](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=145-2); three **editable Figma** two-way support designs at page [146:2](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=146-2): SUP-01 inbox, SUP-02 conversation, SUP-03 new request.
+- Support HTML/CSS static screen implementation committed on `admin-web` at `admin-web/htmx-migration/support/`, commit `3484cd06aaa1d4601ee44e2af5551315de537b6f`. This is **NOT** authenticated or connected to real tickets, email replies, or HTMX/Drogon handlers. Actions are deliberately disabled and examples synthetic. Next: secure Drogon server templates, HTMX fragments, actual API/inbound threading, redacted E2E tests and Figma screenshot parity.
