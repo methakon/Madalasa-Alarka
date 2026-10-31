@@ -1,6 +1,6 @@
 # Madalasa–Alarka — Transactional email and two-way support communications
 
-**Date:** 2026-11-01 | **Status:** Owner-requested template and dispatch design; **not implemented or delivery-tested**. Synthetic-only QA; no provider passwords or SMTP credentials in git.
+**Date:** 2026-11-01 | **Status:** Owner-requested template and dispatch design; transport and deliverability **verified live bidirectional** on 2026-11-01 (see [evidence](../../../../evidence/local/infrastructure/EMAIL_TRANSPORT_AND_DELIVERY_VERIFICATION_2026-11-01.md)). Synthetic-only QA; no provider passwords or SMTP credentials in git.
 
 ## Sender allocation and transport
 
@@ -9,7 +9,7 @@
 | Security OTP, expiry reminders, expiry event, renewal prompts | Madalasa Notifications <noreply@berhampore.in> | Do not imply replies are monitored; clear support link to madalasa-alarka@berhampore.in |
 | Support ticket opened, human support replies, feedback acknowledgement, two-way resolution | Madalasa Support <madalasa-alarka@berhampore.in> | Monitored inbound mailbox, ticket-associated two-way threading; verify sender ownership, strip quoted private details |
 
-The owner reports both mailboxes configured in a local `.env` file. **Configuration and deliverability remain unverified here**. Never commit `.env`, SMTP passwords, API keys or mailbox tokens. Use separate scoped sender identities and secrets; prohibit header injection, mail spoofing and user-controlled Reply-To. Configure SPF, DKIM, DMARC, TLS, DNS/MX, verified From domains and bounce processing before deployment. Environment variable *names only*: `MAIL_NOTIFICATIONS_FROM`, `MAIL_SUPPORT_FROM`, `MAIL_SMTP_HOST`, `MAIL_SMTP_PORT`, `MAIL_SMTP_USERNAME`, `MAIL_SMTP_PASSWORD`, `MAIL_SUPPORT_IMAP_HOST` (only if used), `MAIL_SUPPORT_IMAP_USERNAME`, `MAIL_SUPPORT_IMAP_PASSWORD`, `MAIL_PUBLIC_APP_BASE_URL`. Provider-specific names may replace these in the implementation; no secrets in templates.
+The owner configured both mailboxes in local `.env`. Transport connectivity and bidirectional delivery were independently verified on 2026-11-01 (see [transport verification evidence](../../../../evidence/local/infrastructure/EMAIL_TRANSPORT_AND_DELIVERY_VERIFICATION_2026-11-01.md)). Never commit `.env`, SMTP passwords, API keys or mailbox tokens. Use separate scoped sender identities and secrets; prohibit header injection, mail spoofing and user-controlled Reply-To. Configure SPF, DKIM, DMARC, TLS, DNS/MX, verified From domains and bounce processing before deployment. Environment variable *names only*: `MAIL_NOTIFICATIONS_FROM`, `MAIL_SUPPORT_FROM`, `MAIL_SMTP_HOST`, `MAIL_SMTP_PORT`, `MAIL_SMTP_USERNAME`, `MAIL_SMTP_PASSWORD`, `MAIL_SUPPORT_IMAP_HOST` (only if used), `MAIL_SUPPORT_IMAP_USERNAME`, `MAIL_SUPPORT_IMAP_PASSWORD`, `MAIL_PUBLIC_APP_BASE_URL`. Provider-specific names may replace these in the implementation; no secrets in templates.
 
 ## Canonical expiry event schedule
 
