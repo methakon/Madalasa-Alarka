@@ -44,6 +44,13 @@
       "scope": "Free versus paid location sampling after 168h without verified parent-app foreground event; no runtime collection enabled",
       "design_document": "docs/phases/M2-location-collection/01-location-collection-and-ingestion/PARENT_APP_INACTIVITY_ADAPTIVE_LOCATION_POLICY_2026-11-01.md",
       "does_not_close_individual_dag_tasks": true
+    },
+    "email_notifications_and_support_2026_11_01": {
+      "readiness": "DOCUMENTED_NOT_IMPLEMENTED",
+      "scope": "11 template IDs, one-way notification sender, two-way support sender, manual prepaid expiry T-30d/T-7d/T-1d/T-9h/T/T+1d/T+7d, immediate FREE fallback and ticket threading",
+      "design_document": "docs/phases/M7-commercial-integrations/01-commercial-plans-and-costing/EMAIL_LIFECYCLE_AND_SUPPORT_TEMPLATES_2026-11-01.md",
+      "transport_and_env": "OWNER_REPORTED_NOT_VERIFIED",
+      "does_not_close_individual_dag_tasks": true
     }
   },
   "dependencies_source": "docs/roadmap/LOCAL_TASK_GRAPH_2026-10-28.json",
