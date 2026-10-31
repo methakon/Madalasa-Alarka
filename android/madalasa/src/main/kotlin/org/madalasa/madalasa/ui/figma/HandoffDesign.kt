@@ -56,11 +56,14 @@ internal fun HandoffDesign(
         Spacer(Modifier.height(28.dp))
         Surface(modifier = Modifier.fillMaxWidth().heightIn(min = 124.dp),
             color = Color(0xFFFCE8CD), shape = RoundedCornerShape(17.dp)) {
-            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
+            Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
                 Text(hero, fontSize = 16.sp, lineHeight = 21.sp, color = Color(0xFF116E71),
                     fontWeight = FontWeight.Bold)
-                Text("${kind.uppercase()} • ${milestone} • FUNCTIONAL CONCEPT",
+                Text("${kind.uppercase()} • ${milestone}",
                     fontSize = 10.sp, color = Color(0xFF3B7775))
+                }
+                ThemeCArtwork(id)
             }
         }
         Spacer(Modifier.height(17.dp))
