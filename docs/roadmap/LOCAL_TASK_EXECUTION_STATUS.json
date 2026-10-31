@@ -1,6 +1,6 @@
 {
   "name": "Madalasa–Alarka Local Agent Execution Status",
-  "as_of": "2026-11-01T02:50:00Z",
+  "as_of": "2026-11-01",
   "note": "2026-11-01 repository inspection: Android source and backend implementation checkpoints added; individual 262 task acceptance evidence NOT revalidated and statuses remain NOT_STARTED. Workstream checkpoints do not imply PASS, build, visual fidelity, device testing or production readiness.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
@@ -50,12 +50,21 @@
       "does_not_close_individual_dag_tasks": true
     },
     "email_notifications_and_support_2026_11_01": {
-      "readiness": "DOCUMENTED_NOT_IMPLEMENTED",
+      "readiness": "TEMPLATES_DESIGNED_AND_WORKER_REPORTED_OUTBOUND_SEND",
       "scope": "11 template IDs, one-way notification sender, two-way support sender, manual prepaid expiry T-30d/T-7d/T-1d/T-9h/T/T+1d/T+7d, immediate FREE fallback and ticket threading",
       "design_document": "docs/phases/M7-commercial-integrations/01-commercial-plans-and-costing/EMAIL_LIFECYCLE_AND_SUPPORT_TEMPLATES_2026-11-01.md",
       "transport_and_env": "VERIFIED_BIDIRECTIONAL_DELIVERY_2026-11-01",
       "does_not_close_individual_dag_tasks": true,
-      "transport_verification_evidence": "SMTP (noreply@berhampore.in:465) and IMAP (madalasa-alarka@berhampore.in:993) tested live with bidirectional delivery and receipt against Google Gmail (swarna.s.jobs@gmail.com)"
+      "transport_verification_evidence": "SMTP (noreply@berhampore.in:465) and IMAP (madalasa-alarka@berhampore.in:993) tested live with bidirectional delivery and receipt against Google Gmail (swarna.s.jobs@gmail.com)",
+      "source_path": "email/templates",
+      "template_count": 11,
+      "template_manifest": "email/templates/manifest.json",
+      "outbound_test": "WORKER_REPORTED_SUCCESS_NO_LOGS_REVIEWED",
+      "configuration": "OWNER_REPORTED_CONFIGURED_NO_SECRET_READ",
+      "scheduler_and_fallback": "NOT_VERIFIED",
+      "support_inbound_and_threading": "NOT_VERIFIED",
+      "html_template_send_tests": "NOT_VERIFIED",
+      "design_commit": "c611dfaf84087d8c41cfc0ab8130fd3114751efb"
     }
   },
   "dependencies_source": "docs/roadmap/LOCAL_TASK_GRAPH_2026-10-28.json",
