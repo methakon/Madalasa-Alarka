@@ -1,0 +1,3 @@
+# Support ticket design migration
+
+These are offline HTML/CSS screen designs corresponding to Figma page `146:2` (SUP-01 inbox, SUP-02 conversation, SUP-03 new request). No real tickets, credentials, or child data. No external JS dependency is loaded and no live sending is claimed. Replace static fixture rows with server-rendered, HTML-escaped and case-authorized data from Drogon. Implement HTMX as locally pinned assets with Alpine CSP only where needed; add authenticated sessions, CSRF, RBAC, attachment scanning, inbound email threading, audit receipts and security tests before enabling buttons. Existing React prototype remains as historical source. Figma illustration candidate node `145:2` is not embedded in this offline HTML.
