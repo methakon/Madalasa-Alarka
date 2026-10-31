@@ -65,6 +65,13 @@
       "support_inbound_and_threading": "NOT_VERIFIED",
       "html_template_send_tests": "NOT_VERIFIED",
       "design_commit": "c611dfaf84087d8c41cfc0ab8130fd3114751efb"
+    },
+    "admin_frontend_stack_2026_11_01": {
+      "readiness": "OWNER_APPROVED_MIGRATION_NOT_STARTED",
+      "chosen_stack": "C++20 Drogon server-rendered HTML/CSS + HTMX + Alpine.js CSP build",
+      "previous_react": "HISTORICAL_PROTOTYPE_RETAINED",
+      "decision_doc": "docs/phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md",
+      "does_not_close_individual_dag_tasks": true
     }
   },
   "dependencies_source": "docs/roadmap/LOCAL_TASK_GRAPH_2026-10-28.json",
