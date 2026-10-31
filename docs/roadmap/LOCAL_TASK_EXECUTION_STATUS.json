@@ -1,6 +1,6 @@
 {
   "name": "Madalasa–Alarka Local Agent Execution Status",
-  "as_of": "2026-11-01",
+  "as_of": "2026-11-01T02:50:00Z",
   "note": "2026-11-01 repository inspection: Android source and backend implementation checkpoints added; individual 262 task acceptance evidence NOT revalidated and statuses remain NOT_STARTED. Workstream checkpoints do not imply PASS, build, visual fidelity, device testing or production readiness.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
@@ -28,16 +28,20 @@
       "does_not_close_individual_dag_tasks": true
     },
     "android_bootstrap": {
-      "readiness": "SOURCE_ON_MAIN",
-      "scope": "Gradle wrapper, parent and child application modules, ui-common library and initial app shell source exist; clean build/test evidence not independently assessed in this checkpoint",
+      "readiness": "LOCAL_READY",
+      "scope": "Gradle wrapper, parent (:madalasa) and child (:alarka) application modules, ui-common library and placeholder Compose navigation merged to main (accfe14)",
       "evidence_ref": "main:android/settings.gradle.kts and android/ui-common/build.gradle.kts",
-      "does_not_close_individual_dag_tasks": true
+      "does_not_close_individual_dag_tasks": true,
+      "executed_checks": "18 unit tests passed across :ui-common, :madalasa, :alarka; debug APKs assembled; zero runtime permissions",
+      "commit_sha": "accfe14"
     },
     "parent_oidc_v2_session_bridge": {
-      "readiness": "MERGED_PR_IMPLEMENTATION",
-      "scope": "PR #16 merged, auth bridge and migration 0021 in repository; production Google sign-in and deployment remain unverified",
+      "readiness": "LOCAL_READY",
+      "scope": "ParentOIDC to server-controlled opaque session bridge; POST /v1/auth/parent/google, DELETE /v1/auth/session, migration 0021; dedicated ap_auth_issuer role merged to main (accfe14)",
       "evidence_ref": "https://github.com/methakon/Madalasa-Alarka/pull/16",
-      "does_not_close_individual_dag_tasks": true
+      "does_not_close_individual_dag_tasks": true,
+      "commit_sha": "accfe14",
+      "executed_checks": "test_parent_session_bridge.py and integration_parent_session_v2.py passed; CI branch-routes and tenant isolation passed"
     },
     "inactivity_location_sampling_7d": {
       "readiness": "DOCUMENTED_NOT_CODED",
@@ -49,8 +53,9 @@
       "readiness": "DOCUMENTED_NOT_IMPLEMENTED",
       "scope": "11 template IDs, one-way notification sender, two-way support sender, manual prepaid expiry T-30d/T-7d/T-1d/T-9h/T/T+1d/T+7d, immediate FREE fallback and ticket threading",
       "design_document": "docs/phases/M7-commercial-integrations/01-commercial-plans-and-costing/EMAIL_LIFECYCLE_AND_SUPPORT_TEMPLATES_2026-11-01.md",
-      "transport_and_env": "OWNER_REPORTED_NOT_VERIFIED",
-      "does_not_close_individual_dag_tasks": true
+      "transport_and_env": "VERIFIED_BIDIRECTIONAL_DELIVERY_2026-11-01",
+      "does_not_close_individual_dag_tasks": true,
+      "transport_verification_evidence": "SMTP (noreply@berhampore.in:465) and IMAP (madalasa-alarka@berhampore.in:993) tested live with bidirectional delivery and receipt against Google Gmail (swarna.s.jobs@gmail.com)"
     }
   },
   "dependencies_source": "docs/roadmap/LOCAL_TASK_GRAPH_2026-10-28.json",

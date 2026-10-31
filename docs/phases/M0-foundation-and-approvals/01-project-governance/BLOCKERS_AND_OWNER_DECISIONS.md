@@ -88,6 +88,15 @@ Source and decision owner: explicit project-owner instruction dated 2026-10-30. 
 
 **Risk/hardening:** Previously committed synthetic code may have stored a raw pairing secret in idempotency response bodies; code no longer returns such historical responses. Existing synthetic databases must be sanitized/recreated before any real deployment. M1 SQL migrations are versioned and not overwritten. Source: [P-1 resolution](../../../API_CONVENTIONS_AND_ERROR_CATALOG.md), [pending API implementation](https://github.com/methakon/Madalasa-Alarka/blob/api/backend/src/pairing.h). Runtime smoke and DB replay/one-active-code tests are still required; do not claim the pairing handler release-ready.
 
+## 2026-11-01 Engineering Integration & Infrastructure Checkpoint
+
+- **V2 Parent Session Bridge Integrated on main (PR #16 / PR #19, commit `accfe14`):**
+  Server-controlled opaque session exchange (`POST /v1/auth/parent/google`) and revocation (`DELETE /v1/auth/session`) implemented and verified. Database migration `0021_parent_oidc_session_bridge.sql` restricts minting to dedicated `ap_auth_issuer` role, enforcing token replay prevention via SHA-256 unique index and bounding active sessions.
+- **Android Foundations Promoted to main (PR #17, PR #18, PR #19, commit `accfe14`):**
+  Scaffolded both Madalasa parent app (`android/madalasa`) and Alarka child companion app (`android/alarka`) with shared UI contract library (`android/ui-common`). Single-activity Compose architecture, Theme C design tokens, transparency disclosure, placeholder navigation, and zero covert recording/monitoring permissions. 18/18 unit tests passing and both debug APKs assembling cleanly.
+- **Email & Communications Infrastructure Verified (2026-11-01):**
+  Outbound SMTP (`mail.berhampore.in:465`, user `noreply`) and inbound mailbox (`mail.berhampore.in:993`, user `madalasa-alarka`) tested with live bidirectional email delivery and receipt against Google Gmail (`swarna.s.jobs@gmail.com`), confirming delivery directly to the primary inbox.
+
 ## 2026-10-31 E-02 API implementation update (synthetic-only)
 
 **ALL 14 FROZEN M1 OPERATION ROUTES REGISTERED on `api`, not merged to `dev`/main; do not mark E-02 CLOSED.** [Operation-by-operation implementation/evidence register](../../M1-secure-platform-foundation/02-development-process/M1_API_HANDLER_IMPLEMENTATION_STATUS_2026-10-31.md). Added GET listFamilies/getChild/listChildDevices, POST createChild/recordCapabilities and DELETE revokeDevice, hardened issuePairingCode and corrected health Receipt, plus negative tests and static route-coverage assertion. The [api SHA `0831367` M1 CI](https://github.com/methakon/Madalasa-Alarka/actions/runs/41143455623) **PASSED all three jobs**, including the 14-route ctest assertion. Runtime V2 trusted sessions, positive exact-child access and cross-family tests are still required. **V2 trusted session issuance, authority/guardian tests, end-to-end HTTP–PostgreSQL role/isolation, revokeDevice's extra VIEW scope and P-1 owner acceptance remain OPEN.** 171 broader/Figma-planned operations are NOT M1 implementation.
@@ -103,14 +112,14 @@ Source on `api` **not merged to dev**. [Status/evidence](../../M1-secure-platfor
 | ID | Priority | Work and reason it blocks completion | Evidence required | Responsible role |
 |---|---|---|---|---|
 | **E-01** | Critical | Family/child/guardian grants, server authorization + RLS | Cross-family API, worker, cache and live-stream negative tests | Backend/security |
-| **E-02** | Critical | **14/14 M1 handler routes registered on api; implementation/verification PARTIAL** | Latest SHA's CI, complete V2 issuer sessions, cross-tenant and guardian revocation HTTP/DB integration, full response contract, correct revoke scope, merge into dev (not completed) | Backend |
+| **E-02** | Critical | **14/14 M1 handler routes registered; V2 parent session bridge MERGED TO MAIN (accfe14); full role integration PARTIAL** | V2 parent session bridge merged in accfe14; complete cross-tenant and guardian revocation HTTP/DB integration, full response contract, correct revoke scope | Backend |
 | **E-03** | Critical | Durable GPS idempotence, partition dedup, per-device worker fences | Crash/duplicate/offline/late replay passes | C++/DB |
 | **E-04** | Critical | Revocation and deletion spanning raw/derived data, backups and offline devices | Restore and no-reingest proofs | Backend/privacy |
-| **E-05** | High | Android permission, typed FGS, foreground/background and OEM life cycle | Device API/OEM instrumentation evidence | Android |
+| **E-05** | High | **Android client scaffolding and shared UI library MERGED TO MAIN (accfe14); device runtime permissions and FGS lifecycle pending** | Scaffolding complete with 18 unit tests; device API/OEM instrumentation evidence for background services | Android |
 | **E-06** | High | Stop/arrival/route quality thresholds and confidence | Labeled journey precision and recall tests | Geo/QA |
 | **E-07** | High | Real battery and sampling behavior (phone, tablet, watch) | Comparative controlled-device measurements | Mobile QA |
 | **E-08** | High | Drogon/Postgres scaling, backup recovery and failure handling | 1k/10k/100k synthetic tests plus recovery exercise | SRE |
-| **E-09** | Critical | Parent OIDC, per-device secure keys, secret/key rotation | Security review/rotation and auth tests | Security |
+| **E-09** | Critical | **Parent OIDC to V2 server-controlled session bridge MERGED TO MAIN (accfe14); per-device secure keys and key rotation pending** | V2 opaque session exchange and revocation verified with test_parent_session_bridge.py; device key rotation pending | Security |
 | **E-10** | High | Actual parent/child AAB, API 36 standard Play target and native 16KB support | Signed builds + device installation checks | Android release |
 | **E-11** | High | SOS/command receipts, expiration, fallback and priority | Offline, replay, revoked guardian tests | Backend/QA |
 | **E-12** | Medium | Parent map paging, named-place optimistic edits, uncertain state UX | Multi-guardian and stale-state UI tests | Parent UI |
