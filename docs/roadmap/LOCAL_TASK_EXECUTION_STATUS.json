@@ -217,7 +217,7 @@
     "L00-006": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-006.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "b7fffb1b28c082b63cdbe298699017649f0f762a",
       "verified_at_utc": "2026-11-01T08:09:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/RETENTION_PENDING.md",
