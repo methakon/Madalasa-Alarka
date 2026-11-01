@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ fun TransparencyDisclosureScreen(
     isAcknowledged: Boolean,
     onAcknowledge: () -> Unit,
     onNavigateNext: () -> Unit,
+    onReadPrivacy: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -71,11 +73,15 @@ fun TransparencyDisclosureScreen(
                 )
 
                 Text(
-                    text = "4. Synthetic Prototype Mode: This build operates purely with synthetic test data. Zero live child location, audio, or private files are accessed or transmitted.",
+                    text = "4. Local Device Checks: Hardware and app-permission status may be inspected on this device. This screen does not collect or transmit GPS, audio, camera or private files; backend pairing and monitoring remain development-gated.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = ThemeCColors.Teal
                 )
             }
+        }
+
+        OutlinedButton(onClick = onReadPrivacy, modifier = Modifier.fillMaxWidth()) {
+            Text("Monitoring information & privacy controls")
         }
 
         if (!isAcknowledged) {
