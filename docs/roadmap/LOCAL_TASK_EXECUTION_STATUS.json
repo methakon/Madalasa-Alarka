@@ -235,7 +235,7 @@
     "L00-008": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-008.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "9778b8a7b0e7cecda80f88b39a059084cb82115e",
       "verified_at_utc": "2026-11-01T08:15:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/COMMERCE_INVARIANTS.md",
