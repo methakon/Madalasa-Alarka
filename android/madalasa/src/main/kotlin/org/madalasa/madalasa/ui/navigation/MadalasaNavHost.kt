@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.launch
 import org.madalasa.madalasa.api.PrivacyGateway
 import org.madalasa.madalasa.ui.screens.ParentPrivacyRow
-import org.madalasa.madalasa.ui.screens.parentPrivacyRows
+import org.madalasa.madalasa.ui.screens.parentVerifiedOverviewRows
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -146,15 +146,7 @@ fun MadalasaNavHost(
                             apiStatus = "Loading verified purpose decisions"
                             privacyGateway.childConsents(selectedChildId).fold(
                                 onSuccess = { decisions ->
-                                    rows = parentPrivacyRows(ParentPrivacyPage.OVERVIEW) + (if (decisions.isEmpty()) listOf(
-                                        ParentPrivacyRow("No authorized consent records",
-                                            "No verified purposes are visible to this parent.")
-                                    ) else decisions.map { d ->
-                                        ParentPrivacyRow(
-                                            "Purpose: ${d.purpose}",
-                                            "Consent ${d.status} · review ${d.legalState} · notice ${d.noticeVersion}"
-                                        )
-                                    })
+                                    rows = parentVerifiedOverviewRows(decisions)
                                     apiStatus = "SERVER VERIFIED · consent records"
                                 },
                                 onFailure = { e ->
