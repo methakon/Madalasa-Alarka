@@ -12,6 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.madalasa.madalasa.ui.screens.ParentPrivacyPage
+import org.madalasa.madalasa.ui.screens.ParentPrivacyScreen
 import org.madalasa.madalasa.ui.figma.ParentFigmaScreen
 import org.madalasa.madalasa.ui.figma.SupplementalFigmaCatalog
 import org.madalasa.madalasa.ui.figma.SupplementalFigmaScreen
@@ -21,7 +23,7 @@ import org.madalasa.uicommon.MadalasaTheme
 import org.madalasa.uicommon.ScreenId
 
 /**
- * DEBUG BUILD ONLY: standalone navigation into 60 original + 22 capability + 11 media + 8 Theme C family Figma designs.
+ * DEBUG BUILD ONLY: standalone navigation into 60 original + 22 capability + 11 media + 8 Theme C family + 4 privacy Figma designs.
  * Does not use the production NavHost, authentication, OS permissions or APIs.
  * TODO(INTEGRATION): connect reviewed final screen routes after visual/UX QA.
  * Launch through Android Studio's Run configuration or adb explicit activity.
@@ -55,7 +57,18 @@ class DesignPreviewActivity : ComponentActivity() {
                     active.startsWith("SH-") -> themed.firstOrNull { it.id == active }
                     else -> null
                 }
-                if (themeSpec != null) {
+                val privacyPage = if (active.startsWith("PRIV-UI-")) {
+                    val number = active.removePrefix("PRIV-UI-").toIntOrNull()
+                    ParentPrivacyPage.entries.getOrNull((number ?: 0) - 1)
+                } else null
+                if (privacyPage != null) {
+                    ParentPrivacyScreen(
+                        page = privacyPage,
+                        hasSelectedChild = false,
+                        onBack = { selected = null },
+                        onNavigate = { selected = "PRIV-UI-" + "%02d".format(it.ordinal + 1) }
+                    )
+                } else if (themeSpec != null) {
                     ThemeCSharingScreen(themeSpec, onNextDesign = {
                         val index = themed.indexOfFirst { it.id == themeSpec.id }
                         val next = themed.getOrNull(index + 1) ?: themed.first()
@@ -104,6 +117,15 @@ class DesignPreviewActivity : ComponentActivity() {
                     selected = if (design.id.startsWith("P-")) "THEME-" + design.id else design.id
                 }) {
                     Text(design.id + " · " + design.title, modifier = Modifier.padding(18.dp))
+                }
+            }
+            item { Text("Privacy controls · 4 new", style = MaterialTheme.typography.titleMedium) }
+            items(ParentPrivacyPage.entries.toList(), key = { it.route }) { page ->
+                ElevatedCard(modifier = Modifier.fillMaxWidth().clickable {
+                    selected = "PRIV-UI-" + "%02d".format(page.ordinal + 1)
+                }) {
+                    Text("PRIV-UI-" + "%02d".format(page.ordinal + 1) + " · " + page.title,
+                        modifier = Modifier.padding(18.dp))
                 }
             }
             item { Text("Media activity · 11", style = MaterialTheme.typography.titleMedium) }
