@@ -49,3 +49,35 @@ The owner explicitly rejected *synthetic-only* as the development testing strate
 ## 6. Private laboratory test mode — owner clarification (2026-11-02)
 
 The project owner confirms that the primary test environment is a **private lab using devices owned and operated by the owner**. The owner does not need a separate written self-consent certificate to run their own test devices. For a different adult participant, obtain informed participation and disclose the monitoring scope; never imply that owning a device authorizes covert monitoring of another person. Android OS runtime permissions, applicable foreground-service notifications and privacy indicators, honest functionality disclosures, access control, and data security are retained in LAB_TEST_MODE. Test logs/data are private, scoped and deleted after the test as specified by the lab retention configuration. The legal and Google Play real-child/release gates remain separate; do not block legitimate owner-only lab integration testing merely because Play review is pending. Native Android tests may run with genuine GPS, physical movement, real connectivity and actual dev APIs/database. Automated non-personal negative-case tests remain useful but are not a condition that all real-device data be synthetic.
+
+## 7. Adoptable competitor-pattern privacy baseline for pre-release (owner direction 2026-11-02)
+
+**Decision:** Implement the easy-to-adapt, privacy-protective controls found in established parental-safety app documentation as the initial **v0.x engineering/privacy-policy baseline**. Use any future Google Play review feedback and qualified/legal/platform input to refine the first release candidate or a subsequent release. **Do not claim competitor practice proves Indian legality, grants a Play exception, or permits deploying a noncompliant first version.** Preserve version history with ADR/addenda rather than rewriting published policies.
+
+Sources reviewed 2026-11-02 (public descriptions, not binding authority):
+- Google Family Link — parent access/update/export/deletion and permission visibility: https://families.google.com/familylink/privacy/notice/
+- Qustodio — distinction between subscription/account data and monitored-device data, granular purpose/retention and erasure controls: https://www.qustodio.com/en/family/privacy/
+- Bark — parental review, revoke, deletion and necessary-purpose retention: https://www.bark.us/privacy/
+- Life360 — location-history access differentiated by membership (reference only, not replicated as a fixed Indian retention rule): https://support.life360.com/hc/en-us/articles/23053602225559-Location-Drive-History
+
+### Initial baseline to implement
+
+| ID | Adopted control | Implementation contract and acceptance | Nature |
+|---|---|---|---|
+| PRIV-01 | Plain-language notices | Madalasa and Alarka present purpose/category, viewer access, live status and OS permission requirements; disclosures and visible Android signals never hidden | Engineering now |
+| PRIV-02 | Scoped guardian/device controls | Separate verified adult identity, child-specific authorized access, device enrollment, revocation; no assumption that Google login/billing-family membership proves legal guardianship | Engineering now; authority release gate remains |
+| PRIV-03 | Data classification | Distinguish guardian account/billing, device identity, precise GPS/history, SOS, usage, support and conditional media in API/data inventory; each category records purpose, access and deletion action | Engineering now |
+| PRIV-04 | Access period separated from retention | Preserve owner-decided FREE last-six-hour location-history visibility and paid entitlement windows; enforce in backend, irrespective of underlying category retention. **Do not silently change existing account-lifetime historical-data product intent**. Final identifiable GPS storage duration remains REVIEW_REQUIRED with safe configurable limits and deletion support, not represented as legally approved unlimited retention | Engineering now; retention approval for real-child use later |
+| PRIV-05 | Access, export and delete | Authorized guardian receives scoped view/export and may request profile/history deletion; verify authority, audit request, prevent old device replay from restoring erased data | Engineering now |
+| PRIV-06 | Revocation / stop collection | Guardian withdrawal, device unlink, permission denial and account closure stop future permitted ingestion, invalidate credentials and queue/tombstone stale uploads; no bypass of Android restrictions | Engineering now |
+| PRIV-07 | Security minimization | Encrypt in transit and protected storage, least-privilege RLS, no raw child GPS/media in administrator views or public logs, minimize diagnostic logs | Engineering now |
+| PRIV-08 | Retention by category | Configurable category-specific expiry, backup/purge queues, data access windows distinct from physical deletion; test limits and no-resurrection. Do **not** copy Qustodio's numeric retention or any competitor's jurisdiction-specific terms without a lawful basis | Engineering now; final category periods release gate |
+| PRIV-09 | Requests and support | Provide parent-facing privacy/support request path and documented response workflow; do not promise fixed statutory periods without checking applicable law | Engineering now |
+| PRIV-10 | Independent eligibility gates | Record exact purpose/age/region/platform classification, children-specific legal assessment, Play monitoring/Families/background location decisions and actual OS capability. Conditional surveillance/media features stay disabled until they meet those requirements | Release/feature gate, not a block on independent lab coding |
+
+### Execution and release handling
+
+- **Now:** build PRIV-01..09 using real owner-operated physical lab devices and genuine development infrastructure; unit/security regression tests may use non-personal fixtures. Do not require external review to begin these privacy-preserving components.
+- **Before any real-child processing or a Play submission:** resolve relevant legal/consent/retention and Google Play declarations against *current* policies. Google Play may reject or ask for changes; a rejection is not the strategy for avoiding a required pre-submission review, and prior acceptance does not eliminate legal obligations.
+- **After first public release:** use separately versioned change requests and any actual feedback to revise permissible processing, retention, disclosure and entitlement behavior. Material fixes needed for compliance before launch must be applied *before* launch, not deferred by default.
+- Documentation status: **BASELINE_ADOPTED_FOR_ENGINEERING; RELEASE_LEGAL_AND_PLATFORM_APPROVAL_NOT_CLAIMED**. Do not mark all documentation/release gates PASS based only on this decision.
