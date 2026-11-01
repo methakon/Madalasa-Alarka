@@ -262,7 +262,7 @@
     "L00-011": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-011.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "717f509aa6e8171a78414913649e17bbd02da074",
       "verified_at_utc": "2026-11-01T08:25:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/TRACEABILITY_LEDGER.csv",
