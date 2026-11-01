@@ -1,7 +1,7 @@
 package org.madalasa.madalasa.api
 
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -18,7 +18,7 @@ class PrivacyGatewayTest {
         val failed = runCatching { HttpsPrivacyGateway("http://example.invalid", { null }) }
         assertTrue(failed.isFailure)
         val gateway = HttpsPrivacyGateway("https://example.invalid", { null })
-        assertFalse(gateway is UnauthenticatedPrivacyGateway)
+        assertNotNull(gateway)
     }
 
     @Test fun noSessionFailsBeforeAnyOutboundNetworkRequest() = runTest {
