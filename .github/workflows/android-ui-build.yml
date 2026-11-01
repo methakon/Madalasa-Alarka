@@ -23,10 +23,12 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - name: Install Android SDK tools
-        uses: android-actions/setup-android@v3
-      - name: Install required Android platforms
-        run: sdkmanager --install "platforms;android-34" "platforms;android-36" "build-tools;34.0.0" "build-tools;36.0.0"
+      - name: Prepare hosted runner Android SDK
+        run: |
+          echo "Android SDK: ${ANDROID_HOME:-not set}"
+          command -v sdkmanager
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager --install "platforms;android-34" "platforms;android-36" "build-tools;34.0.0" "build-tools;36.0.0"
       - name: Prepare Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Compile both APKs and run privacy UI JVM tests
