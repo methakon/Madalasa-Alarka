@@ -1,5 +1,6 @@
 package org.madalasa.madalasa.ui.screens
 
+import org.madalasa.madalasa.api.ChildPurposeDecision
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -38,4 +39,17 @@ class ParentPrivacyScreensTest {
             .firstOrNull { it.heading == "Request progress" &&
                 it.detail.contains("No request submitted") })
     }
+    @Test fun verifiedPurposeDataStillAllowsNavigationToAllPrivacyPages() {
+        val rows = parentVerifiedOverviewRows(listOf(
+            ChildPurposeDecision("LOCATION", "GRANTED", "APPROVED", "v0")
+        ))
+        val destinations = rows.mapNotNull { it.destination }.toSet()
+        assertEquals(setOf(ParentPrivacyPage.GUARDIANS, ParentPrivacyPage.HISTORY,
+            ParentPrivacyPage.REQUESTS), destinations)
+        assertTrue(rows.any { it.heading == "Purpose: LOCATION" })
+        val empty = parentVerifiedOverviewRows(emptyList())
+        assertTrue(empty.any { it.heading == "No authorized consent records" })
+        assertEquals(3, empty.count { it.destination != null })
+    }
+
 }
