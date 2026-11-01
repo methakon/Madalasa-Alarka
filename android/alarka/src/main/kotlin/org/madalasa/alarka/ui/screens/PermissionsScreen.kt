@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -29,6 +30,7 @@ fun PermissionsScreen(
     onNavigateNext: () -> Unit,
     onRefresh: () -> Unit,
     onViewCapabilityGuide: () -> Unit,
+    onViewPrivacy: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -129,6 +131,9 @@ fun PermissionsScreen(
             style = MaterialTheme.typography.bodySmall)
         OutlinedButton(onClick = onRefresh, modifier = Modifier.fillMaxWidth()) {
             Text("Refresh local Android status")
+        }
+        OutlinedButton(onClick = onViewPrivacy, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+            Text("Monitoring information & privacy")
         }
         OutlinedButton(onClick = onViewCapabilityGuide, modifier = Modifier.fillMaxWidth()) {
             Text("View compatibility guide (design examples)")
