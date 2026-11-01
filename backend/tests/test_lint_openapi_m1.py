@@ -179,10 +179,12 @@ class StatusToErrorCode(unittest.TestCase):
         self.assertTrue(any("status 418 is not in the error catalog" in e for e in errors_for(doc)))
 
     def test_idempotency_code_only_on_retryable_creates(self):
-        other = next(o for o in linter.EXPECTED_OPERATIONS - linter.IDEMPOTENT_CREATES
-                     if "409" in op(REAL, o)["responses"])
-        self.assertTrue(any("only applies to the retryable creates" in e
-                            for e in self.broken(other, "409", ["CONFLICT", "IDEMPOTENCY_KEY_REUSED"])))
+        # No non-create operation has to declare a 409 (G-5 removed them), so add one to a read operation.
+        doc = copy.deepcopy(REAL)
+        responses = op(doc, "getChild")["responses"]
+        responses["409"] = copy.deepcopy(responses["404"])
+        responses["409"]["x-error-codes"] = ["CONFLICT", "IDEMPOTENCY_KEY_REUSED"]
+        self.assertTrue(any("only applies to the retryable creates" in e for e in errors_for(doc)))
 
     def test_retryable_create_409_must_include_key_reuse(self):
         self.assertTrue(any("must include IDEMPOTENCY_KEY_REUSED" in e for e in self.broken("createFamily", "409", ["CONFLICT"])))
