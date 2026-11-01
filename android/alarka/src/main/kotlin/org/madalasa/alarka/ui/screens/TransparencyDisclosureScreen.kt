@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ fun TransparencyDisclosureScreen(
     isAcknowledged: Boolean,
     onAcknowledge: () -> Unit,
     onNavigateNext: () -> Unit,
+    onReadPrivacy: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -76,6 +78,10 @@ fun TransparencyDisclosureScreen(
                     color = ThemeCColors.Teal
                 )
             }
+        }
+
+        OutlinedButton(onClick = onReadPrivacy, modifier = Modifier.fillMaxWidth()) {
+            Text("Monitoring information & privacy controls")
         }
 
         if (!isAcknowledged) {
