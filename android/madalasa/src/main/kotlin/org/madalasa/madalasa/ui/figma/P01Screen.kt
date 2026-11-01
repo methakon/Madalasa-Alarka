@@ -1,9 +1,9 @@
 package org.madalasa.madalasa.ui.figma
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -280,18 +281,15 @@ private fun WelcomeCard(
         shape = RoundedCornerShape(12.dp),
         color = if (emphasis) Color(0xFFECF7F4) else Color.White,
         modifier = Modifier.fillMaxWidth().heightIn(min = 70.dp)
-            .border(0.dp, Color.Transparent, RoundedCornerShape(12.dp))
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Surface(
-                color = ThemeCTokens.Vermilion,
-                shape = RoundedCornerShape(2.dp),
-                modifier = Modifier.padding(vertical = 4.dp).heightIn(min = 62.dp)
-                    .weight(0.015f)
-            ) {}
+            Box(
+                Modifier.width(5.dp).height(62.dp)
+                    .background(ThemeCTokens.Vermilion, RoundedCornerShape(2.dp))
+            )
             Column(
                 modifier = Modifier.weight(1f).padding(horizontal = 12.dp, vertical = 9.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
