@@ -12,6 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.madalasa.alarka.ui.screens.ChildPrivacyPage
+import org.madalasa.alarka.ui.screens.ChildPrivacyScreen
 import org.madalasa.alarka.ui.figma.ChildFigmaScreen
 import org.madalasa.alarka.ui.figma.SupplementalFigmaCatalog
 import org.madalasa.alarka.ui.figma.SupplementalFigmaScreen
@@ -19,7 +21,7 @@ import org.madalasa.uicommon.MadalasaTheme
 import org.madalasa.uicommon.ScreenId
 
 /**
- * DEBUG BUILD ONLY: standalone navigation into all 21 Figma source screens.
+ * DEBUG BUILD ONLY: standalone navigation into 21 original + 24 capability + 2 privacy Figma screens.
  * Does not use the production NavHost, authentication, OS permissions or APIs.
  * TODO(INTEGRATION): connect reviewed final screen routes after visual/UX QA.
  * Launch through Android Studio's Run configuration or adb explicit activity.
@@ -44,7 +46,21 @@ class DesignPreviewActivity : ComponentActivity() {
             Box(Modifier.weight(1f)) {
                 val lookup = if (active.startsWith("CAP-")) active.removePrefix("CAP-") else active
                 val spec = supplemental.firstOrNull { it.id == lookup }
-                if (spec != null) {
+                val privacyPage = if (active == "PRIV-UI-05")
+                    ChildPrivacyPage.TRANSPARENCY
+                else if (active == "PRIV-UI-06")
+                    ChildPrivacyPage.LOCATION_UNAVAILABLE
+                else null
+                if (privacyPage != null) {
+                    ChildPrivacyScreen(
+                        page = privacyPage,
+                        report = null,
+                        onBack = { selected = null },
+                        onShowLocationUnavailable = { selected = "PRIV-UI-06" },
+                        onOpenAndroidSettings = {},
+                        openSettingsEnabled = false
+                    )
+                } else if (spec != null) {
                     SupplementalFigmaScreen(spec, onNextDesign = {
                         val group = supplemental.filter { it.kind == spec.kind &&
                             (spec.id.startsWith("PA-") == it.id.startsWith("PA-")) }
@@ -70,6 +86,15 @@ class DesignPreviewActivity : ComponentActivity() {
             items(ids, key = { it }) { id ->
                 ElevatedCard(modifier = Modifier.fillMaxWidth().clickable { selected = id }) {
                     Text(id, modifier = Modifier.padding(18.dp))
+                }
+            }
+            item { Text("Privacy controls · 2 new", style = MaterialTheme.typography.titleMedium) }
+            items(ChildPrivacyPage.entries.toList(), key = { it.route }) { page ->
+                ElevatedCard(modifier = Modifier.fillMaxWidth().clickable {
+                    selected = if (page == ChildPrivacyPage.TRANSPARENCY) "PRIV-UI-05" else "PRIV-UI-06"
+                }) {
+                    Text((if (page == ChildPrivacyPage.TRANSPARENCY) "PRIV-UI-05 · Monitoring information"
+                        else "PRIV-UI-06 · Location unavailable"), modifier = Modifier.padding(18.dp))
                 }
             }
             item { Text("Capability onboarding · 24",
