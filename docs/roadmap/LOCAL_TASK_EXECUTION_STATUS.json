@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "PASS": 54,
-    "NOT_STARTED": 208
+    "PASS": 55,
+    "NOT_STARTED": 207
   },
   "task_statuses": {
     "L00-001": {
@@ -601,11 +601,13 @@
       "verification": "generated/api/README.md: DTOs from schemas, golden-vector agreement + fail-closed negatives; docs validator exit 0"
     },
     "L03-013": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-013.md",
+      "commit_sha": "c2c4aaa",
+      "verified_at_utc": "2026-11-01T21:36:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests/openapi_contract_test.py",
+      "verification": "AUTOMATED_TEST: openapi_contract_test.py exit 0 (0 violations vs tightened spec); --selftest catches a widened response; drove fix fd435b6 of 2 open schemas"
     },
     "L03-014": {
       "status": "PASS",
