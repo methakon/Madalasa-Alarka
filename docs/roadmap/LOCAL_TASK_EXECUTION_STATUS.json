@@ -86,8 +86,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 253,
-    "PASS": 9
+    "NOT_STARTED": 252,
+    "PASS": 10
   },
   "task_statuses": {
     "L00-001": {
@@ -249,6 +249,15 @@
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/PLAY_ACCOUNT_NONSECRET.md",
       "verification": "STATIC_REVIEW_AND_VALIDATOR: check-governance-docs.py exit 0 (no secret patterns); check-local-data-rules.py 562 files 0 hits exit 0; docs validator exit 0"
+    },
+    "L00-010": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-010.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T08:21:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/RESPONSIBILITIES.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (RESPONSIBILITIES prohibits self-approval); docs validator exit 0"
     },
     "L01-001": {
       "status": "NOT_STARTED",
