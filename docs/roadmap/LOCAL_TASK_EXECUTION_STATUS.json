@@ -208,7 +208,7 @@
     "L00-005": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-005.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "a23034bad09d46c653ec9578ac1c86cf08682571",
       "verified_at_utc": "2026-11-01T08:07:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/LEGAL_PENDING.md",
