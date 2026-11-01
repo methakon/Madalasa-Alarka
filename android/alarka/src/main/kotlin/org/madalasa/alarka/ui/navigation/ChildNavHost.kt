@@ -10,12 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import org.madalasa.alarka.ui.figma.SupplementalFigmaCatalog
+import org.madalasa.alarka.ui.figma.SupplementalFigmaScreen
 import org.madalasa.alarka.ui.screens.AccountInfoScreen
 import org.madalasa.alarka.ui.screens.ConnectivityScreen
 import org.madalasa.alarka.ui.screens.PairingScreen
@@ -89,8 +94,22 @@ fun ChildNavHost(
             composable(ChildNavRoute.Permissions.route) {
                 PermissionsScreen(
                     report = uiState.capabilityReport,
-                    onNavigateNext = { navController.navigate(ChildNavRoute.Connectivity.route) }
+                    onNavigateNext = { navController.navigate(ChildNavRoute.Connectivity.route) },
+                    onRefresh = { viewModel.refreshCapabilities() },
+                    onViewCapabilityGuide = { navController.navigate(ChildNavRoute.CapabilityGuide.route) }
                 )
+            }
+
+            // Read-only Figma design journey, accessible without enrollment and never an OS prompt.
+            composable(ChildNavRoute.CapabilityGuide.route) {
+                var index by remember { mutableIntStateOf(0) }
+                val entries = SupplementalFigmaCatalog.screens.filter { it.kind == "CAPABILITY" }
+                val spec = entries.getOrNull(index)
+                if (spec != null) {
+                    SupplementalFigmaScreen(spec, onNextDesign = {
+                        index = (index + 1) % entries.size
+                    })
+                }
             }
 
             composable(ChildNavRoute.Connectivity.route) {

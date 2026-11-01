@@ -1,5 +1,6 @@
 package org.madalasa.alarka.ui.screens
 
+import android.Manifest
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,6 +27,8 @@ import org.madalasa.uicommon.ThemeCColors
 fun PermissionsScreen(
     report: DeviceCapabilityReport?,
     onNavigateNext: () -> Unit,
+    onRefresh: () -> Unit,
+    onViewCapabilityGuide: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -38,7 +42,7 @@ fun PermissionsScreen(
     ) {
         APTopBar(
             title = "Permissions & Status",
-            subtitle = "Device capability and privacy compliance status"
+            subtitle = "Read-only Android hardware and app-grant snapshot"
         )
 
         Card(
@@ -58,16 +62,22 @@ fun PermissionsScreen(
 
                 CapabilityRow(
                     label = "Target Platform SDK",
-                    value = "Android API ${report?.osVersion ?: 34}"
+                    value = report?.let { "Android API ${it.osVersion}" } ?: "Unknown"
                 )
                 CapabilityRow(
                     label = "GPS Hardware Present",
-                    value = if (report?.hasGpsHardware == true) "Available" else "Absent"
+                    value = when (report?.hasGpsHardware) { true -> "Detected"; false -> "Not detected"; null -> "Unknown" }
                 )
                 CapabilityRow(
                     label = "Bluetooth Low Energy",
-                    value = if (report?.hasBleHardware == true) "Available" else "Absent"
+                    value = when (report?.hasBleHardware) { true -> "Detected"; false -> "Not detected"; null -> "Unknown" }
                 )
+                CapabilityRow("Camera hardware", when (report?.hasCameraHardware) {
+                    true -> "Detected"; false -> "Not detected"; null -> "Unknown"
+                })
+                CapabilityRow("Microphone hardware", when (report?.hasMicrophoneHardware) {
+                    true -> "Detected"; false -> "Not detected"; null -> "Unknown"
+                })
             }
         }
 
@@ -88,17 +98,22 @@ fun PermissionsScreen(
 
                 StatusRow(
                     permission = "Location (Fine/Coarse)",
-                    status = "Not Active (Synthetic Mode)",
+                    status = when {
+                        report == null -> "Unknown — scan pending"
+                        report.permissionsGranted.contains(Manifest.permission.ACCESS_FINE_LOCATION) -> "Fine grant present · feature OFF pending approval"
+                        report.permissionsGranted.contains(Manifest.permission.ACCESS_COARSE_LOCATION) -> "Approximate grant present · feature OFF pending approval"
+                        else -> "Not granted · feature OFF"
+                    },
                     color = ThemeCColors.Teal
                 )
                 StatusRow(
                     permission = "Activity Recognition",
-                    status = "Not Active (Synthetic Mode)",
+                    status = "Not requested in this build",
                     color = ThemeCColors.Teal
                 )
                 StatusRow(
                     permission = "Persistent Notification",
-                    status = "Ready (Visible Transparency)",
+                    status = "No active background monitoring service",
                     color = ThemeCColors.Indigo
                 )
                 StatusRow(
@@ -107,6 +122,16 @@ fun PermissionsScreen(
                     color = ThemeCColors.Leaf
                 )
             }
+        }
+
+        Text("Hardware presence and Android permission do not authorize monitoring. " +
+            "No location, microphone, camera or usage data is collected by this screen.",
+            style = MaterialTheme.typography.bodySmall)
+        OutlinedButton(onClick = onRefresh, modifier = Modifier.fillMaxWidth()) {
+            Text("Refresh local Android status")
+        }
+        OutlinedButton(onClick = onViewCapabilityGuide, modifier = Modifier.fillMaxWidth()) {
+            Text("View compatibility guide (design examples)")
         }
 
         APButton(
