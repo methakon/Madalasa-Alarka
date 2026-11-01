@@ -88,7 +88,8 @@ def scan_text(text: str, rel: str) -> list[str]:
 
 
 def selftest() -> int:
-    sample = 'pan "ABCDE1234F" purchase_token="aZ09aZ09aZ09aZ09aZ09aZ09aZ09aZ09"'
+    # Compose a fake marker at runtime; the committed source is not itself a credential.
+    sample = 'pan "ABCDE1234F" purchase_' + 'token="' + 'aZ09' * 8 + '"'
     hits = scan_text(sample, "<selftest>")
     kinds = {h.split("suspected ")[1].split(":")[0] for h in hits}
     ok = "pan" in kinds and "purchase_token" in kinds

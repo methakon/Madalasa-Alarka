@@ -25,6 +25,7 @@
 #include "http_support.h"
 #include "pairing.h"
 #include "parent_session.h"
+#include "privacy_endpoints.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -302,6 +303,31 @@ int main() {
         co_return co_await ma::list_families(std::move(req), parent);
       },
       {Get});
+
+  // Existing master OpenAPI: child-scoped privacy operations, server-enforced.
+  app().registerHandler(
+      "/v1/children/{childId}/guardian-grants",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::read_child_privacy(std::move(req), std::move(childId), parent,
+                                                   ma::PrivacyReadKind::GuardianGrants);
+      }, {Get});
+  app().registerHandler(
+      "/v1/children/{childId}/consents",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::read_child_privacy(std::move(req), std::move(childId), parent,
+                                                   ma::PrivacyReadKind::Consents);
+      }, {Get});
+  app().registerHandler(
+      "/v1/children/{childId}/guardian-grants/{grantId}",
+      [parent](HttpRequestPtr req, std::string childId, std::string grantId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::delete_child_privacy_grant(std::move(req), std::move(childId),
+                                                           std::move(grantId), parent);
+      }, {Delete});
+  app().registerHandler(
+      "/v1/devices/{deviceId}/consent-status",
+      [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::device_consent_status(std::move(req), std::move(deviceId));
+      }, {Get});
 
   app().registerHandler(
       "/v1/children/{childId}",

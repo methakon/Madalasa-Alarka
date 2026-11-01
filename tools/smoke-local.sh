@@ -10,7 +10,7 @@
 # Exit 0 = no executed step failed (skips allowed); 1 = an executed step failed.
 set -uo pipefail
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-cd "$repo_root"
+cd "$repo_root" || exit 1
 
 declare -a RESULTS
 record() { RESULTS+=("$1|$2"); printf '  [%s] %s\n' "$2" "$1"; }
@@ -21,8 +21,16 @@ smoke_tooling() {
   # Always runnable: python tooling self-tests.
   local rc=0
   if have python3; then
-    python3 testkit/fake-services/fakes.py --selftest >/dev/null 2>&1 && record "testkit fakes self-test" PASS || { record "testkit fakes self-test" FAIL; rc=1; }
-    bash tools/seed-synthetic.sh --check >/dev/null 2>&1 && record "synthetic seed repeatable" PASS || { record "synthetic seed repeatable" FAIL; rc=1; }
+    if python3 testkit/fake-services/fakes.py --selftest >/dev/null 2>&1; then
+      record "testkit fakes self-test" PASS
+    else
+      record "testkit fakes self-test" FAIL; rc=1
+    fi
+    if bash tools/seed-synthetic.sh --check >/dev/null 2>&1; then
+      record "synthetic seed repeatable" PASS
+    else
+      record "synthetic seed repeatable" FAIL; rc=1
+    fi
   else
     record "python tooling" SKIPPED
   fi
@@ -31,8 +39,11 @@ smoke_tooling() {
 
 smoke_android() {
   if have java && [[ -x android/gradlew ]]; then
-    ( cd android && ./gradlew :madalasa:assembleDebug :alarka:assembleDebug -q ) \
-      && record "android assembleDebug" PASS || { record "android assembleDebug" FAIL; return 1; }
+    if ( cd android && ./gradlew :madalasa:assembleDebug :alarka:assembleDebug -q ); then
+      record "android assembleDebug" PASS
+    else
+      record "android assembleDebug" FAIL; return 1
+    fi
   else
     record "android assembleDebug (no JDK)" SKIPPED
   fi
@@ -41,9 +52,12 @@ smoke_android() {
 
 smoke_backend() {
   if have cmake && have g++ && { [[ -d /usr/include/drogon ]] || [[ -d /usr/local/include/drogon ]]; }; then
-    cmake -S backend -B build/backend -DCMAKE_BUILD_TYPE=Debug >/dev/null 2>&1 \
-      && cmake --build build/backend -j >/dev/null 2>&1 \
-      && record "backend compile" PASS || { record "backend compile" FAIL; return 1; }
+    if cmake -S backend -B build/backend -DCMAKE_BUILD_TYPE=Debug >/dev/null 2>&1 \
+        && cmake --build build/backend -j >/dev/null 2>&1; then
+      record "backend compile" PASS
+    else
+      record "backend compile" FAIL; return 1
+    fi
   else
     record "backend compile (no Drogon toolchain)" SKIPPED
   fi

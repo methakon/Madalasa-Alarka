@@ -36,6 +36,9 @@ endif()
 
 # Frozen 14-operation OpenAPI surface must match real route registration.
 # Static coverage alone cannot prove handlers are integrated or authorized.
+add_test(NAME privacy_route_contract
+         COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_privacy_route_contract.py)
+
 add_test(NAME m1_route_registration
          COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_m1_route_coverage.py)
 
