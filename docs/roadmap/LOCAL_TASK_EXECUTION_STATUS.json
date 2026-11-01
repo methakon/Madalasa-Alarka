@@ -244,7 +244,7 @@
     "L00-009": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-009.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "cc73d113f1cc1f18211b67e701a8f3c09a8c088d",
       "verified_at_utc": "2026-11-01T08:18:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/PLAY_ACCOUNT_NONSECRET.md",
