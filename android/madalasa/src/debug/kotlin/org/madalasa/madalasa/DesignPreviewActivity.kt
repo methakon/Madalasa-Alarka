@@ -15,11 +15,13 @@ import androidx.compose.ui.unit.dp
 import org.madalasa.madalasa.ui.figma.ParentFigmaScreen
 import org.madalasa.madalasa.ui.figma.SupplementalFigmaCatalog
 import org.madalasa.madalasa.ui.figma.SupplementalFigmaScreen
+import org.madalasa.madalasa.ui.figma.ThemeCSharingCatalog
+import org.madalasa.madalasa.ui.figma.ThemeCSharingScreen
 import org.madalasa.uicommon.MadalasaTheme
 import org.madalasa.uicommon.ScreenId
 
 /**
- * DEBUG BUILD ONLY: standalone navigation into 60 original + 22 capability + 11 media Figma designs.
+ * DEBUG BUILD ONLY: standalone navigation into 60 original + 22 capability + 11 media + 8 Theme C family Figma designs.
  * Does not use the production NavHost, authentication, OS permissions or APIs.
  * TODO(INTEGRATION): connect reviewed final screen routes after visual/UX QA.
  * Launch through Android Studio's Run configuration or adb explicit activity.
@@ -35,6 +37,7 @@ class DesignPreviewActivity : ComponentActivity() {
     var selected by remember { mutableStateOf<String?>(null) }
     BackHandler(enabled = selected != null) { selected = null }
     val supplemental = SupplementalFigmaCatalog.screens
+    val themed = ThemeCSharingCatalog.screens
     val active = selected
     if (active != null) {
         Column(Modifier.fillMaxSize()) {
@@ -47,7 +50,18 @@ class DesignPreviewActivity : ComponentActivity() {
                     active.startsWith("PA-") -> supplemental.firstOrNull { it.id == active && it.kind == "MEDIA" }
                     else -> null // Original P-01..P-60 must stay on the existing renderer.
                 }
-                if (spec != null) {
+                val themeSpec = when {
+                    active.startsWith("THEME-") -> themed.firstOrNull { it.id == active.removePrefix("THEME-") }
+                    active.startsWith("SH-") -> themed.firstOrNull { it.id == active }
+                    else -> null
+                }
+                if (themeSpec != null) {
+                    ThemeCSharingScreen(themeSpec, onNextDesign = {
+                        val index = themed.indexOfFirst { it.id == themeSpec.id }
+                        val next = themed.getOrNull(index + 1) ?: themed.first()
+                        selected = if (next.id.startsWith("P-")) "THEME-" + next.id else next.id
+                    })
+                } else if (spec != null) {
                     SupplementalFigmaScreen(spec, onNextDesign = {
                         val group = supplemental.filter { it.kind == spec.kind &&
                             (spec.id.startsWith("PA-") == it.id.startsWith("PA-")) }
@@ -82,6 +96,14 @@ class DesignPreviewActivity : ComponentActivity() {
                     selected = if (spec.id.startsWith("P-")) "CAP-" + spec.id else spec.id
                 }) {
                     Text(spec.id + " · " + spec.title, modifier = Modifier.padding(18.dp))
+                }
+            }
+            item { Text("Theme C family sharing · 8", style = MaterialTheme.typography.titleMedium) }
+            items(themed, key = { "THEME-" + it.id }) { design ->
+                ElevatedCard(modifier = Modifier.fillMaxWidth().clickable {
+                    selected = if (design.id.startsWith("P-")) "THEME-" + design.id else design.id
+                }) {
+                    Text(design.id + " · " + design.title, modifier = Modifier.padding(18.dp))
                 }
             }
             item { Text("Media activity · 11", style = MaterialTheme.typography.titleMedium) }
