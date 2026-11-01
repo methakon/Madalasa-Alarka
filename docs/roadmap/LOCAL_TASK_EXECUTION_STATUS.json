@@ -86,8 +86,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 251,
-    "PASS": 11
+    "NOT_STARTED": 250,
+    "PASS": 12
   },
   "task_statuses": {
     "L00-001": {
@@ -267,6 +267,15 @@
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/TRACEABILITY_LEDGER.csv",
       "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-traceability.py exit 0 (18 rows 0 violations); --selftest proves missing-test row fails; docs validator exit 0"
+    },
+    "L00-012": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-012.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T08:28:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/check-local-gates.py",
+      "verification": "AUTOMATED_TEST_REQUIRED: python3 tools/check-local-gates.py --test exit 0; real matrix GO exit 0; tampered (FR-009 enabled, gates OPEN) STOP exit 1; docs validator exit 0"
     },
     "L01-001": {
       "status": "NOT_STARTED",
