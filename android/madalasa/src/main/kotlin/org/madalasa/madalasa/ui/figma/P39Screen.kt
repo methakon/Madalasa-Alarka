@@ -11,10 +11,5 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P39Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-39", title = "Guardian invitation", hero = "Invite approved adult to one child",
-        kind = "form", milestone = "M6", requirement = "FR-022/034",
-        details = listOf("Recipient verification", "scope checkboxes", "expiry and privacy disclosure"),
-        action = "Send invitation", modifier = modifier
-    )
+    ThemeCFunctionalScreen(ThemeCFunctionalCatalog.find("P-39"), modifier = modifier)
 }
