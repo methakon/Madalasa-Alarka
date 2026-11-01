@@ -47,7 +47,7 @@ Output: COLLECTING_BALANCED, COLLECTING_DETAIL_LIMITED, COLLECTING_PASSIVE, WAIT
 
 Service starting **must not be inferred from checkSelfPermission alone**. Track actual service/callback delivery and caught SecurityException or ForegroundServiceStartNotAllowedException. Persist last status and expose observed timestamp, not a speculative current OS cause when device has not connected.
 
-## 3. Adaptive sampling strategy and energy budgets
+> **Seven-day parent-app inactivity overlay (2026-11-01):** Routine location request rates must also follow the configurable FREE/PAID active/inactive family engagement profiles in [PARENT_APP_INACTIVITY_ADAPTIVE_LOCATION_POLICY_2026-11-01.md](PARENT_APP_INACTIVITY_ADAPTIVE_LOCATION_POLICY_2026-11-01.md). At 168h without verified guardian foreground engagement, free routine moving requests target 20min and paid 5min; stationary targets 60min free and 20min paid. Stronger safety, OS, consent and revocation requirements always take precedence. This is an unimplemented design, not a guaranteed fix rate.\n\n## 3. Adaptive sampling strategy and energy budgets
 
 Location energy is primarily GNSS, sensor/radio wakeups and upload network activity, not whether the algorithm is written in C++.
 

@@ -67,7 +67,7 @@ def error(result, status=503, code='SERVICE_UNAVAILABLE', bound=2.5):
 def server(binary, overrides):
     env = {k: v for k, v in os.environ.items() if not k.startswith('MA_PG_')}
     port = free_port()
-    env.update(MA_AUTH_MODE='synthetic_test', MA_LISTEN_ADDR='127.0.0.1', MA_LISTEN_PORT=str(port),
+    env.update(MA_AUTH_MODE='synthetic_test', MA_PARENT_AUTH_MODE='m1_direct_oidc', MA_LISTEN_ADDR='127.0.0.1', MA_LISTEN_PORT=str(port),
                MA_PG_TIMEOUT_MS='700', MA_PG_STATEMENT_TIMEOUT_MS='400', MA_PG_LOCK_TIMEOUT_MS='150')
     env.update(overrides)
     url = f'http://127.0.0.1:{port}'

@@ -65,3 +65,7 @@ Source branch: [api](https://github.com/methakon/Madalasa-Alarka/tree/api); docu
 - CTest negative fixture [test_admin_faq.cc](https://github.com/methakon/Madalasa-Alarka/blob/api/backend/tests/cpp/test_admin_faq.cc) covers missing/invalid admin session, invalid FAQ path and DB unavailable; synthetic **positive** PostgreSQL/HTTP isolation remains for independent worker A03.
 - **Not implemented:** \`POST/PUT /admin/faqs\`, \`publish\` and \`unpublish\` on the server, authenticated CSRF-protected mutations, revision conflict handling over HTTP, pagination and production login. The database already has functions \`faq_draft\` and \`faq_transition\`, but these do not make HTTP endpoints automatically functional.
 - Code on \`api\`, not merged to \`dev\`. A03 worker test instructions supplied; test results pending. No real child data or live FAQ edits.
+
+## Technology decision supersession — 2026-11-01
+
+The owner selected **HTMX + Alpine.js CSP build + server-rendered HTML/CSS**, backed by **C++20 Drogon**. The React/TypeScript/Vite prototype described above remains a truthful historical implementation checkpoint but is **not** the approved production frontend choice. Do not merge it as final production UI. Follow [Admin frontend stack ADR](../../P3-deferred-research/01-media-and-administrator-research/ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md) to migrate on admin-web with secure fragment rendering, session/CSRF/RBAC/CSP controls, Figma parity and tests. No React source has been deleted by this documentation update.

@@ -1,0 +1,10 @@
+Subject: Re: [{{ticket_ref}}] {{ticket_subject}}
+From: Madalasa Support <madalasa-alarka@berhampore.in>
+
+Hello,
+
+Update on ticket {{ticket_ref}}: {{support_message}} Reply to this email to continue the conversation. We may need to verify your account before discussing protected information.
+
+You can reply to this message.
+
+Madalasa–Alarka

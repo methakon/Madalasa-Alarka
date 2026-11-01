@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Alarka</string>
+    <string name="app_description">Alarka Child Companion</string>
+    <string name="app_status">Child companion prototype — no monitoring enabled. Synthetic data only. No tracking or recording is active.</string>
+</resources>
