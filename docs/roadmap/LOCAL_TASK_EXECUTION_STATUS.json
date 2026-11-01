@@ -109,11 +109,13 @@
       "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
     },
     "L00-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-002.md",
+      "commit_sha": "a2e7db4c5a0899ca5632a136a4d6e70e01ac07d8",
+      "verified_at_utc": "2026-11-01T07:19:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "config/feature-gates.example.json",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
     },
     "L00-003": {
       "status": "NOT_STARTED",
@@ -188,7 +190,7 @@
     "L00-003": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-003.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "0b83dd4c51bd826fcde521256276ae314155658a",
       "verified_at_utc": "2026-11-01T07:22:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/LOCAL_DATA_RULES.md",
