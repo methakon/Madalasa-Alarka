@@ -1,6 +1,6 @@
 # AGENTS.md — Madalasa–Alarka
 
-This file is the **entrypoint for coding agents**. Work locally using synthetic data, not on production servers or live child devices.
+This file is the **entrypoint for coding agents**. Work on local/development infrastructure; primarily test with owner-operated physical Android devices using real GPS/network and actual dev APIs, while preserving Android disclosures, permissions and secure handling. Do not use real minors' personal data without applicable authorization or deploy to production. Use non-personal fixtures when deterministic negative/security tests require them. No separate written self-consent paperwork is needed for the owner's own devices; another adult must know and agree to testing. See `docs/roadmap/PRE_RELEASE_VERSIONING_AND_CHILD_DATA_REVIEW_POLICY_2026-11-02.md`.
 
 ## MANDATORY: CURRENT BRANCH FLOW — OWNER APPROVED 2026-10-31
 
