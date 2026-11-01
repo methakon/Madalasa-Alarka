@@ -157,6 +157,12 @@ def check_links(root, paths, legacy_map):
             raw = html.unescape(text[start:end])
             if not raw or external(raw):
                 continue
+            # Build-tool script/module entry points (e.g. a Vite
+            # <script type="module" src="/src/main.tsx">) are application code,
+            # not documentation link targets; do not treat them as doc links.
+            if urlsplit(raw).path.rsplit(".", 1)[-1].lower() in {
+                    "tsx", "ts", "jsx", "js", "mjs", "cjs"}:
+                continue
             checked += 1
             parsed = urlsplit(raw)
             name = unquote(parsed.path).replace("\\", "")
