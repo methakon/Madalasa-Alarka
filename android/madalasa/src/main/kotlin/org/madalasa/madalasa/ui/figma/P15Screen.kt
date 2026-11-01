@@ -11,10 +11,5 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P15Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-15", title = "Travel history overview", hero = "Observed route and unknown gaps",
-        kind = "map", milestone = "M3", requirement = "FR-004/016/028/030",
-        details = listOf("Day filter", "segmented map", "stops", "quality legend"),
-        action = "Open trip detail", modifier = modifier
-    )
+    ThemeCFunctionalScreen(ThemeCFunctionalCatalog.find("P-15"), modifier = modifier)
 }
