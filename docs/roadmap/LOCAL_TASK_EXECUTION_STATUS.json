@@ -86,15 +86,18 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 262
+    "NOT_STARTED": 261,
+    "PASS": 1
   },
   "task_statuses": {
     "L00-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-001.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T07:10:00Z",
+      "verified_by": "kiro-cli-agent",
+      "target_artifact": "docs/roadmap/DECISION_LEDGER.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 docs/tools/check_documentation.py exit 0, errors=[]; 281 files, 2073 local links checked"
     },
     "L00-002": {
       "status": "NOT_STARTED",
