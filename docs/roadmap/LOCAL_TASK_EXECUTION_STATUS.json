@@ -102,7 +102,7 @@
     "L00-002": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-002.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "a2e7db4c5a0899ca5632a136a4d6e70e01ac07d8",
       "verified_at_utc": "2026-11-01T07:19:00Z",
       "verified_by": "kiro-cli-agent",
       "target_artifact": "config/feature-gates.example.json",
