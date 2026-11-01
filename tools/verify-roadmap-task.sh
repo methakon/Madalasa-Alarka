@@ -24,11 +24,16 @@ check_one() {
   # Required markers: a task id, a verification command, an exit code, a PASS/state,
   # and a commit SHA placeholder or value. Refuse "PASS" without an executed command.
   grep -Eq "Task ID:\**[[:space:]]*${task_id}" "$ev" || { echo "evidence missing 'Task ID: ${task_id}'" >&2; problems=1; }
-  grep -Eqi "exit code|exit \`?[0-9]" "$ev" || { echo "evidence names no exit code" >&2; problems=1; }
-  grep -Eq "python3 |ctest|gradlew|psql|bash |\.sh|\.py" "$ev" || { echo "evidence names no executable command" >&2; problems=1; }
+  # State is always required.
   grep -Eqi "State:\**[[:space:]]*\**(PASS|BLOCKED_ENVIRONMENT|BLOCKED_EXTERNAL|FAILED_TEST)" "$ev" \
     || { echo "evidence has no recognized State" >&2; problems=1; }
-  # If it claims PASS, it must also name a command and an exit code (already checked).
+  # Exit code and executable command are required only for PASS/FAILED_TEST
+  # (a BLOCKED state means the command could not be executed).
+  if grep -Eqi "State:.*\**(PASS|FAILED_TEST)" "$ev"; then
+    grep -Eqi "exit code|exit \`?[0-9]" "$ev" || { echo "evidence names no exit code" >&2; problems=1; }
+    grep -Eq "python3 |ctest|gradlew|psql|bash |\.sh|\.py|cmake" "$ev" || { echo "evidence names no executable command" >&2; problems=1; }
+  fi
+  # If it claims PASS, it must also show an exit 0 somewhere.
   if grep -qi "State:.*PASS" "$ev" && ! grep -Eqi "exit \`?0|exit code.*0" "$ev"; then
     echo "evidence claims PASS but shows no exit 0" >&2; problems=1
   fi
