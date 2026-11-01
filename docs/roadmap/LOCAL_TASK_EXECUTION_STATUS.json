@@ -226,7 +226,7 @@
     "L00-007": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-007.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "551e31990f43d3f4db2dca854021c893f65c3eec",
       "verified_at_utc": "2026-11-01T08:12:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/phases/M1-secure-platform-foundation/03-security-and-permissions/ADR_2026_10_28_BLEND_FAMILY_V2_AND_NO_FAMILY_LINK_DEPENDENCY.md",
