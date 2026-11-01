@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.madalasa.madalasa.api.ChildPurposeDecision
 import org.madalasa.madalasa.ui.theme.ThemeCTokens
 
 /** Figma PRIV-UI-01..04 (nodes 159:3/22/41/60), 2026-11-02.
@@ -66,6 +67,19 @@ internal fun parentPrivacyRows(page: ParentPrivacyPage): List<ParentPrivacyRow> 
         ParentPrivacyRow("Safety check", "Do not claim completion until confirmed. Old offline uploads must not resurrect deleted data.")
     )
 }
+
+/** A successful consent fetch must not remove Privacy & Data navigation. */
+internal fun parentVerifiedOverviewRows(decisions: List<ChildPurposeDecision>): List<ParentPrivacyRow> =
+    parentPrivacyRows(ParentPrivacyPage.OVERVIEW) +
+        if (decisions.isEmpty()) listOf(
+            ParentPrivacyRow("No authorized consent records",
+                "No verified purposes are visible to this parent.")
+        ) else decisions.map { d ->
+            ParentPrivacyRow(
+                "Purpose: ${d.purpose}",
+                "Consent ${d.status} · review ${d.legalState} · notice ${d.noticeVersion}"
+            )
+        }
 
 @Composable
 fun ParentPrivacyScreen(
