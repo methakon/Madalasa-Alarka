@@ -271,7 +271,7 @@
     "L00-012": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-012.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "6e03074b53c6debeb8810003afc86c7f33ba2ea1",
       "verified_at_utc": "2026-11-01T08:28:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "tools/check-local-gates.py",
