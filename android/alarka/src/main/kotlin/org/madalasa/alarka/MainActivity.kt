@@ -10,7 +10,7 @@ import org.madalasa.uicommon.MadalasaTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val appContainer by lazy { DefaultChildAppContainer() }
+    private val appContainer by lazy { DefaultChildAppContainer(applicationContext) }
     private val childViewModel by lazy { ChildViewModel(appContainer) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
