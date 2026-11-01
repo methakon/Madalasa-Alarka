@@ -69,6 +69,23 @@ def check_contains(name: str, needles: list[str], errors: list[str]) -> None:
             errors.append(f"{name}: missing required assertion containing '{n}'")
 
 
+def check_no_family_link_adr(errors: list[str]) -> None:
+    """L00-007: the ADR must record that no consumer Google parent-role/Family
+    Link API dependency remains, while keeping legal authority/consent separate."""
+    p = (ROOT / "docs/phases/M1-secure-platform-foundation/03-security-and-permissions/"
+         "ADR_2026_10_28_BLEND_FAMILY_V2_AND_NO_FAMILY_LINK_DEPENDENCY.md")
+    if not p.is_file():
+        errors.append("L00-007 ADR missing")
+        return
+    low = p.read_text(encoding="utf-8").lower()
+    if "no google family link verification task or product gate remains" not in low:
+        errors.append("ADR: must state no Family Link verification task/gate remains")
+    if "not" not in low or "parent-child relationship" not in low:
+        errors.append("ADR: must clarify Google login does not assert a parent-child relationship")
+    if "section 9" not in low and "s.9" not in low and "dpdp" not in low:
+        errors.append("ADR: must keep statutory consent/authority as a separate review")
+
+
 def check_play_account_nonsecret(errors: list[str]) -> None:
     text = _read("PLAY_ACCOUNT_NONSECRET.md")
     if text is None:
@@ -94,6 +111,13 @@ def main() -> int:
         if (RM / name).is_file():
             checked.append(name)
             checker(errors)
+
+    # L00-007: the Family Link ADR lives under docs/phases, not docs/roadmap.
+    adr = (ROOT / "docs/phases/M1-secure-platform-foundation/03-security-and-permissions/"
+           "ADR_2026_10_28_BLEND_FAMILY_V2_AND_NO_FAMILY_LINK_DEPENDENCY.md")
+    if adr.is_file():
+        checked.append("ADR_NO_FAMILY_LINK")
+        check_no_family_link_adr(errors)
 
     text_checks = {
         "LEGAL_PENDING.md": ["no real", "approval"],

@@ -86,8 +86,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 256,
-    "PASS": 6
+    "NOT_STARTED": 255,
+    "PASS": 7
   },
   "task_statuses": {
     "L00-001": {
@@ -222,6 +222,15 @@
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/RETENTION_PENDING.md",
       "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (RETENTION_PENDING separates six-hour visibility from retention); docs validator exit 0"
+    },
+    "L00-007": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-007.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T08:12:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/phases/M1-secure-platform-foundation/03-security-and-permissions/ADR_2026_10_28_BLEND_FAMILY_V2_AND_NO_FAMILY_LINK_DEPENDENCY.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: pre-existing ADR verified by tools/check-governance-docs.py (ADR_NO_FAMILY_LINK) exit 0; ADR not modified"
     },
     "L01-001": {
       "status": "NOT_STARTED",
