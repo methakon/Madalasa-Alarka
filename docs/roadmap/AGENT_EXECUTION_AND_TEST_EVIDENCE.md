@@ -9,6 +9,14 @@
 - [Separate deployment and Play plan](DEPLOYMENT_AND_PLAY_RELEASE_PLAN_SEPARATE_2026-10-28.md) — never executed by local coding agent.
 - Follow current SRS, security, India legal gates and latest owner business decisions. A Figma design is not an implemented endpoint.
 
+## Standing authoring conventions (owner directive 2026-11-01)
+
+These apply to every task, artifact, evidence file and commit:
+
+1. **No automated-tool footprint.** Committed artifacts, evidence files, commit messages and metadata must not attribute work to an AI/automation tool or embed tool-identifying strings or co-author trailers. Record authorship and verification under the responsible human owner identity. Write evidence impersonally and descriptively.
+2. **Figma design cross-check.** Before implementing or finalizing a task whose artifact affects a user-facing surface, data category, API contract or screen, reconcile it against the authoritative Figma sources — the [functional handoff](../ui/figma-functional-handoff/README.md) and the [Theme C UI contract](../ui/MADALASA_ALARKA_THEME_C_STORY_AND_UI_CONTRACT_2026.md) — and record a short "Figma design alignment" note in the evidence. A Figma screen is a design specification, never proof of an implemented/approved feature.
+
+
 ## Task selection and execution protocol
 
 1. Record working git SHA, branch, tool versions, operating system and local synthetic seed; ensure no real family or child data.
