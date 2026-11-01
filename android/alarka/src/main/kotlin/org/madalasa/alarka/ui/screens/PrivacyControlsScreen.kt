@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.madalasa.alarka.service.DeviceCapabilityReport
+import org.madalasa.alarka.service.ServerConsentStatus
 import org.madalasa.uicommon.ThemeCColors
 
 /**
@@ -58,12 +59,15 @@ internal data class ChildPrivacyRow(val title: String, val value: String)
 
 internal fun childPrivacyRows(
     page: ChildPrivacyPage,
-    report: DeviceCapabilityReport?
+    report: DeviceCapabilityReport?,
+    server: ServerConsentStatus? = null
 ): List<ChildPrivacyRow> = when (page) {
     ChildPrivacyPage.TRANSPARENCY -> listOf(
-        ChildPrivacyRow("Active purposes", "UNKNOWN · No server-approved safety-location purpose is verified."),
+        ChildPrivacyRow("Active purposes", if (server == null) "UNKNOWN · No server consent status verified." else
+            "Server consent · core=${server.coreConsent}, location=${server.locationConsent}, usage=${server.usageConsent}, media=${server.mediaConsent}"),
         ChildPrivacyRow("Device permissions", locationGrantDescription(report)),
-        ChildPrivacyRow("Policy status", "UNKNOWN · No signed purpose-policy version or server acknowledgment."),
+        ChildPrivacyRow("Policy status", if (server == null) "UNKNOWN · No signed purpose-policy version or server acknowledgment." else
+            "Server: collection authorized=${server.collectionAuthorized}; device permissions checked separately."),
         ChildPrivacyRow("Privacy controls", "Review Android permissions, sharing status and help.")
     )
     ChildPrivacyPage.LOCATION_UNAVAILABLE -> listOf(
@@ -82,7 +86,9 @@ fun ChildPrivacyScreen(
     onShowLocationUnavailable: () -> Unit,
     onOpenAndroidSettings: () -> Unit,
     modifier: Modifier = Modifier,
-    openSettingsEnabled: Boolean = true
+    openSettingsEnabled: Boolean = true,
+    serverStatus: ServerConsentStatus? = null,
+    serverError: String? = null
 ) {
     val ink = ThemeCColors.Ink
     val red = ThemeCColors.Vermilion
@@ -109,7 +115,7 @@ fun ChildPrivacyScreen(
         Text(title, color = ink, fontSize = 26.sp, fontWeight = FontWeight.Bold)
         Text(subtitle, color = muted, fontSize = 14.sp)
 
-        childPrivacyRows(page, report).forEachIndexed { index, row ->
+        childPrivacyRows(page, report, serverStatus).forEachIndexed { index, row ->
             val isPermission = row.title == "Device permissions" || row.title == "What to do"
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp)
@@ -145,7 +151,7 @@ fun ChildPrivacyScreen(
                     color = red, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 Text("Figma " + page.nodeId + " · PRIVACY_CONTROLS_V0_TECHNICAL_AND_UI_SPEC_2026-11-02.md",
                     color = muted, fontSize = 11.sp, lineHeight = 15.sp)
-                Text("An Android app grant is not a verified guardian policy; permission removal always wins.",
+                Text(serverError ?: "An Android app grant is not a verified guardian policy; permission removal always wins.",
                     color = muted, fontSize = 11.sp)
             }
         }

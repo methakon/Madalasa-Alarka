@@ -12,6 +12,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -26,6 +28,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.madalasa.alarka.ui.figma.SupplementalFigmaCatalog
 import org.madalasa.alarka.ui.figma.SupplementalFigmaScreen
+import org.madalasa.alarka.service.ChildPrivacyGateway
+import org.madalasa.alarka.service.ServerConsentStatus
 import org.madalasa.alarka.ui.screens.AccountInfoScreen
 import org.madalasa.alarka.ui.screens.ConnectivityScreen
 import org.madalasa.alarka.ui.screens.PairingScreen
@@ -38,6 +42,7 @@ import org.madalasa.alarka.ui.viewmodel.ChildViewModel
 @Composable
 fun ChildNavHost(
     viewModel: ChildViewModel,
+    privacyGateway: ChildPrivacyGateway,
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
@@ -45,6 +50,25 @@ fun ChildNavHost(
     val uiState by viewModel.uiState.collectAsState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    var consentStatus by remember { mutableStateOf<ServerConsentStatus?>(null) }
+    var consentError by remember { mutableStateOf<String?>(null) }
+    // Server consent and current Android permission are independent observations.
+    LaunchedEffect(currentRoute) {
+        if (currentRoute == ChildNavRoute.Privacy.route ||
+            currentRoute == ChildNavRoute.LocationUnavailable.route) {
+            consentStatus = null
+            privacyGateway.readConsentStatus().fold(
+                onSuccess = { status ->
+                    consentStatus = status
+                    consentError = null
+                },
+                onFailure = { e ->
+                    consentStatus = null
+                    consentError = e.message ?: "Server authorization is unavailable"
+                }
+            )
+        }
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -128,6 +152,8 @@ fun ChildNavHost(
                 ChildPrivacyScreen(
                     page = ChildPrivacyPage.TRANSPARENCY,
                     report = uiState.capabilityReport,
+                    serverStatus = consentStatus,
+                    serverError = consentError,
                     onBack = { navController.popBackStack() },
                     onShowLocationUnavailable = {
                         navController.navigate(ChildNavRoute.LocationUnavailable.route)

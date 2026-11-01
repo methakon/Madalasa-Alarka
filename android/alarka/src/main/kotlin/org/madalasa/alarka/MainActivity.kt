@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MadalasaTheme {
-                ChildNavHost(viewModel = childViewModel)
+                ChildNavHost(viewModel = childViewModel, privacyGateway = appContainer.privacyGateway)
             }
         }
     }

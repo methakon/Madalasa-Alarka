@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- INTERNET is a normal permission for authenticated HTTPS service access; no sensor grant. -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Zero covert capture: no microphone, camera, or screen recording grants. -->
     <!-- Zero background monitoring or live location grants declared in synthetic prototype. -->
