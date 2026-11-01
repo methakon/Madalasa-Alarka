@@ -11,10 +11,12 @@ import org.madalasa.madalasa.ui.figma.P02Screen
 @Composable
 fun AuthenticationScreen(
     onAuthenticated: () -> Unit,
-    onBackToWelcome: (() -> Unit)? = null
+    onBackToWelcome: (() -> Unit)? = null,
+    onExploreAccountSetup: (() -> Unit)? = null
 ) {
     P02Screen(
         onSyntheticContinue = onAuthenticated,
-        onBack = onBackToWelcome
+        onBack = onBackToWelcome,
+        onExploreAccountSetup = onExploreAccountSetup
     )
 }
