@@ -72,6 +72,10 @@ add_executable(test_children_read tests/cpp/test_children_read.cc)
 target_link_libraries(test_children_read PRIVATE ma_core ma_oidc)
 add_test(NAME children_read_negative COMMAND test_children_read)
 
+add_executable(blended_family_test tests/blended_family_test.cc)
+target_link_libraries(blended_family_test PRIVATE ma_core ma_oidc)
+add_test(NAME blended_family_no_leak COMMAND blended_family_test)
+
 add_executable(test_admin_faq tests/cpp/test_admin_faq.cc)
 target_link_libraries(test_admin_faq PRIVATE ma_core ma_oidc)
 add_test(NAME admin_faq_negative COMMAND test_admin_faq)
