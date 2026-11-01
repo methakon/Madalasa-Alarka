@@ -72,6 +72,7 @@ fun P02Screen(
     modifier: Modifier = Modifier,
     onSyntheticContinue: (() -> Unit)? = null,
     onBack: (() -> Unit)? = null,
+    onExploreAccountSetup: (() -> Unit)? = null,
     issue: SignInIssue = SignInIssue.NOT_STARTED
 ) {
     val teal = Color(0xFF087E83)
@@ -185,6 +186,12 @@ fun P02Screen(
         } else {
             Text("UI preview · verified identity provider is not connected.",
                 color = muted, fontSize = 10.sp)
+        }
+        if (onExploreAccountSetup != null) {
+            OutlinedButton(
+                onClick = onExploreAccountSetup,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
+            ) { Text("Explore account setup (preview)") }
         }
         if (onBack != null) {
             TextButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) {
