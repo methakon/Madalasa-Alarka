@@ -11,10 +11,6 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P49Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-49", title = "Subscription status", hero = "Prepaid access and expiry — renew only when you choose",
-        kind = "billing", milestone = "M7", requirement = "FR-012",
-        details = listOf("ACTIVE", "PENDING", "GRACE", "HOLD"),
-        action = "Manage billing", modifier = modifier
-    )
+    val design = ThemeCSharingCatalog.screens.first { it.id == "P-49" }
+    ThemeCSharingScreen(design, onNextDesign = {}, modifier = modifier)
 }
