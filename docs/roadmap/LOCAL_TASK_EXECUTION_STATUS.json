@@ -253,7 +253,7 @@
     "L00-010": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-010.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "7b8f1be08453f9f4fb64cb2116b5c45d7afce1b3",
       "verified_at_utc": "2026-11-01T08:21:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/RESPONSIBILITIES.md",
