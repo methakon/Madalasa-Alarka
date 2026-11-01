@@ -30,7 +30,7 @@ class PrivacyRouteContractTests(unittest.TestCase):
         self.assertNotIn("x-synthetic-parent", HEADER)
 
     def test_revoke_requires_same_child_and_committed_sql_transaction(self):
-        self.assertRegex(HEADER, r"id=\\$1::uuid AND child_id=\\$2::uuid")
+        self.assertIn("id=$1::uuid AND child_id=$2::uuid", HEADER)
         self.assertIn("ap_m1.revoke_child_grant", HEADER)
         self.assertIn("co_await commit(std::move(tx))", HEADER)
         self.assertIn("if (e.sqlState() == \"42501\")", HEADER)
