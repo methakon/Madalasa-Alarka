@@ -10,6 +10,7 @@ class NavigationRouteTest {
         assertEquals("onboarding", Screen.Onboarding.route)
         assertEquals("welcome", Screen.Welcome.route)
         assertEquals("auth", Screen.Authentication.route)
+        assertEquals("create_account", Screen.CreateAccount.route)
         assertEquals("child_selection", Screen.ChildSelection.route)
         assertEquals("shell", Screen.Shell.route)
     }
