@@ -33,3 +33,7 @@ This is a design/traceability audit. No new backend implementation, real-device 
 ## Owner clarification — 28 October 2026
 
 [Blended-family V2 authorization and Google Family Link dependency removal](https://github.com/methakon/Madalasa-Alarka/blob/main/docs/phases/M1-secure-platform-foundation/03-security-and-permissions/ADR_2026_10_28_BLEND_FAMILY_V2_AND_NO_FAMILY_LINK_DEPENDENCY.md) · [Implementation proof and secure Google Play sandbox setup](IMPLEMENTATION_PROOF_AND_PLAY_SANDBOX_HANDOFF_2026-10-28.md) · [India child-data privacy action brief](https://github.com/methakon/Madalasa-Alarka/blob/main/docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/INDIA_CHILD_CONSENT_RETENTION_DELETION_ACTION_BRIEF_2026-10-28.md). Hosting region and final cloud costs are deferred to separate deployment planning, not local coding blockers.
+
+## Pre-release versioning and child-data clarification — 2026-11-02
+
+[Version 0.x development → first public 1.0.0 and synthetic-only child-data review workflow](PRE_RELEASE_VERSIONING_AND_CHILD_DATA_REVIEW_POLICY_2026-11-02.md). Unresolved final legal/Play determinations do **not** halt independent synthetic coding, but real-child processing and release-specific features remain subject to law, Android/Play policies and evidence. Competitor privacy-policy comparisons are research, not permission or precedent.

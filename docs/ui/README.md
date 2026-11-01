@@ -12,3 +12,4 @@ This directory contains design tokens, screen inventories, story frameworks, and
 | [Figma Functional Handoff](figma-functional-handoff/README.md) | Developer handoff guidance, design frame mappings, and asset export specifications |
 | [tldraw Visual Diagrams](tldraw/README.md) | Architecture flowcharts and freeform whiteboard diagrams for UI interaction state machines |
 | [UI Audits](../audits/FINAL_FIGMA_SCREEN_BY_SCREEN_API_DB_REPORT_2026-10-28.md) | Automated validation records and test execution logs for UI design elements |
+| [2026-11-02 FAQ/admin design reconciliation](figma-functional-handoff/README.md#2026-11-02--faqback-office-design-reconciliation-and-outstanding-visual-qa) | FAQ candidate Figma nodes, BO-05/BO-06 requirements, outstanding visual/accessibility QA, honest API/DB scope and follow-up gates |
