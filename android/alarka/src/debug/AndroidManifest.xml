@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application>
+    <!-- Debug only; deliberately absent from release manifest. -->
+    <activity android:name=".DesignPreviewActivity"
+      android:label="Screen design previews (debug)"
+      android:exported="true" />
+  </application>
+</manifest>

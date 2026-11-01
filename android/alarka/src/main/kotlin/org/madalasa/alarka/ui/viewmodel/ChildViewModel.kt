@@ -40,6 +40,15 @@ class ChildViewModel(
         )
     }
 
+    /** Re-read device-local OS state when opened/returned from Android Settings.
+     * No permissions are requested and no report is uploaded from this preview.
+     */
+    fun refreshCapabilities() {
+        _uiState.value = _uiState.value.copy(
+            capabilityReport = container.capabilityScanner.getCapabilityReport()
+        )
+    }
+
     fun acknowledgeDisclosure() {
         _uiState.value = _uiState.value.copy(disclosureAcknowledged = true)
     }
