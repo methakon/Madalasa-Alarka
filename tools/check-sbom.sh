@@ -25,8 +25,12 @@ collect_components() {
   fi
   # Backend dependency lock (our format: name version sha license)
   if [[ -f "$root/backend/dependencies.lock" ]]; then
-    awk 'NF>=2 && $1 !~ /^#/ {pinned=($2 ~ /^[0-9]/)?"yes":"no"; print "cpp|" $1 "|" $2 "|" pinned}' \
-      "$root/backend/dependencies.lock"
+    awk 'NF>=2 && $1 !~ /^#/ {
+      # System/inline/non-fetchable entries are not version-pinnable by us.
+      if ($2=="system" || $2=="inline" || $2=="n/a") { pinned="exempt" }
+      else { pinned=($2 ~ /^[0-9v]/)?"yes":"no" }
+      print "cpp|" $1 "|" $2 "|" pinned
+    }' "$root/backend/dependencies.lock"
   fi
   # Python doc tooling requirements, if present
   if [[ -f "$root/docs/tools/requirements.txt" ]]; then

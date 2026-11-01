@@ -1,0 +1,15 @@
+# Madalasa backend C++ dependency lock (L01-006)
+# Format: name version source license hash_state
+# Authoritative version source: backend/scripts/build_deps.sh (pinned tags) and
+# backend/CMakeLists.txt (find_package requirements).
+# Hashes are marked PENDING until the pinned sources are fetched and digested in
+# an environment with the C++ toolchain/network; the SBOM policy requires pinned
+# versions (satisfied). LOCAL only; not a security certification.
+#
+# name        version    source                                             license       hash_state
+jsoncpp       1.9.5      github.com/open-source-parsers/jsoncpp@1.9.5        MIT           PENDING_FETCH
+drogon        1.9.14     github.com/drogonframework/drogon@v1.9.14          MIT           PENDING_FETCH
+openssl       3.0        system:libssl-dev(OpenSSL>=3.0)                     Apache-2.0    SYSTEM_PACKAGE
+libcurl       system     system:libcurl4-openssl-dev                        curl          SYSTEM_PACKAGE
+libpq         system     system:libpq-dev(PostgreSQL client)                PostgreSQL    SYSTEM_PACKAGE
+gtest-style   inline     backend/tests/cpp (assert-based, no external dep)  n/a           NONE
