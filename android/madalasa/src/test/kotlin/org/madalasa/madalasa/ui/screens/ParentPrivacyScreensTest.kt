@@ -29,7 +29,7 @@ class ParentPrivacyScreensTest {
     @Test fun everyPrivacyPageHasAllFourTruthfulStateCards() {
         ParentPrivacyPage.entries.forEach { page ->
             val rows = parentPrivacyRows(page)
-            assertEquals(page.route, page.route) // Route contract is static, no API required.
+            assertEquals(page, ParentPrivacyPage.fromRoute(page.route))
             assertEquals(4, rows.size)
             assertTrue(rows.all { it.heading.isNotBlank() && it.detail.isNotBlank() })
             assertFalse(rows.any { it.detail.contains("Arjun") })
