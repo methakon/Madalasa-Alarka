@@ -11,10 +11,5 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P31Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-31", title = "Usage overview (gated)", hero = "Usage reports disabled by default",
-        kind = "usage", milestone = "M4", requirement = "FR-005/047",
-        details = listOf("Legal gate notice", "possible day/week chart preview"),
-        action = "Read why disabled", modifier = modifier
-    )
+    ThemeCFunctionalScreen(ThemeCFunctionalCatalog.find("P-31"), modifier = modifier)
 }
