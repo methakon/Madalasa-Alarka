@@ -6,13 +6,13 @@ plugins {
 
 android {
     namespace = "org.madalasa.alarka"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         // Non-production placeholder ID until publication authorization
         applicationId = "in.berhampore.alarka.synthetic"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0-synthetic"
 
