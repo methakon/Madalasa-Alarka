@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "PASS": 26,
-    "NOT_STARTED": 236
+    "PASS": 27,
+    "NOT_STARTED": 235
   },
   "task_statuses": {
     "L00-001": {
@@ -358,11 +358,13 @@
       "verification": "AUTOMATED_TEST: tools/verify-roadmap-task.sh --selftest exit 0; rejects PASS-without-command, accepts well-formed/BLOCKED evidence"
     },
     "L02-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-001.md",
+      "commit_sha": "1e87856",
+      "verified_at_utc": "2026-11-01T20:52:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/SCHEMA_SLICING.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: backend/tests/check_schema_slicing.py exit 0 (141 physical tables = 110 concept + 31 operational, 0 unexplained); --selftest catches an accidental concept-only table"
     },
     "L02-002": {
       "status": "NOT_STARTED",
