@@ -1,0 +1,79 @@
+{
+  "document_id": "MA-UI03-PARENT-FOUNDATION-FIRST-SCREENS-2026-11-02",
+  "git_preflight": {
+    "date": "2026-11-02",
+    "origin_main_sha": "3221d8cfafea688bd43bed7215e76b450bfb75cf",
+    "origin_dev_sha": "3221d8cfafea688bd43bed7215e76b450bfb75cf",
+    "parent_sha_before_first_edit": "3221d8cfafea688bd43bed7215e76b450bfb75cf",
+    "verified_by": "Live GitHub branch SHA comparison",
+    "sync_script_executed": false,
+    "reason": "Execution container has no github.com DNS; all three remote tips were identical at initial read."
+  },
+  "source": "live Figma file TKiZXwjkWdkponF1zNsfli, original functional handoff and current Android source",
+  "status": "SOURCE_IMPLEMENTED; THREE_ANDROID_BUILD_AND_UNIT_TEST_PASSES; VISUAL_QA_AND_IDENTITY_INTEGRATION_PENDING",
+  "branch": "parent",
+  "target_branch": "dev",
+  "safety": [
+    "Never claim synthetic login is verified Google OIDC",
+    "No live child-data collection or guardian authority from UI navigation",
+    "Do not create real accounts, terms consent or family binding from draft-only form",
+    "No real OAuth, password storage or backend sessions from this UI slice"
+  ],
+  "screen_order": [
+    {
+      "id": "P-01",
+      "figma_node": "9:3",
+      "feature": "Welcome and role selector",
+      "route": "welcome",
+      "source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/figma/P01Screen.kt",
+      "test": "android/madalasa/src/test/kotlin/org/madalasa/madalasa/ui/figma/P01WelcomeScreenTest.kt",
+      "completed_behaviors": [
+        "Parent vs Alarka companion role choice",
+        "User-initiated parent setup navigation",
+        "Local privacy, support, language explanations",
+        "No child data or permission side effect"
+      ],
+      "build_result": "PASS",
+      "build_run": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41360108880",
+      "qa": "Device screenshot and accessibility QA pending"
+    },
+    {
+      "id": "P-02",
+      "figma_node": "9:51",
+      "feature": "Sign in and recovery",
+      "route": "auth",
+      "source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/figma/P02Screen.kt",
+      "test": "android/madalasa/src/test/kotlin/org/madalasa/madalasa/ui/figma/P02SignInScreenTest.kt",
+      "completed_behaviors": [
+        "Email UI without transmitting credentials",
+        "Disabled Google CTA until Credential Manager + server OIDC exchange",
+        "Recovery information with no fake request",
+        "Explicit synthetic development mode preserved and separate",
+        "Cancel/offline/expired-token status reducers"
+      ],
+      "build_result": "PASS",
+      "build_run": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41360293580",
+      "qa": "No verified Android Credential Manager/OIDC end-to-end; device screenshot QA pending"
+    },
+    {
+      "id": "P-03",
+      "figma_node": "9:99",
+      "feature": "Create-account form preview",
+      "route": "create_account",
+      "source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/figma/P03Screen.kt",
+      "test": "android/madalasa/src/test/kotlin/org/madalasa/madalasa/ui/figma/P03CreateAccountTest.kt",
+      "completed_behaviors": [
+        "Local name/email draft and validation",
+        "Preview disclosure acknowledgment that is not legal consent",
+        "Explicit unverified identity / disabled create action",
+        "No child/family record or credential transmitted",
+        "Navigation back to P-02"
+      ],
+      "build_result": "PASS",
+      "build_run": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41360691358",
+      "qa": "Android assembleDebug and testDebugUnitTest passed; physical-device screenshot, accessibility and backend integration QA pending"
+    }
+  ],
+  "next_screen": "P-04 per original foundation handoff; verify dependencies and Figma before edits",
+  "review_note": "Concurrent worker added authenticated privacy gateway code to the same parent branch; review combined PR diff and run integrated CI before promotion."
+}
