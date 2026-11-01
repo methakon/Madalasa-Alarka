@@ -2,7 +2,12 @@ name: Android UI compilation and unit tests
 
 on:
   push:
-    branches: [parent, child]
+    branches: [parent, child, dev, main]
+    paths:
+      - "android/**"
+      - ".github/workflows/android-ui-build.yml"
+  pull_request:
+    branches: [dev, main]
     paths:
       - "android/**"
       - ".github/workflows/android-ui-build.yml"
