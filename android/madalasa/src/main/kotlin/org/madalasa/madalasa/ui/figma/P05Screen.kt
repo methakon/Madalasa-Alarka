@@ -11,10 +11,5 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P05Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-05", title = "Home dashboard", hero = "Last observed child location",
-        kind = "map", milestone = "M2", requirement = "FR-003/014/026/031",
-        details = listOf("Child switcher", "map preview", "location timestamp", "battery"),
-        action = "View child location", modifier = modifier
-    )
+    ThemeCFunctionalScreen(ThemeCFunctionalCatalog.find("P-05"), modifier = modifier)
 }
