@@ -1,0 +1,43 @@
+# Pre-release versioning and child-data review workflow (2026-11-02)
+
+**Status:** Owner direction recorded; documentation policy, not regulatory clearance or an implementation acceptance result.
+**Scope:** Madalasa parent app, Alarka child app, C++ Drogon backend, admin UI, OpenAPI and operational documentation.
+**Authority:** This addendum establishes version nomenclature and development sequencing; it does not override current Indian law, Android OS constraints, Google Play policies, or feature-specific security requirements.
+
+## 1. Product versioning policy
+
+- **Before the first public release:** use semantic-like `0.x.y` development versions. Existing source-control commits and historic ADR/document versions are preserved; no retroactive Git tag or APK version is asserted.
+- **Internal testing:** `0.x.y-dev.N` or equivalent CI build metadata; never imply published availability.
+- **First public release candidate:** `1.0.0-rc.N`; first actually published public product release: `1.0.0`.
+- **After public release:** semantic versioning for compatible fixes/features and breaking changes, with independent Android `versionCode` monotonically increasing for each app; backend/API routes retain separately documented compatibility and schema migration versioning.
+- Git is the source of truth: immutable tags for actual released commits, CHANGELOG entries, recorded release branch/build SHAs and signed artifacts where applicable. No release tags may be created from documentation decisions alone.
+- Document revisions and ADR identifiers are **not** app version numbers. Updated canonical documents must point to superseded decisions explicitly; do not rewrite historical evidence.
+- Reconcile `docs/openapi-m1.yaml`, `docs/openapi.yaml`, current migrations, SRS, admin stack decision and Android handoff using versioned contracts rather than resetting history.
+
+## 2. Child-data legal and Play clarification: engineering may continue, release gate remains
+
+Owner direction: do not treat unresolved regulator/Play responses as blockers for unrelated local implementation. If official responses or applicable review evidence arrive before submission, incorporate them; a Play review response may inform later updates. **Do not adopt "wait for a rejection" as evidence of compliance or permission to process real child data.** The app must satisfy applicable requirements at submission, including disclosure, consent/guardian authority where required, documented retention/deletion, Data Safety answers, appropriate target audience and Android permission policy.
+
+Allowed now with synthetic data: architecture, explicit-consent/guardian authorization interfaces, configurable category-specific retention, erasure and audit reducers, deny-by-default handlers, UI, tests including revocation, negative auth and deletion/no-resurrection, and scoped mock billing/locations. Do not silently remove existing security/legality gates. Keep real-child GPS, behavioural usage reports, media capture and restricted background collection disabled until the applicable feature-specific legal/OS/Play gates are met.
+
+The `docs/DOCUMENTATION_PHASE_GATE_CHECKLIST.md` release status remains NOT_READY; this document clarifies sequencing but grants no approval. Resolve uncertainties by recording `REVIEW_REQUIRED` / `BLOCKED_EXTERNAL` *for that live feature or release step*, not for unrelated synthetic implementation.
+
+## 3. Comparable app privacy practices (research only; not legal precedent)
+
+Checked public policies on 2026-11-02:
+- **Google Family Link:** parent manages child-account/profile permissions, activity and account deletion; notice distinguishes Google's service from third-party applications. https://families.google.com/familylink/privacy/notice
+- **Life360:** underage participation involves parent/guardian consent where applicable; supports parental review/deletion/withdrawal requests and differentiates location-history visibility by membership (2/7/30 days); retention may also depend on purpose. https://legal.corp.life360.com/hc/en-us/articles/16038777217175-Life360-Privacy-Policy ; https://support.life360.com/hc/en-us/articles/23053602225559-Location-Drive-History
+- **Qustodio:** describes distinct retention for categories, including device-data access windows, longer annual-report data and backup deletion timelines; policy details vary by data type. https://www.qustodio.com/en/family/privacy/
+- **Bark (bark.us):** describes parental access/revocation/deletion requests and necessary-duration child-data retention. https://www.bark.us/privacy/
+
+**Transferable architectural pattern, not permission to copy competitors:** separate (a) collection purpose/legal authority and guardian approval, (b) who may view how much history, (c) server retention by data category, (d) revocation/export/deletion/backup enforcement, and (e) child/device notices and permission states. Competitor practices are not proof that indefinite identifiable history or behaviour tracking is permissible in India.
+
+## 4. Required future acceptance evidence (record; do not pre-approve)
+
+1. Feature-by-feature India DPDP/operative-rule assessment with primary-source citations and current commencement/application analysis; exact parent/guardian authority and clear notices.
+2. Per-category retention/deletion schedule with server enforcement, backup expiry, old offline-upload suppression, test evidence and documented exceptions as applicable. **Six-hour FREE visibility is not by itself a retention authorization.**
+3. Review of real-app disclosure, background location eligibility, Families/monitoring classification and exact requested OS permissions; actual Google Play responses when received.
+4. Data Safety, privacy policy and in-app statements consistent with implemented behavior; real-device/Play acceptance and verified release build.
+5. Record the evidence and decision in the canonical blockers register; only then advance the relevant release gate.
+
+**Engineering action:** proceed with synthetic-only, fail-closed development; do not ask the owner to resend completed publisher identity verification or request a mandatory paid signed legal opinion without a demonstrated rule requiring it.
