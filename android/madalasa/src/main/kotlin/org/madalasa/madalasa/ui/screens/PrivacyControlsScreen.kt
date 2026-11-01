@@ -35,7 +35,7 @@ enum class ParentPrivacyPage(val route: String, val figmaNode: String, val title
     }
 }
 
-internal data class ParentPrivacyRow(
+data class ParentPrivacyRow(
     val heading: String, val detail: String, val destination: ParentPrivacyPage? = null, val grantId: String? = null
 )
 
