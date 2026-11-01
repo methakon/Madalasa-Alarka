@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import org.madalasa.madalasa.ui.figma.P01Screen
+import org.madalasa.madalasa.ui.figma.P03Screen
 import org.madalasa.madalasa.ui.screens.AuthenticationScreen
 import org.madalasa.madalasa.ui.screens.ChildSelectionScreen
 import org.madalasa.madalasa.ui.screens.OnboardingScreen
@@ -61,8 +62,15 @@ fun MadalasaNavHost(
                 },
                 onBackToWelcome = {
                     navController.popBackStack()
+                },
+                onExploreAccountSetup = {
+                    navController.navigate(Screen.CreateAccount.route)
                 }
             )
+        }
+
+        composable(Screen.CreateAccount.route) {
+            P03Screen(onBack = { navController.popBackStack() })
         }
 
         composable(Screen.ChildSelection.route) {
