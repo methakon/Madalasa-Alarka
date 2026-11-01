@@ -81,7 +81,8 @@ fun ChildPrivacyScreen(
     onBack: () -> Unit,
     onShowLocationUnavailable: () -> Unit,
     onOpenAndroidSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openSettingsEnabled: Boolean = true
 ) {
     val ink = ThemeCColors.Ink
     val red = ThemeCColors.Vermilion
@@ -112,7 +113,7 @@ fun ChildPrivacyScreen(
             val isPermission = row.title == "Device permissions" || row.title == "What to do"
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp)
-                    .clickable(enabled = isPermission) { onOpenAndroidSettings() },
+                    .clickable(enabled = isPermission && openSettingsEnabled) { onOpenAndroidSettings() },
                 shape = RoundedCornerShape(12.dp),
                 color = if (index == 0) Color(0xFFF2E6D2) else Color.White
             ) {
@@ -133,6 +134,7 @@ fun ChildPrivacyScreen(
         }
         OutlinedButton(
             onClick = onOpenAndroidSettings,
+            enabled = openSettingsEnabled,
             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
         ) { Text("Review Android app permissions") }
 

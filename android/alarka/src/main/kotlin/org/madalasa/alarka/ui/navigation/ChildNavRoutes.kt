@@ -5,6 +5,8 @@ sealed class ChildNavRoute(val route: String, val title: String) {
     data object Pairing : ChildNavRoute("pairing", "Pair Device")
     data object Permissions : ChildNavRoute("permissions", "Permissions")
     data object CapabilityGuide : ChildNavRoute("capability_guide", "Compatibility Guide")
+    data object Privacy : ChildNavRoute("privacy/transparency", "Monitoring Information")
+    data object LocationUnavailable : ChildNavRoute("privacy/location_unavailable", "Location Unavailable")
     data object Connectivity : ChildNavRoute("connectivity", "Connectivity")
     data object AccountInfo : ChildNavRoute("account_info", "Account Info")
 

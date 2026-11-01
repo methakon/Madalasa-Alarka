@@ -1,5 +1,9 @@
 package org.madalasa.alarka.ui.navigation
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -14,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,6 +30,8 @@ import org.madalasa.alarka.ui.screens.AccountInfoScreen
 import org.madalasa.alarka.ui.screens.ConnectivityScreen
 import org.madalasa.alarka.ui.screens.PairingScreen
 import org.madalasa.alarka.ui.screens.PermissionsScreen
+import org.madalasa.alarka.ui.screens.ChildPrivacyPage
+import org.madalasa.alarka.ui.screens.ChildPrivacyScreen
 import org.madalasa.alarka.ui.screens.TransparencyDisclosureScreen
 import org.madalasa.alarka.ui.viewmodel.ChildViewModel
 
@@ -34,6 +41,7 @@ fun ChildNavHost(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -74,7 +82,8 @@ fun ChildNavHost(
                 TransparencyDisclosureScreen(
                     isAcknowledged = uiState.disclosureAcknowledged,
                     onAcknowledge = { viewModel.acknowledgeDisclosure() },
-                    onNavigateNext = { navController.navigate(ChildNavRoute.Pairing.route) }
+                    onNavigateNext = { navController.navigate(ChildNavRoute.Pairing.route) },
+                    onReadPrivacy = { navController.navigate(ChildNavRoute.Privacy.route) }
                 )
             }
 
@@ -96,7 +105,8 @@ fun ChildNavHost(
                     report = uiState.capabilityReport,
                     onNavigateNext = { navController.navigate(ChildNavRoute.Connectivity.route) },
                     onRefresh = { viewModel.refreshCapabilities() },
-                    onViewCapabilityGuide = { navController.navigate(ChildNavRoute.CapabilityGuide.route) }
+                    onViewCapabilityGuide = { navController.navigate(ChildNavRoute.CapabilityGuide.route) },
+                    onViewPrivacy = { navController.navigate(ChildNavRoute.Privacy.route) }
                 )
             }
 
@@ -110,6 +120,41 @@ fun ChildNavHost(
                         index = (index + 1) % entries.size
                     })
                 }
+            }
+
+            // Current permission facts are local; guardian scope/purpose remain UNKNOWN.
+            // Only an explicit tap opens Android's own app-permission settings.
+            composable(ChildNavRoute.Privacy.route) {
+                ChildPrivacyScreen(
+                    page = ChildPrivacyPage.TRANSPARENCY,
+                    report = uiState.capabilityReport,
+                    onBack = { navController.popBackStack() },
+                    onShowLocationUnavailable = {
+                        navController.navigate(ChildNavRoute.LocationUnavailable.route)
+                    },
+                    onOpenAndroidSettings = {
+                        context.startActivity(
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.fromParts("package", context.packageName, null)
+                            }
+                        )
+                    }
+                )
+            }
+            composable(ChildNavRoute.LocationUnavailable.route) {
+                ChildPrivacyScreen(
+                    page = ChildPrivacyPage.LOCATION_UNAVAILABLE,
+                    report = uiState.capabilityReport,
+                    onBack = { navController.popBackStack() },
+                    onShowLocationUnavailable = {},
+                    onOpenAndroidSettings = {
+                        context.startActivity(
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.fromParts("package", context.packageName, null)
+                            }
+                        )
+                    }
+                )
             }
 
             composable(ChildNavRoute.Connectivity.route) {
