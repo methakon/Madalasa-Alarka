@@ -24234,7 +24234,21 @@
         "properties": {
           "quiet_hours": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": false,
+            "required": [
+              "start_local",
+              "end_local"
+            ],
+            "properties": {
+              "start_local": {
+                "type": "string",
+                "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+              },
+              "end_local": {
+                "type": "string",
+                "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+              }
+            }
           },
           "categories": {
             "type": "object",
@@ -25467,7 +25481,49 @@
           },
           "schedule": {
             "type": "object",
-            "additionalProperties": true
+            "additionalProperties": false,
+            "required": [
+              "windows"
+            ],
+            "properties": {
+              "windows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "days",
+                    "start_local",
+                    "end_local"
+                  ],
+                  "properties": {
+                    "days": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "MON",
+                          "TUE",
+                          "WED",
+                          "THU",
+                          "FRI",
+                          "SAT",
+                          "SUN"
+                        ]
+                      }
+                    },
+                    "start_local": {
+                      "type": "string",
+                      "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+                    },
+                    "end_local": {
+                      "type": "string",
+                      "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+                    }
+                  }
+                }
+              }
+            }
           },
           "expected_device_mode": {
             "type": "string",
