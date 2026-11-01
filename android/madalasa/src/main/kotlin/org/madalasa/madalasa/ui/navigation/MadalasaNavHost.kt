@@ -49,6 +49,9 @@ fun MadalasaNavHost(
                     navController.navigate(Screen.ChildSelection.route) {
                         popUpTo(Screen.Onboarding.route) { inclusive = true }
                     }
+                },
+                onBackToWelcome = {
+                    navController.popBackStack()
                 }
             )
         }
