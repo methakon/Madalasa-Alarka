@@ -14,7 +14,7 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_applicant_self_read(
     drogon::HttpRequestPtr req, bool request_status) {
   using namespace drogon;
   const auto rid=request_id_of(req);
-  const auto token=admin_session_cookie(req->getHeader("cookie"));
+  const auto token=admin_session_cookie(req);
   if (!token) co_return error_response("UNAUTHENTICATED","administrator session required",rid);
   if (!app().hasDbClient(kDbClientName))
     co_return error_response("SERVICE_UNAVAILABLE","database unavailable",rid,true);
@@ -47,7 +47,7 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_applicant_self_read(
     if(request_status){
       // Only the invoking applicant's own most recent request.
       auto rows=co_await tx->execSqlCoro(
-          "SELECT id::text AS id,admin_id::text AS applicant_id,state,"
+          "SELECT id::text AS id,admin_id::text AS applicant_id,state,revision,"
           "to_char(submitted_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS submitted_at,"
           "CASE WHEN decided_at IS NULL THEN NULL ELSE "
           "to_char(decided_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') END AS decided_at "
@@ -61,6 +61,7 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_applicant_self_read(
       result["id"]=row["id"].as<std::string>();
       result["applicant_id"]=row["applicant_id"].as<std::string>();
       result["state"]=row["state"].as<std::string>();
+      result["revision"]=Json::Int64(row["revision"].as<std::int64_t>());
       result["submitted_at"]=row["submitted_at"].as<std::string>();
       result["decided_at"]=row["decided_at"].isNull() ?
           Json::Value(Json::nullValue) : Json::Value(row["decided_at"].as<std::string>());
