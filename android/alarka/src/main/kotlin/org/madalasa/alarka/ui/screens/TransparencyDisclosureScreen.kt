@@ -73,7 +73,7 @@ fun TransparencyDisclosureScreen(
                 )
 
                 Text(
-                    text = "4. Synthetic Prototype Mode: This build operates purely with synthetic test data. Zero live child location, audio, or private files are accessed or transmitted.",
+                    text = "4. Local Device Checks: Hardware and app-permission status may be inspected on this device. This screen does not collect or transmit GPS, audio, camera or private files; backend pairing and monitoring remain development-gated.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = ThemeCColors.Teal
                 )
