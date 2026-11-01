@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "purpose": "Canonical, version-controlled FAQ content for Madalasa (parent) and Alarka (child). Grounded in the project's owner decisions, commercial invariants, India DPDP gate, admin spec and Android/Play policy reviews. Each entry matches the FaqDraftInput contract and the ap_m1.faq_entries/faq_revisions schema constraints: slug ^[a-z0-9][a-z0-9-]{1,149}$, category <=100 chars, language en, title 3-220 chars without < or >, safe_markdown 1-10000 chars without < > [ or ]. Plain-text Markdown only (no HTML, links, or images).",
+  "sources": [
+    "docs/roadmap/COMMERCE_INVARIANTS.md",
+    "docs/roadmap/DECISION_LEDGER.md",
+    "docs/phases/M0-foundation-and-approvals/01-project-governance/BLOCKERS_AND_OWNER_DECISIONS.md",
+    "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/INDIA_DPDP_CHILD_PRIVACY_AND_CROSS_BORDER_GATE.md",
+    "docs/phases/M7-commercial-integrations/01-commercial-plans-and-costing/SUBSCRIPTION_PLANS_PRICING_AND_RULES_2026.md",
+    "docs/phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_OWNER_GOOGLE_ACCESS_FAQ_SUPPORT_BILLING_AND_USAGE_2026.md",
+    "docs/phases/M9-play-release/01-play-and-data-safety/X02_FAMILIES_LOCATION_AND_MONITORING_POLICY_REVIEW_2026-10-31.md"
+  ],
+  "note": "Prices, trial, and feature availability reflect documented owner intent; actual Google Play catalog prices and legal/Play release approvals govern at launch. Several features remain gated and OFF until India DPDP lawfulness and Google Play eligibility are resolved; FAQ text states this truthfully and never promises an unavailable capability.",
+  "entries": [
+    {
+      "slug": "what-are-madalasa-and-alarka",
+      "category": "Getting started",
+      "language": "en",
+      "title": "What are Madalasa and Alarka?",
+      "safe_markdown": "Madalasa is the parent app and Alarka is the child app of the same family-safety service. A guardian installs Madalasa on their own phone and Alarka on the child's phone. Alarka runs openly on the child's device with a recognisable icon and an ongoing notification when monitoring is active. The service is English-first for the initial release, with other languages planned later. It is built to show truthful status at all times and never operates in a hidden or stealth mode."
+    },
+    {
+      "slug": "how-do-i-set-up-and-pair-a-child-device",
+      "category": "Getting started",
+      "language": "en",
+      "title": "How do I set up and pair my child's device?",
+      "safe_markdown": "Sign in to Madalasa with your Google account, add a child, then install Alarka on the child's phone and pair it using the one-time code or QR shown in Madalasa. During setup Alarka explains what it monitors before requesting each Android permission, and you grant permissions through the normal Android dialogs and Settings. Pairing links one specific child to your account. Signing in with Google proves who you are as an adult; it does not by itself prove a legal parent or guardian relationship, which may require separate verification where the law requires it."
+    },
+    {
+      "slug": "is-the-free-trial-really-free-and-how-long",
+      "category": "Plans and billing",
+      "language": "en",
+      "title": "Is there a free trial, and how long does it last?",
+      "safe_markdown": "Yes. Each eligible family gets one 48-hour free trial, once. There is no charge for the trial and it does not auto-convert into a paid plan. After the trial ends you keep a free tier that shows live location at a reduced, battery-friendly sampling rate plus the last six hours of location history. The six-hour window is how much history you can view for free; it is not a statement about how long data is stored."
+    },
+    {
+      "slug": "what-does-the-free-tier-include-after-trial",
+      "category": "Plans and billing",
+      "language": "en",
+      "title": "What do I still get for free after the trial ends?",
+      "safe_markdown": "After the 48-hour trial, the free tier continues to show live location at an adaptive, Android-allowed sampling rate and lets you view the last six hours of location history. Detailed history beyond six hours, trips and places, and other premium features require a paid prepaid plan for that child. The exact free behaviour can vary with device power state and Android background limits, and the app always shows the real last-updated time rather than inventing a position."
+    },
+    {
+      "slug": "how-much-do-paid-plans-cost",
+      "category": "Plans and billing",
+      "language": "en",
+      "title": "How much do paid plans cost?",
+      "safe_markdown": "Plans are prepaid per selected child, with no automatic renewal. The planned public price is about 99 rupees per month or 999 rupees per year per child. The first 1,008 distinct paying families qualify for founding pricing of about 50 rupees per month or 500 rupees per year for their eligible paid children, counted once per family and kept for later children they add. These are the documented target prices; the actual price shown at checkout in Google Play is always the authoritative one."
+    },
+    {
+      "slug": "does-my-plan-auto-renew",
+      "category": "Plans and billing",
+      "language": "en",
+      "title": "Will my plan renew automatically and charge me again?",
+      "safe_markdown": "No. Plans are prepaid and manual. Nothing renews or charges you automatically. When a prepaid term ends, premium features simply pause until you choose to pay again. You decide when, and whether, to extend. You will receive reminder notices before a prepaid term expires so a lapse is never a surprise."
+    },
+    {
+      "slug": "what-is-the-100-day-add-on",
+      "category": "Plans and billing",
+      "language": "en",
+      "title": "What is the 100-day viewer and minutes add-on?",
+      "safe_markdown": "For a child, you can optionally buy a one-time add-on of about 100 rupees. It adds one extra concurrent premium viewer slot and 30 total combined audio and video minutes for that child, shared among the approved guardians. The add-on lasts a fixed 100 calendar days from purchase. If the base prepaid plan lapses during those 100 days, the add-on's extra viewing pauses (goes dormant) but is not erased or shortened; it resumes if you renew the base plan before day 100. The add-on always ends on its own day-100 date regardless of the base plan."
+    },
+    {
+      "slug": "how-many-people-can-watch-one-child-at-once",
+      "category": "Plans and billing",
+      "language": "en",
+      "title": "How many people can view one child at the same time?",
+      "safe_markdown": "Each actively paid child has one concurrent premium viewer by default, shared among that child's approved guardians. The optional 100-day add-on adds one more concurrent viewer slot for that child. Sharing is always scoped to one exact child; buying or sharing for one child never automatically grants access to siblings."
+    },
+    {
+      "slug": "how-does-sharing-with-a-second-parent-work",
+      "category": "Guardians and sharing",
+      "language": "en",
+      "title": "Can a second parent or co-parent see my child?",
+      "safe_markdown": "Yes, by invitation for one exact child. The family owner invites another adult for a specific child; that adult signs in with their own Google account and accepts the invitation, and then sees only the child they were approved for. There is no automatic sharing by surname, household, shared billing, or siblings. A co-parent invited for one child does not gain access to your other children, and does not get billing-owner control. Where the law requires it, approved guardian authority and consent are checked before sensitive data is shared."
+    },
+    {
+      "slug": "can-i-revoke-another-guardians-access",
+      "category": "Guardians and sharing",
+      "language": "en",
+      "title": "Can I remove or revoke another guardian's access?",
+      "safe_markdown": "Yes. The family owner can revoke a guardian's access to a child. On revocation the service denies further access and ends active viewing sessions and cached views for that guardian. Revoking a co-parent's access does not remove the child's paid plan. If there is a dispute over who may access a child, access is suspended until it is resolved rather than automatically granted to whoever is paying."
+    },
+    {
+      "slug": "what-data-does-alarka-collect",
+      "category": "Privacy and data",
+      "language": "en",
+      "title": "What data does Alarka collect from the child's phone?",
+      "safe_markdown": "When enabled and permitted, the service can collect location observations (time, latitude, longitude, accuracy) and, separately and only with the right permissions and approvals, app-usage information and device health or SOS events. Each of these is a distinct feature with its own permission and its own legal review. Features that are not yet approved remain switched off, and the app shows an honest status such as unavailable, permission needed, or not supported rather than pretending to work. Collection of a real child's data does not begin until the required approvals are in place."
+    },
+    {
+      "slug": "how-long-is-my-childs-data-kept",
+      "category": "Privacy and data",
+      "language": "en",
+      "title": "How long is my child's data kept?",
+      "safe_markdown": "Exact retention periods per data category are still being decided and approved, so we do not quote a fixed number yet. Importantly, the free six-hour history is a viewing window, not a storage promise: it does not mean data is deleted after six hours, nor that data is kept forever. Retention will be set per category (for example raw location, derived trips, usage, and audit records) and published once finalised, along with how deletion and export work."
+    },
+    {
+      "slug": "can-i-delete-my-account-and-data",
+      "category": "Privacy and data",
+      "language": "en",
+      "title": "Can I delete my account and my child's data?",
+      "safe_markdown": "Yes. Account deletion and data export are part of the design. When you request deletion, the service is built to remove the child's stored data across its records and prevent deleted data from being quietly restored from backups or re-ingested from an offline device. The exact self-service steps and public deletion page are being finalised; until then, deletion requests are handled through support. We never treat a six-hour viewing window as a substitute for real deletion."
+    },
+    {
+      "slug": "is-this-legal-for-children-in-india",
+      "category": "Privacy and data",
+      "language": "en",
+      "title": "Is monitoring a child legal in India under the DPDP rules?",
+      "safe_markdown": "India's Digital Personal Data Protection law sets specific requirements for processing a child's personal data, including verifiable parental consent and limits on certain uses. We treat lawful use feature by feature: real-time safety location, location history, app-usage insights, and any optional media each need their own assessment, and some are kept off until that assessment and any required consent are in place. We do not claim a blanket exemption, and we do not process a real child's data for a feature that has not cleared its legal review."
+    },
+    {
+      "slug": "does-the-owner-or-staff-see-my-childs-location",
+      "category": "Privacy and data",
+      "language": "en",
+      "title": "Can the company owner or support staff see my child's location?",
+      "safe_markdown": "No. The administrator and support roles are for running the service, such as managing staff, content, billing, and support cases. They do not include a way to browse your child's raw location, history, routes, or any private messages. Administrator access is tied to a verified Google identity with an assigned role, and sensitive lookups are limited and audited. Ordinary support cannot open a named child's activity."
+    },
+    {
+      "slug": "does-alarka-record-audio-video-or-screen",
+      "category": "Features and permissions",
+      "language": "en",
+      "title": "Does Alarka secretly record audio, video, or the screen?",
+      "safe_markdown": "No. There is no covert microphone, camera, or screen recording, no hidden indicators, and no forced background capture. Any optional audio, photo, video, or screen features are research-stage and switched off by default. If such a feature is ever offered, it would be visible and child-initiated, keep the Android privacy indicators and notifications intact, and only ship after legal, Android, and Google Play review. A denied permission never blocks an SOS."
+    },
+    {
+      "slug": "why-is-a-feature-showing-as-unavailable",
+      "category": "Features and permissions",
+      "language": "en",
+      "title": "Why does a feature show as unavailable or not supported?",
+      "safe_markdown": "Madalasa shows the true state of each feature rather than a single on or off. A feature can read as unavailable because a permission was not granted or was revoked, the device is offline or its report is stale, the Android version or device does not support it, or the feature is not yet released or legally cleared. The app explains the specific reason and the safe next step, and it will not report success unless the action actually succeeded on the child's device."
+    },
+    {
+      "slug": "will-this-work-on-any-android-phone",
+      "category": "Features and permissions",
+      "language": "en",
+      "title": "Will this work on any Android phone?",
+      "safe_markdown": "The apps target modern Android and are built against the current Google Play target requirements, supporting a range of recent Android versions. Behaviour such as background location and foreground-service limits depends on the Android version, the manufacturer, and the device's power settings, so exact timing of updates is never guaranteed. Device Owner or managed-phone modes are not part of the first release; standard installation is used, and the app can report whether a phone is already managed without changing that itself."
+    },
+    {
+      "slug": "how-does-sos-work",
+      "category": "Safety features",
+      "language": "en",
+      "title": "How does SOS work?",
+      "safe_markdown": "SOS is designed so a child can open Alarka and raise an alert that is delivered to guardians through a dedicated high-priority notification. The alert is sent independently of other features, and a denied camera or microphone permission never prevents the SOS itself from going through. Any optional evidence capture tied to SOS would be visible and only while the app is in the foreground. SOS details are still being finalised and tested, and it should be treated as a best-effort feature, not a guaranteed emergency service."
+    },
+    {
+      "slug": "how-do-i-contact-support",
+      "category": "Support",
+      "language": "en",
+      "title": "How do I contact support?",
+      "safe_markdown": "You can open a support request from within the app, which creates a ticket that our team can reply to. Support messages are plain text and are handled per case; support staff cannot browse your child's private activity. For account deletion or data export while self-service is being finalised, raising a support ticket is the way to make the request. A public support contact channel is being set up and will be published once staffing is confirmed."
+    }
+  ]
+}
