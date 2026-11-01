@@ -495,7 +495,7 @@
     "L03-001": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-001.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/api/CONTRACT_DELTA.md",
@@ -504,7 +504,7 @@
     "L03-002": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-002.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml (issuer partition)",
@@ -513,7 +513,7 @@
     "L03-003": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-003.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml Error envelope",
@@ -522,7 +522,7 @@
     "L03-004": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-004.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml parent domain",
@@ -531,7 +531,7 @@
     "L03-005": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-005.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml device domain",
@@ -540,7 +540,7 @@
     "L03-006": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-006.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml location",
@@ -549,7 +549,7 @@
     "L03-007": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-007.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml safety",
@@ -558,7 +558,7 @@
     "L03-008": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-008.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml billing",
@@ -567,7 +567,7 @@
     "L03-009": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-009.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml admin",
@@ -576,7 +576,7 @@
     "L03-010": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-010.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml media-research",
@@ -585,7 +585,7 @@
     "L03-011": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-011.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/openapi.yaml",
@@ -594,7 +594,7 @@
     "L03-012": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-012.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "generated/api/README.md",
@@ -610,7 +610,7 @@
     "L03-014": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L03-014.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "4f932d2",
       "verified_at_utc": "2026-11-01T21:35:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/api/API_TRACEABILITY.csv",
