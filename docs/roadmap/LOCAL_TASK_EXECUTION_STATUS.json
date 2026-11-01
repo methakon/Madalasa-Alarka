@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "PASS": 55,
-    "NOT_STARTED": 207
+    "PASS": 67,
+    "NOT_STARTED": 195
   },
   "task_statuses": {
     "L00-001": {
@@ -619,88 +619,112 @@
       "verification": "API_TRACEABILITY.csv 172 rows, each with issuer/scope/status/error_responses; 0 missing cells"
     },
     "L04-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-001.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/google_oidc.cc + google_jwks.cc",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): ctest oidc/jwks/oidc_http PASS: wrong key, PSS masquerade, tampered claims, missing/forged aud all rejected"
     },
     "L04-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-002.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/parent_session.h",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_parent_session_bridge.py 12 OK: revoke/logout/expiry; replay denied"
     },
     "L04-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-003.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/parent_reads.h + RLS",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_identity.py 23 OK + m2 SQL PASS: family membership grants no child rights"
     },
     "L04-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-004.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/children_create.h + children_read.h",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): ctest children_read_negative + blended_family_no_leak PASS: cross-family fails closed"
     },
     "L04-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-005.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "ap_m1.child_access_invites",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): m2 SQL PASS: single-use hashed invite + expiry + revoke"
     },
     "L04-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-006.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "ap_m1.child_authority_reviews + no-Family-Link ADR",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): m2 SQL PASS exact-child; consent/authority separate; Google identity-only (test_oidc)"
     },
     "L04-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-007.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "ap_m1.child_access_grants_v2",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): m2 SQL PASS: cross-family exact Child A only, never Child B/billing; revoke closes"
     },
     "L04-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-008.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "ap_m1.revocation_epochs + trusted_sessions",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_parent_session_bridge.py 12 OK: revoke kills sessions; revocation epochs"
     },
     "L04-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-009.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/admin_* case-scope RLS",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_privacy_admin.py 13 OK: no staff override; no sibling metadata leak"
     },
     "L04-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-010.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/parent_session.h replay prevention",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_parent_session.cc + bridge test_03 replay denied; SHA-256 unique index"
     },
     "L04-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-011.md",
+      "commit_sha": "2077030",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests/blended_family_test.cc",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): ctest blended_family_no_leak PASS (commit 2077030): no foreign id/roster/counter leak"
     },
     "L04-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L04-012.md",
+      "commit_sha": "1e78913",
+      "verified_at_utc": "2026-11-01T22:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "ap_m1.admin_support_read_audit + admin_action_audit",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_privacy_admin.py 13 OK: sensitive read audited with actor/scope/outcome"
     },
     "L05-001": {
       "status": "NOT_STARTED",
