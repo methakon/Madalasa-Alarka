@@ -86,8 +86,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 261,
-    "PASS": 1
+    "NOT_STARTED": 260,
+    "PASS": 2
   },
   "task_statuses": {
     "L00-001": {
@@ -98,6 +98,15 @@
       "verified_by": "kiro-cli-agent",
       "target_artifact": "docs/roadmap/DECISION_LEDGER.md",
       "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 docs/tools/check_documentation.py exit 0, errors=[]; 281 files, 2073 local links checked"
+    },
+    "L00-002": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-002.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T07:19:00Z",
+      "verified_by": "kiro-cli-agent",
+      "target_artifact": "config/feature-gates.example.json",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
     },
     "L00-002": {
       "status": "NOT_STARTED",

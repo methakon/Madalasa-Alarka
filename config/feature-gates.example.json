@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "task": "L00-002",
+  "scope": "LOCAL synthetic development example only; not a release authorization",
+  "generated": "2026-11-01",
+  "source_requirements": [
+    "docs/phases/M1-secure-platform-foundation/01-requirements-and-architecture/SRS.md",
+    "docs/phases/M0-foundation-and-approvals/01-project-governance/BLOCKERS_AND_OWNER_DECISIONS.md",
+    "docs/phases/M9-play-release/01-play-and-data-safety/GOOGLE_PLAY_PUBLISHING_REQUIREMENTS.md",
+    "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/INDIA_GOVERNMENT_LEGAL_GOOGLE_PLAY_PROJECT_RISK_ASSESSMENT_2026.md",
+    "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/DPIA.md",
+    "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/DATA_RETENTION_SCHEDULE.md"
+  ],
+  "resolution_rules": {
+    "default_when_flag_absent": "DENY",
+    "default_when_sensitive_flag_present_but_unset": "DENY",
+    "enable_requires": [
+      "enabled == true",
+      "all listed gates resolved to CLEARED with recorded evidence"
+    ],
+    "note": "A flag enabled=true alone does NOT grant release permission; every 'gates' entry below must be independently CLEARED by the owner/legal/Play/Android-OS authority before real-data use. Absence of a gate record means NOT CLEARED."
+  },
+  "gate_states_allowed": ["OPEN", "CLEARED", "DEFERRED", "NOT_APPLICABLE"],
+  "features": {
+    "FR-001_secure_pairing": {
+      "priority": "P0",
+      "sensitive": false,
+      "enabled": true,
+      "gates": {},
+      "notes": "Parent/child secure pairing; synthetic only. Non-sensitive foundational flow."
+    },
+    "FR-002_transparent_permission_onboarding": {
+      "priority": "P0",
+      "sensitive": false,
+      "enabled": true,
+      "gates": {},
+      "notes": "Transparent disclosure before permission requests; no stealth. Required always-on behavior, not a data-collection feature."
+    },
+    "FR-003_location_observations_live": {
+      "priority": "P1",
+      "classification": "C",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "india_dpdp_child_location_lawfulness": "OPEN",
+        "play_families_precise_location_eligibility": "OPEN",
+        "play_background_location_declaration": "OPEN",
+        "android_fgs_location_lifecycle_evidence": "OPEN"
+      },
+      "notes": "Live/background location. X-02/X-03 gates OPEN; capture disabled."
+    },
+    "FR-004_travel_route_history": {
+      "priority": "P1",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "retention_per_category_decision_B07": "OPEN",
+        "india_dpdp_child_location_lawfulness": "OPEN"
+      },
+      "notes": "Derived history. Six-hour free visibility is a query window, not retention approval (C-02/C-14)."
+    },
+    "FR-005_usage_statistics": {
+      "priority": "P1",
+      "classification": "C",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "india_dpdp_usage_behavioral_lawfulness": "OPEN",
+        "play_usage_access_behavioral_purpose": "OPEN"
+      },
+      "notes": "App usage behavioral data needs independent legal + Play review."
+    },
+    "FR-006_authenticated_remote_commands": {
+      "priority": "P0",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "guardian_authorization_rls_tested_E01": "OPEN"
+      },
+      "notes": "Command dispatch gated on per-child guardian authorization + capability recheck."
+    },
+    "FR-007_scheduled_screen_time_restrictions": {
+      "priority": "P2",
+      "classification": "C_managed",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "device_owner_provisioning_decision_B05": "DEFERRED",
+        "android_dpc_supported_api_evidence": "OPEN"
+      },
+      "notes": "Managed mode deferred for first release (B-05). Standard mode returns UNSUPPORTED_POLICY."
+    },
+    "FR-008_file_media_access": {
+      "priority": "P2",
+      "classification": "C",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "play_scoped_storage_saf_only": "OPEN",
+        "india_dpdp_child_file_access_lawfulness": "OPEN"
+      },
+      "notes": "App-owned / SAF-selected URIs only; no private directories or all-files access."
+    },
+    "FR-009_authorized_photo_video_capture": {
+      "priority": "P3",
+      "classification": "D",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "counsel_feature_specific_approval": "OPEN",
+        "play_camera_sensor_declaration": "OPEN",
+        "android_visible_capture_device_evidence": "OPEN",
+        "owner_decision_B16": "OPEN"
+      },
+      "notes": "P3 research. OFF by default; visible child-initiated foreground only if ever approved. No covert/background capture."
+    },
+    "FR-010_authorized_audio_capture": {
+      "priority": "P3",
+      "classification": "D",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "counsel_feature_specific_approval": "OPEN",
+        "play_microphone_sensor_declaration": "OPEN",
+        "android_visible_capture_device_evidence": "OPEN",
+        "owner_decision_B16": "OPEN"
+      },
+      "notes": "P3 research. OFF by default. No covert listening; mic indicator never hidden."
+    },
+    "FR-011_google_drive_backup": {
+      "priority": "P2",
+      "classification": "C",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "oauth_scope_review": "OPEN",
+        "data_safety_backup_disclosure": "OPEN"
+      },
+      "notes": "Opt-in only (B-15 P2). OFF by default."
+    },
+    "FR-050_screen_capture_projection": {
+      "priority": "P3",
+      "classification": "D",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "counsel_feature_specific_approval": "OPEN",
+        "play_mediaprojection_declaration": "OPEN",
+        "financial_screen_classifier_proof": "OPEN"
+      },
+      "notes": "Screen share stays OFF; no reliable pre-frame financial-screen classifier exists. FLAG_SECURE respected."
+    },
+    "media_p2p_transport": {
+      "priority": "P3",
+      "classification": "D",
+      "sensitive": true,
+      "enabled": false,
+      "gates": {
+        "p2p_adr_004_tests_T_P2P_01_12": "OPEN",
+        "android_india_play_media_gates": "OPEN"
+      },
+      "notes": "WebRTC/ICE/STUN+TURN transport design only (MA-P2P-ADR-004). Capture OFF for children."
+    }
+  }
+}
