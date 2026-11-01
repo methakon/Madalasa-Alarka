@@ -33,13 +33,15 @@ internal object ThemeCSharingCatalog {
 }
 
 @Composable
-internal fun ThemeCSharingScreen(design: SharingDesign, onNextDesign: () -> Unit) {
+internal fun ThemeCSharingScreen(
+    design: SharingDesign, onNextDesign: () -> Unit, modifier: Modifier = Modifier
+) {
     val parchment = Color(0xFFFFF7E7)
     val ink = Color(0xFF292A31)
     val vermilion = Color(0xFFB73527)
     val teal = Color(0xFF28756C)
     val muted = Color(0xFF657078)
-    Column(Modifier.fillMaxSize().background(parchment)
+    Column(modifier.fillMaxSize().background(parchment)
         .verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(11.dp)) {
         Text("✦ MADALASA / FAMILY ACCESS", color = vermilion,
