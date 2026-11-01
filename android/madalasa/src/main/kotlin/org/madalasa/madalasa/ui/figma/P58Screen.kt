@@ -11,10 +11,5 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P58Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-58", title = "Microphone capability request", hero = "Microphone recording requires visible consent",
-        kind = "managed", milestone = "P3", requirement = "FR-010",
-        details = listOf("Explain privacy indicator", "request status", "child visible recording UI"),
-        action = "View allowed audio mode", modifier = modifier
-    )
+    ThemeCFunctionalScreen(ThemeCFunctionalCatalog.find("P-58"), modifier = modifier)
 }
