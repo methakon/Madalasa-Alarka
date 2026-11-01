@@ -86,22 +86,36 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 262
+    "NOT_STARTED": 250,
+    "PASS": 12
   },
   "task_statuses": {
     "L00-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-001.md",
+      "commit_sha": "0aef7357a46b1a378f104527d8f825f66fe23179",
+      "verified_at_utc": "2026-11-01T07:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/DECISION_LEDGER.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 docs/tools/check_documentation.py exit 0, errors=[]; 281 files, 2073 local links checked"
     },
     "L00-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-002.md",
+      "commit_sha": "a2e7db4c5a0899ca5632a136a4d6e70e01ac07d8",
+      "verified_at_utc": "2026-11-01T07:19:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "config/feature-gates.example.json",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
+    },
+    "L00-002": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-002.md",
+      "commit_sha": "a2e7db4c5a0899ca5632a136a4d6e70e01ac07d8",
+      "verified_at_utc": "2026-11-01T07:19:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "config/feature-gates.example.json",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
     },
     "L00-003": {
       "status": "NOT_STARTED",
@@ -172,6 +186,96 @@
       "commit_sha": null,
       "verified_at_utc": null,
       "verified_by": null
+    },
+    "L00-003": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-003.md",
+      "commit_sha": "0b83dd4c51bd826fcde521256276ae314155658a",
+      "verified_at_utc": "2026-11-01T07:22:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/LOCAL_DATA_RULES.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-local-data-rules.py --selftest exit 0 (detection proven); full scan 549 files 0 hits exit 0; docs validator exit 0"
+    },
+    "L00-004": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-004.md",
+      "commit_sha": "b5f7dc588758e5ac690f99dfd30d022b63d1cb27",
+      "verified_at_utc": "2026-11-01T08:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/OWNER_APPROVALS.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0; negative case proves guessed BLOCKED decision -> 2 violations; docs validator exit 0"
+    },
+    "L00-005": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-005.md",
+      "commit_sha": "a23034bad09d46c653ec9578ac1c86cf08682571",
+      "verified_at_utc": "2026-11-01T08:07:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/LEGAL_PENDING.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (LEGAL_PENDING asserts no-real-data/approval); docs validator exit 0"
+    },
+    "L00-006": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-006.md",
+      "commit_sha": "b7fffb1b28c082b63cdbe298699017649f0f762a",
+      "verified_at_utc": "2026-11-01T08:09:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/RETENTION_PENDING.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (RETENTION_PENDING separates six-hour visibility from retention); docs validator exit 0"
+    },
+    "L00-007": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-007.md",
+      "commit_sha": "551e31990f43d3f4db2dca854021c893f65c3eec",
+      "verified_at_utc": "2026-11-01T08:12:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/phases/M1-secure-platform-foundation/03-security-and-permissions/ADR_2026_10_28_BLEND_FAMILY_V2_AND_NO_FAMILY_LINK_DEPENDENCY.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: pre-existing ADR verified by tools/check-governance-docs.py (ADR_NO_FAMILY_LINK) exit 0; ADR not modified"
+    },
+    "L00-008": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-008.md",
+      "commit_sha": "9778b8a7b0e7cecda80f88b39a059084cb82115e",
+      "verified_at_utc": "2026-11-01T08:15:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/COMMERCE_INVARIANTS.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (COMMERCE_INVARIANTS INV-08 base-lapse suspends not erases add-on); docs validator exit 0"
+    },
+    "L00-009": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-009.md",
+      "commit_sha": "cc73d113f1cc1f18211b67e701a8f3c09a8c088d",
+      "verified_at_utc": "2026-11-01T08:18:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/PLAY_ACCOUNT_NONSECRET.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: check-governance-docs.py exit 0 (no secret patterns); check-local-data-rules.py 562 files 0 hits exit 0; docs validator exit 0"
+    },
+    "L00-010": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-010.md",
+      "commit_sha": "7b8f1be08453f9f4fb64cb2116b5c45d7afce1b3",
+      "verified_at_utc": "2026-11-01T08:21:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/RESPONSIBILITIES.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (RESPONSIBILITIES prohibits self-approval); docs validator exit 0"
+    },
+    "L00-011": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-011.md",
+      "commit_sha": "717f509aa6e8171a78414913649e17bbd02da074",
+      "verified_at_utc": "2026-11-01T08:25:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/TRACEABILITY_LEDGER.csv",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-traceability.py exit 0 (18 rows 0 violations); --selftest proves missing-test row fails; docs validator exit 0"
+    },
+    "L00-012": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-012.md",
+      "commit_sha": "6e03074b53c6debeb8810003afc86c7f33ba2ea1",
+      "verified_at_utc": "2026-11-01T08:28:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/check-local-gates.py",
+      "verification": "AUTOMATED_TEST_REQUIRED: python3 tools/check-local-gates.py --test exit 0; real matrix GO exit 0; tampered (FR-009 enabled, gates OPEN) STOP exit 1; docs validator exit 0"
     },
     "L01-001": {
       "status": "NOT_STARTED",

@@ -68,3 +68,8 @@ tmp/
 Thumbs.db
 # Synthetic fixtures, migrations and technical documentation remain versioned
 /.local-db/
+# Generated local synthetic seed output (tools/seed-synthetic.sh)
+/.local-fixtures/
+# Local user-space toolchains placed inside the checkout (if any)
+/.local-jdk/
+/.tool-cache/
