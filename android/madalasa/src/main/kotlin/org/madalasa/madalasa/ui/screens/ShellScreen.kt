@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -41,7 +42,8 @@ enum class ShellTab(val label: String) {
 @Composable
 fun ShellScreen(
     uiState: ParentUiState,
-    onNavigateToChildSelection: () -> Unit
+    onNavigateToChildSelection: () -> Unit,
+    onNavigateToPrivacy: () -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(ShellTab.MAP) }
 
@@ -92,7 +94,7 @@ fun ShellScreen(
                 ShellTab.MAP -> MapPlaceholderContent(uiState)
                 ShellTab.HISTORY -> HistoryPlaceholderContent()
                 ShellTab.PLACES -> PlacesPlaceholderContent()
-                ShellTab.SETTINGS -> SettingsPlaceholderContent(uiState, onNavigateToChildSelection)
+                ShellTab.SETTINGS -> SettingsPlaceholderContent(uiState, onNavigateToChildSelection, onNavigateToPrivacy)
             }
         }
     }
@@ -173,7 +175,7 @@ private fun PlacesPlaceholderContent() {
 }
 
 @Composable
-private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: () -> Unit) {
+private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: () -> Unit, onOpenPrivacy: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = ThemeCTokens.PaleWarmSurface),
@@ -193,6 +195,15 @@ private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: ()
                 fontSize = 12.sp,
                 color = ThemeCTokens.Vermilion
             )
+            Spacer(modifier = Modifier.height(12.dp))
+            OutlinedButton(
+                onClick = onOpenPrivacy,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
+            ) { Text("Privacy & data") }
+            OutlinedButton(
+                onClick = onSelectChild,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
+            ) { Text("Choose child") }
         }
     }
 }
