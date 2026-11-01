@@ -1,5 +1,5 @@
 // Admin session authentication and applicant self-status (no role escalation).
-// Future login exchange issues opaque session tokens using ap_auth_issuer only.
+// Sessions are issued by admin_auth.h through the separate ap_auth_issuer login.
 // Here ap_m1_api can validate the already hashed/revocable token via ctx_admin.
 #pragma once
 #include <algorithm>
@@ -38,11 +38,24 @@ inline std::optional<std::string> admin_session_cookie(std::string_view cookie_h
   return found;
 }
 
+// Drogon moves the Cookie request header into its cookie map (the raw header is
+// not retained), so real requests are read through getCookie(). A raw header, as
+// set by in-process tests, still goes through the strict duplicate-aware parser.
+inline std::optional<std::string> admin_session_cookie(const drogon::HttpRequestPtr& req) {
+  const auto& raw = req->getHeader("cookie");
+  if (!raw.empty()) return admin_session_cookie(std::string_view(raw));
+  const auto& value = req->getCookie("__Host-ma_admin_s");
+  if (value.size() != 64) return std::nullopt;
+  for (const unsigned char c : value)
+    if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'))) return std::nullopt;
+  return value;
+}
+
 inline drogon::Task<drogon::HttpResponsePtr> admin_access_me(
     drogon::HttpRequestPtr req) {
   using namespace drogon;
   const auto rid = request_id_of(req);
-  auto token = admin_session_cookie(req->getHeader("cookie"));
+  auto token = admin_session_cookie(req);
   if (!token) co_return error_response("UNAUTHENTICATED", "administrator session required", rid);
   if (!app().hasDbClient(kDbClientName))
     co_return error_response("SERVICE_UNAVAILABLE", "database unavailable", rid, true);
@@ -66,8 +79,13 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_access_me(
         "ap_m1.has_admin_permission('BILLING_READ') AS billing,"
         "ap_m1.has_admin_permission('USAGE_READ') AS usage,"
         "EXISTS(SELECT 1 FROM ap_m1.admin_access_requests r WHERE r.admin_id=a.id "
-        "AND r.state='PENDING_REVIEW') AS pending "
-        "FROM ap_m1.admin_accounts a WHERE a.id=ap_m1.ctx_admin()");
+        "AND r.state='PENDING_REVIEW') AS pending,"
+        "(SELECT r.id::text FROM ap_m1.admin_access_requests r WHERE r.admin_id=a.id "
+        " ORDER BY r.submitted_at DESC,r.id DESC LIMIT 1) AS latest_request,"
+        "s.role_codes::text AS role_codes,s.mfa_active,"
+        "to_char(s.expires_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS session_expires_at "
+        "FROM ap_m1.admin_accounts a JOIN ap_m1.admin_session_state() s ON s.admin_id=a.id "
+        "WHERE a.id=ap_m1.ctx_admin()");
     if (record.empty()) {
       rollback_quietly(tx);
       co_return error_response("UNAUTHENTICATED","administrator session invalid",rid);
@@ -80,7 +98,21 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_access_me(
     result["state"] = active && privileged ? "APPROVED" :
         row["pending"].as<bool>() ? "PENDING_REVIEW" : "NO_ACCESS";
     result["email_verified"] = row["email_verified"].as<bool>();
-    result["request_id"] = Json::nullValue;
+    result["request_id"] = row["latest_request"].isNull() ? Json::Value(Json::nullValue)
+                                                         : Json::Value(row["latest_request"].as<std::string>());
+    // Server-authoritative roles for page reloads; the browser never asserts a role.
+    result["role_codes"] = Json::Value(Json::arrayValue);
+    {
+      const auto raw = row["role_codes"].isNull() ? std::string("{}") : row["role_codes"].as<std::string>();
+      std::string item;
+      for (std::size_t i = 1; i + 1 < raw.size(); ++i) {
+        if (raw[i] == ',') { if (!item.empty()) result["role_codes"].append(item); item.clear(); }
+        else if ((raw[i] >= 'A' && raw[i] <= 'Z') || raw[i] == '_') item.push_back(raw[i]);
+      }
+      if (!item.empty()) result["role_codes"].append(item);
+    }
+    result["mfa_active"] = row["mfa_active"].as<bool>();
+    result["session_expires_at"] = row["session_expires_at"].as<std::string>();
     result["allowed_actions"] = Json::Value(Json::arrayValue);
     if (!active && row["email_verified"].as<bool>() &&
         !row["pending"].as<bool>()) {

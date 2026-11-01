@@ -274,3 +274,5 @@ jobs:
         run: python3 tools/database/manage.py migrate
       - name: ParentOIDC to V2 session bridge HTTP end-to-end
         run: python3 backend/tests/integration_parent_session_v2.py build-it/ma_backend
+      - name: Admin back-office session, CSRF and RBAC HTTP end-to-end
+        run: python3 backend/tests/integration_admin_v2.py build-it/ma_backend

@@ -33,8 +33,10 @@ class PrivacyAdminTests(unittest.TestCase):
             c.execute("INSERT INTO ap_m1.owner_identity_allowlist(issuer,subject) VALUES "
                       "('https://synthetic.example.invalid',%s) ON CONFLICT DO NOTHING",
                       ('fixture-' + str(cls.f['c']),))
+        # Privileged synthetic setup. Since 0022 the issuer login can no longer call
+        # register_admin/mint_admin_session directly (only the verified exchange).
         for name in ('a', 'b', 'c'):
-            with auth_connection() as c:
+            with admin_connection() as c:
                 cls.accounts[name] = c.execute('SELECT ap_m1.register_admin(%s,%s)',
                     (cls.f[name], name + '@synthetic.example.invalid')).fetchone()[0]
         # Synthetic privileged setup: no API can activate accounts or grant roles.
@@ -44,10 +46,10 @@ class PrivacyAdminTests(unittest.TestCase):
                 c.execute('INSERT INTO ap_m1.admin_role_grants(admin_id,role_code,granted_by) '
                           'VALUES(%s,%s,%s) ON CONFLICT(admin_id,role_code) WHERE revoked_at IS NULL DO NOTHING', (cls.accounts['b'], role, cls.accounts['c']))
         for name in ('a', 'b', 'c'):
-            with auth_connection() as c:
+            with admin_connection() as c:
                 cls.tokens[name] = c.execute("SELECT ap_m1.mint_admin_session(%s,now()+interval '30 minutes',"
                     "now()+interval '10 minutes')", (cls.accounts[name],)).fetchone()[0]
-        with auth_connection() as c:
+        with admin_connection() as c:
             cls.no_mfa = c.execute("SELECT ap_m1.mint_admin_session(%s,now()+interval '30 minutes')",
                                   (cls.accounts['c'],)).fetchone()[0]
 
