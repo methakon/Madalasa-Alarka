@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.madalasa.madalasa.ui.figma.P01Screen
 import org.madalasa.madalasa.ui.screens.AuthenticationScreen
 import org.madalasa.madalasa.ui.screens.ChildSelectionScreen
 import org.madalasa.madalasa.ui.screens.OnboardingScreen
@@ -28,9 +29,17 @@ fun MadalasaNavHost(
     ) {
         composable(Screen.Onboarding.route) {
             OnboardingScreen(
-                onFinished = { navController.navigate(Screen.Authentication.route) },
-                onSkip = { navController.navigate(Screen.Authentication.route) }
+                onFinished = { navController.navigate(Screen.Welcome.route) },
+                onSkip = { navController.navigate(Screen.Welcome.route) }
             )
+        }
+
+        // The P-01 Figma role selector is now the actual welcome step.
+        // Only a user tap on the Parent CTA advances into authentication.
+        composable(Screen.Welcome.route) {
+            P01Screen(onStartParentSetup = {
+                navController.navigate(Screen.Authentication.route)
+            })
         }
 
         composable(Screen.Authentication.route) {
