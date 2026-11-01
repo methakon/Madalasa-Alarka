@@ -1,7 +1,7 @@
 {
-  "name": "Madalasa–Alarka Local Agent Execution Status",
+  "name": "Madalasa\u2013Alarka Local Agent Execution Status",
   "as_of": "2026-11-01",
-  "note": "2026-11-01 repository inspection: Android source and backend implementation checkpoints added; individual 262 task acceptance evidence NOT revalidated and statuses remain NOT_STARTED. Workstream checkpoints do not imply PASS, build, visual fidelity, device testing or production readiness.",
+  "note": "2026-11-01 reconciliation: Phase 00 (L00-001..012) and Phase 01 (L01-001..014) are PASS with committed evidence under evidence/local/tasks/. Phase 01 includes the real JDK17 Android build at targetSdk 36 (both apps), the C++20 Drogon backend compile + ctest 18/18, local Postgres loopback + RLS, and the governance/CI/seed tooling. Phases 02+ individual task acceptance remain NOT_STARTED in this ledger even though substantial schema/API/UI code exists and passes cross-cutting suites (see workstream_checkpoints); those are not per-task-evidence closures. Neither PASS here nor passing CI grants legal/Play/DPDP release permission.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -72,6 +72,39 @@
       "previous_react": "HISTORICAL_PROTOTYPE_RETAINED",
       "decision_doc": "docs/phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md",
       "does_not_close_individual_dag_tasks": true
+    },
+    "android_build_targetsdk36_2026_11_01": {
+      "readiness": "LOCAL_READY",
+      "scope": "Both Madalasa (parent) and Alarka (child) assemble debug APKs and pass unit tests with a user-space Temurin JDK 17; AGP 8.7.3; compileSdk/targetSdk 36 (Android 16); minSdk 29; no sensitive runtime permissions",
+      "evidence_path": "evidence/local/tasks/L01-004.md",
+      "executed_checks": "gradlew :madalasa:assembleDebug :alarka:assembleDebug + testDebugUnitTest BUILD SUCCESSFUL exit 0; aapt2 confirms targetSdkVersion 36",
+      "does_not_close_individual_dag_tasks": true,
+      "note": "targetSdk 36 meets the Google Play Aug-2026 upload requirement; actual Play upload remains a separate owner action"
+    },
+    "backend_cpp_build_and_ctest_2026_11_01": {
+      "readiness": "LOCAL_READY",
+      "scope": "C++20 Drogon backend configures and compiles with -Werror; full ctest suite passes",
+      "evidence_path": "evidence/local/tasks/L01-005.md",
+      "executed_checks": "cmake -G Ninja configure+build exit 0; ctest 100% passed 18/18 (m1 route registration, swagger security, OIDC/JWKS/crypto, device endpoints, admin/auth/session/OIDC negatives, parent session bridge)",
+      "does_not_close_individual_dag_tasks": true
+    },
+    "backend_admin_v2_db_and_http_e2e_2026_11_01": {
+      "readiness": "LOCAL_READY",
+      "scope": "V2 admin back-office and parent session bridge verified at DB and HTTP level on synthetic data; exact-child authorization, admin RBAC/MFA, CSRF, session revoke",
+      "evidence_path": "evidence/local/tasks/HTTP_E2E_ADMIN_AND_PARENT_V2_2026-11-01.md",
+      "executed_checks": "manage.py DB suite 257 tests OK (0 fail); integration_admin_v2.py and integration_parent_session_v2.py HTTP end-to-end PASS against ma_backend (MA_SYNTHETIC_AUTH) + restricted PostgreSQL",
+      "does_not_close_individual_dag_tasks": true,
+      "note": "Strengthens E-01/E-02/E-09 to HTTP level; does not grant legal/Play/release permission"
+    },
+    "faq_seed_content_2026_11_01": {
+      "readiness": "LOCAL_READY",
+      "scope": "20 canonical, version-controlled FAQ entries authored from the project documents, loaded and verified through the enforced draft->publish admin path",
+      "evidence_path": "evidence/local/tasks/FAQ_SEED_CONTENT_2026-11-01.md",
+      "source_path": "backend/persistence/seeds/faqs.json",
+      "commit_sha": "a077c125f52b5598a664a554d8849b52650abd83",
+      "executed_checks": "test_faq_seed_content.py 3 tests OK; full DB suite 257 OK; schema-valid, draft hidden pre-publish, publicly visible once PUBLISHED under MFA, unprivileged runtime denied FAQ_EDIT",
+      "does_not_close_individual_dag_tasks": true,
+      "note": "Runtime publication on a deployed admin panel remains a separate owner/admin action; gated-feature FAQ text truthfully states unavailability"
     }
   },
   "dependencies_source": "docs/roadmap/LOCAL_TASK_GRAPH_2026-10-28.json",
@@ -86,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 250,
-    "PASS": 12
+    "PASS": 26,
+    "NOT_STARTED": 236
   },
   "task_statuses": {
     "L00-001": {
@@ -107,85 +140,6 @@
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "config/feature-gates.example.json",
       "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
-    },
-    "L00-002": {
-      "status": "PASS",
-      "evidence_path": "evidence/local/tasks/L00-002.md",
-      "commit_sha": "a2e7db4c5a0899ca5632a136a4d6e70e01ac07d8",
-      "verified_at_utc": "2026-11-01T07:19:00Z",
-      "verified_by": "Swarna Sekhar Dhar",
-      "target_artifact": "config/feature-gates.example.json",
-      "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-feature-gates.py exit 0; 13 features, 11 sensitive all disabled, unknown flag -> DENY, enable-without-clearance -> DENY, enable+cleared -> ALLOW"
-    },
-    "L00-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
-    },
-    "L00-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
     },
     "L00-003": {
       "status": "PASS",
@@ -278,102 +232,130 @@
       "verification": "AUTOMATED_TEST_REQUIRED: python3 tools/check-local-gates.py --test exit 0; real matrix GO exit 0; tampered (FR-009 enabled, gates OPEN) STOP exit 1; docs validator exit 0"
     },
     "L01-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-001.md",
+      "commit_sha": "65c5d7249a3ebd58c079ed69e7be004755d3977b",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/gradle/libs.versions.toml",
+      "verification": "STATIC/AUTOMATED: reproducible pinned version catalog verified; no dynamic versions; Gradle wrapper pinned; SBOM policy exit 0"
     },
     "L01-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-002.md",
+      "commit_sha": "4c8bd807fb2558ed7cf637e50f214826acb55531",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/madalasa/build.gradle.kts",
+      "verification": "AUTOMATED_TEST: ./gradlew :madalasa:assembleDebug + testDebugUnitTest BUILD SUCCESSFUL exit 0; APK in.berhampore.madalasa.synthetic"
     },
     "L01-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-003.md",
+      "commit_sha": "2a4b65d1d820f13f977cf4e263121d3fd259425b",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/alarka/build.gradle.kts",
+      "verification": "AUTOMATED_TEST: ./gradlew :alarka:assembleDebug + testDebugUnitTest BUILD SUCCESSFUL exit 0; distinct package in.berhampore.alarka.synthetic"
     },
     "L01-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-004.md",
+      "commit_sha": "ed9cddf8305c2aa87fbf6151db2236492d9b74ba",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/*/src/main/AndroidManifest.xml",
+      "verification": "AUTOMATED_TEST: targetSdk/compileSdk 36 (AGP 8.7.3); both apps assembleDebug+tests exit 0; aapt2 confirms targetSdkVersion 36, adaptive icons, no sensitive permissions"
     },
     "L01-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-005.md",
+      "commit_sha": "fdcb55acd019700b986575de301d92518d94ad23",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/CMakeLists.txt",
+      "verification": "AUTOMATED_TEST: cmake configure+build (-Werror) exit 0; ctest 18/18 passed (incl admin/auth/session/OIDC negative, parent session bridge)"
     },
     "L01-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-006.md",
+      "commit_sha": "b6f35ef542f4c84ce11cec4ebbc46fe0b33a60cf",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/dependencies.lock",
+      "verification": "STATIC/AUTOMATED: backend/dependencies.lock pins jsoncpp 1.9.5, Drogon v1.9.14 + licenses; SBOM pinned-version policy exit 0 (source hashes deferred)"
     },
     "L01-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-007.md",
+      "commit_sha": "fd22ff4652e438242b161a39d59e75b9066d2ec7",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "infra/local/compose.yaml",
+      "verification": "AUTOMATED_TEST: docker Postgres loopback 127.0.0.1:15432 healthy; 0001_m1_identity.sql applied; m1_tenant_isolation.sql PASS; all exit 0"
     },
     "L01-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-008.md",
+      "commit_sha": "03763c059d155a44e8dbccfd4e9e0f9c6f7c0e72",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/seed-synthetic.sh",
+      "verification": "AUTOMATED_TEST: tools/seed-synthetic.sh --selftest exit 0; deterministic content hash; no live-key patterns"
     },
     "L01-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-009.md",
+      "commit_sha": "6b9b17278f359770f5505b785a8063d49fc1e52c",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": ".github/workflows/local-checks.yml",
+      "verification": "AUTOMATED/STATIC: .github/workflows/local-checks.yml valid YAML; every invoked local command (shellcheck/compileall/testkit/seed/sbom/secret-scan/smoke) exit 0"
     },
     "L01-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-010.md",
+      "commit_sha": "f2eccdb4cb1e1b5b3d3069981f759a93572ed6b5",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/check-sbom.sh",
+      "verification": "AUTOMATED_TEST: tools/check-sbom.sh exit 0 (21 components pinned/exempt); --selftest flags unpinned dep"
     },
     "L01-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-011.md",
+      "commit_sha": "971540b4513e9e1584168efa8360417467016498",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/smoke-local.sh",
+      "verification": "AUTOMATED_TEST: tools/smoke-local.sh exit 0; honest SKIPPED for absent toolchains; --selftest proves honest classification"
     },
     "L01-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-012.md",
+      "commit_sha": "423971da065b5f471df3ce8899d6c68cefc42666",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/verify-clean-build.sh",
+      "verification": "AUTOMATED_TEST: tools/verify-clean-build.sh exit 0 (no committed secrets); --selftest detects planted secret, ignores placeholders"
     },
     "L01-013": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-013.md",
+      "commit_sha": "ee84721326dc15732ab770cc80a7c40fc1654dc1",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "testkit/fake-services",
+      "verification": "AUTOMATED_TEST: testkit/fake-services/fakes.py --selftest exit 0; offline clock/OIDC(fail-closed)/Play(no charge)/FCM fakes"
     },
     "L01-014": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L01-014.md",
+      "commit_sha": "086273cf5d860b927631d24e5af516a22c01105c",
+      "verified_at_utc": "2026-11-01T20:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "tools/verify-roadmap-task.sh",
+      "verification": "AUTOMATED_TEST: tools/verify-roadmap-task.sh --selftest exit 0; rejects PASS-without-command, accepts well-formed/BLOCKED evidence"
     },
     "L02-001": {
       "status": "NOT_STARTED",
