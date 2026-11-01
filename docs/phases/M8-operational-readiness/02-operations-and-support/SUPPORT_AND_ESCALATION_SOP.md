@@ -26,3 +26,7 @@ Support → security/incident lead for data access, compromise or monitoring mis
 
 ## Privacy and closure
 Retention for support tickets is still a draft; consult DATA_RETENTION_SCHEDULE.md and grievance legal deadlines. Grant access revocation and account deletion workflows must cover relevant support caches. Gather anonymous satisfaction feedback only where approved. Quarterly staff review and incident tabletop recommended, none conducted.
+
+## 2026-11-01 — Owner-designated support mailbox
+
+The designated two-way communication sender/recipient for support tickets and feedback is **madalasa-alarka@berhampore.in**; notification-only outbound uses **noreply@berhampore.in**. The owner reports local `.env` configuration, but actual SMTP/inbound verification, staffing and deliverability have **not** been checked. Replies require ticket-scoped identity verification, safe attachment handling and auditable retention. Do not infer parent/child authorization from the email From address. See [Email templates and two-way mailbox requirements](../../M7-commercial-integrations/01-commercial-plans-and-costing/EMAIL_LIFECYCLE_AND_SUPPORT_TEMPLATES_2026-11-01.md). This designation replaces the earlier unspecified support contact, but does not imply the help desk is operational.

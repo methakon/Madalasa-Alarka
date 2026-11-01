@@ -1,7 +1,7 @@
 {
   "name": "Madalasa–Alarka Local Agent Execution Status",
-  "as_of": "2026-10-29",
-  "note": "Individual DAG acceptance has not been reassessed; per-task statuses remain unchanged. Executed cross-cutting database setup is recorded separately below and does not imply completion of the 262-task roadmap.",
+  "as_of": "2026-11-01",
+  "note": "2026-11-01 repository inspection: Android source and backend implementation checkpoints added; individual 262 task acceptance evidence NOT revalidated and statuses remain NOT_STARTED. Workstream checkpoints do not imply PASS, build, visual fidelity, device testing or production readiness.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -10,6 +10,67 @@
       "evidence_path": "evidence/local/database/RECONCILIATION_ACCEPTANCE_2026-10-29.md",
       "verified_at_utc": "2026-10-29T17:40:00Z",
       "executed_checks": "205 unfiltered tests; four reproduced defects fixed additively in 0019; historical M1 to V2 upgrade and clean V2 converge on full policy/function/ACL state; native build/CTest; seven catalog exports",
+      "does_not_close_individual_dag_tasks": true
+    },
+    "android_ui_design_source": {
+      "readiness": "SOURCE_FILES_PRESENT_UNVERIFIED",
+      "scope": "60 distinct parent and 21 distinct child screen composables; template-based handoff interpretation, not Figma-accurate verified screens",
+      "parent_branch_commit": "8353ab68a10d9c16e663db644793498cb68c9011",
+      "child_branch_commit": "8dfe335cf496d2879968125119563c9fc5b8c1a1",
+      "source_paths": [
+        "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/figma",
+        "android/alarka/src/main/kotlin/org/madalasa/alarka/ui/figma"
+      ],
+      "build_evidence": "NOT_VERIFIED",
+      "visual_fidelity_evidence": "NOT_VERIFIED",
+      "navigation_evidence": "NOT_VERIFIED",
+      "main_integration": "NOT_VERIFIED_FOR_81_SCREEN_COMMITS",
+      "does_not_close_individual_dag_tasks": true
+    },
+    "android_bootstrap": {
+      "readiness": "LOCAL_READY",
+      "scope": "Gradle wrapper, parent (:madalasa) and child (:alarka) application modules, ui-common library and placeholder Compose navigation merged to main (accfe14)",
+      "evidence_ref": "main:android/settings.gradle.kts and android/ui-common/build.gradle.kts",
+      "does_not_close_individual_dag_tasks": true,
+      "executed_checks": "18 unit tests passed across :ui-common, :madalasa, :alarka; debug APKs assembled; zero runtime permissions",
+      "commit_sha": "accfe14"
+    },
+    "parent_oidc_v2_session_bridge": {
+      "readiness": "LOCAL_READY",
+      "scope": "ParentOIDC to server-controlled opaque session bridge; POST /v1/auth/parent/google, DELETE /v1/auth/session, migration 0021; dedicated ap_auth_issuer role merged to main (accfe14)",
+      "evidence_ref": "https://github.com/methakon/Madalasa-Alarka/pull/16",
+      "does_not_close_individual_dag_tasks": true,
+      "commit_sha": "accfe14",
+      "executed_checks": "test_parent_session_bridge.py and integration_parent_session_v2.py passed; CI branch-routes and tenant isolation passed"
+    },
+    "inactivity_location_sampling_7d": {
+      "readiness": "DOCUMENTED_NOT_CODED",
+      "scope": "Free versus paid location sampling after 168h without verified parent-app foreground event; no runtime collection enabled",
+      "design_document": "docs/phases/M2-location-collection/01-location-collection-and-ingestion/PARENT_APP_INACTIVITY_ADAPTIVE_LOCATION_POLICY_2026-11-01.md",
+      "does_not_close_individual_dag_tasks": true
+    },
+    "email_notifications_and_support_2026_11_01": {
+      "readiness": "TEMPLATES_DESIGNED_AND_WORKER_REPORTED_OUTBOUND_SEND",
+      "scope": "11 template IDs, one-way notification sender, two-way support sender, manual prepaid expiry T-30d/T-7d/T-1d/T-9h/T/T+1d/T+7d, immediate FREE fallback and ticket threading",
+      "design_document": "docs/phases/M7-commercial-integrations/01-commercial-plans-and-costing/EMAIL_LIFECYCLE_AND_SUPPORT_TEMPLATES_2026-11-01.md",
+      "transport_and_env": "VERIFIED_BIDIRECTIONAL_DELIVERY_2026-11-01",
+      "does_not_close_individual_dag_tasks": true,
+      "transport_verification_evidence": "SMTP (noreply@berhampore.in:465) and IMAP (madalasa-alarka@berhampore.in:993) tested live with bidirectional delivery and receipt against Google Gmail (swarna.s.jobs@gmail.com)",
+      "source_path": "email/templates",
+      "template_count": 11,
+      "template_manifest": "email/templates/manifest.json",
+      "outbound_test": "WORKER_REPORTED_SUCCESS_NO_LOGS_REVIEWED",
+      "configuration": "OWNER_REPORTED_CONFIGURED_NO_SECRET_READ",
+      "scheduler_and_fallback": "NOT_VERIFIED",
+      "support_inbound_and_threading": "NOT_VERIFIED",
+      "html_template_send_tests": "NOT_VERIFIED",
+      "design_commit": "c611dfaf84087d8c41cfc0ab8130fd3114751efb"
+    },
+    "admin_frontend_stack_2026_11_01": {
+      "readiness": "OWNER_APPROVED_MIGRATION_NOT_STARTED",
+      "chosen_stack": "C++20 Drogon server-rendered HTML/CSS + HTMX + Alpine.js CSP build",
+      "previous_react": "HISTORICAL_PROTOTYPE_RETAINED",
+      "decision_doc": "docs/phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md",
       "does_not_close_individual_dag_tasks": true
     }
   },

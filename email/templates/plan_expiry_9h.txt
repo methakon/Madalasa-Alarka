@@ -1,0 +1,10 @@
+Subject: 9 hours left on your Madalasa plan
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your paid features for {{child_display_label}} are scheduled to end at {{expiry_time_ist}} IST on {{expiry_date_ist}}. You can choose to extend coverage at {{renew_url}}. There is no automatic charge.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka
