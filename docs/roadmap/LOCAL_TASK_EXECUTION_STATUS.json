@@ -199,7 +199,7 @@
     "L00-004": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-004.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "b5f7dc588758e5ac690f99dfd30d022b63d1cb27",
       "verified_at_utc": "2026-11-01T08:05:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/OWNER_APPROVALS.md",
