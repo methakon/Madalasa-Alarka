@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "PASS": 27,
-    "NOT_STARTED": 235
+    "PASS": 41,
+    "NOT_STARTED": 221
   },
   "task_statuses": {
     "L00-001": {
@@ -367,102 +367,130 @@
       "verification": "STATIC_REVIEW_AND_VALIDATOR: backend/tests/check_schema_slicing.py exit 0 (141 physical tables = 110 concept + 31 operational, 0 unexplained); --selftest catches an accidental concept-only table"
     },
     "L02-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-002.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0001_m1_identity.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): m1 lineage applies 6 migrations once; re-run idempotent (UNCHANGED); 0001 baseline SHA-frozen reused; test_identity.py 23 OK"
     },
     "L02-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-003.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): m1_enrollment.sql + m1_family_provisioning.sql PASS; m2_blended_family_isolation.sql PASS (FK/orphan/foreign-family rejected)"
     },
     "L02-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-004.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0003_consent_authority_and_retention.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): m2_blended_family_isolation.sql PASS: default-deny, no implicit sibling grants, replay rejected, live revoke"
     },
     "L02-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-005.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/policies (forced RLS across ap_m1)",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): legacy-test m1_tenant_isolation.sql 'M1 SQL isolation PASS' (cross-tenant deny incl owner-admin, context spoofing); test_privacy_admin.py 13 OK"
     },
     "L02-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-006.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0002_m1_device_credentials.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): m1_credential_lifecycle.sql PASS (replay/revoked keys rejected); test_device_key_binding.py 13 OK"
     },
     "L02-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-007.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0004_m1_idempotency.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): m1_idempotency.sql PASS; test_ingestion_pipeline.py 4 OK (atomic durability, no dup)"
     },
     "L02-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-008.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0005_location_ingestion_and_history.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_location.py 9 OK (PostGIS partitioned history, geom indexes)"
     },
     "L02-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-009.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0007_commands_and_device_capabilities.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_devices_usage.py 6 + test_location.py 9 + test_schema_completion.py 9 OK (child FKs/TTL/revision keys)"
     },
     "L02-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-010.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_billing.py 11 + test_stacked_refunds.py 8 OK (no seat over-assign; 100-day addon independent)"
     },
     "L02-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-011.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0009_media_sessions_and_quota.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_premium_history_leases.py 12 OK (atomic lease; two racers cannot exceed one slot)"
     },
     "L02-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-012.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_privacy_admin.py 13 OK (admin/owner cannot query child-private tables)"
     },
     "L02-013": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-013.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_account_erasure.py 2 + test_erasure_authority.py 5 + test_restore_checkpoint.py 3 OK (deleted child never revived)"
     },
     "L02-014": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-014.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/persistence/migration-lineages.json",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_migration_lineages.py 20 + test_lineage_equivalence.py 4 OK (m1->v2 upgrade, clean==upgraded, idempotent)"
     },
     "L02-015": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L02-015.md",
+      "commit_sha": "81f4fa9",
+      "verified_at_utc": "2026-11-01T21:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests (security/RLS acceptance)",
+      "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_schema_completion.py 9 OK (force RLS, no runtime direct mutation) + m1_tenant_isolation PASS (no tenant bypass)"
     },
     "L03-001": {
       "status": "NOT_STARTED",
