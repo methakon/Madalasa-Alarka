@@ -147,7 +147,7 @@ private fun HistoryPlaceholderContent() {
             Text(text = "Route History (Synthetic)", fontWeight = FontWeight.Bold, color = ThemeCTokens.Ink)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Under the base plan, last 6 hours of verified route history are accessible. Full history requires verified active subscription.",
+                text = "Free-plan policy permits at most the past 6 hours of authorized history. Actual available observations, legal retention and paid entitlements require server verification.",
                 color = ThemeCTokens.Ink,
                 fontSize = 13.sp
             )
@@ -185,7 +185,7 @@ private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: ()
             Text(text = "Settings & Authority", fontWeight = FontWeight.Bold, color = ThemeCTokens.Ink)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Verified Adult: ${uiState.profile?.adultId ?: "Not signed in"}",
+                text = "Development account: ${uiState.profile?.adultId ?: "Not signed in"}",
                 fontSize = 13.sp,
                 color = ThemeCTokens.Ink
             )
