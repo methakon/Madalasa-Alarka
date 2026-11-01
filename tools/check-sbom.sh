@@ -59,7 +59,9 @@ generate_and_check() {
   } > "$dest"
   if [[ -n "${unpinned// /}" ]]; then
     echo "SBOM policy violation: unpinned dependencies:" >&2
-    printf '  %s\n' $unpinned >&2
+    while IFS= read -r dependency; do
+      if [[ -n "$dependency" ]]; then printf '  %s\n' "$dependency" >&2; fi
+    done <<< "$unpinned"
     return 1
   fi
   echo "SBOM written to $dest; components=${count:-0}; all pinned"
