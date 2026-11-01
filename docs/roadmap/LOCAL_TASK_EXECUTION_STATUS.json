@@ -86,8 +86,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 254,
-    "PASS": 8
+    "NOT_STARTED": 253,
+    "PASS": 9
   },
   "task_statuses": {
     "L00-001": {
@@ -240,6 +240,15 @@
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "docs/roadmap/COMMERCE_INVARIANTS.md",
       "verification": "STATIC_REVIEW_AND_VALIDATOR: python3 tools/check-governance-docs.py exit 0 (COMMERCE_INVARIANTS INV-08 base-lapse suspends not erases add-on); docs validator exit 0"
+    },
+    "L00-009": {
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L00-009.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T08:18:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/roadmap/PLAY_ACCOUNT_NONSECRET.md",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: check-governance-docs.py exit 0 (no secret patterns); check-local-data-rules.py 562 files 0 hits exit 0; docs validator exit 0"
     },
     "L01-001": {
       "status": "NOT_STARTED",
