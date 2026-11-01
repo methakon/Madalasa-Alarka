@@ -5,7 +5,7 @@
 **Document:** MA-ADMIN-001 | **Date:** 2026-10-27 | **Status:** NEW DESIGN / NOT IMPLEMENTED.  
 **Requested module:** administrator access to **media activity metadata only**, with name/ID autocomplete, parent/child filters, date range, results with server pagination, verified failures, and audited access.  
 **Companion:** [Media Activity Audit System ADR](MEDIA_ACTIVITY_AUDIT_LOGGING_AND_REPORTING_2026.md), [SRS FR-050/FR-051](../../M1-secure-platform-foundation/01-requirements-and-architecture/SRS.md), [security and operations](../../M8-operational-readiness/02-operations-and-support/SECURITY_AND_OPERATIONS.md), [whole-project draft API](../../../openapi.yaml).  
-**Implementation target:** Separate authenticated **web back office** backed by existing C++20 Drogon API + PostgreSQL; no bundled admin powers inside Alarka/Madalasa Android apps. UI technology remains TBD; Figma is implementation handoff.
+**Implementation target:** Separate authenticated **web back office** backed by existing C++20 Drogon API + PostgreSQL; no bundled admin powers inside Alarka/Madalasa Android apps. Frontend technology is OWNER-APPROVED as **server-rendered HTML/CSS + HTMX + Alpine.js CSP-compatible build**, backed by C++20 Drogon; Figma remains the implementation handoff. See [2026-11-01 stack ADR](ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md). React is historical provisional code only.
 
 ## 1. Access model (non-negotiable)
 

@@ -13,6 +13,7 @@ on:
       - "backend/tests/**"
       - "backend/src/**"
       - "backend/scripts/**"
+      - "backend/swagger/**"
       - "backend/deploy/**"
       - "backend/CMakeLists.txt"
       - "tools/database/**"
@@ -32,6 +33,7 @@ on:
       - "backend/tests/**"
       - "backend/src/**"
       - "backend/scripts/**"
+      - "backend/swagger/**"
       - "backend/deploy/**"
       - "backend/CMakeLists.txt"
       - "tools/database/**"
@@ -61,6 +63,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Structural OpenAPI M1 lint
         run: python3 backend/tests/lint_openapi_m1.py docs/openapi-m1.yaml
+      - name: Swagger UI M1 and planned-spec local security regression
+        run: python3 -m unittest backend.tests.test_swagger_dev -v
       - name: Physical tables and columns against the logical ERD (reviewed mapping)
         run: |
           python3 backend/tests/check_physical_catalog.py
@@ -214,3 +218,59 @@ jobs:
       # repeated here because `pg_get_constraintdef` renders nested AND groups
       # differently across separate clusters, so byte equality would fail on a
       # semantically identical deployment.
+
+  backend-v2-session-e2e:
+    # Real Drogon server (test-only synthetic identity build) against the fully
+    # migrated V2 lineage: ParentOIDC -> opaque session exchange through the
+    # separate issuer login, then session-only parent routes under forced RLS.
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:16-3.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: synthetic_test_only_password
+          POSTGRES_DB: madalasa_alarka_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d madalasa_alarka_test"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      MA_LOCAL_DB_CI: "1"
+      MA_CI_SYNTHETIC: "1"
+      MA_CI_ADMIN_PASSWORD: synthetic_test_only_password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the pinned PostgreSQL client driver
+        run: python3 -m pip install 'psycopg[binary]==3.3.6'
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev uuid-dev zlib1g-dev libssl-dev libcurl4-openssl-dev cmake g++
+      - name: Cache pinned dependencies
+        id: deps-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/ma-deps
+          key: ma-deps-${{ hashFiles('backend/scripts/build_deps.sh') }}
+      - name: Build Drogon and jsoncpp (pinned)
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        run: PREFIX=$HOME/ma-deps MA_DROGON_PG=ON bash backend/scripts/build_deps.sh
+      - name: Build the test-only variant (synthetic identity)
+        run: |
+          cmake -S backend -B build-it -DCMAKE_PREFIX_PATH=$HOME/ma-deps -DCMAKE_BUILD_RPATH=$HOME/ma-deps/lib -DMA_SYNTHETIC_AUTH=ON
+          cmake --build build-it -j2 --target ma_backend
+      - name: Write the private CI connection config
+        env:
+          MA_LOCAL_DB_CONFIG: ${{ runner.temp }}/ma-connection.json
+        run: |
+          echo "MA_LOCAL_DB_CONFIG=$MA_LOCAL_DB_CONFIG" >> "$GITHUB_ENV"
+          python3 tools/database/manage.py ci-config
+      - name: Create the synthetic database, roles and extensions
+        run: python3 tools/database/manage.py create
+      - name: Replay the complete ordered V2 lineage
+        run: python3 tools/database/manage.py migrate
+      - name: ParentOIDC to V2 session bridge HTTP end-to-end
+        run: python3 backend/tests/integration_parent_session_v2.py build-it/ma_backend

@@ -10,6 +10,7 @@
 #include "google_jwks.h"
 #include "auth.h"
 #include "families.h"
+#include "parent_session.h"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::cerr << "FAIL line " << __LINE__ << ": " #c "\n"; ++failures; } } while (0)
@@ -42,6 +43,10 @@ static drogon::HttpRequestPtr request(const std::string& authorization) {
   req->setBody(R"({"label":"Synthetic signed OIDC HTTP fixture"})");
   return req;
 }
+static std::string forged_token_for_test(std::string token) {
+  token.back() = token.back() == 'A' ? 'B' : 'A';
+  return token;
+}
 int main() {
   using namespace ma;
   std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> keyctx(EVP_PKEY_CTX_new_from_name(nullptr,"RSA",nullptr),EVP_PKEY_CTX_free);
@@ -59,33 +64,105 @@ int main() {
   auto auth=make_google_oidc_authenticator(config,lookup,{},now);
   auto signed_token=sign(key.get(),claims);
   auto req=request("Bearer "+signed_token);
+  // Provider-validation negative matrix: real RSA signatures over synthetic
+  // locally generated claims. No real Google account, network or user data.
+  auto must_deny = [&](const Json::Value& candidate) {
+    CHECK(!auth(request("Bearer " + sign(key.get(), candidate))));
+  };
+  {
+    Json::Value tampered = claims;
+    tampered["iss"] = "https://attacker.invalid";
+    must_deny(tampered);
+    tampered = claims;
+    tampered["aud"] = "unapproved-oauth-client";
+    must_deny(tampered);
+    tampered = claims;
+    tampered["exp"] = Json::Int64(1700000100);
+    must_deny(tampered);  // exp is exclusive
+    tampered = claims;
+    tampered["iat"] = Json::Int64(1700000101);
+    must_deny(tampered);  // future issued-at
+    tampered = claims;
+    tampered["nbf"] = Json::Int64(1700000101);
+    must_deny(tampered);  // future not-before
+    tampered = claims;
+    tampered.removeMember("sub");
+    must_deny(tampered);
+    tampered = claims;
+    tampered["aud"] = Json::arrayValue;
+    tampered["aud"].append("http-fixture-client");
+    tampered["aud"].append("other-oauth-client");
+    must_deny(tampered);  // multiple audiences without authorized presenter
+    auto forged = signed_token;
+    forged.back() = forged.back() == 'A' ? 'B' : 'A';
+    CHECK(!auth(request("Bearer " + forged)));
+    CHECK(!auth(request("Bearer " + signed_token + ".extra")));
+    CHECK(!auth(request("Bearer " + signed_token + " ")));
+  }
   auto principal=auth(req);
   CHECK(principal && principal->issuer=="https://accounts.google.com" && principal->subject=="synthetic-opaque-subject");
   // An accepted identity reaches the real next stage (missing DB), not an invented 201.
-  auto accepted=drogon::sync_wait(create_family(req,auth));
+  auto accepted=drogon::sync_wait(create_family(req,ma::ParentAuth{ma::ParentAuthMode::M1DirectOidc,auth}));
   CHECK(accepted->statusCode()==drogon::k503ServiceUnavailable);
   CHECK(accepted->getJsonObject() && (*accepted->getJsonObject())["code"]=="SERVICE_UNAVAILABLE");
   for (const auto& header:std::vector<std::string>{"", "Bearer", "Basic "+signed_token,
        "Bearer "+signed_token+",other", "Bearer "+signed_token+" ", "Bearer a.b.c"}) {
-    auto rejected=drogon::sync_wait(create_family(request(header),auth));
+    auto rejected=drogon::sync_wait(create_family(request(header),ma::ParentAuth{ma::ParentAuthMode::M1DirectOidc,auth}));
     CHECK(rejected->statusCode()==drogon::k401Unauthorized);
   }
   auto denied=make_google_oidc_authenticator(config,lookup,[](const OidcIdentity&) {return false;},now);
-  CHECK(drogon::sync_wait(create_family(req,denied))->statusCode()==drogon::k401Unauthorized);
+  CHECK(drogon::sync_wait(create_family(req,ma::ParentAuth{ma::ParentAuthMode::M1DirectOidc,denied}))->statusCode()==drogon::k401Unauthorized);
   std::atomic<unsigned> fetch_calls{0};
   auto unavailable_cache=std::make_shared<GoogleJwksCache>([&fetch_calls](std::stop_token) {
     ++fetch_calls; return std::optional<GoogleJwksResponse>{};
   });
   auto unavailable=make_google_oidc_authenticator(config,
       [unavailable_cache](const std::string& kid) {return unavailable_cache->key(kid);}, {}, now);
-  CHECK(drogon::sync_wait(create_family(req,unavailable))->statusCode()==drogon::k401Unauthorized);
+  CHECK(drogon::sync_wait(create_family(req,ma::ParentAuth{ma::ParentAuthMode::M1DirectOidc,unavailable}))->statusCode()==drogon::k401Unauthorized);
   CHECK(unavailable_cache->wait_for_idle(std::chrono::seconds(1)));
   CHECK(fetch_calls==1);
-  CHECK(drogon::sync_wait(create_family(req,unavailable))->statusCode()==drogon::k401Unauthorized);
+  CHECK(drogon::sync_wait(create_family(req,ma::ParentAuth{ma::ParentAuthMode::M1DirectOidc,unavailable}))->statusCode()==drogon::k401Unauthorized);
   claims["parent"]=true; claims["guardian"]=true; claims["adult"]=true; claims["role"]="OWNER";
   auto authority_claims=auth(request("Bearer "+sign(key.get(),claims)));
   CHECK(authority_claims && authority_claims->subject==principal->subject);
   // Principal's only fields remain issuer and subject. No authority is derived.
+  // V2 session bridge with real RS256 signatures (no DB): the signed ID token is
+  // accepted ONLY by the exchange route; resource routes require a session.
+  {
+    const ParentAuth v2{ParentAuthMode::V2Session, auth};
+    CHECK(drogon::sync_wait(create_family(req, v2))->statusCode() == drogon::k401Unauthorized);
+    auto exchange_req = [&](const std::string& authorization, const std::string& body) {
+      auto q = drogon::HttpRequest::newHttpRequest();
+      q->setMethod(drogon::Post); q->setPath("/v1/auth/parent/google");
+      if (!authorization.empty()) q->addHeader("authorization", authorization);
+      if (!body.empty()) { q->setContentTypeCode(drogon::CT_APPLICATION_JSON); q->setBody(body); }
+      return q;
+    };
+    auto exchanged = drogon::sync_wait(exchange_parent_session(exchange_req("Bearer " + signed_token, ""), v2, 3600));
+    CHECK(exchanged->statusCode() == drogon::k503ServiceUnavailable);  // verified identity, no issuer DB
+    CHECK(drogon::sync_wait(exchange_parent_session(exchange_req("Bearer " + signed_token, "{}"), v2, 3600))
+              ->statusCode() == drogon::k503ServiceUnavailable);
+    CHECK(drogon::sync_wait(exchange_parent_session(exchange_req("Bearer " + signed_token, R"({"sub":"x"})"), v2, 3600))
+              ->statusCode() == drogon::k400BadRequest);
+    CHECK(drogon::sync_wait(exchange_parent_session(exchange_req("Bearer " + signed_token, "[]"), v2, 3600))
+              ->statusCode() == drogon::k400BadRequest);
+    for (const auto& header : std::vector<std::string>{"", "Bearer", "Bearer " + std::string(64, 'a'),
+         "Basic " + signed_token, "Bearer " + forged_token_for_test(signed_token)}) {
+      auto denied_exchange = drogon::sync_wait(exchange_parent_session(exchange_req(header, ""), v2, 3600));
+      CHECK(denied_exchange->statusCode() == drogon::k401Unauthorized);
+      CHECK(denied_exchange->getHeader("cache-control") == "no-store");
+    }
+    Json::Value expired = claims;
+    expired["exp"] = Json::Int64(1700000100);
+    CHECK(drogon::sync_wait(exchange_parent_session(exchange_req("Bearer " + sign(key.get(), expired), ""), v2, 3600))
+              ->statusCode() == drogon::k401Unauthorized);
+    // Exchange is not offered in the explicit M1 mode.
+    CHECK(drogon::sync_wait(exchange_parent_session(exchange_req("Bearer " + signed_token, ""),
+          ParentAuth{ParentAuthMode::M1DirectOidc, auth}, 3600))->statusCode() == drogon::k404NotFound);
+    // Digest is domain separated and token specific.
+    CHECK(parent_exchange_credential_digest(signed_token) != parent_exchange_credential_digest(signed_token + "x"));
+    CHECK(parent_exchange_credential_digest(signed_token).find(signed_token) == std::string::npos);
+  }
   unsetenv("MA_GOOGLE_OIDC_AUDIENCE"); unsetenv("MA_GOOGLE_OIDC_PRESENTERS");
   setenv("MA_AUTH_MODE","synthetic_test",1);
   auto default_auth=select_authenticator();

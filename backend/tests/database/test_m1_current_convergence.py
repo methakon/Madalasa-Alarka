@@ -126,9 +126,11 @@ class DatabaseContract(unittest.TestCase):
         with runtime_connection() as c:
             c.execute("SELECT set_config('ap.principal_id',%s,true)", (str(self.f['a']),))
             self.assertIsNone(c.execute('SELECT ap_m1.ctx_principal()').fetchone()[0])
-            # Preserved historical M1 contract: the runtime may still resolve a
-            # principal row, but that yields NO session, NO context and no cap bypass.
-            self.assertIsNotNone(c.execute("SELECT ap_m1.resolve_parent_principal('https://synthetic.example.invalid','pr11-runtime')").fetchone()[0])
+            # V2 0021 retired the historical runtime grant: identity rows are
+            # created only by the separate issuer login during session exchange.
+            with self.assertRaises(psycopg.errors.InsufficientPrivilege):
+                with c.transaction():
+                    c.execute("SELECT ap_m1.resolve_parent_principal('https://synthetic.example.invalid','pr11-runtime')")
             self.assertIsNone(c.execute('SELECT ap_m1.ctx_principal()').fetchone()[0])
             for sql,args in [
                 ('SELECT ap_m1.mint_session(%s)',(self.f['a'],)),

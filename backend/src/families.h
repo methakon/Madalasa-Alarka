@@ -10,6 +10,7 @@
 #include <drogon/drogon.h>
 
 #include "auth.h"
+#include "parent_session.h"
 #include "db_support.h"
 #include "http_support.h"
 #include "idempotency_key.h"
@@ -26,7 +27,7 @@ inline drogon::HttpResponsePtr family_response(const Json::Value& family, const 
   return resp;
 }
 
-inline drogon::Task<drogon::HttpResponsePtr> create_family(drogon::HttpRequestPtr req, Authenticator authenticate) {
+inline drogon::Task<drogon::HttpResponsePtr> create_family(drogon::HttpRequestPtr req, ParentAuth auth) {
   using namespace drogon;
   const std::string rid = request_id_of(req);
 
@@ -43,8 +44,8 @@ inline drogon::Task<drogon::HttpResponsePtr> create_family(drogon::HttpRequestPt
   auto check = check_family_body(body, label);
   if (check == LabelCheck::Malformed) co_return error_response("INVALID_REQUEST", "body must be {\"label\": string}", rid);
   // 401
-  auto who = authenticate(req);
-  if (!who) co_return error_response("UNAUTHENTICATED", "missing, expired or invalid credential", rid);
+  auto credential = parent_credential(auth, req);
+  if (!credential) co_return error_response("UNAUTHENTICATED", "missing, expired or invalid credential", rid);
   // 422
   if (check == LabelCheck::OutOfRange) co_return error_response("VALIDATION_FAILED", "label must be 1 to 100 characters", rid);
 
@@ -63,9 +64,12 @@ inline drogon::Task<drogon::HttpResponsePtr> create_family(drogon::HttpRequestPt
     co_await trans->execSqlCoro(
         "SELECT set_config('lock_timeout', $1, true), set_config('statement_timeout', $2, true)",
         std::to_string(db_limits().lock_ms), std::to_string(db_limits().statement_ms));
-    auto pr = co_await trans->execSqlCoro("SELECT ap_m1.resolve_parent_principal($1, $2)::text AS id", who->issuer, who->subject);
-    const std::string principal = pr.at(0)["id"].as<std::string>();
-    co_await trans->execSqlCoro("SELECT set_config('ap.principal_id', $1, true)", principal);
+    auto bound = co_await bind_parent_principal(trans, *credential);
+    if (!bound) {
+      rollback_quietly(trans);
+      co_return error_response("UNAUTHENTICATED", "missing, expired or invalid credential", rid);
+    }
+    const std::string principal = *bound;
 
     auto claim = co_await trans->execSqlCoro(
         "SELECT outcome, response_status, response_body::text AS response_body "

@@ -67,6 +67,7 @@ inline drogon::HttpResponsePtr response_for_sqlstate(const std::string& state, c
     return error_response("SERVICE_UNAVAILABLE", "database unavailable or deadline exceeded", rid, true);
   if (state == "53400") return error_response("VALIDATION_FAILED", "account limit reached", rid);
   if (state == "23514") return error_response("VALIDATION_FAILED", "value out of range", rid);
+  if (state == "22007" || state == "22008") return error_response("VALIDATION_FAILED", "invalid date-time value", rid);
   if (state == "22021" || state == "22P05") return error_response("INVALID_REQUEST", "invalid character in request", rid);
   return error_response("INTERNAL_ERROR", "unexpected server error", rid);
 }

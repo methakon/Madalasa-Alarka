@@ -1,0 +1,10 @@
+Subject: 7 days remaining on your Madalasa plan
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your {{plan_label}} for {{child_display_label}} expires at {{expiry_time_ist}} IST on {{expiry_date_ist}}. To continue paid features, review a manual renewal at {{renew_url}}. Free features remain available after expiry subject to normal limits.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka

@@ -13047,13 +13047,13 @@
           "ParentWorkflow"
         ],
         "summary": "POST /auth/parent/google",
-        "description": "PLANNED ONLY. Request authorization must bind to the correct account, exact child/grant or owner role on the server; this OpenAPI contract is not proof of implementation. No child-private telemetry in staff or public outputs.",
+        "description": "Exchanges a verified Google ID token for an opaque 64-character hex session token generated and stored in PostgreSQL ap_m1.trusted_sessions. Authenticated via dedicated ap_auth_issuer role.",
         "security": [
           {
             "ParentBearer": []
           }
         ],
-        "x-implementation-status": "PROPOSED_NOT_IMPLEMENTED",
+        "x-implementation-status": "VERIFIED_IMPLEMENTED",
         "x-fail-closed-gates": [],
         "x-screen-ids": [
           "P-02",
@@ -22443,6 +22443,114 @@
           }
         }
       }
+    },
+    "/auth/session": {
+      "delete": {
+        "operationId": "delete__auth_session",
+        "tags": [
+          "ParentWorkflow"
+        ],
+        "summary": "DELETE /auth/session",
+        "description": "Revokes the presented parent session. Invalidates the session token immediately in ap_m1.trusted_sessions.",
+        "security": [
+          {
+            "ParentBearer": []
+          }
+        ],
+        "x-implementation-status": "VERIFIED_IMPLEMENTED",
+        "x-fail-closed-gates": [],
+        "x-screen-ids": [
+          "P-04"
+        ],
+        "x-required-scope": "PARENT_SESSION_REVOKE",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Session revoked successfully; no content returned"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid or already revoked session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Denied by authorization gate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-actor-boundary": "PARENT"
+      }
     }
   },
   "components": {
@@ -22450,7 +22558,8 @@
       "ParentBearer": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "OIDC JWT"
+        "bearerFormat": "Opaque 64-hex session token",
+        "description": "Server-issued opaque 64-character lowercase hex session token issued by POST /auth/parent/google (V2 default) or historical OIDC JWT when MA_PARENT_AUTH_MODE=m1_direct_oidc."
       },
       "DeviceBearer": {
         "type": "http",
@@ -23810,6 +23919,17 @@
             "items": {
               "type": "string"
             }
+          },
+          "session_token": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "Server-generated 256-bit opaque session token in 64 lowercase hex characters"
+          },
+          "token_type": {
+            "type": "string",
+            "enum": [
+              "Bearer"
+            ]
           }
         }
       },

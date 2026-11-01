@@ -162,6 +162,12 @@
       "path": "backend/persistence/migrations/0020_m1_current_lineage_convergence.sql",
       "sha256": "530a34923a140d631c0804dc5cafa4a5f20bf2b0bfd38753a6da2da18a775728",
       "published": true
+    },
+    {
+      "id": "v2:0021",
+      "path": "backend/persistence/migrations/0021_parent_oidc_session_bridge.sql",
+      "sha256": "fb4cba03345256250720aa516e700539bdb278d4cb98398ec73c03dea229dd1d",
+      "published": true
     }
   ]
 }
