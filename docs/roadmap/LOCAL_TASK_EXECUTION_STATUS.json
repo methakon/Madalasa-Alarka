@@ -93,7 +93,7 @@
     "L00-001": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L00-001.md",
-      "commit_sha": "PENDING_COMMIT",
+      "commit_sha": "0aef7357a46b1a378f104527d8f825f66fe23179",
       "verified_at_utc": "2026-11-01T07:10:00Z",
       "verified_by": "kiro-cli-agent",
       "target_artifact": "docs/roadmap/DECISION_LEDGER.md",
