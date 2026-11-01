@@ -1,0 +1,126 @@
+{
+  "document_id": "MA-PRIVACY-UI-2026-11-02",
+  "source": "LIVE_FIGMA",
+  "figma_file_key": "TKiZXwjkWdkponF1zNsfli",
+  "figma_page_id": "159:2",
+  "figma_page_title": "PRIVACY • v0 Parent + Child Controls",
+  "date": "2026-11-02",
+  "counts": {
+    "madalasa": 4,
+    "alarka": 2,
+    "total": 6
+  },
+  "relationship_to_original_81": "ADDITIVE; original P-01..P-60 and C-01..C-21 retain their IDs",
+  "privacy_technical_contract": "docs/phases/M1-secure-platform-foundation/01-requirements-and-architecture/PRIVACY_CONTROLS_V0_TECHNICAL_AND_UI_SPEC_2026-11-02.md",
+  "review_status": "CODE_COMMITTED; BUILD_AND_VISUAL_QA_PENDING",
+  "non_goals": [
+    "Do not assert Figma's sample person or grant is real",
+    "No API calls, privacy export/delete, or guardian revocation without verified server implementation",
+    "No covert camera or microphone capture, location collection or stealth operation",
+    "Android Settings open only by explicit device-user tap"
+  ],
+  "screens": [
+    {
+      "id": "PRIV-UI-01",
+      "actor": "MADALASA",
+      "node_id": "159:3",
+      "title": "Privacy & data",
+      "sections": [
+        "Sharing status",
+        "Location history",
+        "Manage access",
+        "Data requests"
+      ],
+      "route": "privacy/overview",
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-3",
+      "android_branch": "parent",
+      "android_source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/screens/PrivacyControlsScreen.kt",
+      "code_state": "IMPLEMENTED_READ_ONLY_AND_NAVIGABLE; REAL_PRIVATE_BACKEND_STATE_NOT_WIRED"
+    },
+    {
+      "id": "PRIV-UI-02",
+      "actor": "MADALASA",
+      "node_id": "159:22",
+      "title": "People who can view",
+      "sections": [
+        "Primary guardian",
+        "Invited guardian",
+        "Guardian expiry",
+        "Revocation confirmation"
+      ],
+      "route": "privacy/guardians",
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-22",
+      "android_branch": "parent",
+      "android_source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/screens/PrivacyControlsScreen.kt",
+      "code_state": "IMPLEMENTED_READ_ONLY_AND_NAVIGABLE; REAL_PRIVATE_BACKEND_STATE_NOT_WIRED"
+    },
+    {
+      "id": "PRIV-UI-03",
+      "actor": "MADALASA",
+      "node_id": "159:41",
+      "title": "History visibility",
+      "sections": [
+        "Available to view",
+        "Older history",
+        "Data storage",
+        "Report timestamp"
+      ],
+      "route": "privacy/history",
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-41",
+      "android_branch": "parent",
+      "android_source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/screens/PrivacyControlsScreen.kt",
+      "code_state": "IMPLEMENTED_READ_ONLY_AND_NAVIGABLE; REAL_PRIVATE_BACKEND_STATE_NOT_WIRED"
+    },
+    {
+      "id": "PRIV-UI-04",
+      "actor": "MADALASA",
+      "node_id": "159:60",
+      "title": "Export or delete data",
+      "sections": [
+        "Export request",
+        "Deletion request",
+        "Request progress",
+        "Safety check"
+      ],
+      "route": "privacy/requests",
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-60",
+      "android_branch": "parent",
+      "android_source": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/screens/PrivacyControlsScreen.kt",
+      "code_state": "IMPLEMENTED_READ_ONLY_AND_NAVIGABLE; REAL_PRIVATE_BACKEND_STATE_NOT_WIRED"
+    },
+    {
+      "id": "PRIV-UI-05",
+      "actor": "ALARKA",
+      "node_id": "159:79",
+      "title": "Monitoring information",
+      "sections": [
+        "Active purposes",
+        "Device permissions",
+        "Policy status",
+        "Privacy controls"
+      ],
+      "route": "privacy/transparency",
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-79",
+      "android_branch": "child",
+      "android_source": "android/alarka/src/main/kotlin/org/madalasa/alarka/ui/screens/PrivacyControlsScreen.kt",
+      "code_state": "IMPLEMENTED_READ_ONLY_AND_NAVIGABLE; REAL_PRIVATE_BACKEND_STATE_NOT_WIRED"
+    },
+    {
+      "id": "PRIV-UI-06",
+      "actor": "ALARKA",
+      "node_id": "159:98",
+      "title": "Location unavailable",
+      "sections": [
+        "What is affected",
+        "Current status",
+        "What to do",
+        "Offline behavior"
+      ],
+      "route": "privacy/location_unavailable",
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-98",
+      "android_branch": "child",
+      "android_source": "android/alarka/src/main/kotlin/org/madalasa/alarka/ui/screens/PrivacyControlsScreen.kt",
+      "code_state": "IMPLEMENTED_READ_ONLY_AND_NAVIGABLE; REAL_PRIVATE_BACKEND_STATE_NOT_WIRED"
+    }
+  ]
+}

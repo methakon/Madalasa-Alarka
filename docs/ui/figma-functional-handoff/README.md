@@ -249,3 +249,20 @@ For SH-04 and associated billing/status screens, the optional extra simultaneous
 ## Privacy screens and technical implementation baseline — 2026-11-02
 
 [Privacy controls v0 technical and UI specification](../../phases/M1-secure-platform-foundation/01-requirements-and-architecture/PRIVACY_CONTROLS_V0_TECHNICAL_AND_UI_SPEC_2026-11-02.md) specifies purpose notices, exact-child guardian scopes/revocation, Free six-hour history visibility, retention-category status, export/erasure, offline policy acknowledgements, Alarka transparency and permission-denied states. This specification has concrete draft API/data contracts, tests and comparator references rather than a high-level adoption checklist. Preserve the 81 original numbered handoff screens; the privacy flow is an additional set of editable design variants. Proposed API paths require duplicate-check against the master OpenAPI before implementation. Release eligibility remains separately gated.
+
+## 2026-11-02 — New Privacy v0 Figma page → Android UI reconciliation
+
+The latest Figma file has one **new Android-relevant page** [PRIVACY • v0 Parent + Child Controls](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=159-2), containing **six editable mobile frames**, independent of the historical 81 handoff IDs. Full per-frame index, IDs and implementation paths: [11-privacy-controls.json](11-privacy-controls.json).
+
+| Figma frame | Platform | Kotlin UI source on owning workstream | Navigation |
+|---|---|---|---|
+| PRIV-UI-01, 159:3 · Privacy & data | Madalasa | `parent:android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/screens/PrivacyControlsScreen.kt` | Settings → Privacy & data |
+| PRIV-UI-02, 159:22 · People who can view | Madalasa | Same | Privacy → Manage access |
+| PRIV-UI-03, 159:41 · History visibility | Madalasa | Same | Privacy → Location history |
+| PRIV-UI-04, 159:60 · Export or delete data | Madalasa | Same | Privacy → Data requests |
+| PRIV-UI-05, 159:79 · Monitoring information | Alarka | `child:android/alarka/src/main/kotlin/org/madalasa/alarka/ui/screens/PrivacyControlsScreen.kt` | Transparency / Permissions → Monitoring information |
+| PRIV-UI-06, 159:98 · Location unavailable | Alarka | Same | Monitoring information → Location-unavailable guidance |
+
+**Implementation checkpoint:** Native Theme C Compose layouts were committed to `parent` and `child`; the existing debug-only design galleries include them. Local Android hardware/app permission grants are surfaced read-only on Alarka, and the Android Settings control is an explicit tap only. Each Figma sample identity, valid guardian grant, history timestamp, and server-acknowledged deletion is intentionally replaced by **UNKNOWN / not verified** until authenticated exact-child API data exists. Export, deletion and revocation remain disabled and no request is falsely marked processed. This updates the UI without enabling monitoring or bypassing legal/Android requirements.
+
+**Unfinished acceptance:** the workstream branches are not yet reconciled with `main` and `dev`; both still require code review/PR, Gradle build and unit tests, device/emulator screenshot parity, navigation and accessibility checks. An Android GitHub Actions build workflow was added for independent compilation; record **actual** run outcome before marking compiled. Existing `local-checks` shellcheck fails before Android execution and is not proof of Kotlin failure. The six screen additions do not establish working privacy/guardian/delete API handlers, lawful child data processing or Google Play release clearance.
