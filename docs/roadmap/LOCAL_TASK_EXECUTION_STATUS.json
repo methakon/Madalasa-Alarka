@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "PASS": 41,
-    "NOT_STARTED": 221
+    "PASS": 54,
+    "NOT_STARTED": 208
   },
   "task_statuses": {
     "L00-001": {
@@ -493,88 +493,112 @@
       "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented schema): test_schema_completion.py 9 OK (force RLS, no runtime direct mutation) + m1_tenant_isolation PASS (no tenant bypass)"
     },
     "L03-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-001.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/api/CONTRACT_DELTA.md",
+      "verification": "CONTRACT_DELTA.md reconciles M1 (14 ops) vs full (172/156); no live-handler claim; docs validator exit 0"
     },
     "L03-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-002.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml (issuer partition)",
+      "verification": "check_contract_domains.py exit 0: one issuer per op (Parent106/Admin39/Device13/Applicant8/6 public); selftest catches mixed-issuer/owner-on-device"
     },
     "L03-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-003.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml Error envelope",
+      "verification": "check_contract_domains.py exit 0: Error requires code+message+request_id"
     },
     "L03-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-004.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml parent domain",
+      "verification": "check_contract_domains.py exit 0: guardian-grants POST BLOCKED_PARENT_RELATIONSHIP_PROOF; no trusted-state fields"
     },
     "L03-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-005.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml device domain",
+      "verification": "check_contract_domains.py exit 0: DeviceBearer ops never carry guardian/owner scope"
     },
     "L03-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-006.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml location",
+      "verification": "check_contract_domains.py exit 0: retryable POST creates model Idempotency-Key; durability via test_ingestion_pipeline"
     },
     "L03-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-007.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml safety",
+      "verification": "cursor pagination + explicit freshness/status states; check_contract_domains.py exit 0"
     },
     "L03-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-008.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml billing",
+      "verification": "prepaid/add-on typed; aligns INV-08 proven by test_billing/test_stacked_refunds"
     },
     "L03-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-009.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml admin",
+      "verification": "check_contract_domains.py exit 0: AdminApplicantBearer self-scoped only"
     },
     "L03-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-010.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml media-research",
+      "verification": "check_contract_domains.py exit 0: 15 media ops all gated, none VERIFIED_IMPLEMENTED"
     },
     "L03-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-011.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/openapi.yaml",
+      "verification": "lint_openapi_full.py PASS (172 ops/156 paths, refs resolve, unique ids); lint_openapi_m1.py PASS"
     },
     "L03-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-012.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "generated/api/README.md",
+      "verification": "generated/api/README.md: DTOs from schemas, golden-vector agreement + fail-closed negatives; docs validator exit 0"
     },
     "L03-013": {
       "status": "NOT_STARTED",
@@ -584,11 +608,13 @@
       "verified_by": null
     },
     "L03-014": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L03-014.md",
+      "commit_sha": "PENDING_COMMIT",
+      "verified_at_utc": "2026-11-01T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "docs/api/API_TRACEABILITY.csv",
+      "verification": "API_TRACEABILITY.csv 172 rows, each with issuer/scope/status/error_responses; 0 missing cells"
     },
     "L04-001": {
       "status": "NOT_STARTED",
