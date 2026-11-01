@@ -19,7 +19,7 @@ import org.madalasa.uicommon.MadalasaTheme
 import org.madalasa.uicommon.ScreenId
 
 /**
- * DEBUG BUILD ONLY: standalone navigation into all 60 Figma source screens.
+ * DEBUG BUILD ONLY: standalone navigation into 60 original + 22 capability + 11 media Figma designs.
  * Does not use the production NavHost, authentication, OS permissions or APIs.
  * TODO(INTEGRATION): connect reviewed final screen routes after visual/UX QA.
  * Launch through Android Studio's Run configuration or adb explicit activity.
@@ -42,8 +42,11 @@ class DesignPreviewActivity : ComponentActivity() {
                 Text("All screen designs")
             }
             Box(Modifier.weight(1f)) {
-                val lookup = if (active.startsWith("CAP-")) active.removePrefix("CAP-") else active
-                val spec = supplemental.firstOrNull { it.id == lookup }
+                val spec = when {
+                    active.startsWith("CAP-") -> supplemental.firstOrNull { it.id == active.removePrefix("CAP-") && it.kind == "CAPABILITY" }
+                    active.startsWith("PA-") -> supplemental.firstOrNull { it.id == active && it.kind == "MEDIA" }
+                    else -> null // Original P-01..P-60 must stay on the existing renderer.
+                }
                 if (spec != null) {
                     SupplementalFigmaScreen(spec, onNextDesign = {
                         val group = supplemental.filter { it.kind == spec.kind &&
