@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import org.madalasa.madalasa.ui.screens.AuthenticationScreen
 import org.madalasa.madalasa.ui.screens.ChildSelectionScreen
 import org.madalasa.madalasa.ui.screens.OnboardingScreen
+import org.madalasa.madalasa.ui.screens.ParentPrivacyPage
+import org.madalasa.madalasa.ui.screens.ParentPrivacyScreen
 import org.madalasa.madalasa.ui.screens.ShellScreen
 import org.madalasa.madalasa.ui.viewmodel.ParentViewModel
 
@@ -63,8 +65,23 @@ fun MadalasaNavHost(
                 uiState = uiState,
                 onNavigateToChildSelection = {
                     navController.navigate(Screen.ChildSelection.route)
+                },
+                onNavigateToPrivacy = {
+                    navController.navigate(ParentPrivacyPage.OVERVIEW.route)
                 }
             )
+        }
+        // Four new parent privacy destinations, grouped under Settings.
+        // No route grants access or fetches child data without server proof.
+        ParentPrivacyPage.entries.forEach { page ->
+            composable(page.route) {
+                ParentPrivacyScreen(
+                    page = page,
+                    hasSelectedChild = uiState.selectedChildId != null,
+                    onBack = { navController.popBackStack() },
+                    onNavigate = { destination -> navController.navigate(destination.route) }
+                )
+            }
         }
     }
 }
