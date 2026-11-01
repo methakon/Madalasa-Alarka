@@ -11,10 +11,5 @@ import androidx.compose.ui.Modifier
  * UI-only; exact per-node screenshot QA remains necessary.
  */
 @Composable fun P48Screen(modifier: Modifier = Modifier) {
-    HandoffDesign(
-        id = "P-48", title = "Checkout review", hero = "Review your one-time prepaid purchase — no auto-renew",
-        kind = "billing", milestone = "M7", requirement = "FR-012",
-        details = listOf("Term", "N seats", "no auto-renew", "total"),
-        action = "Continue to Play Billing", modifier = modifier
-    )
+    ThemeCFunctionalScreen(ThemeCFunctionalCatalog.find("P-48"), modifier = modifier)
 }
