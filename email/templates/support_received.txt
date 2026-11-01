@@ -1,0 +1,10 @@
+Subject: [{{ticket_ref}}] We received your support request
+From: Madalasa Support <madalasa-alarka@berhampore.in>
+
+Hello,
+
+We received your request: {{ticket_subject}}. Your ticket reference is {{ticket_ref}}. Reply to this email to continue the conversation. Please never send passwords, OTPs, private recordings or child location details.
+
+You can reply to this message.
+
+Madalasa–Alarka

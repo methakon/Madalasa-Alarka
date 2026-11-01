@@ -1,0 +1,10 @@
+Subject: Your Madalasa plan expires on {{expiry_date_ist}}
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your prepaid {{plan_label}} for {{child_display_label}} is scheduled to expire at {{expiry_time_ist}} IST on {{expiry_date_ist}}. It will not renew or charge automatically. Review your plan: {{renew_url}}.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka

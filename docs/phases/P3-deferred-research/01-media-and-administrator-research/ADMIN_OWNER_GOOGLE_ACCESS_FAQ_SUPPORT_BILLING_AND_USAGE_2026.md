@@ -157,3 +157,7 @@ T-BO-01 spoofed email, tampered ID token, wrong aud, expired/nonverified token, 
 - [Google Play User Data policy](https://support.google.com/googleplay/android-developer/answer/18258653)
 - [Existing admin specification](ADMIN_PANEL_SPECIFICATION_2026.md)
 - [Whole-project SRS](../../M1-secure-platform-foundation/01-requirements-and-architecture/SRS.md)
+
+## Owner frontend decision — 2026-11-01
+
+Admin frontend is **HTML/CSS + HTMX + CSP-compatible Alpine.js**, with C++20 Drogon as the HTML/fragment and API server. Security authority remains server-side; client state must never grant admin roles or child-private access. The existing React implementation is a migration reference, not an approved framework decision. Details and migration acceptance: [Admin frontend stack ADR](ADMIN_FRONTEND_STACK_DECISION_2026-11-01.md). No production integration is implied.
