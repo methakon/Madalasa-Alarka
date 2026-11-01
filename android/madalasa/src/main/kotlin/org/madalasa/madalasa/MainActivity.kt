@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 val viewModel: ParentViewModel = viewModel(
                     factory = ParentViewModel.provideFactory(appContainer.repository)
                 )
-                MadalasaNavHost(viewModel = viewModel)
+                MadalasaNavHost(viewModel = viewModel, privacyGateway = appContainer.privacyGateway)
             }
         }
     }

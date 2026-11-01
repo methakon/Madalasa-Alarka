@@ -8,6 +8,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -31,8 +35,8 @@ enum class ParentPrivacyPage(val route: String, val figmaNode: String, val title
     }
 }
 
-internal data class ParentPrivacyRow(
-    val heading: String, val detail: String, val destination: ParentPrivacyPage? = null
+data class ParentPrivacyRow(
+    val heading: String, val detail: String, val destination: ParentPrivacyPage? = null, val grantId: String? = null
 )
 
 /** Read-only UI model until exact-child server authorization and privacy APIs exist. */
@@ -69,8 +73,12 @@ fun ParentPrivacyScreen(
     hasSelectedChild: Boolean,
     onBack: () -> Unit,
     onNavigate: (ParentPrivacyPage) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    verifiedRows: List<ParentPrivacyRow>? = null,
+    apiStatus: String = "UNKNOWN / API NOT CONNECTED",
+    onRevokeGrant: ((String) -> Unit)? = null
 ) {
+    var pendingRevoke by remember { mutableStateOf<String?>(null) }
     val ink = ThemeCTokens.Ink
     val red = ThemeCTokens.Vermilion
     val indigo = ThemeCTokens.DeepIndigo
@@ -98,7 +106,7 @@ fun ParentPrivacyScreen(
             else "No child selected · select an authorized child first",
             color = hint, fontSize = 14.sp
         )
-        parentPrivacyRows(page).forEachIndexed { index, row ->
+        (verifiedRows ?: parentPrivacyRows(page)).forEachIndexed { index, row ->
             Surface(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp)
                     .clickable(enabled = row.destination != null) {
@@ -115,6 +123,12 @@ fun ParentPrivacyScreen(
                         if (row.destination != null) Text("›", color = indigo, fontSize = 18.sp)
                     }
                     Text(row.detail, fontSize = 13.sp, lineHeight = 19.sp, color = ink)
+                    if (row.grantId != null && onRevokeGrant != null) {
+                        TextButton(onClick = { pendingRevoke = row.grantId },
+                            modifier = Modifier.heightIn(min = 48.dp)) {
+                            Text("Revoke this grant", color = red)
+                        }
+                    }
                 }
             }
         }
@@ -137,9 +151,26 @@ fun ParentPrivacyScreen(
                     color = red, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 Text("Figma " + page.figmaNode + " · PRIVACY_CONTROLS_V0_TECHNICAL_AND_UI_SPEC_2026-11-02.md",
                     color = hint, fontSize = 11.sp, lineHeight = 15.sp)
-                Text("State: UNKNOWN / API NOT CONNECTED. Grants, history, deletion and server acknowledgement need verification.",
+                Text("State: " + apiStatus + ". History, deletion and server acknowledgement require separate verification.",
                     color = hint, fontSize = 11.sp)
             }
         }
     }
+    if (pendingRevoke != null) {
+        AlertDialog(
+            onDismissRequest = { pendingRevoke = null },
+            title = { Text("Revoke guardian access?") },
+            text = { Text("This removes this specific child grant at the server. An offline device may receive updated policy later.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    pendingRevoke?.let { onRevokeGrant?.invoke(it) }
+                    pendingRevoke = null
+                }) { Text("Revoke", color = red) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingRevoke = null }) { Text("Cancel") }
+            }
+        )
+    }
+
 }
