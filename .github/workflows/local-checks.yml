@@ -1,0 +1,61 @@
+name: local-checks
+
+# L01-009 - local lint/format/static-analysis and tooling self-tests.
+# This CI runs the self-contained local verifiers; it does not build the
+# Android APK or the Drogon backend (those need SDK/Drogon toolchains and run
+# in dedicated jobs). Neither this CI passing nor any merge grants Play/DPDP
+# release permission.
+
+on:
+  push:
+    branches: [dev, main, api, parent, child, admin-web]
+  pull_request:
+    branches: [dev, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tooling-and-scans:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Shell lint (shellcheck)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+          shellcheck tools/*.sh || { echo "::error::shellcheck findings"; exit 1; }
+
+      - name: Testkit fakes self-test
+        run: python3 testkit/fake-services/fakes.py --selftest
+
+      - name: Synthetic seed repeatability
+        run: bash tools/seed-synthetic.sh --check
+
+      - name: SBOM + pinned-version policy
+        run: bash tools/check-sbom.sh
+
+      - name: Secret scan (fail on committed secrets)
+        run: bash tools/verify-clean-build.sh
+
+      - name: Local smoke pipeline (honest skips)
+        run: bash tools/smoke-local.sh
+
+  python-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Byte-compile all Python (fail on syntax errors)
+        run: python3 -m compileall -q tools testkit backend/tests || { echo "::error::python syntax errors"; exit 1; }

@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a scoped change with acceptance evidence and privacy review.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not propose covert capture, permission bypass or processing real child data before India/Play approval."
+  - type: textarea
+    id: goal
+    attributes:
+      label: User goal and safe use case
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Related SRS IDs, proposed behavior and acceptance tests
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Child privacy, Android permission and Google Play impact
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Design dependencies, platform assumptions and owner decisions

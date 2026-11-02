@@ -1,0 +1,13 @@
+# Android workspace — initial source layout (NOT RUNNABLE)
+
+The repository had **no Android Gradle projects** at this review. This skeleton reserves the implementation boundaries without declaring Android runtime permissions, shipping a noncompliant monitoring app, or implying functioning APKs.
+
+- `alarka/`: enrolled child-device companion. Kotlin controls Android lifecycle, permission request/result readback, Fused Location/UsageStats where legally enabled, Keystore-protected encrypted 48-hour offline-capacity queue, 1–2-minute network batching when an eligible service is active, device-bound auth, authorized SOS. Main Activity may close after setup, but Android monitoring notification and sensor indicators remain. All live camera/microphone/media screen functions are **P3 research disabled**.
+- `madalasa/`: authenticated guardian UI, child-scoped location, usage and compatible feature status, activity audit and consent/revoke flows; displays last-verified timestamps, does not fake GPS/live app/sensor availability.
+- Shared network schema/API/versioning and Android CI **not yet created**. The owner specified Madalasa's package as `in.berhampore.madalasa`; its local upload-only key was generated and recovery-tested, but permanent custody and Play registration remain blocked. See the [upload-key setup record](../docs/phases/M1-secure-platform-foundation/03-security-and-permissions/MADALASA_UPLOAD_KEY_SETUP_2026-10-30.md). Alarka's package, target SDK, Gradle/AGP/Kotlin versions, Compose, flavor/product setup and manifest permissions still require their respective decisions.
+
+Next engineering steps: establish two independently testable Android Gradle projects, Kotlin source, unit/instrumented tests, versioned API clients, dependency lockfiles, safe dummy fixtures and manifest review; test on Android API29–36+ and OEM/watch variants. Do NOT add raw child data to test fixtures.
+
+Read [implementation spec](../docs/phases/M1-secure-platform-foundation/01-requirements-and-architecture/IMPLEMENTATION_TECHNICAL_SPECIFICATION.md), [Android compatibility matrix](../docs/phases/M1-secure-platform-foundation/03-security-and-permissions/ANDROID_COMPATIBILITY_MATRIX.md), [developer onboarding](../docs/phases/M1-secure-platform-foundation/02-development-process/DEVELOPER_ONBOARDING_AND_CODING_STANDARDS.md), [signing policy](../docs/phases/M1-secure-platform-foundation/03-security-and-permissions/APP_SIGNING_AND_KEY_MANAGEMENT_POLICY.md), [build guide](../docs/phases/M1-secure-platform-foundation/02-development-process/BUILD_AND_RUN.md).
+
+**No `gradlew` or AndroidManifest exists today.** The folders are planning scaffolds, not functional code.

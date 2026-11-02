@@ -1,0 +1,1534 @@
+{
+  "total": 109,
+  "validated": 109,
+  "missing": [],
+  "errors": [],
+  "rows": [
+    {
+      "id": "23:3",
+      "key": "06-capability-onboarding:A-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-01 / Welcome to Alarka",
+      "textCount": 14,
+      "wordCount": 68,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:27",
+      "key": "06-capability-onboarding:A-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-02 / Checking this device",
+      "textCount": 14,
+      "wordCount": 63,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:51",
+      "key": "06-capability-onboarding:A-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-03 / Compatibility result",
+      "textCount": 16,
+      "wordCount": 71,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:78",
+      "key": "06-capability-onboarding:A-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-04 / Feature details",
+      "textCount": 16,
+      "wordCount": 75,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:105",
+      "key": "06-capability-onboarding:A-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-05 / Secure device pairing",
+      "textCount": 14,
+      "wordCount": 68,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:129",
+      "key": "06-capability-onboarding:A-06",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-06 / Before permissions",
+      "textCount": 14,
+      "wordCount": 61,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:153",
+      "key": "06-capability-onboarding:A-07",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-07 / Location while using",
+      "textCount": 14,
+      "wordCount": 65,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:177",
+      "key": "06-capability-onboarding:A-08",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-08 / Background location",
+      "textCount": 14,
+      "wordCount": 69,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:201",
+      "key": "06-capability-onboarding:A-09",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-09 / Monitoring notifications",
+      "textCount": 14,
+      "wordCount": 57,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:225",
+      "key": "06-capability-onboarding:A-10",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-10 / Usage access",
+      "textCount": 14,
+      "wordCount": 61,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:249",
+      "key": "06-capability-onboarding:A-11",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-11 / Choose media access",
+      "textCount": 16,
+      "wordCount": 70,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "23:276",
+      "key": "06-capability-onboarding:A-12",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-12 / Microphone permission",
+      "textCount": 16,
+      "wordCount": 69,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:2",
+      "key": "06-capability-onboarding:A-13",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-13 / Camera access · Research",
+      "textCount": 16,
+      "wordCount": 76,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:29",
+      "key": "06-capability-onboarding:A-14",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-14 / Managed-device mode",
+      "textCount": 14,
+      "wordCount": 59,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:53",
+      "key": "06-capability-onboarding:A-15",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-15 / Screen-sharing consent",
+      "textCount": 16,
+      "wordCount": 70,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:80",
+      "key": "06-capability-onboarding:A-16",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-16 / Android decision received",
+      "textCount": 14,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:104",
+      "key": "06-capability-onboarding:A-17",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-17 / Permission declined",
+      "textCount": 14,
+      "wordCount": 62,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:128",
+      "key": "06-capability-onboarding:A-18",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-18 / Selected photos only",
+      "textCount": 16,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:155",
+      "key": "06-capability-onboarding:A-19",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-19 / Permission confirmed",
+      "textCount": 14,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:179",
+      "key": "06-capability-onboarding:A-20",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-20 / Setup complete",
+      "textCount": 16,
+      "wordCount": 74,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:206",
+      "key": "06-capability-onboarding:A-21",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-21 / Access changed in Settings",
+      "textCount": 16,
+      "wordCount": 69,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:233",
+      "key": "06-capability-onboarding:A-22",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-22 / Re-enable a permission",
+      "textCount": 14,
+      "wordCount": 58,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:257",
+      "key": "06-capability-onboarding:A-23",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-23 / Offline changes queued",
+      "textCount": 16,
+      "wordCount": 71,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "24:284",
+      "key": "06-capability-onboarding:A-24",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / ALARKA / A-24 / Your monitoring controls",
+      "textCount": 16,
+      "wordCount": 72,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:2",
+      "key": "06-capability-onboarding:P-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-01 / Child device connecting",
+      "textCount": 14,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:26",
+      "key": "06-capability-onboarding:P-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-02 / Device overview",
+      "textCount": 16,
+      "wordCount": 71,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:53",
+      "key": "06-capability-onboarding:P-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-03 / Feature compatibility",
+      "textCount": 16,
+      "wordCount": 73,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:80",
+      "key": "06-capability-onboarding:P-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-04 / Setup progress",
+      "textCount": 16,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:107",
+      "key": "06-capability-onboarding:P-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-05 / Access granted",
+      "textCount": 14,
+      "wordCount": 60,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:131",
+      "key": "06-capability-onboarding:P-06",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-06 / Permission disabled",
+      "textCount": 16,
+      "wordCount": 70,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:158",
+      "key": "06-capability-onboarding:P-07",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-07 / Denied or unsupported?",
+      "textCount": 14,
+      "wordCount": 65,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:182",
+      "key": "06-capability-onboarding:P-08",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-08 / Temporary access",
+      "textCount": 14,
+      "wordCount": 65,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:206",
+      "key": "06-capability-onboarding:P-09",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-09 / Partial media access",
+      "textCount": 16,
+      "wordCount": 65,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:233",
+      "key": "06-capability-onboarding:P-10",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-10 / Remote camera conditions",
+      "textCount": 16,
+      "wordCount": 74,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:260",
+      "key": "06-capability-onboarding:P-11",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-11 / Screen request approval",
+      "textCount": 14,
+      "wordCount": 60,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "25:284",
+      "key": "06-capability-onboarding:P-12",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-12 / Managed-mode requirement",
+      "textCount": 14,
+      "wordCount": 60,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:2",
+      "key": "06-capability-onboarding:P-13",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-13 / Alarka is offline",
+      "textCount": 16,
+      "wordCount": 75,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:29",
+      "key": "06-capability-onboarding:P-14",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-14 / Status needs recheck",
+      "textCount": 14,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:53",
+      "key": "06-capability-onboarding:P-15",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-15 / Status restored",
+      "textCount": 16,
+      "wordCount": 66,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:80",
+      "key": "06-capability-onboarding:P-16",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-16 / Permission change history",
+      "textCount": 16,
+      "wordCount": 73,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:107",
+      "key": "06-capability-onboarding:P-17",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-17 / How to enable location",
+      "textCount": 16,
+      "wordCount": 77,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:134",
+      "key": "06-capability-onboarding:P-18",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-18 / Guardian access check",
+      "textCount": 14,
+      "wordCount": 60,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:158",
+      "key": "06-capability-onboarding:P-19",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-19 / Report version conflict",
+      "textCount": 16,
+      "wordCount": 71,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:185",
+      "key": "06-capability-onboarding:P-20",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-20 / Privacy switch disabled",
+      "textCount": 16,
+      "wordCount": 69,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:212",
+      "key": "06-capability-onboarding:P-21",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-21 / Approval reversed",
+      "textCount": 16,
+      "wordCount": 70,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "26:239",
+      "key": "06-capability-onboarding:P-22",
+      "exists": true,
+      "type": "FRAME",
+      "name": "CAPABILITY / MADALASA / P-22 / Full compatibility details",
+      "textCount": 16,
+      "wordCount": 72,
+      "visible": true,
+      "dimensions": [
+        392,
+        850
+      ]
+    },
+    {
+      "id": "32:3",
+      "key": "07-media-activity-audit:PA-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-01 / Media activity",
+      "textCount": 15,
+      "wordCount": 85,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:29",
+      "key": "07-media-activity-audit:PA-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-02 / Choose a child",
+      "textCount": 18,
+      "wordCount": 74,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:59",
+      "key": "07-media-activity-audit:PA-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-03 / Date range",
+      "textCount": 18,
+      "wordCount": 81,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:89",
+      "key": "07-media-activity-audit:PA-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-04 / Filter results",
+      "textCount": 18,
+      "wordCount": 74,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:119",
+      "key": "07-media-activity-audit:PA-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-05 / Session details",
+      "textCount": 21,
+      "wordCount": 77,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:153",
+      "key": "07-media-activity-audit:PA-06",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-06 / Saved recording details",
+      "textCount": 21,
+      "wordCount": 79,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:187",
+      "key": "07-media-activity-audit:PA-07",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-07 / Why did it fail?",
+      "textCount": 21,
+      "wordCount": 76,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:221",
+      "key": "07-media-activity-audit:PA-08",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-08 / No matching activity",
+      "textCount": 15,
+      "wordCount": 70,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:247",
+      "key": "07-media-activity-audit:PA-09",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-09 / Historical activity offline",
+      "textCount": 18,
+      "wordCount": 74,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:277",
+      "key": "07-media-activity-audit:PA-10",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-10 / Browse more activity",
+      "textCount": 15,
+      "wordCount": 78,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "32:303",
+      "key": "07-media-activity-audit:PA-11",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / PARENT / PA-11 / Access not available",
+      "textCount": 15,
+      "wordCount": 54,
+      "visible": true,
+      "dimensions": [
+        392,
+        860
+      ]
+    },
+    {
+      "id": "33:2",
+      "key": "07-media-activity-audit:ADM-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-01 / Administrator sign-in",
+      "textCount": 26,
+      "wordCount": 120,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:48",
+      "key": "07-media-activity-audit:ADM-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-02 / Operations overview",
+      "textCount": 29,
+      "wordCount": 132,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:98",
+      "key": "07-media-activity-audit:ADM-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-03 / Request case-based access",
+      "textCount": 29,
+      "wordCount": 130,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:148",
+      "key": "07-media-activity-audit:ADM-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-04 / Media activity explorer",
+      "textCount": 29,
+      "wordCount": 185,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:198",
+      "key": "07-media-activity-audit:ADM-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-05 / Search parent accounts",
+      "textCount": 26,
+      "wordCount": 120,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:244",
+      "key": "07-media-activity-audit:ADM-06",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-06 / Search children",
+      "textCount": 26,
+      "wordCount": 119,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:290",
+      "key": "07-media-activity-audit:ADM-07",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-07 / Media record details",
+      "textCount": 32,
+      "wordCount": 145,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:344",
+      "key": "07-media-activity-audit:ADM-08",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-08 / Failure reason & evidence",
+      "textCount": 29,
+      "wordCount": 126,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "33:394",
+      "key": "07-media-activity-audit:ADM-09",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-09 / No results or no access",
+      "textCount": 26,
+      "wordCount": 125,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:2",
+      "key": "07-media-activity-audit:ADM-10",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-10 / Pagination and retry",
+      "textCount": 29,
+      "wordCount": 125,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:52",
+      "key": "07-media-activity-audit:ADM-11",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-11 / Administrator access audit",
+      "textCount": 29,
+      "wordCount": 133,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:102",
+      "key": "07-media-activity-audit:ADM-12",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-12 / Privacy and retention gates",
+      "textCount": 29,
+      "wordCount": 122,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:152",
+      "key": "07-media-activity-audit:ADM-13",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-13 / Session expired",
+      "textCount": 26,
+      "wordCount": 109,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:198",
+      "key": "07-media-activity-audit:ADM-14",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-14 / Access denied",
+      "textCount": 29,
+      "wordCount": 120,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:248",
+      "key": "07-media-activity-audit:ADM-15",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-15 / Controlled export request",
+      "textCount": 29,
+      "wordCount": 119,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:298",
+      "key": "07-media-activity-audit:ADM-16",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-16 / Role and case assignment",
+      "textCount": 32,
+      "wordCount": 120,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "34:352",
+      "key": "07-media-activity-audit:ADM-17",
+      "exists": true,
+      "type": "FRAME",
+      "name": "MEDIA AUDIT / ADMIN / ADM-17 / Audit service unavailable",
+      "textCount": 29,
+      "wordCount": 116,
+      "visible": true,
+      "dimensions": [
+        1440,
+        890
+      ]
+    },
+    {
+      "id": "41:2",
+      "key": "08-postgres-gps-batch-system-design:INGEST-HLD-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "HLD · Adaptive GPS + 48h offline + durable PostgreSQL bulk ingestion",
+      "textCount": 45,
+      "wordCount": 296,
+      "visible": true,
+      "dimensions": [
+        1470,
+        641
+      ]
+    },
+    {
+      "id": "41:60",
+      "key": "08-postgres-gps-batch-system-design:INGEST-LLD-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "LLD · GPS batch commit, idempotent bulk insert and crash recovery",
+      "textCount": 52,
+      "wordCount": 341,
+      "visible": true,
+      "dimensions": [
+        1470,
+        663
+      ]
+    },
+    {
+      "id": "41:126",
+      "key": "08-postgres-gps-batch-system-design:INGEST-DEC-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "Design decision · PostgreSQL inbox vs direct bulk INSERT benchmark",
+      "textCount": 24,
+      "wordCount": 199,
+      "visible": true,
+      "dimensions": [
+        1470,
+        528
+      ]
+    },
+    {
+      "id": "46:164",
+      "key": "09-theme-c-story-and-screens:ST-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "ST-01 / Theme C / A mother's wisdom",
+      "textCount": 8,
+      "wordCount": 45,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "46:177",
+      "key": "09-theme-c-story-and-screens:ST-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "ST-02 / Theme C / Alarka grows in responsibility",
+      "textCount": 8,
+      "wordCount": 48,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "46:190",
+      "key": "09-theme-c-story-and-screens:ST-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "ST-03 / Theme C / A ring to remember",
+      "textCount": 8,
+      "wordCount": 49,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "46:203",
+      "key": "09-theme-c-story-and-screens:ST-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "ST-04 / Theme C / Remembering her counsel",
+      "textCount": 8,
+      "wordCount": 47,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "46:216",
+      "key": "09-theme-c-story-and-screens:ST-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "ST-05 / Theme C / The path to wisdom",
+      "textCount": 8,
+      "wordCount": 51,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:164",
+      "key": "09-theme-c-story-and-screens:P-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-05 / Theme C / Home and map",
+      "textCount": 13,
+      "wordCount": 56,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:192",
+      "key": "09-theme-c-story-and-screens:P-15",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-15 / Theme C / Daily activity",
+      "textCount": 14,
+      "wordCount": 71,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:212",
+      "key": "09-theme-c-story-and-screens:P-24",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-24 / Theme C / Trip detail",
+      "textCount": 13,
+      "wordCount": 69,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:237",
+      "key": "09-theme-c-story-and-screens:P-28",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-28 / Theme C / Places and alerts",
+      "textCount": 17,
+      "wordCount": 56,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:263",
+      "key": "09-theme-c-story-and-screens:P-39",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-39 / Theme C / Family and guardians",
+      "textCount": 13,
+      "wordCount": 75,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:281",
+      "key": "09-theme-c-story-and-screens:P-48",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-48 / Theme C / Prepaid plans",
+      "textCount": 15,
+      "wordCount": 93,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:303",
+      "key": "09-theme-c-story-and-screens:P-58",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-58 / Theme C / Audio capability",
+      "textCount": 10,
+      "wordCount": 62,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:337",
+      "key": "09-theme-c-story-and-screens:C-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "C-02 / Theme C / Monitoring transparency",
+      "textCount": 13,
+      "wordCount": 67,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "52:317",
+      "key": "09-theme-c-story-and-screens:P-31",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-31 / Theme C / Usage overview",
+      "textCount": 10,
+      "wordCount": 45,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "81:179",
+      "key": "09-theme-c-story-and-screens:P-47",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-47 / Theme C / Family plan & child coverage",
+      "textCount": 16,
+      "wordCount": 105,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "81:201",
+      "key": "09-theme-c-story-and-screens:P-49",
+      "exists": true,
+      "type": "FRAME",
+      "name": "P-49 / Theme C / Covered by your family plan",
+      "textCount": 15,
+      "wordCount": 94,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "84:179",
+      "key": "09-theme-c-story-and-screens:SH-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "SH-01 / Theme C / Choose children to share",
+      "textCount": 15,
+      "wordCount": 88,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "84:201",
+      "key": "09-theme-c-story-and-screens:SH-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "SH-02 / Theme C / Parent verification required",
+      "textCount": 13,
+      "wordCount": 82,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "84:221",
+      "key": "09-theme-c-story-and-screens:SH-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "SH-03 / Theme C / One screen in use",
+      "textCount": 14,
+      "wordCount": 99,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "84:242",
+      "key": "09-theme-c-story-and-screens:SH-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "SH-04 / Theme C / Add a simultaneous screen",
+      "textCount": 15,
+      "wordCount": 100,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "84:263",
+      "key": "09-theme-c-story-and-screens:SH-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "SH-05 / Theme C / Your approved children",
+      "textCount": 14,
+      "wordCount": 91,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "89:180",
+      "key": "09-theme-c-story-and-screens:SH-06",
+      "exists": true,
+      "type": "FRAME",
+      "name": "SH-06 / Theme C / Extra screen temporarily paused",
+      "textCount": 13,
+      "wordCount": 92,
+      "visible": true,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "id": "106:2",
+      "key": "10-admin-back-office:BO-01",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-01 / Sign in · access required",
+      "textCount": 28,
+      "wordCount": 151,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "106:35",
+      "key": "10-admin-back-office:BO-02",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-02 / Complete profile · verify email",
+      "textCount": 31,
+      "wordCount": 166,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "106:71",
+      "key": "10-admin-back-office:BO-02V",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-02V / Verified profile · submit request",
+      "textCount": 30,
+      "wordCount": 138,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "106:106",
+      "key": "10-admin-back-office:BO-03",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-03 / Request submitted · awaiting approval",
+      "textCount": 30,
+      "wordCount": 150,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "107:2",
+      "key": "10-admin-back-office:BO-04",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-04 / Owner · review access requests",
+      "textCount": 36,
+      "wordCount": 182,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "107:44",
+      "key": "10-admin-back-office:BO-05",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-05 / FAQ pages · content management",
+      "textCount": 35,
+      "wordCount": 182,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "107:85",
+      "key": "10-admin-back-office:BO-06",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-06 / Support requests · conversation",
+      "textCount": 33,
+      "wordCount": 191,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "107:123",
+      "key": "10-admin-back-office:BO-07",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-07 / Subscribers · plans and payments",
+      "textCount": 33,
+      "wordCount": 186,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "107:161",
+      "key": "10-admin-back-office:BO-08",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-08 / Subscribers · child roster & parent service usage",
+      "textCount": 35,
+      "wordCount": 202,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "id": "107:202",
+      "key": "10-admin-back-office:BO-09",
+      "exists": true,
+      "type": "FRAME",
+      "name": "BO-09 / Super Admin · overview and access security",
+      "textCount": 37,
+      "wordCount": 186,
+      "visible": true,
+      "dimensions": [
+        1440,
+        900
+      ]
+    }
+  ]
+}

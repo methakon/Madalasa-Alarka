@@ -1,0 +1,42 @@
+name: Governance or documentation gap (no personal data)
+description: Propose a project process/documentation correction, implementation evidence gap or unclosed policy gate. Never post family/child data or incident details.
+title: "[Governance] "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: "No actual child GPS, media, account IDs, secrets, vulnerabilities or unredacted legal documents. Report vulnerabilities privately using SECURITY.md. This form does NOT record legal approval."
+  - type: dropdown
+    id: category
+    attributes:
+      label: Affected gate
+      options:
+        - Build or Android/C++ implementation
+        - Security / threat model / signing
+        - Operational incident, backup or monitoring
+        - Consent, DPIA or data retention
+        - Legal publisher, licensing or third-party DPA
+        - Google Play / reviewer evidence
+        - GitHub branch or repository settings
+        - Other engineering process
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current verified state and link
+      description: Cite an existing repo path, requirement, test or public policy using synthetic examples only.
+    validations:
+      required: true
+  - type: textarea
+    id: wanted
+    attributes:
+      label: Desired correction and acceptance evidence
+      description: What actual file, tested outcome or signed approval would close this gap?
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and owners
+      description: Name roles, not personal contact details. Never mark owner/legal/Play sign-off as completed without evidence.

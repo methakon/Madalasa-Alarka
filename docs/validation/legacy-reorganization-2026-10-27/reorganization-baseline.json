@@ -1,0 +1,109 @@
+{
+  "completion_base_commit": "13c36995e46e108e199f7980a9a7ed18df20c16a",
+  "source_baseline_commit": "b3cddfc45ddb1c99bb545ddc5a7828fe534fe772",
+  "protected_files": {
+    ".env.example": "c1141a6ddeeac123b4a17479709133940dbe982332fdf05ca4e3e773545cfe87",
+    ".github/workflows/m1-contract-and-tenant.yml": "e9655de3a223abe1805321d8e1f10bde5692ecf9f5a3647b2cce57e9f1b013ab",
+    ".gitignore": "2155bf712c4e7561a887fa0deaf7bfa37821a64577da4c292665b0906df7c209",
+    "CHANGELOG.md": "8d60bf60c6cd2305e8e55168a3bedc960fb2ba68a10570c58762dcbcfc3c8c41",
+    "CODE_OF_CONDUCT.md": "c1714e2c1cd1a21a1dfcf7223069246695d45be9d7e95ccdbe56271d8397ca80",
+    "CONTRIBUTING.md": "4cbedc46c9a64435070ad8918aa0e147c9d694cddf96d02fca64c0b165798d2c",
+    "LICENSE": "29f393c5f74b8ba2bb63c5cdaa39e3b7305b721f6439ad235cf5b488d69ad4e5",
+    "SECURITY.md": "48b5bc4decd4cefe0b505c8e8d881b4f02d86b7720d438f1d6f5f39086486734",
+    "android/README.md": "7165a06857b921398f78d6bf20e9570efc6b0e9875dd409f1549c5ee47faf1bf",
+    "android/alarka/README.md": "96a61d41e0578f6f741b2490db00e391f03a63838cb03b8c5ac4871fa6e8ff81",
+    "android/alarka/src/main/kotlin/org/madalasa/alarka/domain/LocationObservation.kt": "05b2d059d55b9947215bb45c00f073831bb460aafb774443267d58b42f913659",
+    "android/madalasa/README.md": "d167506a940d3ea9d68192a43e2487ce1718df2da8d05c9313eb2e7087f678bc",
+    "android/madalasa/src/main/kotlin/org/madalasa/madalasa/domain/VerifiedLocationState.kt": "38d9932c185128f1fcbb4e612a499496f5db22da40bac401fe93627c5bbe7c1c",
+    "backend/persistence/migrations/0001_m1_identity.sql": "e6014a2e2512a793efc320b39be8d0f1b5a4de8b9f7560d444d88aa2ffa5b3fe",
+    "backend/tests/M1_ACCEPTANCE_TEST_CASES.md": "11c83b18e06a3d59b0af008ef51264a2b625fcd513b1ed014958a2fe4eb5c8f0",
+    "backend/tests/lint_openapi_m1.py": "f885979b194c97ff9255a08626cd3862bfdbea1bfc721914aeb68e972ba17113",
+    "backend/tests/m1_tenant_isolation.sql": "923734cdd6202c49cafeafaa99f0a903f85b29089dce8749f3a9f2956e4f1f95",
+    "docs/openapi-m1.yaml": "ecaa9622cb59258b07df1e32a05a830b9670e4be05802e59eb73c83b7256a0dd",
+    "docs/openapi.yaml": "ea39003d0e46198e1bcc1a99d8a7eb63bc0243c77c0220882b3b5d1e91414996",
+    "docs/ui/FIGMA_ANDROID_UI_INDEX.md": "11287f069ee61e2906c53eeec5bf7fc56660151957c63ff9b63d1d91b6b5b429",
+    "docs/ui/figma-functional-handoff/01-parent-foundation.json": "33d8537ae8d141dfc2a1a08dc3f0af251bd3c34d982e62b4f4ed7232ddae3c49",
+    "docs/ui/figma-functional-handoff/02-parent-operations.json": "e90d81cb169e164093423a0a3c2395572baf0f338de07b3637a1131ae5944c15",
+    "docs/ui/figma-functional-handoff/03-parent-governance-billing.json": "d46b07e11f748cebf1f29e381d79212aa0fbda7c57819748e39f45395b7936f8",
+    "docs/ui/figma-functional-handoff/04-parent-conditional.json": "70b5118f11f2b56319d9a028a06788d27490a92fff5b82de944afd0e6c184450",
+    "docs/ui/figma-functional-handoff/05-child-app.json": "0a0e8aa0c70bbe2e874cca99ccb384d9d4c1df1c3658ce816d7d12f504f3e69e",
+    "docs/ui/figma-functional-handoff/06-capability-onboarding.json": "e355b162b251e80c36959b956b6b94dac09c6617184b642d28bce7f223f0a36e",
+    "docs/ui/figma-functional-handoff/07-media-activity-audit.json": "31bbd367e9146ac36d97d96b6f2fc69f1616d752b0c448c373ffa220728240c7",
+    "docs/ui/figma-functional-handoff/08-postgres-gps-batch-system-design.json": "8c49e95f26dbe317fa68a6ace0e291d0584871263b87194e3ae08a0a6951b302",
+    "docs/ui/figma-functional-handoff/README.md": "3cc80747983eb692f4e899a1231413968ef7d3033c9a774aa0827e29bafa0806",
+    "docs/ui/figma-functional-handoff/renderer-plugin-api.template.js": "6c22639a0438ece7bc3129b28be3853c0da243c236911c97a7f56c9367496b2e",
+    "docs/ui/tldraw/README.md": "cb6bd717332a60198d0eb3d9fe91f7a5d262fcb56e0a96a93fcb0aa0139129c6",
+    "docs/ui/tldraw/amar-pola-ui-master-snapshot.json": "eb4aa37aca3305c508da11a6649faf22bf5bafc35630dd31e22fd76772784d83",
+    "public/legal/README.md": "37705b75f0eaf8d794be3f28b7dba54e3440f7824c31fb6099173d0b2cb53a57",
+    "public/legal/privacy.html": "969d224e4b3974c7204f49cd19b0671e5c11a51f726a8a59b17cf90310769439",
+    "public/legal/refund-cancellation.html": "df8f067c3a624c4148ae1342828a3603c8e200acd9822e6b9c1b5ecdbb859d23",
+    "public/legal/terms.html": "f374ff4c6bcb92fefdffc2d2d75d3bc0e0d21968b3045f6ebfb24708a6784bb3"
+  },
+  "navigation_reference_updates": {
+    "CONTRIBUTING.md": {
+      "baseline_sha256": "4cbedc46c9a64435070ad8918aa0e147c9d694cddf96d02fca64c0b165798d2c",
+      "current_sha256": "c12018e2f5d71de943197013b366f1bfcd2ad1dc0e3a8e8c7d10f61558c23d6f",
+      "normalized_sha256": "3c2d66fd481b0c9386e32b4ee48dbd544955eb837337647763d485f9548630f0",
+      "reason": "Navigation-only link-destination update after retiring root forwarding stubs (owner instruction 2026-10-27)."
+    },
+    "SECURITY.md": {
+      "baseline_sha256": "48b5bc4decd4cefe0b505c8e8d881b4f02d86b7720d438f1d6f5f39086486734",
+      "current_sha256": "62f7699f1fa7aa54839c6676bfa7fb418490f682795aece18b6c021276f139e7",
+      "normalized_sha256": "dc86626d01d0fa48a780e04c6c7e128dfdf9b7a2016c71c8763ab91076a1aa00",
+      "reason": "Navigation-only link-destination update after retiring root forwarding stubs (owner instruction 2026-10-27)."
+    },
+    "CHANGELOG.md": {
+      "baseline_sha256": "8d60bf60c6cd2305e8e55168a3bedc960fb2ba68a10570c58762dcbcfc3c8c41",
+      "current_sha256": "88b95584e6c525861a4dab79539f80097b505305dd8df9cf07d60a376a820129",
+      "normalized_sha256": "addf4972cb986f0125dfb3f52ce8733d96165b4da78d6435add8e70e6b0e1128",
+      "reason": "Navigation-only link-destination update after retiring root forwarding stubs (owner instruction 2026-10-27)."
+    },
+    "android/README.md": {
+      "baseline_sha256": "7165a06857b921398f78d6bf20e9570efc6b0e9875dd409f1549c5ee47faf1bf",
+      "current_sha256": "efb2eed41156b39a941a3756a5cdcd71a3342c8995846942f662bd5f519df694",
+      "normalized_sha256": "febddff5eee822b52681e9823e18d8992b0acfa55e280bcbef30ef35a96789bd",
+      "reason": "Navigation-only link-destination update after retiring root forwarding stubs (owner instruction 2026-10-27)."
+    },
+    "backend/tests/M1_ACCEPTANCE_TEST_CASES.md": {
+      "baseline_sha256": "11c83b18e06a3d59b0af008ef51264a2b625fcd513b1ed014958a2fe4eb5c8f0",
+      "current_sha256": "a89dffa4582bc2059558d95a991803c0f32a018cf5cfea8ce18414624edb741c",
+      "normalized_sha256": "bf6c16e7b5d630392c2205cc983812f87b814380772bef452c03ef14d25eabad",
+      "reason": "Navigation-only link-destination update after retiring root forwarding stubs (owner instruction 2026-10-27).",
+      "whitespace_normalization": "One pre-existing trailing space removed from the rewritten line so git diff --check passes; no prose or code changed."
+    },
+    "docs/ui/tldraw/README.md": {
+      "baseline_sha256": "cb6bd717332a60198d0eb3d9fe91f7a5d262fcb56e0a96a93fcb0aa0139129c6",
+      "current_sha256": "9046a14145e66f2ab6067fd9a236eb86ac90804aa72be541372e2a55b34fce2a",
+      "normalized_sha256": "68ee2c92749c170eab374ea5f1fa74a67ebce1c521a12213c88e4f7a668269d3",
+      "reason": "Corrected a pre-existing wrong relative depth in the UI naming link; no prose changed."
+    },
+    "LICENSE": {
+      "baseline_sha256": "29f393c5f74b8ba2bb63c5cdaa39e3b7305b721f6439ad235cf5b488d69ad4e5",
+      "current_sha256": "cba12eed09d6bb6ccb982f18da2963441ecd7c3057db4b0752b248916f0bf8cd",
+      "normalized_sha256": "29f393c5f74b8ba2bb63c5cdaa39e3b7305b721f6439ad235cf5b488d69ad4e5",
+      "reason": "Only the referenced review-document path string was corrected after relocation; no licence term, permission or restriction changed.",
+      "text_reference_updates": [
+        {
+          "from": "docs/LICENSING_DECISION_AND_IP_REGISTER.md",
+          "to": "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/LICENSING_DECISION_AND_IP_REGISTER.md"
+        }
+      ]
+    }
+  },
+  "owner_directed_cleanup": {
+    "date": "2026-10-27",
+    "summary": "Retired 71 root forwarding stubs; docs/ root reduced to control files; internal links repointed to canonical documents.",
+    "retained_root_pointer": "docs/LICENSE"
+  },
+  "policy_code_updates": {
+    "backend/tests/check_document_structure.py": {
+      "baseline_sha256": "81681138d36266f8df6981f834a3668de004264f34494ce87e9693e1da8e79c0",
+      "current_sha256": "2908ff77cf958c48153324f1089171141ec6feb02cd62a33884a5a1f46bb042c",
+      "reason": "Documentation-structure validator updated to enforce the owner-directed root-file allowlist, retired-stub absence and retained LICENSE pointer instead of requiring root forwarding stubs."
+    }
+  },
+  "supporting_path_updates": {
+    ".github/CODEOWNERS": "Ownership patterns repointed to canonical document paths so sensitive-file review coverage keeps matching after the move.",
+    ".github/ISSUE_TEMPLATE/config.yml": "Contact link repointed to the canonical BUILD_AND_RUN document; URL previously 404ed."
+  }
+}

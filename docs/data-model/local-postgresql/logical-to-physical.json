@@ -1,0 +1,1208 @@
+{
+  "concept_count": 120,
+  "source_model": "TKiZXwjkWdkponF1zNsfli",
+  "mappings": [
+    {
+      "concept": "families",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.families"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "adult_accounts",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.parent_principals"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "family_memberships",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.guardian_memberships"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "children",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.children"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_authority_reviews",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.child_authority_reviews"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_access_grants_v2",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.child_access_grants_v2"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_access_invites",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.child_access_invites"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "consent_records",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.consent_records"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "family_revocation_epochs",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.revocation_epochs"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "trial_redemptions",
+      "domain": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "physical_objects": [
+        "ap_m1.trial_redemptions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_devices",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.devices"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "pairing_codes",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.pairing_codes"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "enrollment_challenges",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.enrollment_challenges"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "device_key_records",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.device_key_records"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "device_sessions",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.trusted_sessions"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "capability_snapshots",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.capability_snapshots"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "permission_snapshots",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.permission_snapshots"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "device_health",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.device_health"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "device_commands",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.commands"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "command_results",
+      "domain": "ERD 02 / Devices, permissions & remote commands",
+      "physical_objects": [
+        "ap_m1.command_results"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "location_ingest_batches",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.location_ingest_batches"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "location_batch_items",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.location_batch_items"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "location_event_dedup",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.location_event_dedup"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "location_observations",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.location_observations"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "device_latest_positions",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.device_latest_positions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "trips",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.trips"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "trip_revisions",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.trip_revisions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "trip_legs",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.trip_legs"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "stops",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.stops"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "route_geometry",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.route_geometry"
+      ],
+      "functions": [],
+      "representation": "DERIVED_VIEW",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "reconstruction_jobs",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.ingestion_outbox"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "ingestion_outbox",
+      "domain": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "physical_objects": [
+        "ap_m1.ingestion_outbox"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "named_places",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.named_places"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "place_notification_rules",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.place_notification_rules"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "geofence_events",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.alert_events"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "notification_preferences",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.notification_preferences"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "notification_deliveries",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.notification_deliveries"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "sos_events",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.child_signals"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "sos_acknowledgements",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.signal_acknowledgements"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_checkins",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.child_signals"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "alert_delivery_outbox",
+      "domain": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "physical_objects": [
+        "ap_m1.alert_delivery_outbox"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "installed_app_inventory",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.installed_app_inventory"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "app_usage_events",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.app_usage_intervals"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "usage_period_summaries",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.usage_period_summaries"
+      ],
+      "functions": [],
+      "representation": "DERIVED_VIEW",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "usage_categories",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.usage_categories"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "screen_time_rules",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.screen_time_rules"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "rule_assignments",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.rule_assignments"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "policy_execution_receipts",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.policy_execution_receipts"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "scheduled_child_tasks",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.scheduled_child_tasks"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "usage_permission_checks",
+      "domain": "ERD 05 / App usage, screen-time & managed controls",
+      "physical_objects": [
+        "ap_m1.permission_snapshots",
+        "ap_m1.app_usage_intervals"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "billing_product_catalog",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.billing_product_catalog"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "price_offers",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.price_offers"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "founding_families",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.founding_families"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "play_purchase_records",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.play_purchase_records"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "prepaid_family_batches",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.prepaid_family_batches"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_seat_assignments",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.child_seat_assignments"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_paid_entitlements",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.child_paid_entitlements"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "extra_viewer_purchases",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.extra_viewer_purchases"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "payment_reconciliation_inbox",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.payment_reconciliation_inbox"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "purchase_adjustments",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.purchase_adjustments"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "trial_eligibility_checks",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.trial_eligibility_checks"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "family_checkout_intents",
+      "domain": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "physical_objects": [
+        "ap_m1.family_checkout_intents"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "premium_viewer_leases",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.premium_viewer_leases"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "viewer_takeover_requests",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.viewer_takeover_requests"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_command_requests",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.media_command_requests"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_sessions",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.media_sessions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_lifecycle_events",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.media_lifecycle_events"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_media_quota_pools",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.child_media_quota_pools"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_quota_ledger",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.media_quota_ledger"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "capture_artifact_refs",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.capture_artifact_refs"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_access_audit",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.media_access_audit"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_capability_gates",
+      "domain": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "physical_objects": [
+        "ap_m1.media_capability_gates"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "purpose_authorizations",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.consent_records"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "retention_policy_versions",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.retention_policy_versions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "history_visibility_rules",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.history_visibility_rules"
+      ],
+      "functions": [],
+      "representation": "DERIVED_VIEW",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "account_deletion_requests",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.account_deletion_requests"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "child_erasure_tombstones",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.child_erasure_tombstones"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "erasure_jobs",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.erasure_jobs"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "erasure_job_targets",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.erasure_job_targets"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "backup_erasure_manifests",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.backup_erasure_manifests"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_principals",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.admin_accounts"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_cases",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.admin_cases"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_case_scopes",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.admin_case_scopes"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_read_audit",
+      "domain": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "physical_objects": [
+        "ap_m1.admin_support_read_audit"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "durable_event_inbox",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.durable_event_inbox"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "processing_outbox",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.processing_outbox"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "idempotency_claims",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.idempotency_claims"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "worker_lease_fences",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.worker_lease_fences"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "feature_release_gates",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.feature_release_gates"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "external_service_accounts",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.external_service_accounts"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "security_audit_events",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.security_audit_events"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "support_cases",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.support_tickets"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "export_requests",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.export_jobs",
+        "ap_m1.media_export_requests"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "telemetry_aggregates",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.telemetry_aggregates"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "cost_usage_snapshots",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.cost_usage_snapshots"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "architecture_decisions",
+      "domain": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "physical_objects": [
+        "ap_m1.architecture_decisions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_accounts",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_accounts"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_profiles",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_profiles"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_email_challenges",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_email_challenges"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_access_requests",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_access_requests"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_roles",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_roles"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_permissions",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_permissions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_role_permissions",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_role_permissions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_role_grants",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_role_grants"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_action_audit",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_action_audit"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_notifications",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_notifications"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "faq_entries",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.faq_entries"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "faq_revisions",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.faq_revisions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "support_tickets",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.support_tickets"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "support_messages",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.support_messages"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "parent_service_usage_events",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.parent_service_usage_events"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "admin_support_read_audit",
+      "domain": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "physical_objects": [
+        "ap_m1.admin_support_read_audit"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "parent_auth_sessions",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.trusted_sessions"
+      ],
+      "functions": [],
+      "representation": "NORMALIZED",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "device_permission_change_events",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.device_permission_change_events"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "parent_notification_read_receipts",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.parent_notification_read_receipts"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "commute_plans",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.commute_plans"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "commute_plan_revisions",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.commute_plan_revisions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "tracking_policy_revisions",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.tracking_policy_revisions"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "service_incidents",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.service_incidents"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    },
+    {
+      "concept": "media_request_device_approvals",
+      "domain": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "physical_objects": [
+        "ap_m1.media_request_device_approvals"
+      ],
+      "functions": [],
+      "representation": "DIRECT",
+      "scope": "PHYSICAL_SCHEMA_NOT_API_OR_ANDROID_COMPLETION"
+    }
+  ]
+}

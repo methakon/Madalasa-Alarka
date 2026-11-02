@@ -1,0 +1,3 @@
+# Pinned CommonMark/GFM-table parser and its URL helper, used only by docs checks.
+markdown-it-py==4.2.0
+mdurl==0.1.2

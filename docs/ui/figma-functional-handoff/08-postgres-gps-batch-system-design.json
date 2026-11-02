@@ -1,0 +1,62 @@
+{
+  "document_id": "MA-INGEST-FIGMA-008",
+  "date": "2026-10-27",
+  "status": "DESIGN_ONLY_NOT_IMPLEMENTED_NOT_TESTED",
+  "source_adr": "docs/POSTGRES_DURABLE_INBOX_BULK_GPS_USAGE_INGESTION_ADR_2026-10-27.md",
+  "file_key": "TKiZXwjkWdkponF1zNsfli",
+  "page": "ARCHITECTURE • Media HLD + LLD",
+  "page_node_id": "21:2",
+  "designs": [
+    {
+      "id": "INGEST-HLD-01",
+      "node_id": "41:2",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=41-2",
+      "title": "HLD · Adaptive GPS + 48h offline + durable PostgreSQL bulk ingestion",
+      "editable": true,
+      "coverage": [
+        "Alarka adaptive GPS separate from network uploads",
+        "encrypted device-local 48h offline capacity",
+        "1–2min eligible JSON upload target",
+        "Drogon device-authenticated validation",
+        "Postgres one inbox row per batch and durable HTTP 202",
+        "C++ leased bulk worker",
+        "partitioned PostGIS raw GPS and usage worker separation",
+        "no Redis at MVP",
+        "parent route accuracy and freshness"
+      ]
+    },
+    {
+      "id": "INGEST-LLD-02",
+      "node_id": "41:60",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=41-60",
+      "title": "LLD · GPS batch commit, idempotent bulk insert and crash recovery",
+      "editable": true,
+      "coverage": [
+        "Tx A PostgreSQL inbox commit before ACK",
+        "Alarka local queue retains unacked events",
+        "worker SKIP LOCKED lease/epoch fencing",
+        "prepared multi-row INSERT or COPY staging",
+        "atomic raw+dedup+outbox+inbox PROCESSED Tx B",
+        "retry/quarantine/stale lease",
+        "old GPS backfill by event time",
+        "no false live marker"
+      ]
+    },
+    {
+      "id": "INGEST-DEC-03",
+      "node_id": "41:126",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=41-126",
+      "title": "Decision diagram · PostgreSQL Inbox vs Direct Bulk INSERT benchmark",
+      "editable": true,
+      "coverage": [
+        "default inbox+async bulk selection",
+        "direct bulk lower write amplification alternative",
+        "WAL, p95/p99, DB IOPS, 48h reconnect synthetic benchmark",
+        "Redis later optional and not authoritative"
+      ]
+    }
+  ],
+  "test_catalog": "T-ING-01…24",
+  "unchanged": "Original Eraser HLD/LLD diagrams were not modified by this change; new architecture diagrams are native editable Figma frames",
+  "scope": "Adds design frames, NOT code/SQL migrations/Android permission changes/real minor processing approval"
+}

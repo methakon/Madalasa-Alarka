@@ -1,0 +1,272 @@
+{
+  "review_date": "2026-10-30",
+  "repository": "methakon/Madalasa-Alarka",
+  "pr": 9,
+  "source_sha": "c693899e4b411cbadd1639f0bcb642844af50ea9",
+  "base_sha": "0a6be11ca811e842cc9839ab623ec118514020dd",
+  "review_state": "FINDINGS_OPEN_NOT_MERGED",
+  "local_database": {
+    "engine": "PostgreSQL 16.15",
+    "container_image_id": "sha256:1a6ab3f5345eb6dbe04a1349529caabdb0ab09293a09590fad07b2246bfa4b54",
+    "network_mode": "none",
+    "published_ports": [],
+    "memory_bytes": 536870912,
+    "cpu_limit": 1,
+    "data_storage": "384MiB tmpfs; durability settings not disabled",
+    "cleanup": "container stopped and removed"
+  },
+  "local_pr9_commands": [
+    {
+      "command": [
+        "python3",
+        "backend/tests/lint_openapi_m1.py",
+        "docs/openapi-m1.yaml"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.052
+    },
+    {
+      "command": [
+        "python3",
+        "backend/tests/check_physical_catalog.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.048
+    },
+    {
+      "command": [
+        "python3",
+        "backend/tests/lint_openapi_full.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.078
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "backend.tests.test_physical_catalog",
+        "backend.tests.test_lint_openapi_m1",
+        "backend.tests.test_deploy_units",
+        "backend.tests.test_error_catalog_sync",
+        "-v"
+      ],
+      "exit_code": 1,
+      "duration_seconds": 13.039
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "backend.tests.test_physical_catalog",
+        "backend.tests.test_lint_openapi_m1",
+        "backend.tests.test_deploy_units",
+        "backend.tests.test_error_catalog_sync",
+        "-v"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.879
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.063
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/persistence/migrations/0002_m1_device_credentials.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.02
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/persistence/migrations/0003_m1_enrollment_and_credential_hardening.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.02
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/persistence/migrations/0004_m1_idempotency.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.019
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/persistence/migrations/0005_m1_family_provisioning.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.014
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/tests/m1_tenant_isolation.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.044
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/tests/m1_credential_lifecycle.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.073
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/tests/m1_enrollment.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.051
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/tests/m1_idempotency.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.041
+    },
+    {
+      "command": [
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-f",
+        "backend/tests/m1_family_provisioning.sql"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.03
+    },
+    {
+      "command": [
+        "bash",
+        "backend/tests/m1_idempotency_concurrency.sh"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 10.118
+    },
+    {
+      "command": [
+        "bash",
+        "backend/tests/purge_job.sh"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 8.743
+    }
+  ],
+  "tooling_retries": "First unittest attempt used Python without PyYAML (58 tests, one import error); successful system-Python retry ran61 tests. First psql invocation had missing PATH; explicit rootless client path used for every successful SQL test.",
+  "additional_local_checks": {
+    "m1_security_catalog_sql": {
+      "exit_code": 0,
+      "forced_rls_table_count": 18,
+      "rollback_negative_controls": 3,
+      "wrong_database_exit_code": 3
+    },
+    "documentation_inventory_unittest": {
+      "tests": 8,
+      "failures": 0,
+      "scope": "documentation inventory, not platform/legal/provider acceptance"
+    },
+    "synthetic_auth_pipeline_negative_control": {
+      "known_forbidden_marker_existing_pipeline_exit": 0,
+      "full_consumption_alternative_sentinel_exit": 42,
+      "interpretation": "existing guard missed marker; alternative detected it, no production bypass established"
+    },
+    "changed_document_relative_paths": {
+      "checked": 580,
+      "missing": 0
+    }
+  },
+  "hosted_ci": {
+    "run_id": 41014540240,
+    "url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41014540240",
+    "head_sha": "c693899e4b411cbadd1639f0bcb642844af50ea9",
+    "conclusion": "success",
+    "jobs": [
+      "backend-build",
+      "contracts-and-isolation"
+    ],
+    "ctest_passed": 1,
+    "authentication_scope": "synthetic test build only; real ParentOIDC absent",
+    "documentation_run": 41014540218
+  },
+  "inventory": {
+    "srs_requirements": 51,
+    "supplemental_rows": 40,
+    "android_total_rows": 91,
+    "parent_checklist": 20,
+    "child_checklist": 20,
+    "data_safety_categories": 18,
+    "billing_sandbox_cases_not_run": 13
+  },
+  "findings": [
+    "PR9-01 high: cleanup may signal caller process group",
+    "PR9-02 medium: absent DB client assertion path",
+    "PR9-03 medium: synthetic-auth pipeline false negative",
+    "PR9-04 medium: no effective DB acquisition/statement deadline",
+    "M1-INHERITED-01 medium: concurrent renewal live-credential invariant",
+    "M1-INHERITED-02 medium: concurrent five-challenge bound",
+    "M1-RET-01: artifact purge incomplete"
+  ],
+  "not_performed": [
+    "Android implementation/build/device acceptance",
+    "real OIDC acceptance",
+    "real-child processing",
+    "Console/payment actions or new credentials",
+    "PR merge",
+    "production/offsite recovery or release certification"
+  ],
+  "source_report": "docs/phases/M1-secure-platform-foundation/02-development-process/M1_STACK_PR9_REVIEW_2026-10-30.md"
+}

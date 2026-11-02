@@ -1,0 +1,40 @@
+name: madalasa-memory-test
+services:
+  postgres:
+    image: postgis/postgis:16-3.5@sha256:7ef699637304feff96028edbc7a653e135f2db2236d322b5cb2bfca11fd920bc
+    container_name: madalasa-memory-test-postgres
+    labels:
+      com.madalasa.local-db: synthetic
+      com.madalasa.local-db-root: ${MA_LOCAL_CHECKOUT:?required checkout identity}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: postgres
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --auth-local=trust
+      TZ: UTC
+      PGTZ: UTC
+    secrets:
+      - postgres_password
+    ports:
+      - "127.0.0.1:15433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data:size=384m,mode=0700
+    command: [postgres, -c, shared_buffers=32MB, -c, work_mem=2MB, -c, maintenance_work_mem=32MB, -c, max_connections=24, -c, max_parallel_workers=0, -c, max_worker_processes=2, -c, max_wal_size=64MB, -c, min_wal_size=32MB, -c, password_encryption=scram-sha-256, -c, log_statement=none, -c, log_min_error_statement=panic]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    shm_size: 64m
+    restart: "no"
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -h 127.0.0.1 -U postgres -d postgres]
+      interval: 2s
+      timeout: 2s
+      retries: 40
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "2"
+secrets:
+  postgres_password:
+    file: ../../.local-db/postgres-password

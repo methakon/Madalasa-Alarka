@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "effective_date": "2026-10-31",
+  "policy_path": "docs/phases/M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md",
+  "permanent_work_branches": [
+    "api",
+    "parent",
+    "child",
+    "admin-web",
+    "dev"
+  ],
+  "canonical_branch": "main",
+  "documentation_branch": "main",
+  "branch_origins": {
+    "api": "main",
+    "parent": "main",
+    "child": "main",
+    "admin-web": "main",
+    "dev": "main"
+  },
+  "branch_scopes": {
+    "api": "C++20 Drogon API, background workers, PostgreSQL migrations and tests",
+    "parent": "Madalasa guardian Android application",
+    "child": "Alarka child Android application",
+    "admin-web": "Admin dashboard and implemented Terms, FAQ, customer-care/support web pages",
+    "dev": "Integration and verification; promotes cleared cumulative code into main",
+    "main": "Canonical documentation/planning and final integration verification"
+  },
+  "allowed_code_pr_routes": {
+    "api": "dev",
+    "parent": "dev",
+    "child": "dev",
+    "admin-web": "dev",
+    "dev": "main"
+  },
+  "temporary_branch_prefix": "temp/",
+  "legacy_exception_branch": "feat/local-postgresql-physical-schema",
+  "temporary_owner_label": "owner-approved-temporary",
+  "documentation_paths": [
+    "docs/",
+    "AGENTS.md",
+    "README.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/workflows/branch-governance.yml"
+  ],
+  "final_verification_required": true,
+  "documentation_main_only": true,
+  "require_dev_approval": true,
+  "require_owner_instruction_for_temp": true,
+  "delete_temp_only_after_verified_main_integration": true,
+  "keep_permanent_work_branches": true,
+  "prework_sync": {
+    "required": true,
+    "repetition": [
+      "before_task_start",
+      "before_task_resume",
+      "before_code_pr"
+    ],
+    "fetch_refs": [
+      "main",
+      "dev"
+    ],
+    "remote": "origin",
+    "require_clean_worktree": true,
+    "branch_fast_forward_pull": true,
+    "workstream_merge_order": [
+      "main",
+      "dev"
+    ],
+    "integration_dev_merges": [
+      "main"
+    ],
+    "canonical_main_dev_action": "fetch_and_inspect_only",
+    "stop_on_conflicts": true,
+    "forbid_force": true,
+    "evidence": [
+      "origin/main_sha",
+      "origin/dev_sha",
+      "working_branch_sha",
+      "utc_timestamp",
+      "test_results"
+    ],
+    "script": "docs/tools/sync_work_branch.sh"
+  }
+}

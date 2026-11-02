@@ -1,0 +1,4276 @@
+{
+  "date": "2026-10-28",
+  "scope": "Registered screens/actions, not complete runtime Figma visual verification",
+  "api_path_count": 134,
+  "api_operation_count": 146,
+  "api_schemas": 95,
+  "screen_count": 187,
+  "source_count": 10,
+  "by_source": [
+    {
+      "file": "01-parent-foundation",
+      "count": 18
+    },
+    {
+      "file": "02-parent-operations",
+      "count": 18
+    },
+    {
+      "file": "03-parent-governance-billing",
+      "count": 18
+    },
+    {
+      "file": "04-parent-conditional",
+      "count": 6
+    },
+    {
+      "file": "05-child-app",
+      "count": 21
+    },
+    {
+      "file": "06-capability-onboarding",
+      "count": 46
+    },
+    {
+      "file": "07-media-activity-audit",
+      "count": 28
+    },
+    {
+      "file": "08-postgres-gps-batch-system-design",
+      "count": 0
+    },
+    {
+      "file": "09-theme-c-story-and-screens",
+      "count": 22
+    },
+    {
+      "file": "10-admin-back-office",
+      "count": 10
+    }
+  ],
+  "states": {
+    "PATH_FOUND_CONTRACT_REVIEW_REQUIRED": 140,
+    "MANUAL_MAPPING_REQUIRED": 42,
+    "LOCAL_STORY_NO_API": 5
+  },
+  "screen_records": [
+    {
+      "id": "P-01",
+      "name": "Welcome",
+      "action": "Start parent setup",
+      "apiHint": "Local navigation; no API before user action",
+      "url": null,
+      "fr": "FR-001/041",
+      "kind": "auth",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-02",
+      "name": "Sign in",
+      "action": "Continue with Google",
+      "apiHint": "Android Credential Manager then verified parent OIDC session",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "auth",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-03",
+      "name": "Create account",
+      "action": "Create account",
+      "apiHint": "OIDC onboarding; principal+family binding after verification",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "form",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-04",
+      "name": "Google account handoff",
+      "action": "Continue securely",
+      "apiHint": "Credential Manager verified ID token, nonce and backend session",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "auth",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-05",
+      "name": "Home dashboard",
+      "action": "View child location",
+      "apiHint": "Backend latest-qualified observation+health; auth per child",
+      "url": null,
+      "fr": "FR-003/014/026/031",
+      "kind": "map",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-06",
+      "name": "My children",
+      "action": "Select or add child",
+      "apiHint": "GET /families/{familyId}/children (M1)",
+      "url": null,
+      "fr": "FR-022/029",
+      "kind": "list",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-07",
+      "name": "Child details",
+      "action": "Open permissions and health",
+      "apiHint": "GET /children/{childId}/devices; child capabilities/health",
+      "url": null,
+      "fr": "FR-014/020/048",
+      "kind": "detail",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-08",
+      "name": "Install child app",
+      "action": "Continue to pairing",
+      "apiHint": "Local onboarding wizard then capability precheck",
+      "url": null,
+      "fr": "FR-001/002",
+      "kind": "wizard",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-09",
+      "name": "Pair child device",
+      "action": "Generate new code",
+      "apiHint": "POST /children/{childId}/pairing-codes; signed enrollment proof",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "code",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-10",
+      "name": "Data-purpose review",
+      "action": "Review and continue",
+      "apiHint": "Purpose-version receipts and guardian verification not yet implemented",
+      "url": null,
+      "fr": "FR-002/013/041",
+      "kind": "privacy",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-11",
+      "name": "Parent permission coach",
+      "action": "See child-phone steps",
+      "apiHint": "Child POST signed capability; parent reads status",
+      "url": null,
+      "fr": "FR-002/031",
+      "kind": "permission",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-12",
+      "name": "Location permission walkthrough",
+      "action": "Show next step",
+      "apiHint": "Child launches Settings; onResume rechecks actual permission state",
+      "url": null,
+      "fr": "FR-002/003",
+      "kind": "permission",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-13",
+      "name": "Battery settings walkthrough",
+      "action": "Open child battery settings",
+      "apiHint": "Child package battery-intent + health capability report",
+      "url": null,
+      "fr": "FR-018/036",
+      "kind": "permission",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-14",
+      "name": "Setup/device verification",
+      "action": "Run device check",
+      "apiHint": "GET child devices; POST /devices/{id}/health + capabilities",
+      "url": null,
+      "fr": "FR-001/014/048",
+      "kind": "metrics",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-15",
+      "name": "Travel history overview",
+      "action": "Open trip detail",
+      "apiHint": "M3 trip/segment revision reads from C++ event-time worker",
+      "url": null,
+      "fr": "FR-004/016/028/030",
+      "kind": "map",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-16",
+      "name": "Guardian management",
+      "action": "Manage guardian grants",
+      "apiHint": "M6 scoped child grants and audit event APIs",
+      "url": null,
+      "fr": "FR-022/034/035",
+      "kind": "list",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-17",
+      "name": "Alerts and check-ins",
+      "action": "Acknowledge check-in",
+      "apiHint": "SOS outbox status and guardian ACK endpoint (planned)",
+      "url": null,
+      "fr": "FR-014/044/046/049",
+      "kind": "alerts",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/devices/{deviceId}/sos",
+        "/children/{childId}/sos-events",
+        "/children/{childId}/sos/{eventId}/ack",
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-18",
+      "name": "Plans and app settings",
+      "action": "Review actual Play checkout",
+      "apiHint": "Play product details and backend verified subscriptionsv2",
+      "url": null,
+      "fr": "FR-012/039",
+      "kind": "billing",
+      "source": "01-parent-foundation",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-19",
+      "name": "Alert inbox",
+      "action": "Open alert",
+      "apiHint": "M4 notifications list and deduplicated event IDs",
+      "url": null,
+      "fr": "FR-014/049",
+      "kind": "alerts",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-20",
+      "name": "Alert detail",
+      "action": "Review evidence",
+      "apiHint": "Alert event and authorized observation reference",
+      "url": null,
+      "fr": "FR-030/049",
+      "kind": "detail",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-21",
+      "name": "Reliability Center",
+      "action": "Open diagnostic guide",
+      "apiHint": "Signed device health, observation and worker timestamps",
+      "url": null,
+      "fr": "FR-031/048",
+      "kind": "metrics",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-22",
+      "name": "Map evidence legend",
+      "action": "Inspect evidence",
+      "apiHint": "Quality codes and source timestamps in route result",
+      "url": null,
+      "fr": "FR-028/030",
+      "kind": "map",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-23",
+      "name": "Travel day selector",
+      "action": "Open selected trip",
+      "apiHint": "M3 trip list query with date+timezone window",
+      "url": null,
+      "fr": "FR-004/017",
+      "kind": "list",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-24",
+      "name": "Trip detail",
+      "action": "Inspect segment",
+      "apiHint": "M3 trip segments, stop versions and quality evidence",
+      "url": null,
+      "fr": "FR-016/017/024",
+      "kind": "map",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-25",
+      "name": "Trip revision history",
+      "action": "Compare versions",
+      "apiHint": "C++ event-time revisions ledger and dedupe receipts",
+      "url": null,
+      "fr": "FR-024/032",
+      "kind": "list",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-26",
+      "name": "Named places list",
+      "action": "Add named place",
+      "apiHint": "Authorized saved places CRUD; PostGIS geography",
+      "url": null,
+      "fr": "FR-015",
+      "kind": "list",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/children/{childId}/places",
+        "/children/{childId}/places/{placeId}",
+        "/children/{childId}/places/{placeId}/notifications"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-27",
+      "name": "Add named place",
+      "action": "Save place",
+      "apiHint": "PostGIS point/radius validation; scoped child place API",
+      "url": null,
+      "fr": "FR-015",
+      "kind": "form",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/places",
+        "/children/{childId}/places/{placeId}",
+        "/children/{childId}/places/{placeId}/notifications"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-28",
+      "name": "Place-alert configuration",
+      "action": "Save alert rule",
+      "apiHint": "Geofence or server-derived place transitions and dedupe",
+      "url": null,
+      "fr": "FR-021/049",
+      "kind": "form",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/places",
+        "/children/{childId}/places/{placeId}",
+        "/children/{childId}/places/{placeId}/notifications"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-29",
+      "name": "Commute planner",
+      "action": "Preview commute",
+      "apiHint": "Scheduled commute plan and time zone validation",
+      "url": null,
+      "fr": "FR-033",
+      "kind": "form",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-30",
+      "name": "Commute confidence",
+      "action": "Review reliability",
+      "apiHint": "Event-time commute inference and evidence reason codes",
+      "url": null,
+      "fr": "FR-033",
+      "kind": "metrics",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-31",
+      "name": "Usage overview (gated)",
+      "action": "Read why disabled",
+      "apiHint": "Android UsageStatsManager only after separate lawful-purpose approval",
+      "url": null,
+      "fr": "FR-005/047",
+      "kind": "usage",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/usage",
+        "/children/{childId}/usage/apps",
+        "/children/{childId}/screen-time-rules"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-32",
+      "name": "App usage detail (gated)",
+      "action": "Open usage interval",
+      "apiHint": "Scoped usage aggregate API only if allowed",
+      "url": null,
+      "fr": "FR-005",
+      "kind": "usage",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/children/{childId}/usage",
+        "/children/{childId}/usage/apps",
+        "/children/{childId}/screen-time-rules"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-33",
+      "name": "Remote commands",
+      "action": "Request capability refresh",
+      "apiHint": "Typed signed command, backend queues, child receipts",
+      "url": null,
+      "fr": "FR-006",
+      "kind": "commands",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-34",
+      "name": "Find device request",
+      "action": "Send ring command",
+      "apiHint": "Future typed FIND_DEVICE/RING request and completion receipt",
+      "url": null,
+      "fr": "FR-045",
+      "kind": "commands",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-35",
+      "name": "Managed screen-time rules",
+      "action": "Create schedule",
+      "apiHint": "DevicePolicyManager on provisioned DPC only; server stores rules",
+      "url": null,
+      "fr": "FR-007/047",
+      "kind": "managed",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-36",
+      "name": "Rule preview and rollback",
+      "action": "Apply approved plan",
+      "apiHint": "Pure scheduling simulator + signed device execution receipts",
+      "url": null,
+      "fr": "FR-037",
+      "kind": "managed",
+      "source": "02-parent-operations",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-37",
+      "name": "Managed eligibility",
+      "action": "Open lab provisioning guide",
+      "apiHint": "Android DevicePolicyManager isDeviceOwnerApp on child",
+      "url": null,
+      "fr": "FR-007",
+      "kind": "managed",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-38",
+      "name": "Device provenance and handoff",
+      "action": "Inspect source",
+      "apiHint": "Device observation provenance, source_id, confidence",
+      "url": null,
+      "fr": "FR-020/038",
+      "kind": "list",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-39",
+      "name": "Guardian invitation",
+      "action": "Send invitation",
+      "apiHint": "Guardian invitation service and child-scoped grant issuance",
+      "url": null,
+      "fr": "FR-022/034",
+      "kind": "form",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-40",
+      "name": "Guardian grant detail",
+      "action": "Revoke immediately",
+      "apiHint": "Guardian grant API and revocation epoch + SSE invalidate",
+      "url": null,
+      "fr": "FR-022/034",
+      "kind": "detail",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-41",
+      "name": "Access ledger",
+      "action": "Filter by child",
+      "apiHint": "Redacted audit events per retention policy",
+      "url": null,
+      "fr": "FR-035",
+      "kind": "list",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-42",
+      "name": "Retention settings",
+      "action": "Review retention notice",
+      "apiHint": "Retention policy registry; erase task status",
+      "url": null,
+      "fr": "FR-013/027",
+      "kind": "privacy",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-43",
+      "name": "Data access/export",
+      "action": "Request protected export",
+      "apiHint": "Scoped export workflow, audit, expiration; redact defaults",
+      "url": null,
+      "fr": "FR-013/040",
+      "kind": "privacy",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-44",
+      "name": "Account and child deletion",
+      "action": "Request deletion",
+      "apiHint": "Deletion job + tombstone; revoke epochs; offline queue cutoff",
+      "url": null,
+      "fr": "FR-013/027",
+      "kind": "privacy",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-45",
+      "name": "Support diagnostics",
+      "action": "Review diagnostic packet",
+      "apiHint": "Support diagnostic exporter with 24-hour candidate expiry",
+      "url": null,
+      "fr": "FR-040",
+      "kind": "privacy",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-46",
+      "name": "Capability before purchase",
+      "action": "View plan only if suitable",
+      "apiHint": "Backend device capability and legal-purpose entitlement gating",
+      "url": null,
+      "fr": "FR-039",
+      "kind": "billing",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-47",
+      "name": "Family seats",
+      "action": "Change family capacity",
+      "apiHint": "Play product family_children_N + backend verified seats",
+      "url": null,
+      "fr": "FR-012",
+      "kind": "billing",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-48",
+      "name": "Checkout review",
+      "action": "Continue to Play Billing",
+      "apiHint": "BillingClient ProductDetails + purchase token to Drogon",
+      "url": null,
+      "fr": "FR-012",
+      "kind": "billing",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-49",
+      "name": "Subscription status",
+      "action": "Manage billing",
+      "apiHint": "Play subscriptionsv2 + RTDN revalidation & order ledger",
+      "url": null,
+      "fr": "FR-012",
+      "kind": "billing",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-50",
+      "name": "Notification and quiet hours",
+      "action": "Save notification policy",
+      "apiHint": "Verified per-family alert preference + server dedupe",
+      "url": null,
+      "fr": "FR-049",
+      "kind": "form",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-51",
+      "name": "Battery/coverage profiles",
+      "action": "Choose suggested profile",
+      "apiHint": "Versioned adaptive sampling settings and signed capability ack",
+      "url": null,
+      "fr": "FR-018/036",
+      "kind": "metrics",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-52",
+      "name": "Server outage/recovery",
+      "action": "Retry later",
+      "apiHint": "API health, stale cached record, retry/recovery status",
+      "url": null,
+      "fr": "NFR-RPO/RTO",
+      "kind": "offline",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-53",
+      "name": "Permission-change notice",
+      "action": "Show guided repair steps",
+      "apiHint": "Latest signed child capabilities with revision timestamp",
+      "url": null,
+      "fr": "FR-002/031",
+      "kind": "permission",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-54",
+      "name": "Cancel/manage subscription",
+      "action": "Purchase another prepaid term only with explicit confirmation",
+      "apiHint": "Deep link to store management and verified expiry receipt",
+      "url": null,
+      "fr": "FR-012",
+      "kind": "billing",
+      "source": "03-parent-governance-billing",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-55",
+      "name": "Optional Google Drive backup",
+      "action": "Connect Drive account",
+      "apiHint": "Google OAuth least scopes; user-selected Drive target; resumable transfer",
+      "url": null,
+      "fr": "FR-011",
+      "kind": "privacy",
+      "source": "04-parent-conditional",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-56",
+      "name": "Authorized file access",
+      "action": "Request user-authorized selection",
+      "apiHint": "Child ACTION_OPEN_DOCUMENT/MediaStore; bounded metadata receipt",
+      "url": null,
+      "fr": "FR-008",
+      "kind": "form",
+      "source": "04-parent-conditional",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-57",
+      "name": "Photo/video capability request",
+      "action": "View supported capture mode",
+      "apiHint": "Backend request status; child OS Camera APIs after user-authorized visible flow",
+      "url": null,
+      "fr": "FR-009",
+      "kind": "managed",
+      "source": "04-parent-conditional",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-58",
+      "name": "Microphone capability request",
+      "action": "View allowed audio mode",
+      "apiHint": "Permission-checked foreground/visible child recording workflow if approved",
+      "url": null,
+      "fr": "FR-010",
+      "kind": "managed",
+      "source": "04-parent-conditional",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-59",
+      "name": "Phone and watch source handoff",
+      "action": "Inspect chosen source",
+      "apiHint": "Future device_source identities and timestamp-qualified observations",
+      "url": null,
+      "fr": "FR-020/038",
+      "kind": "list",
+      "source": "04-parent-conditional",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-60",
+      "name": "Schedule-aware sampling",
+      "action": "Preview schedule",
+      "apiHint": "Versioned profile to child, signed acknowledgement of actual OS execution",
+      "url": null,
+      "fr": "FR-018/043",
+      "kind": "form",
+      "source": "04-parent-conditional",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "C-01",
+      "name": "Child welcome",
+      "action": "Begin setup",
+      "apiHint": "Local onboarding state; no sensors until legal and OS grants",
+      "url": null,
+      "fr": "FR-002/041",
+      "kind": "auth",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-02",
+      "name": "Child transparency disclosure",
+      "action": "View authorized people",
+      "apiHint": "Signed family grant summary and consent-purpose registry",
+      "url": null,
+      "fr": "FR-041",
+      "kind": "privacy",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-03",
+      "name": "Enter pairing code",
+      "action": "Pair securely",
+      "apiHint": "POST /enrollment code, P-256 public key SPKI",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "code",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-04",
+      "name": "Keystore proof in progress",
+      "action": "Finish secure enrollment",
+      "apiHint": "POST /enrollment/{enrollmentId}/proof signed nonce",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "metrics",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-05",
+      "name": "Guardian authority review",
+      "action": "Review safe setup",
+      "apiHint": "Parent identity+verified consent/exception record once legally designed",
+      "url": null,
+      "fr": "FR-001/013",
+      "kind": "privacy",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-06",
+      "name": "Child permission overview",
+      "action": "Open a permission guide",
+      "apiHint": "CapabilityRegistry / POST /devices/{id}/capabilities",
+      "url": null,
+      "fr": "FR-002",
+      "kind": "permission",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-07",
+      "name": "Location Settings guide",
+      "action": "Open Android Settings",
+      "apiHint": "Intent for app permission settings; FusedLocationProvider only if legal",
+      "url": null,
+      "fr": "FR-002/003",
+      "kind": "permission",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-08",
+      "name": "Notification Settings guide",
+      "action": "Open notification settings",
+      "apiHint": "POST_NOTIFICATIONS as supported by OS; capability report",
+      "url": null,
+      "fr": "FR-002/014",
+      "kind": "permission",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-09",
+      "name": "Battery & background guide",
+      "action": "Open system battery settings",
+      "apiHint": "OS battery restriction read; vendor settings; WorkManager scheduling",
+      "url": null,
+      "fr": "FR-018/036",
+      "kind": "permission",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-10",
+      "name": "Usage Access (disabled)",
+      "action": "Read feature requirements",
+      "apiHint": "UsageStatsManager path only after Indian counsel/owner approval",
+      "url": null,
+      "fr": "FR-005/047",
+      "kind": "usage",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/children/{childId}/usage",
+        "/children/{childId}/usage/apps",
+        "/children/{childId}/screen-time-rules"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-11",
+      "name": "Managed DPC setup",
+      "action": "Check provisioning status",
+      "apiHint": "DevicePolicyManager.isDeviceOwnerApp; documented factory provisioning",
+      "url": null,
+      "fr": "FR-007/037",
+      "kind": "managed",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-12",
+      "name": "Monitoring center",
+      "action": "View monitoring scope",
+      "apiHint": "Scoped server grants and on-device collection flags",
+      "url": null,
+      "fr": "FR-041",
+      "kind": "privacy",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-13",
+      "name": "Child device health",
+      "action": "Send health check",
+      "apiHint": "POST /devices/{deviceId}/health and /capabilities",
+      "url": null,
+      "fr": "FR-014/048",
+      "kind": "metrics",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-14",
+      "name": "Encrypted offline queue",
+      "action": "Retry when available",
+      "apiHint": "Encrypted local durable queue; idempotent event_uuid upload on reconnect",
+      "url": null,
+      "fr": "FR-023/024",
+      "kind": "offline",
+      "source": "05-child-app",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "C-15",
+      "name": "Child quick check-in",
+      "action": "Send check-in",
+      "apiHint": "Child-signed event UUID to durable SOS/check-in ingress",
+      "url": null,
+      "fr": "FR-046",
+      "kind": "alerts",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/sos",
+        "/children/{childId}/sos-events",
+        "/children/{childId}/sos/{eventId}/ack"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-16",
+      "name": "SOS status and manual call",
+      "action": "Open phone dialer",
+      "apiHint": "High-priority outbox and optional SMS fallback if separately funded",
+      "url": null,
+      "fr": "FR-044",
+      "kind": "alerts",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/devices/{deviceId}/sos",
+        "/children/{childId}/sos-events",
+        "/children/{childId}/sos/{eventId}/ack"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-17",
+      "name": "Access withdrawn",
+      "action": "Review access details",
+      "apiHint": "Revocation epoch, device stream invalidation, tombstone reconciliation",
+      "url": null,
+      "fr": "FR-013/022",
+      "kind": "privacy",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-18",
+      "name": "Child settings & appearance",
+      "action": "Open app settings",
+      "apiHint": "Local DataStore; child capability+policy read",
+      "url": null,
+      "fr": "FR-041",
+      "kind": "detail",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-19",
+      "name": "Managed rule status",
+      "action": "View policy detail",
+      "apiHint": "DPC command receipt/DevicePolicyManager status if eligible",
+      "url": null,
+      "fr": "FR-007/047",
+      "kind": "managed",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-20",
+      "name": "Optional media capture request",
+      "action": "See capability explanation",
+      "apiHint": "No M1 endpoint; conditional child-initiated capture API research",
+      "url": null,
+      "fr": "FR-009/010",
+      "kind": "managed",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "C-21",
+      "name": "Secure re-enrollment",
+      "action": "Start new secure pairing",
+      "apiHint": "POST /enrollment and challenge/proof for fresh key",
+      "url": null,
+      "fr": "FR-001",
+      "kind": "code",
+      "source": "05-child-app",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-01",
+      "name": "Welcome to Alarka",
+      "action": "Entry only after guardian pairing intent. No sensor access before permission.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-3",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-02",
+      "name": "Checking this device",
+      "action": "Read-only PackageManager/CameraManager/SensorManager probes; no false operational claim.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-27",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/devices/{deviceId}/sos",
+        "/children/{childId}/sos-events",
+        "/children/{childId}/sos/{eventId}/ack",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-03",
+      "name": "Compatibility result",
+      "action": "Hardware availability separate from permission state and feature release status.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-51",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-04",
+      "name": "Feature details",
+      "action": "Every feature must carry support, permission, availability, release status and observed_at.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-78",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-05",
+      "name": "Secure device pairing",
+      "action": "Prohibit unsigned capability ingestion; bind to child and authenticated device.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-105",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-06",
+      "name": "Before permissions",
+      "action": "Show purpose, required/optional, retention and who receives data before OS dialog.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-129",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-07",
+      "name": "Location while using",
+      "action": "For Android 11+ never request foreground and background location in one request.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-153",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-08",
+      "name": "Background location",
+      "action": "Android 11+ background location guided through settings; do not claim active until policy approved.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-177",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-09",
+      "name": "Monitoring notifications",
+      "action": "Do not hide icon/system indicators; notification permission denial impacts transparency.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-201",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-10",
+      "name": "Usage access",
+      "action": "Use UsageStatsManager permission state via AppOps; Android Settings, OS confirmation.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-225",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/usage",
+        "/children/{childId}/usage/apps",
+        "/children/{childId}/screen-time-rules"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-11",
+      "name": "Choose media access",
+      "action": "READ_MEDIA_* with selected-photo access; never infer all library files from partial grant.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-249",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-12",
+      "name": "Microphone permission",
+      "action": "Do not solicit dangerous permission in commercial build unless released; use demo only.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=23-276",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-13",
+      "name": "Camera access · Research",
+      "action": "Never auto-enable media merely because hardware exists. Demo shown as research-only.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-2",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-14",
+      "name": "Managed-device mode",
+      "action": "Real device-owner enrollment may require factory reset; never claim admin equals owner.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-29",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-15",
+      "name": "Screen-sharing consent",
+      "action": "Android 14+ per-session MediaProjection token; do not store consent for reuse.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-53",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-16",
+      "name": "Android decision received",
+      "action": "ActivityResult then PackageManager/AppOps; never trust button-click or app-owned approval.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-80",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "A-17",
+      "name": "Permission declined",
+      "action": "Handle don't-ask-again/Settings flow without harassment or bypass.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-104",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-18",
+      "name": "Selected photos only",
+      "action": "Persist only allowed URI grants; never equate selected media with full library.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-128",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-19",
+      "name": "Permission confirmed",
+      "action": "Local OS grant, server durable ACK and parent confirmation are distinct events.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-155",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-20",
+      "name": "Setup complete",
+      "action": "Only permitted background components continue; main Alarka Activity need not remain open.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-179",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "A-21",
+      "name": "Access changed in Settings",
+      "action": "Revocation can terminate app process: cannot guarantee immediate callback or push.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-206",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-22",
+      "name": "Re-enable a permission",
+      "action": "A regrant updates permission state only; runtime operational and release gates separate.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-233",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "A-23",
+      "name": "Offline changes queued",
+      "action": "No claims of instant revocation propagation; deadlines and monotonic versions.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-257",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "A-24",
+      "name": "Your monitoring controls",
+      "action": "Visible identity and accessible privacy controls even after setup Activity normally closes.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=24-284",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-01",
+      "name": "Child device connecting",
+      "action": "First parent frame before trusted pairing/attestation. No parental spoofed capability.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-2",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/pairing-codes",
+        "/enrollment",
+        "/children/{childId}/pairing-codes",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-02",
+      "name": "Device overview",
+      "action": "Multiple counts should be derived separately, without conflating support/grant/active.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-26",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-03",
+      "name": "Feature compatibility",
+      "action": "Never use a single green feature flag for OS grants and runtime eligibility.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-53",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-04",
+      "name": "Setup progress",
+      "action": "Server stores versioned state, emits parent update on durable write.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-80",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-05",
+      "name": "Access granted",
+      "action": "Do not call all dependent features fully operational based on an OS grant.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-107",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-06",
+      "name": "Permission disabled",
+      "action": "Only a device-authenticated report justifies exact revocation claim; stop stream.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-131",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-07",
+      "name": "Denied or unsupported?",
+      "action": "Do not suggest bypass for legal feature-off or absent hardware.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-158",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-08",
+      "name": "Temporary access",
+      "action": "One-time camera/mic/location grants can terminate; TTL and capture-time check required.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-182",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-09",
+      "name": "Partial media access",
+      "action": "No arbitrary filesystem access or inference of selected photo selection list.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-206",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-10",
+      "name": "Remote camera conditions",
+      "action": "Permission green but media operational amber / release flag OFF.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-233",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-11",
+      "name": "Screen request approval",
+      "action": "No repeated media projection token reuse; do not promise remote activation.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-260",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-12",
+      "name": "Managed-mode requirement",
+      "action": "Device Admin access alone does not create device-owner authority.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=25-284",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-13",
+      "name": "Alarka is offline",
+      "action": "No fabricated 'permission revoked' result from stale/offline snapshot.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-2",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-14",
+      "name": "Status needs recheck",
+      "action": "Per-feature TTL; stale not green; recheck at command execution.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-29",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-15",
+      "name": "Status restored",
+      "action": "Server broadcasts only after durable write and monotonic version validation.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-53",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-16",
+      "name": "Permission change history",
+      "action": "Change audit reason/actor/source with limited retention; no raw media or protected data.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-80",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-17",
+      "name": "How to enable location",
+      "action": "No parent-side silent permission grant; preserve Android user agency.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-107",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-18",
+      "name": "Guardian access check",
+      "action": "Authorization for report reading and permission-related commands must be child-specific.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-134",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-19",
+      "name": "Report version conflict",
+      "action": "Monotonic version + compare-and-set; reject duplicates/conflicts and require device-signed source.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-158",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-20",
+      "name": "Privacy switch disabled",
+      "action": "Do not override global sensor controls; report exact reason only with actual device evidence.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-185",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-21",
+      "name": "Approval reversed",
+      "action": "Revocation may kill process; event can only appear after subsequent authenticated sync.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-212",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "P-22",
+      "name": "Full compatibility details",
+      "action": "Green operational only if supported + proper access + context + release approved + fresh confirmation.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=26-239",
+      "fr": null,
+      "kind": "",
+      "source": "06-capability-onboarding",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-01",
+      "name": "Media activity",
+      "action": "Parent shows only authorized children; default last 7 days; server cursor pagination, no server media file links.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-3",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-02",
+      "name": "Choose a child",
+      "action": "Accessible dropdown filters using child name + masked ID; no child from another family. Parent changes clear cursor.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-29",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-03",
+      "name": "Date range",
+      "action": "Timezone localized, to-exclusive UTC server boundary; reject reversed/oversized/retention-exceeding queries.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-59",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-04",
+      "name": "Filter results",
+      "action": "Filters are server-side and intersect date and child scopes; page cursor resets upon any filter change.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-89",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "PA-05",
+      "name": "Session details",
+      "action": "VIEWED_ONLY only if parent display/playback receipt verified. Live-only file_size_bytes is NULL.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-119",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-06",
+      "name": "Saved recording details",
+      "action": "Historical receipt cannot prove parent file remains after deletion; do not provide server download links.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-153",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-07",
+      "name": "Why did it fail?",
+      "action": "Show exact OS error only when verified. Phone call/mic-used attribution cannot be invented.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-187",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "PA-08",
+      "name": "No matching activity",
+      "action": "Empty is distinct from unauthorized, failed server request, and offline device.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-221",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-09",
+      "name": "Historical activity offline",
+      "action": "Read-only history does not wake child. Never infer a sensor-specific failure from an offline phone.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-247",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust",
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "PA-10",
+      "name": "Browse more activity",
+      "action": "Stable sort (request_at DESC, ID DESC) and signed cursors with previous/next; no duplicate rows on changes.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-277",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "PA-11",
+      "name": "Access not available",
+      "action": "No cross-family ID enumeration and expired guardian grants invalidate cached pages.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-303",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/families",
+        "/families/{familyId}/children",
+        "/children/{childId}/guardian-grants",
+        "/children/{childId}/guardian-invitations"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-01",
+      "name": "Administrator sign-in",
+      "action": "Separate admin JWT audience, MFA, short TTL, server-side role and case. No media log data before sign-in.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-2",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-02",
+      "name": "Operations overview",
+      "action": "No named children in routine support dashboard. Hide aggregate when small-number inference risky.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-48",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-03",
+      "name": "Request case-based access",
+      "action": "Case/purpose scope server-issued, expiring; ordinary operator role cannot grant itself universal search.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-98",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "ADM-04",
+      "name": "Media activity explorer",
+      "action": "Parent/child names resolved read-time under active scope; filter intersection + max page size and stable cursor pagination.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-148",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-05",
+      "name": "Search parent accounts",
+      "action": "Name/ID autocomplete debounced and server-scope filtered; lookup itself recorded in access audit.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-198",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "ADM-06",
+      "name": "Search children",
+      "action": "Child parent relationship validated server-side; dropdown may not reveal siblings outside explicit case.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-244",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "ADM-07",
+      "name": "Media record details",
+      "action": "Admin cannot replay, download, thumbnail or access media; viewed requires parent display/playback receipt.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-290",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/children/{childId}/media/requests",
+        "/parents/me/media-activity",
+        "/children/{childId}/media-quota",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-08",
+      "name": "Failure reason & evidence",
+      "action": "No raw exception texts or third-party call data. Distinguish verified reason source from unknown context.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-344",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "ADM-09",
+      "name": "No results or no access",
+      "action": "UI distinguishes zero result/403/401/422/429, no identity leaks in error or suggestions.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-394",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "ADM-10",
+      "name": "Pagination and retry",
+      "action": "Keyset cursor with previous/next history, bounded page size max 100, cancellation and retry; scope checked every page.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-2",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/children/{childId}/position",
+        "/children/{childId}/locations",
+        "/children/{childId}/trips",
+        "/trips/{tripId}/segments"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-11",
+      "name": "Administrator access audit",
+      "action": "Search, suggestions, detail reads and export attempts write audit; fail closed if audit not persisted.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-52",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-12",
+      "name": "Privacy and retention gates",
+      "action": "Privacy-approved retention TTLs TBD; operator read-only unless separate signed change; backup/deletion protection.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-102",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-13",
+      "name": "Session expired",
+      "action": "401 and session expiry require step-up; no cached child rows displayed on expired screen.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-152",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-14",
+      "name": "Access denied",
+      "action": "403 must not reveal existence of target parent/child. Audit failed attempt. No admin superuser default bypass.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-198",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-15",
+      "name": "Controlled export request",
+      "action": "Download/export disabled by default, requires case-bound dual control, audit and DLP review.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-248",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ADM-16",
+      "name": "Role and case assignment",
+      "action": "Manage role grants via separate governed workflow; root does not automatically receive child metadata rights.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-298",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "ADM-17",
+      "name": "Audit service unavailable",
+      "action": "Fail closed for detailed access if independent admin-access audit cannot durably append.",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-352",
+      "fr": null,
+      "kind": "",
+      "source": "07-media-activity-audit",
+      "proposed_path_candidates": [
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "ST-01",
+      "name": "A Mother's Wisdom",
+      "action": "Skip; Back; Next; progress; Source & interpretation",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=46-164",
+      "fr": null,
+      "kind": "narrative",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "LOCAL_STORY_NO_API"
+    },
+    {
+      "id": "ST-02",
+      "name": "Alarka's Responsibility",
+      "action": "Skip; Back; Next; progress; Source & interpretation",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=46-177",
+      "fr": null,
+      "kind": "narrative",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "LOCAL_STORY_NO_API"
+    },
+    {
+      "id": "ST-03",
+      "name": "The Ring of Counsel",
+      "action": "Skip; Back; Next; progress; Source & interpretation",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=46-190",
+      "fr": null,
+      "kind": "narrative",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "LOCAL_STORY_NO_API"
+    },
+    {
+      "id": "ST-04",
+      "name": "Remembering Her Words",
+      "action": "Skip; Back; Next; progress; Source & interpretation",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=46-203",
+      "fr": null,
+      "kind": "narrative",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "LOCAL_STORY_NO_API"
+    },
+    {
+      "id": "ST-05",
+      "name": "The Path to Wisdom",
+      "action": "Skip; Back; Next; progress; Source & interpretation",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=46-216",
+      "fr": null,
+      "kind": "narrative",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "LOCAL_STORY_NO_API"
+    },
+    {
+      "id": "P-05",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-164",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-15",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-192",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-24",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-212",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-28",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-237",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-39",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-263",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-48",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-281",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-58",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-303",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "C-02",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-337",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-31",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=52-317",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-47",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=81-179",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "P-49",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=81-201",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "SH-01",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=84-179",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "SH-02",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=84-201",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "SH-03",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=84-221",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "SH-04",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=84-242",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "SH-05",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=84-263",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "SH-06",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=89-180",
+      "fr": null,
+      "kind": "themed functional sample",
+      "source": "09-theme-c-story-and-screens",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "BO-01",
+      "name": "BO-01 / Sign in · access required",
+      "action": "Welcome to Madalasa Administration, What happens next, Data protection",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-2",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/auth/parent/google",
+        "/parents/me",
+        "/parents/me/logout",
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-02",
+      "name": "BO-02 / Complete profile · verify email",
+      "action": "Applicant profile, Email verification, Request Access   — DISABLED",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-35",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-02V",
+      "name": "BO-02V / Verified profile · submit request",
+      "action": "Profile completed, Verification complete, After submitting",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-71",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [],
+      "unmatched_path_candidates": [],
+      "audit_state": "MANUAL_MAPPING_REQUIRED"
+    },
+    {
+      "id": "BO-03",
+      "name": "BO-03 / Request submitted · awaiting approval",
+      "action": "Your application status, What the owner receives, Security boundary",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-106",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/devices/{deviceId}/capabilities",
+        "/devices/{deviceId}/permission-snapshots",
+        "/children/{childId}/health",
+        "/children/{childId}/tracking-trust"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-04",
+      "name": "BO-04 / Owner · review access requests",
+      "action": "Access Requests  •  Pending (2), Applicant profile · REQ-1048, Decide & assign roles, Owner only",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-2",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-05",
+      "name": "BO-05 / FAQ pages · content management",
+      "action": "FAQ pages  •  Search + categories, FAQ editor, Publication controls, Security",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-44",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-06",
+      "name": "BO-06 / Support requests · conversation",
+      "action": "Support inbox  •  3 examples, Ticket conversation · SUP-210, Support privacy requirements",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-85",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/faqs",
+        "/support/tickets",
+        "/admin/faqs",
+        "/admin/support/tickets",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-07",
+      "name": "BO-07 / Subscribers · plans and payments",
+      "action": "Subscriber ledger · search + filters, Selected plan · example, Verified Play payment summary",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-123",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-08",
+      "name": "BO-08 / Subscribers · child roster & parent service usage",
+      "action": "Subscriber account  •  ACC-00021, Parent usage summary, Parent service-usage log  ·  UTC times shown, CHILD PRIVACY WALL",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-161",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/billing/catalog",
+        "/billing/entitlement",
+        "/families/{familyId}/checkout-intents",
+        "/billing/purchases/verify",
+        "/families/{familyId}/trial/eligibility",
+        "/children/{childId}/viewer-leases",
+        "/children/{childId}/usage",
+        "/children/{childId}/usage/apps",
+        "/children/{childId}/screen-time-rules",
+        "/account/deletion-request",
+        "/account/export-requests",
+        "/children/{childId}/consents"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    },
+    {
+      "id": "BO-09",
+      "name": "BO-09 / Super Admin · overview and access security",
+      "action": "Admin operations summary, Assigned privileges, Recent security events, Staff and controls",
+      "apiHint": "",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-202",
+      "fr": null,
+      "kind": "",
+      "source": "10-admin-back-office",
+      "proposed_path_candidates": [
+        "/admin/auth/google",
+        "/admin/access/requests",
+        "/admin/owner/access-requests",
+        "/admin/owner/access-requests/{requestId}/decision"
+      ],
+      "unmatched_path_candidates": [],
+      "audit_state": "PATH_FOUND_CONTRACT_REVIEW_REQUIRED"
+    }
+  ],
+  "api_operations": [
+    {
+      "method": "POST",
+      "path": "/pairing-codes",
+      "op": "post_pairing_codes",
+      "summary": "Issue short-lived one-use pairing code"
+    },
+    {
+      "method": "POST",
+      "path": "/enrollment",
+      "op": "post_enrollment",
+      "summary": "Redeem child setup code and bind public key"
+    },
+    {
+      "method": "GET",
+      "path": "/devices",
+      "op": "get_devices",
+      "summary": "List authorized enrolled child devices"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/capabilities",
+      "op": "post_devices_deviceId_capabilities",
+      "summary": "Authenticated Alarka versioned device capability and OS permission report; no media capture"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/health",
+      "op": "post_devices_deviceId_health",
+      "summary": "Report device status snapshot"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/locations:batch",
+      "op": "post_devices_deviceId_locations_batch",
+      "summary": "Durably accept authenticated GPS batches to PostgreSQL inbox for async bulk insertion"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/usage:batch",
+      "op": "post_devices_deviceId_usage_batch",
+      "summary": "Durably ingest independent app-usage session/event batches for background aggregation"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/motion-events:batch",
+      "op": "post_devices_deviceId_motion_events_batch",
+      "summary": "Optional authorized activity transition hints"
+    },
+    {
+      "method": "GET",
+      "path": "/devices/{deviceId}/commands",
+      "op": "get_devices_deviceId_commands",
+      "summary": "Fetch pending authorized commands for own device"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/commands/{commandId}:result",
+      "op": "post_devices_deviceId_commands_commandId_result",
+      "summary": "Report actual command outcome"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/sos",
+      "op": "post_devices_deviceId_sos",
+      "summary": "Child-initiated SOS delivery request; may remain pending"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/checkins",
+      "op": "post_devices_deviceId_checkins",
+      "summary": "Child-initiated preset check-in"
+    },
+    {
+      "method": "GET",
+      "path": "/devices/{deviceId}/tracking-policy",
+      "op": "get_devices_deviceId_tracking_policy",
+      "summary": "Fetch allowed versioned sampling settings"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/position",
+      "op": "get_children_childId_position",
+      "summary": "Get latest qualifying device position (never fake live)"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/locations",
+      "op": "get_children_childId_locations",
+      "summary": "Read bounded time range of original observations"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/trips",
+      "op": "get_children_childId_trips",
+      "summary": "List trip summaries and provisional revisions"
+    },
+    {
+      "method": "GET",
+      "path": "/trips/{tripId}/segments",
+      "op": "get_trips_tripId_segments",
+      "summary": "Read source-quality route segments including explicit gaps"
+    },
+    {
+      "method": "GET",
+      "path": "/trips/{tripId}/stops",
+      "op": "get_trips_tripId_stops",
+      "summary": "List inferred dwell locations and named-place matches"
+    },
+    {
+      "method": "GET",
+      "path": "/trips/{tripId}/revisions",
+      "op": "get_trips_tripId_revisions",
+      "summary": "List late-data and algorithm correction revisions"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/places",
+      "op": "get_children_childId_places",
+      "summary": "List parent-defined place markers"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/places",
+      "op": "post_children_childId_places",
+      "summary": "Create owned named place"
+    },
+    {
+      "method": "PATCH",
+      "path": "/children/{childId}/places/{placeId}",
+      "op": "patch_children_childId_places_placeId_",
+      "summary": "Version-checked named place update"
+    },
+    {
+      "method": "DELETE",
+      "path": "/children/{childId}/places/{placeId}",
+      "op": "delete_children_childId_places_placeId_",
+      "summary": "Archive/remove named place"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/usage",
+      "op": "get_children_childId_usage",
+      "summary": "Read daily-to-yearly permission-limited usage"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/health",
+      "op": "get_children_childId_health",
+      "summary": "Observe last heartbeat, last fix and last processed timestamps"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/tracking-trust",
+      "op": "get_children_childId_tracking_trust",
+      "summary": "Read reason-coded route quality/processing diagnostics"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/guardian-grants",
+      "op": "get_children_childId_guardian_grants",
+      "summary": "List approved child-specific grants"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/guardian-grants",
+      "op": "post_children_childId_guardian_grants",
+      "summary": "Create verified, limited, expiring guardian invitation/grant"
+    },
+    {
+      "method": "DELETE",
+      "path": "/children/{childId}/guardian-grants/{grantId}",
+      "op": "delete_children_childId_guardian_grants_grantId_",
+      "summary": "Revoke grant and invalidate live streams"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/access-history",
+      "op": "get_children_childId_access_history",
+      "summary": "Return redacted significant access receipts"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/commute-plans",
+      "op": "post_children_childId_commute_plans",
+      "summary": "Configure cautious arrival windows and uncertainty-safe alerts"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/commute-plans",
+      "op": "get_children_childId_commute_plans",
+      "summary": "List child's authorized commute plans"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/policy-preview",
+      "op": "post_children_childId_policy_preview",
+      "summary": "Dry-run rules without claiming policy applied"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/commands",
+      "op": "post_children_childId_commands",
+      "summary": "Request capability-gated parent operation"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/commands/{commandId}",
+      "op": "get_children_childId_commands_commandId_",
+      "summary": "Check actual command state"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/sos/{eventId}/ack",
+      "op": "post_children_childId_sos_eventId_ack",
+      "summary": "Acknowledge event for authorized guardian"
+    },
+    {
+      "method": "POST",
+      "path": "/account/deletion-request",
+      "op": "post_account_deletion_request",
+      "summary": "Request verified deletion (not immediate completion)"
+    },
+    {
+      "method": "GET",
+      "path": "/account/deletion-request/{requestId}",
+      "op": "get_account_deletion_request_requestId_",
+      "summary": "Check deletion stage, with current auth or verified one-time reference"
+    },
+    {
+      "method": "GET",
+      "path": "/billing/entitlement",
+      "op": "get_billing_entitlement",
+      "summary": "Read server-verified subscription features/expiry"
+    },
+    {
+      "method": "POST",
+      "path": "/support/diagnostics",
+      "op": "post_support_diagnostics",
+      "summary": "Opt-in redacted diagnostic bundle"
+    },
+    {
+      "method": "POST",
+      "path": "/enrollment/{enrollmentId}/proof",
+      "op": "post_enrollment_enrollmentId_proof",
+      "summary": "Finish enrolled device key proof; challenge must be fresh and single-use"
+    },
+    {
+      "method": "DELETE",
+      "path": "/devices/{deviceId}/pairing",
+      "op": "delete_devices_deviceId_pairing",
+      "summary": "Authorized parent revokes device credentials and stops further ingest"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/devices/{deviceId}/capabilities",
+      "op": "getChildDeviceVerifiedCapabilities",
+      "summary": "Madalasa reads child-scoped last device-verified compatibility, permission and freshness state"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/media-activity/children",
+      "op": "listParentAuthorizedMediaActivityChildren",
+      "summary": "List own authorized children for media activity dropdown"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/media-activity",
+      "op": "listParentMediaActivity",
+      "summary": "Parent media activity metadata, filters and cursor pagination"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/media-activity/{activityId}",
+      "op": "getParentMediaActivityDetail",
+      "summary": "Read own authorized media lifecycle and evidence"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/media-activity",
+      "op": "listAdminCaseScopedMediaActivity",
+      "summary": "Restricted admin media activity search across authorized parent/child scope"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/media-activity/{activityId}",
+      "op": "getAdminMediaActivityDetail",
+      "summary": "Case-authorized redacted event details"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/media-activity/parents/suggest",
+      "op": "suggestCaseScopedParent",
+      "summary": "Audited parent name or ID autocomplete within active case"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/media-activity/children/suggest",
+      "op": "suggestCaseScopedChild",
+      "summary": "Audited child name/ID autocomplete filtered by approved parent"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/media-activity/access-audit",
+      "op": "listAdminMediaAccessAudit",
+      "summary": "Restricted view of audits of privileged search and detailed reads"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/access/me",
+      "op": "get__admin_access_me",
+      "summary": "GET /admin/access/me"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/access/requests/me",
+      "op": "get__admin_access_requests_me",
+      "summary": "GET /admin/access/requests/me"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/faqs",
+      "op": "get__admin_faqs",
+      "summary": "GET /admin/faqs"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/faqs",
+      "op": "post__admin_faqs",
+      "summary": "POST /admin/faqs"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/owner/access-requests",
+      "op": "get__admin_owner_access_requests",
+      "summary": "GET /admin/owner/access-requests"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/security/audit",
+      "op": "get__admin_security_audit",
+      "summary": "GET /admin/security/audit"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/subscribers",
+      "op": "get__admin_subscribers",
+      "summary": "GET /admin/subscribers"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/subscribers/{familyId}/children",
+      "op": "get__admin_subscribers_familyId_children",
+      "summary": "GET /admin/subscribers/{familyId}/children"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/subscribers/{familyId}/payments",
+      "op": "get__admin_subscribers_familyId_payments",
+      "summary": "GET /admin/subscribers/{familyId}/payments"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/support/tickets",
+      "op": "get__admin_support_tickets",
+      "summary": "GET /admin/support/tickets"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/usage/parents",
+      "op": "get__admin_usage_parents",
+      "summary": "GET /admin/usage/parents"
+    },
+    {
+      "method": "GET",
+      "path": "/billing/catalog",
+      "op": "get__billing_catalog",
+      "summary": "GET /billing/catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}",
+      "op": "get__children_childId",
+      "summary": "GET /children/{childId}"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/consents",
+      "op": "get__children_childId_consents",
+      "summary": "GET /children/{childId}/consents"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/consents",
+      "op": "post__children_childId_consents",
+      "summary": "POST /children/{childId}/consents"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/devices",
+      "op": "get__children_childId_devices",
+      "summary": "GET /children/{childId}/devices"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/guardian-verification",
+      "op": "get__children_childId_guardian_verification",
+      "summary": "GET /children/{childId}/guardian-verification"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/paid-entitlement",
+      "op": "get__children_childId_paid_entitlement",
+      "summary": "GET /children/{childId}/paid-entitlement"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/provenance",
+      "op": "get__children_childId_provenance",
+      "summary": "GET /children/{childId}/provenance"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/screen-time-rules",
+      "op": "get__children_childId_screen_time_rules",
+      "summary": "GET /children/{childId}/screen-time-rules"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/screen-time-rules",
+      "op": "post__children_childId_screen_time_rules",
+      "summary": "POST /children/{childId}/screen-time-rules"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/sos-events",
+      "op": "get__children_childId_sos_events",
+      "summary": "GET /children/{childId}/sos-events"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/tracking-policy",
+      "op": "get__children_childId_tracking_policy",
+      "summary": "GET /children/{childId}/tracking-policy"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/usage/apps",
+      "op": "get__children_childId_usage_apps",
+      "summary": "GET /children/{childId}/usage/apps"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/viewer-leases",
+      "op": "get__children_childId_viewer_leases",
+      "summary": "GET /children/{childId}/viewer-leases"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/viewer-leases",
+      "op": "post__children_childId_viewer_leases",
+      "summary": "POST /children/{childId}/viewer-leases"
+    },
+    {
+      "method": "GET",
+      "path": "/devices/{deviceId}/consent-status",
+      "op": "get__devices_deviceId_consent_status",
+      "summary": "GET /devices/{deviceId}/consent-status"
+    },
+    {
+      "method": "GET",
+      "path": "/devices/{deviceId}/permission-events",
+      "op": "get__devices_deviceId_permission_events",
+      "summary": "GET /devices/{deviceId}/permission-events"
+    },
+    {
+      "method": "GET",
+      "path": "/devices/{deviceId}/state",
+      "op": "get__devices_deviceId_state",
+      "summary": "GET /devices/{deviceId}/state"
+    },
+    {
+      "method": "GET",
+      "path": "/families/{familyId}/children",
+      "op": "get__families_familyId_children",
+      "summary": "GET /families/{familyId}/children"
+    },
+    {
+      "method": "GET",
+      "path": "/families/{familyId}/entitlements",
+      "op": "get__families_familyId_entitlements",
+      "summary": "GET /families/{familyId}/entitlements"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me",
+      "op": "get__parents_me",
+      "summary": "GET /parents/me"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/authorized-children",
+      "op": "get__parents_me_authorized_children",
+      "summary": "GET /parents/me/authorized-children"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/notification-preferences",
+      "op": "get__parents_me_notification_preferences",
+      "summary": "GET /parents/me/notification-preferences"
+    },
+    {
+      "method": "PUT",
+      "path": "/parents/me/notification-preferences",
+      "op": "put__parents_me_notification_preferences",
+      "summary": "PUT /parents/me/notification-preferences"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/notifications",
+      "op": "get__parents_me_notifications",
+      "summary": "GET /parents/me/notifications"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/notifications/{notificationId}",
+      "op": "get__parents_me_notifications_notificationId",
+      "summary": "GET /parents/me/notifications/{notificationId}"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/retention-policy",
+      "op": "get__parents_me_retention_policy",
+      "summary": "GET /parents/me/retention-policy"
+    },
+    {
+      "method": "GET",
+      "path": "/service/status",
+      "op": "get__service_status",
+      "summary": "GET /service/status"
+    },
+    {
+      "method": "POST",
+      "path": "/account/export-requests",
+      "op": "post__account_export_requests",
+      "summary": "POST /account/export-requests"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/access/confirm-email",
+      "op": "post__admin_access_confirm_email",
+      "summary": "POST /admin/access/confirm-email"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/access/requests",
+      "op": "post__admin_access_requests",
+      "summary": "POST /admin/access/requests"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/access/verify-email",
+      "op": "post__admin_access_verify_email",
+      "summary": "POST /admin/access/verify-email"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/auth/google",
+      "op": "post__admin_auth_google",
+      "summary": "POST /admin/auth/google"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/faqs/{faqId}/publish",
+      "op": "post__admin_faqs_faqId_publish",
+      "summary": "POST /admin/faqs/{faqId}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/media-activity/cases",
+      "op": "post__admin_media_activity_cases",
+      "summary": "POST /admin/media-activity/cases"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/media-activity/exports",
+      "op": "post__admin_media_activity_exports",
+      "summary": "POST /admin/media-activity/exports"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/owner/access-requests/{requestId}/decision",
+      "op": "post__admin_owner_access_requests_requestId_decision",
+      "summary": "POST /admin/owner/access-requests/{requestId}/decision"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/support/tickets/{ticketId}/reply",
+      "op": "post__admin_support_tickets_ticketId_reply",
+      "summary": "POST /admin/support/tickets/{ticketId}/reply"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/parent/google",
+      "op": "post__auth_parent_google",
+      "summary": "POST /auth/parent/google"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/extra-viewer-purchase-intents",
+      "op": "post__children_childId_extra_viewer_purchase_intents",
+      "summary": "POST /children/{childId}/extra-viewer-purchase-intents"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/guardian-invitations",
+      "op": "post__children_childId_guardian_invitations",
+      "summary": "POST /children/{childId}/guardian-invitations"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/media/requests",
+      "op": "post__children_childId_media_requests",
+      "summary": "POST /children/{childId}/media/requests"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/pairing-codes",
+      "op": "post__children_childId_pairing_codes",
+      "summary": "POST /children/{childId}/pairing-codes"
+    },
+    {
+      "method": "POST",
+      "path": "/families",
+      "op": "post__families",
+      "summary": "POST /families"
+    },
+    {
+      "method": "POST",
+      "path": "/families/{familyId}/checkout-intents",
+      "op": "post__families_familyId_checkout_intents",
+      "summary": "POST /families/{familyId}/checkout-intents"
+    },
+    {
+      "method": "PUT",
+      "path": "/admin/access/profile",
+      "op": "put__admin_access_profile",
+      "summary": "PUT /admin/access/profile"
+    },
+    {
+      "method": "PUT",
+      "path": "/admin/faqs/{faqId}",
+      "op": "put__admin_faqs_faqId",
+      "summary": "PUT /admin/faqs/{faqId}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/faqs/{faqId}",
+      "op": "get__admin_faqs_faqId",
+      "summary": "GET /admin/faqs/{faqId}"
+    },
+    {
+      "method": "PUT",
+      "path": "/children/{childId}/places/{placeId}/notifications",
+      "op": "put__children_childId_places_placeId_notifications",
+      "summary": "PUT /children/{childId}/places/{placeId}/notifications"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/sessions",
+      "op": "get__parents_me_sessions",
+      "summary": "GET /parents/me/sessions"
+    },
+    {
+      "method": "POST",
+      "path": "/parents/me/logout",
+      "op": "post__parents_me_logout",
+      "summary": "POST /parents/me/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/guardian-verification/requests",
+      "op": "post__children_childId_guardian_verification_requests",
+      "summary": "POST /children/{childId}/guardian-verification/requests"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/commute-plans/{planId}",
+      "op": "get__children_childId_commute_plans_planId",
+      "summary": "GET /children/{childId}/commute-plans/{planId}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/children/{childId}/commute-plans/{planId}",
+      "op": "patch__children_childId_commute_plans_planId",
+      "summary": "PATCH /children/{childId}/commute-plans/{planId}"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/sos-events/{eventId}",
+      "op": "get__children_childId_sos_events_eventId",
+      "summary": "GET /children/{childId}/sos-events/{eventId}"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/device-state",
+      "op": "get__children_childId_device_state",
+      "summary": "GET /children/{childId}/device-state"
+    },
+    {
+      "method": "GET",
+      "path": "/parents/me/notifications/preferences",
+      "op": "get__parents_me_notifications_preferences",
+      "summary": "GET /parents/me/notifications/preferences"
+    },
+    {
+      "method": "POST",
+      "path": "/parents/me/notifications/{notificationId}/read",
+      "op": "post__parents_me_notifications_notificationId_read",
+      "summary": "POST /parents/me/notifications/{notificationId}/read"
+    },
+    {
+      "method": "GET",
+      "path": "/families/{familyId}/trial/eligibility",
+      "op": "get__families_familyId_trial_eligibility",
+      "summary": "GET /families/{familyId}/trial/eligibility"
+    },
+    {
+      "method": "POST",
+      "path": "/families/{familyId}/trial/start",
+      "op": "post__families_familyId_trial_start",
+      "summary": "POST /families/{familyId}/trial/start"
+    },
+    {
+      "method": "GET",
+      "path": "/families/{familyId}/founding-status",
+      "op": "get__families_familyId_founding_status",
+      "summary": "GET /families/{familyId}/founding-status"
+    },
+    {
+      "method": "POST",
+      "path": "/billing/purchases/verify",
+      "op": "post__billing_purchases_verify",
+      "summary": "POST /billing/purchases/verify"
+    },
+    {
+      "method": "GET",
+      "path": "/billing/purchases/{purchaseId}",
+      "op": "get__billing_purchases_purchaseId",
+      "summary": "GET /billing/purchases/{purchaseId}"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/media-quota",
+      "op": "get__children_childId_media_quota",
+      "summary": "GET /children/{childId}/media-quota"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/viewer-leases/{leaseId}/heartbeat",
+      "op": "post__children_childId_viewer_leases_leaseId_heartbeat",
+      "summary": "POST /children/{childId}/viewer-leases/{leaseId}/heartbeat"
+    },
+    {
+      "method": "DELETE",
+      "path": "/children/{childId}/viewer-leases/{leaseId}",
+      "op": "delete__children_childId_viewer_leases_leaseId",
+      "summary": "DELETE /children/{childId}/viewer-leases/{leaseId}"
+    },
+    {
+      "method": "POST",
+      "path": "/children/{childId}/viewer-takeover-requests",
+      "op": "post__children_childId_viewer_takeover_requests",
+      "summary": "POST /children/{childId}/viewer-takeover-requests"
+    },
+    {
+      "method": "GET",
+      "path": "/children/{childId}/media/requests/{requestId}",
+      "op": "get__children_childId_media_requests_requestId",
+      "summary": "GET /children/{childId}/media/requests/{requestId}"
+    },
+    {
+      "method": "POST",
+      "path": "/devices/{deviceId}/media/requests/{requestId}/result",
+      "op": "post__devices_deviceId_media_requests_requestId_result",
+      "summary": "POST /devices/{deviceId}/media/requests/{requestId}/result"
+    },
+    {
+      "method": "GET",
+      "path": "/account/export-requests/{exportId}",
+      "op": "get__account_export_requests_exportId",
+      "summary": "GET /account/export-requests/{exportId}"
+    },
+    {
+      "method": "GET",
+      "path": "/faqs",
+      "op": "get__faqs",
+      "summary": "GET /faqs"
+    },
+    {
+      "method": "GET",
+      "path": "/faqs/{slug}",
+      "op": "get__faqs_slug",
+      "summary": "GET /faqs/{slug}"
+    },
+    {
+      "method": "POST",
+      "path": "/support/tickets",
+      "op": "post__support_tickets",
+      "summary": "POST /support/tickets"
+    },
+    {
+      "method": "GET",
+      "path": "/support/tickets",
+      "op": "get__support_tickets",
+      "summary": "GET /support/tickets"
+    },
+    {
+      "method": "GET",
+      "path": "/support/tickets/{ticketId}",
+      "op": "get__support_tickets_ticketId",
+      "summary": "GET /support/tickets/{ticketId}"
+    },
+    {
+      "method": "POST",
+      "path": "/support/tickets/{ticketId}/messages",
+      "op": "post__support_tickets_ticketId_messages",
+      "summary": "POST /support/tickets/{ticketId}/messages"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/owner/access-requests/{requestId}",
+      "op": "get__admin_owner_access_requests_requestId",
+      "summary": "GET /admin/owner/access-requests/{requestId}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/owner/staff",
+      "op": "get__admin_owner_staff",
+      "summary": "GET /admin/owner/staff"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/owner/grants/{grantId}/revoke",
+      "op": "post__admin_owner_grants_grantId_revoke",
+      "summary": "POST /admin/owner/grants/{grantId}/revoke"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/faqs/{faqId}/revisions",
+      "op": "get__admin_faqs_faqId_revisions",
+      "summary": "GET /admin/faqs/{faqId}/revisions"
+    },
+    {
+      "method": "PATCH",
+      "path": "/admin/support/tickets/{ticketId}",
+      "op": "patch__admin_support_tickets_ticketId",
+      "summary": "PATCH /admin/support/tickets/{ticketId}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/subscribers/{familyId}",
+      "op": "get__admin_subscribers_familyId",
+      "summary": "GET /admin/subscribers/{familyId}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/security/access-audit",
+      "op": "get__admin_security_access_audit",
+      "summary": "GET /admin/security/access-audit"
+    },
+    {
+      "method": "GET",
+      "path": "/devices/{deviceId}/permission-snapshots",
+      "op": "get__devices_deviceId_permission_snapshots",
+      "summary": "GET /devices/{deviceId}/permission-snapshots"
+    }
+  ]
+}

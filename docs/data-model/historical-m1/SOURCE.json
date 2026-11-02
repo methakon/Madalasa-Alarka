@@ -1,0 +1,8 @@
+{
+  "status": "FROZEN_HISTORICAL_NOT_RUNTIME",
+  "source_commit": "b507e5f47e78d453db2703d02a3d80dcb45fa1dc",
+  "checkpoint": "common:0001 + m1:0002 through m1:0004",
+  "mapping_source": "docs/data-model/M1_PHYSICAL_TO_LOGICAL_CATALOG.json",
+  "mapping_sha256": "2433363c21e10d807cbc279a7450f586d057db8ea7a92ef48ad2c4aefa72c824",
+  "current_report": "docs/M1_PHYSICAL_TABLE_CATALOG.md"
+}

@@ -1,0 +1,10 @@
+Subject: Your Madalasa plan ended — renewal is optional
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your {{plan_label}} for {{child_display_label}} ended on {{expiry_date_ist}}. Your account remains on eligible free features. You may restore paid access through a manual purchase: {{renew_url}}.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka

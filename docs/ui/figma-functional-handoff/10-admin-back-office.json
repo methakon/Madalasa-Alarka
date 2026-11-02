@@ -1,0 +1,152 @@
+{
+  "page_id": "105:2",
+  "page_name": "ADMIN BACK OFFICE • Google Access + Support + Billing",
+  "screens": [
+    {
+      "id": "BO-01",
+      "node_id": "106:2",
+      "title": "BO-01 / Sign in · access required",
+      "sections": [
+        "Welcome to Madalasa Administration",
+        "What happens next",
+        "Data protection"
+      ],
+      "editable_text_nodes": 28,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-2",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-02",
+      "node_id": "106:35",
+      "title": "BO-02 / Complete profile · verify email",
+      "sections": [
+        "Applicant profile",
+        "Email verification",
+        "Request Access   — DISABLED"
+      ],
+      "editable_text_nodes": 31,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-35",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-02V",
+      "node_id": "106:71",
+      "title": "BO-02V / Verified profile · submit request",
+      "sections": [
+        "Profile completed",
+        "Verification complete",
+        "After submitting"
+      ],
+      "editable_text_nodes": 30,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-71",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-03",
+      "node_id": "106:106",
+      "title": "BO-03 / Request submitted · awaiting approval",
+      "sections": [
+        "Your application status",
+        "What the owner receives",
+        "Security boundary"
+      ],
+      "editable_text_nodes": 30,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=106-106",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-04",
+      "node_id": "107:2",
+      "title": "BO-04 / Owner · review access requests",
+      "sections": [
+        "Access Requests  •  Pending (2)",
+        "Applicant profile · REQ-1048",
+        "Decide & assign roles",
+        "Owner only"
+      ],
+      "editable_text_nodes": 36,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-2",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-05",
+      "node_id": "107:44",
+      "title": "BO-05 / FAQ pages · content management",
+      "sections": [
+        "FAQ pages  •  Search + categories",
+        "FAQ editor",
+        "Publication controls",
+        "Security"
+      ],
+      "editable_text_nodes": 35,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-44",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-06",
+      "node_id": "107:85",
+      "title": "BO-06 / Support requests · conversation",
+      "sections": [
+        "Support inbox  •  3 examples",
+        "Ticket conversation · SUP-210",
+        "Support privacy requirements"
+      ],
+      "editable_text_nodes": 33,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-85",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-07",
+      "node_id": "107:123",
+      "title": "BO-07 / Subscribers · plans and payments",
+      "sections": [
+        "Subscriber ledger · search + filters",
+        "Selected plan · example",
+        "Verified Play payment summary"
+      ],
+      "editable_text_nodes": 33,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-123",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-08",
+      "node_id": "107:161",
+      "title": "BO-08 / Subscribers · child roster & parent service usage",
+      "sections": [
+        "Subscriber account  •  ACC-00021",
+        "Parent usage summary",
+        "Parent service-usage log  ·  UTC times shown",
+        "CHILD PRIVACY WALL"
+      ],
+      "editable_text_nodes": 35,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-161",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    },
+    {
+      "id": "BO-09",
+      "node_id": "107:202",
+      "title": "BO-09 / Super Admin · overview and access security",
+      "sections": [
+        "Admin operations summary",
+        "Assigned privileges",
+        "Recent security events",
+        "Staff and controls"
+      ],
+      "editable_text_nodes": 37,
+      "figma_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=107-202",
+      "authority": "GOOGLE_OIDC_SERVER_VERIFIED_SUB_AND_OWNER_APPROVAL",
+      "private_child_data_excluded": true
+    }
+  ],
+  "design_only": true,
+  "canonical_spec": "docs/phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_OWNER_GOOGLE_ACCESS_FAQ_SUPPORT_BILLING_AND_USAGE_2026.md"
+}

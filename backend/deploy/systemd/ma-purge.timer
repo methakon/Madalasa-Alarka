@@ -1,0 +1,11 @@
+[Unit]
+Description=Hourly Madalasa-Alarka M1 retention purge
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=5min
+Persistent=true
+Unit=ma-purge.service
+
+[Install]
+WantedBy=timers.target

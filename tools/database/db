@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+PY="$ROOT/.local-db/venv/bin/python"
+if [[ ! -x "$PY" ]]; then
+  mkdir -p "$ROOT/.local-db"
+  chmod 700 "$ROOT/.local-db"
+  if command -v uv >/dev/null 2>&1; then
+    uv venv "$ROOT/.local-db/venv"
+    uv pip install --python "$PY" -r "$ROOT/tools/database/requirements.txt"
+  else
+    python3 -m venv "$ROOT/.local-db/venv"
+    "$PY" -m pip install -r "$ROOT/tools/database/requirements.txt"
+  fi
+fi
+exec "$PY" "$ROOT/tools/database/manage.py" "$@"

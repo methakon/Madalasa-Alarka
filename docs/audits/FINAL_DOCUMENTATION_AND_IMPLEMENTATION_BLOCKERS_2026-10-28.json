@@ -1,0 +1,385 @@
+{
+  "as_of": "2026-10-28",
+  "status": "AUDIT_GAPS_DOCUMENTED_NOT_EXECUTED",
+  "total": 25,
+  "by_priority": {
+    "P0": 15,
+    "P1": 10
+  },
+  "notes": "Documentation/API/Figma mappings were updated. External legal/Play/parent attestation and all actual builds/migrations/tests remain OPEN until recorded evidence.",
+  "issues": [
+    {
+      "id": "AUD-P0-01",
+      "priority": "P0",
+      "issue": "Android modules not buildable from repository tree",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Need Gradle wrapper, build scripts, manifests, Kotlin sources and emulator tests",
+      "tasks": [
+        "L01-001",
+        "L01-002",
+        "L01-003",
+        "GAP-024"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-02",
+      "priority": "P0",
+      "issue": "C++ Drogon handlers absent for 146 draft API operations",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Implement router/auth/DTOs with negative and contract tests, not fabricated responses",
+      "tasks": [
+        "L01-005",
+        "L03-014",
+        "GAP-025"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-03",
+      "priority": "P0",
+      "issue": "M1 SQL grant FK requires home-family membership for external parent",
+      "category": "LOCAL_SCHEMA",
+      "closure_criterion": "Safe new external-child authority model with proof and cross-family child-only RLS tests",
+      "tasks": [
+        "L02-004",
+        "GAP-002",
+        "GAP-003"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-04",
+      "priority": "P0",
+      "issue": "Google parent-child relationship evidence source not verified",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "Document accepted supported verifier or stay blocked; Google Sign-In alone is insufficient",
+      "tasks": [
+        "GAP-004"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-05",
+      "priority": "P0",
+      "issue": "Admin owner verified OIDC-sub bootstrap, MFA and roles not implemented",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "NO_ACCESS, step-up owner approval, audit, instant revoke, no child private data",
+      "tasks": [
+        "L14-001",
+        "GAP-011",
+        "GAP-012",
+        "GAP-013"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-06",
+      "priority": "P0",
+      "issue": "Client-trust controls not proven by real handlers",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Reject client-supplied email verified, admin roles, paid amount/status and media OS approval",
+      "tasks": [
+        "GAP-012",
+        "GAP-017",
+        "GAP-019"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-07",
+      "priority": "P0",
+      "issue": "140+ APIs have no compiled integration implementation proof",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Implement and validate 146 typed OpenAPI operations or explicitly exclude gated paths",
+      "tasks": [
+        "GAP-025",
+        "GAP-026"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-08",
+      "priority": "P0",
+      "issue": "Physical migrations only initial M1; 120 Figma entities are conceptual",
+      "category": "LOCAL_SCHEMA",
+      "closure_criterion": "Slice approved migrations, correct FK and FORCE RLS; don't auto-create all 120",
+      "tasks": [
+        "L02-001",
+        "GAP-002",
+        "GAP-026"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-09",
+      "priority": "P0",
+      "issue": "Precise child data processing/legal DPDP approval not recorded",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "India counsel feature-by-feature consent/purpose/cross border approval before real child data",
+      "tasks": [
+        "L00-005",
+        "GAP-020"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-10",
+      "priority": "P0",
+      "issue": "Raw GPS retention conflicting; 6-hour free access not storage policy",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "Approve raw/derived/backups WAL retention; test erasure and backup nonrevival",
+      "tasks": [
+        "L15-001",
+        "GAP-020"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-11",
+      "priority": "P0",
+      "issue": "Google Play prepaid SKUs and product verification sandbox absent",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "Confirm manual prepaid per child and one-time 100-day add-on Play product availability, taxes and verified checkout",
+      "tasks": [
+        "L10-007",
+        "GAP-017"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-12",
+      "priority": "P0",
+      "issue": "Google Play personal account production eligibility unverified",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "Owner inspects account creation date, device/identity verification, testing tracks per app",
+      "tasks": [
+        "GAP-027"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-13",
+      "priority": "P0",
+      "issue": "Media capture and managed controls restricted, not approved",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "No covert capture or bypass; OS/Play/India feature gate OFF, lab device only",
+      "tasks": [
+        "L16-001",
+        "GAP-019"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-14",
+      "priority": "P0",
+      "issue": "Real child/device permission revocation flow not integrated",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Signed capability revision, OS denial, downgrade, device sync, negative/replay test",
+      "tasks": [
+        "L05-007",
+        "GAP-006",
+        "GAP-009"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P0-15",
+      "priority": "P0",
+      "issue": "User privacy deletion/trial replay/backup restore not proven",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Tombstone fence, 48h once, no identity fingerprint misuse, offline queue restore tests",
+      "tasks": [
+        "L15-010",
+        "GAP-020"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-16",
+      "priority": "P1",
+      "issue": "Original 81 handoff screens not fully styled to Theme C",
+      "category": "VISUAL_DESIGN",
+      "closure_criterion": "Complete all screens, screenshots, typography/permissions/a11y, future localization",
+      "tasks": [
+        "GAP-021",
+        "GAP-024"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-17",
+      "priority": "P1",
+      "issue": "Capability/media 74 frames not complete Theme C functional UX",
+      "category": "VISUAL_DESIGN",
+      "closure_criterion": "Truthful unsupported permission states and accessibility/OS test matrix",
+      "tasks": [
+        "GAP-022"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-18",
+      "priority": "P1",
+      "issue": "Admin 10 editable Figma screens are static examples",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Implement OIDC status to owner approval, FAQ, support, billing and logs with permissions",
+      "tasks": [
+        "GAP-023"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-19",
+      "priority": "P1",
+      "issue": "Commute plan read and persistence/versions were absent",
+      "category": "SCHEMA_CONTRACT_CLOSED_CODE_OPEN",
+      "closure_criterion": "Now specified GET/POST/versioned Plan, ERD11 table; implementation/revision conflict test pending",
+      "tasks": [
+        "GAP-008"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-20",
+      "priority": "P1",
+      "issue": "Per-parent notifications and permission change history not persisted",
+      "category": "SCHEMA_CONTRACT_CLOSED_CODE_OPEN",
+      "closure_criterion": "ERD11 candidates, API draft; write/scope/retention and read receipts untested",
+      "tasks": [
+        "GAP-006",
+        "GAP-007"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-21",
+      "priority": "P1",
+      "issue": "Server outage public status not implemented",
+      "category": "SCHEMA_CONTRACT_CLOSED_CODE_OPEN",
+      "closure_criterion": "ERD11 service incidents; safe service/status response and no private data required",
+      "tasks": [
+        "GAP-010"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-22",
+      "priority": "P1",
+      "issue": "OpenAPI/Figma/M1 CI contract checks passed, but executable handler/UI/physical DB coverage still absent",
+      "category": "TEST_EVIDENCE",
+      "closure_criterion": "Actual 146 handlers, new migrations, full Android/admin E2E and physical-device tests remain blocked/untested",
+      "tasks": [
+        "GAP-001",
+        "GAP-026"
+      ],
+      "state": "SPECIFICATION_CI_VERIFIED_IMPLEMENTATION_OPEN",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true,
+      "evidence_url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/40661843914",
+      "verified_at_commit": "a1030586f80e"
+    },
+    {
+      "id": "AUD-P1-23",
+      "priority": "P1",
+      "issue": "100-day add-on concurrency and egress economics unproven",
+      "category": "LOCAL_CODE",
+      "closure_criterion": "Atomic leases +100-day independent expiry, 1800 pooled AV seconds, load/purchase refund tests",
+      "tasks": [
+        "GAP-018",
+        "L17-009"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-24",
+      "priority": "P1",
+      "issue": "OCI Chicago vs India preferred region decision unresolved",
+      "category": "EXTERNAL_DEPENDENCY",
+      "closure_criterion": "No local coding agent deployment; owner and counsel region/DPA agreement separately",
+      "tasks": [
+        "GAP-027"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    },
+    {
+      "id": "AUD-P1-25",
+      "priority": "P1",
+      "issue": "No full OS API29..36 physical device matrix with evidence",
+      "category": "PHYSICAL_DEVICE",
+      "closure_criterion": "Lab phones and FGS/DPC/permission testing; no green claim without device logs",
+      "tasks": [
+        "L05-011",
+        "GAP-022",
+        "GAP-027"
+      ],
+      "state": "OPEN_NOT_IMPLEMENTED",
+      "documentation_remediation": "New Figma/API/DB screen audit 2026-10-28",
+      "evidence_required": true
+    }
+  ],
+  "verification_update": {
+    "date": "2026-10-28",
+    "ci_run": "https://github.com/methakon/Madalasa-Alarka/actions/runs/40661843914",
+    "results": [
+      "OpenAPI M1 structural lint PASS",
+      "OpenAPI whole-project and 187 Figma screens +120 conceptual table static checker PASS",
+      "M1 PostgreSQL migration PASS",
+      "Existing M1 two-family SQL regression PASS"
+    ],
+    "does_not_verify": [
+      "new SQL migrations for 8 candidates",
+      "running Drogon handlers",
+      "Gradle Android apps",
+      "admin web server",
+      "Play legal approval",
+      "real child permission OS behavior"
+    ]
+  }
+}

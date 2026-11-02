@@ -1,0 +1,143 @@
+{
+  "historical_0001_sha256": "e6014a2e2512a793efc320b39be8d0f1b5a4de8b9f7560d444d88aa2ffa5b3fe",
+  "runner": "tools/database/manage.py",
+  "scope": "PINNED_SOURCE_LINEAGES_NOT_INSTALLED_HISTORY",
+  "lineage_manifest": "backend/persistence/migration-lineages.json",
+  "migrations": [
+    {
+      "version": "common:0001",
+      "file": "backend/persistence/migrations/0001_m1_identity.sql",
+      "sha256": "e6014a2e2512a793efc320b39be8d0f1b5a4de8b9f7560d444d88aa2ffa5b3fe"
+    },
+    {
+      "version": "m1:0002",
+      "file": "backend/persistence/migrations/0002_m1_device_credentials.sql",
+      "sha256": "7ab407f3e8acd6fc3974c2232219f13a6130a3dcabfb1ba387d41fa7835a95f7"
+    },
+    {
+      "version": "m1:0003",
+      "file": "backend/persistence/migrations/0003_m1_enrollment_and_credential_hardening.sql",
+      "sha256": "ec96b7343730acb033acad18c9f5b4963d3fe9b9efaf2bd6cccf29b29fe01f39"
+    },
+    {
+      "version": "m1:0004",
+      "file": "backend/persistence/migrations/0004_m1_idempotency.sql",
+      "sha256": "2a5dfdf8986b01a357dca3daa3d0874bab9c4d0ae78149c93a61d18986088f9e"
+    },
+    {
+      "version": "m1:0005",
+      "file": "backend/persistence/migrations/0005_m1_family_provisioning.sql",
+      "sha256": "50cafd71be8cae7974336aed399f5d6b2ab891da09a644844090b05ee429a825"
+    },
+    {
+      "version": "m1:0006",
+      "file": "backend/persistence/migrations/0006_m1_concurrency_and_retention_holds.sql",
+      "sha256": "7d52f28a22e283bc4a2a528b4033e4fcc18ed8e0ee69dbc9833070b96f5363ca"
+    },
+    {
+      "version": "compat:m1_pre_v2_0016",
+      "file": "backend/persistence/migrations/compat/m1_pre_v2_0016.sql",
+      "sha256": "6c94148e287076a508a505ebe8070d297c869376e56b5f731d0b8410c4bfdd3b"
+    },
+    {
+      "version": "compat:m1_pre_v2_0017",
+      "file": "backend/persistence/migrations/compat/m1_pre_v2_0017.sql",
+      "sha256": "ad184d3642ea975ee654182768c3b0ff3d4006a92e71b2b907129c6907267c2e"
+    },
+    {
+      "version": "v2:0002",
+      "file": "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql",
+      "sha256": "83d8b9e952314654deb58e32c41fc5177d5885447d0630f05072da88acf2f23c"
+    },
+    {
+      "version": "v2:0003",
+      "file": "backend/persistence/migrations/0003_consent_authority_and_retention.sql",
+      "sha256": "b5da007ff0c8c29c3155577be70562e7ab7ee5bab04bddd82d27c74c472df352"
+    },
+    {
+      "version": "v2:0004",
+      "file": "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql",
+      "sha256": "63e6fd1fc8920dcaf714878998c765cf9cb7f408b1b1c85c42dafa48a4a5318f"
+    },
+    {
+      "version": "v2:0005",
+      "file": "backend/persistence/migrations/0005_location_ingestion_and_history.sql",
+      "sha256": "1f367254a652060e82859f09d1a18383c7887e36637cc5fde3d550e8e0671c73"
+    },
+    {
+      "version": "v2:0006",
+      "file": "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql",
+      "sha256": "b858f5ea8b0a21b6dac1af3496c335faadbc83683e3f1b642ad8583860b12de1"
+    },
+    {
+      "version": "v2:0007",
+      "file": "backend/persistence/migrations/0007_commands_and_device_capabilities.sql",
+      "sha256": "bdc17f19d154a9cfdbc04204aab37c772d9f472831e34f17a551a42c4b7271cc"
+    },
+    {
+      "version": "v2:0008",
+      "file": "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql",
+      "sha256": "c64a4ba263f0f48e8a3648b4bf8149153829b283de71983aef7465c882dc44e2"
+    },
+    {
+      "version": "v2:0009",
+      "file": "backend/persistence/migrations/0009_media_sessions_and_quota.sql",
+      "sha256": "8622767ac8c323dcde0ad9b4685226ef0b7af943ad9b7f2c3759a05d48823fc1"
+    },
+    {
+      "version": "v2:0010",
+      "file": "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql",
+      "sha256": "9e955794fb8f5c5f5684d1259bd565c0c20b93cc1564fbcbf2d057d55979ca96"
+    },
+    {
+      "version": "v2:0011",
+      "file": "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql",
+      "sha256": "84ac4d7e794713b9415faf2dfbc7475bd751947091e058cfa2c08e5b0a9d4a73"
+    },
+    {
+      "version": "v2:0012",
+      "file": "backend/persistence/migrations/0012_screen_dependency_completion.sql",
+      "sha256": "31fcb5b7b3914f72050f3577fe00c42bd4529945b4d4018f8d953526d9ba9d28"
+    },
+    {
+      "version": "v2:0013",
+      "file": "backend/persistence/migrations/0013_restore_quarantine_and_erasure_ledger.sql",
+      "sha256": "8d0264d01e9fb364d0c6006cfc46b67207ee4a8f98534f1f07dfe132afdff98e"
+    },
+    {
+      "version": "v2:0014",
+      "file": "backend/persistence/migrations/0014_account_erasure_requests.sql",
+      "sha256": "9a5f80c9e0329e6cce2bd8365718f7e4eef7cff66f2bec7311d05986482fbda2"
+    },
+    {
+      "version": "v2:0015",
+      "file": "backend/persistence/migrations/0015_ingestion_membership_and_fences.sql",
+      "sha256": "6d16133baac0102baf30657445350cbb3699a218cdf08429110ca3cfda17331f"
+    },
+    {
+      "version": "v2:0016",
+      "file": "backend/persistence/migrations/0016_pickup_passes_and_compliance_bundles.sql",
+      "sha256": "f54f78412271dda0748f3ac7153ad566df498384a2c8d21a649d655f121f06e0"
+    },
+    {
+      "version": "v2:0017",
+      "file": "backend/persistence/migrations/0017_m1_lineage_compatibility.sql",
+      "sha256": "8701e89a942ec7236d1a895ee9a953b3da145ca56ac89027a5007f258a2552af"
+    },
+    {
+      "version": "v2:0018",
+      "file": "backend/persistence/migrations/0018_schema_enhancement_guards.sql",
+      "sha256": "f4fe2bfc2da8e7fbea38e3ced19fee023ae296f1cf562a3658175dd513fbfc6a"
+    },
+    {
+      "version": "v2:0019",
+      "file": "backend/persistence/migrations/0019_reconciliation_and_child_binding.sql",
+      "sha256": "7089fe231c80046cfef7a9d984cc0ff176bf7d3a5b29e6f59011e0ce66b7ac7c"
+    },
+    {
+      "version": "v2:0020",
+      "file": "backend/persistence/migrations/0020_m1_current_lineage_convergence.sql",
+      "sha256": "530a34923a140d631c0804dc5cafa4a5f20bf2b0bfd38753a6da2da18a775728"
+    }
+  ]
+}

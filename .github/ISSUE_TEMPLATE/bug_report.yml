@@ -1,0 +1,35 @@
+name: Bug report (synthetic data only)
+description: Report a non-security defect. Do not post child data or secrets.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "SECURITY/PRIVACY vulnerabilities must be reported privately via SECURITY.md, never in public issues. No real child identifiers, recordings, GPS or credentials."
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and observed result
+      description: Explain the problem with anonymized or synthetic inputs.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce (synthetic environment)
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior and requirement ID
+    validations:
+      required: true
+  - type: input
+    id: build
+    attributes:
+      label: Commit / OS / Android API / DB version (as applicable)
+  - type: textarea
+    id: tests
+    attributes:
+      label: Tests performed and data privacy considerations

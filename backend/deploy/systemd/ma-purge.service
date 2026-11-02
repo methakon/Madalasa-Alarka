@@ -1,0 +1,29 @@
+[Unit]
+Description=Madalasa-Alarka M1 retention purge (credential artifacts and idempotency keys)
+After=network-online.target
+Wants=network-online.target
+# Alerting on failure is environment-specific (undecided): add OnFailure=<your alert unit> when it exists.
+# Until then check `systemctl --failed` and `journalctl -u ma-purge`.
+
+[Service]
+Type=oneshot
+User=ma-purge
+Group=ma-purge
+# PGHOST, PGPORT, PGDATABASE, PGUSER=ma_purge and PGPASSFILE (preferred over PGPASSWORD) live here, mode 0640 root:ma-purge.
+EnvironmentFile=/etc/madalasa/purge.env
+ExecStart=/opt/madalasa/backend/scripts/run_purge.sh
+TimeoutStartSec=10min
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native

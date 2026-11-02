@@ -1,0 +1,27 @@
+name: Admin web synthetic checks
+on:
+  push:
+    paths:
+      - 'admin-web/**'
+      - '.github/workflows/admin-web.yml'
+  pull_request:
+    paths:
+      - 'admin-web/**'
+      - '.github/workflows/admin-web.yml'
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        working-directory: admin-web
+        run: npm install --no-audit --no-fund
+      - name: Security regression tests
+        working-directory: admin-web
+        run: npm test
+      - name: Typecheck and bundle
+        working-directory: admin-web
+        run: npm run build

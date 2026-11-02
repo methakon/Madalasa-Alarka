@@ -1,0 +1,10 @@
+Subject: Your Madalasa plan expired — free features remain
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your {{plan_label}} for {{child_display_label}} expired at {{expiry_time_ist}} IST on {{expiry_date_ist}}. Verified paid entitlements have ended and eligible free features remain. Existing history is not deleted solely due to expiry. To restore paid access, choose a manual renewal: {{renew_url}}.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka

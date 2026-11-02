@@ -1,0 +1,35 @@
+name: Enforce PR branch route and documentation isolation
+
+on:
+  pull_request:
+    branches: [dev, main]
+    types: [opened, reopened, synchronize, edited, ready_for_review, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  branch-route:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run owner-approved branch policy negative tests
+        run: python3 -m unittest discover -s docs/tools -p 'test_branch_routes.py' -v
+      - name: Syntax-check mandatory task-start preflight
+        run: bash -n docs/tools/sync_work_branch.sh
+      - name: Verify PR route and changes
+        shell: bash
+        env:
+          PR_BASE: ${{ github.base_ref }}
+          PR_HEAD: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          TEMP_APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'owner-approved-temporary') }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$BASE_SHA" "$HEAD_SHA"
+          MERGE_BASE="$(git merge-base "$BASE_SHA" "$HEAD_SHA")"
+          git diff --name-only --diff-filter=ACMRT "$MERGE_BASE" "$HEAD_SHA" |
+            python3 docs/tools/branch_routes.py --base "$PR_BASE" --head "$PR_HEAD" --temp-owner-approved "$TEMP_APPROVED"

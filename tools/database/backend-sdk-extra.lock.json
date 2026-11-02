@@ -1,0 +1,36 @@
+{
+  "platform": "Ubuntu24.04 amd64",
+  "purpose": "Drogon packaged CMake dependencies (no SQLite/MySQL servers)",
+  "packages": [
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/s/sqlite3/libsqlite3-0_3.45.1-1ubuntu2.8_amd64.deb",
+      "file": "libsqlite3-0_3.45.1-1ubuntu2.8_amd64.deb",
+      "sha256": "b1190bb72359f5fcc47406aa46065eaf4f1ca208085c51224a52b04bedc0b4bb",
+      "bytes": 701602
+    },
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/s/sqlite3/libsqlite3-dev_3.45.1-1ubuntu2.8_amd64.deb",
+      "file": "libsqlite3-dev_3.45.1-1ubuntu2.8_amd64.deb",
+      "sha256": "61e688e7ced1c6f7c0b66721e46fd996f891489654dbf382daa98e17ee3ae192",
+      "bytes": 910716
+    },
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/m/mariadb/libmariadb-dev_10.11.14-0ubuntu0.24.04.1_amd64.deb",
+      "file": "libmariadb-dev_1%3a10.11.14-0ubuntu0.24.04.1_amd64.deb",
+      "sha256": "ab7e6a0a4564d63787ced8a4713a27d222910a931e2f7c937bc359b88f8e9109",
+      "bytes": 273880
+    },
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/m/mariadb/libmariadb-dev-compat_10.11.14-0ubuntu0.24.04.1_amd64.deb",
+      "file": "libmariadb-dev-compat_1%3a10.11.14-0ubuntu0.24.04.1_amd64.deb",
+      "sha256": "d4cff243f7bad134d74baad5acc79396baa3f7d547d3bee1acd2139dca502b8d",
+      "bytes": 11952
+    },
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/m/mariadb/libmariadb3_10.11.14-0ubuntu0.24.04.1_amd64.deb",
+      "file": "libmariadb3_1%3a10.11.14-0ubuntu0.24.04.1_amd64.deb",
+      "sha256": "1608427381a08eefd7e5b1c4cf5b4f360cbb7296f489989c2453ec26989a9fa5",
+      "bytes": 196354
+    }
+  ]
+}

@@ -1,0 +1,293 @@
+{
+ "version": 1,
+ "schema": "ap_m1",
+ "erd": "docs/data-model/MADALASA_ALARKA_FIGMA_LOGICAL_ERD_V1_2026.json",
+ "purpose": "Maps every physical M1 table to its logical ERD entity and records every known column difference. backend/tests/check_physical_catalog.py fails CI when the migrations or the ERD drift from this file; update it deliberately, never to silence the checker.",
+ "tables": [
+  {
+   "physical": "families",
+   "logical": "families",
+   "column_renames": {
+    "state": "status"
+   },
+   "physical_only": [
+    "label"
+   ],
+   "logical_only": [
+    "billing_owner_id",
+    "founding_rank",
+    "revocation_epoch"
+   ],
+   "note": "M1 is family-scoped. Billing owner, founding rank and the revocation epoch belong to later milestones; the revocation generation is kept in revocation_epochs. `label` is M1-only."
+  },
+  {
+   "physical": "parent_principals",
+   "logical": "adult_accounts",
+   "column_renames": {},
+   "physical_only": [
+    "created_at"
+   ],
+   "logical_only": [
+    "adult_authority_state",
+    "disabled_at",
+    "google_identity_verified_at"
+   ],
+   "note": "M1 stores only the OIDC identity. Google verification time, adult-authority state and disable time are not modelled until the consent and authority work (ADR child-scoped V2)."
+  },
+  {
+   "physical": "guardian_memberships",
+   "logical": "family_memberships",
+   "column_renames": {
+    "principal_id": "adult_id",
+    "membership_role": "role"
+   },
+   "physical_only": [
+    "created_at"
+   ],
+   "logical_only": [],
+   "note": "Same shape; two renamed columns and a created_at. revoked_at exists on both sides."
+  },
+  {
+   "physical": "children",
+   "logical": "children",
+   "column_renames": {
+    "family_id": "home_family_id"
+   },
+   "physical_only": [
+    "alias",
+    "created_at",
+    "state"
+   ],
+   "logical_only": [
+    "deleted_at",
+    "device_status",
+    "display_name",
+    "erasure_epoch"
+   ],
+   "note": "Tenant-model difference: M1 children belong to exactly one family (family_id); the ERD names it home_family_id and adds cross-family V2 access. Physical `alias` replaces encrypted display_name for synthetic M1 data. Erasure epoch, deletion time and device_status are later work."
+  },
+  {
+   "physical": "child_guardian_grants",
+   "logical": "child_access_grants_v2",
+   "column_renames": {
+    "principal_id": "adult_id",
+    "scope": "scopes",
+    "expires_at": "expires",
+    "revoked_at": "revoked"
+   },
+   "physical_only": [
+    "created_at",
+    "family_id"
+   ],
+   "logical_only": [
+    "authority_review_id",
+    "revocation_epoch"
+   ],
+   "note": "M1 grants are inside one family and carry family_id for row-level security. The ERD grant is cross-family and needs an authority review and a revocation epoch (V2); not implemented."
+  },
+  {
+   "physical": "pairing_codes",
+   "logical": "pairing_codes",
+   "column_renames": {
+    "code_sha256": "code_hash",
+    "issued_by": "issued_by_adult_id"
+   },
+   "physical_only": [
+    "attempt_count",
+    "created_at",
+    "family_id"
+   ],
+   "logical_only": [],
+   "note": "Physical adds family_id (RLS), attempt_count (20-attempt cap) and created_at."
+  },
+  {
+   "physical": "devices",
+   "logical": "child_devices",
+   "column_renames": {},
+   "physical_only": [
+    "algorithm",
+    "created_at",
+    "family_id",
+    "spki_public_key"
+   ],
+   "logical_only": [
+    "android_api",
+    "device_mode",
+    "last_seen_at",
+    "public_key_ref"
+   ],
+   "note": "Physical stores the SPKI public key and algorithm directly; the ERD keeps only an opaque public_key_ref. android_api and device_mode live in capability_snapshots in M1; last_seen_at is not stored."
+  },
+  {
+   "physical": "enrollment_challenges",
+   "logical": "enrollment_challenges",
+   "column_renames": {
+    "nonce_sha256": "challenge_hash"
+   },
+   "physical_only": [
+    "created_at",
+    "redeemed_at"
+   ],
+   "logical_only": [
+    "audience",
+    "state"
+   ],
+   "note": "Physical records both consumed_at (challenge spent, migration 0001) and redeemed_at (activation completed, migration 0003) instead of a state enum, and has no audience column (one purpose in M1)."
+  },
+  {
+   "physical": "device_key_records",
+   "logical": "device_key_records",
+   "column_renames": {
+    "fingerprint_sha256": "fingerprint_hash"
+   },
+   "physical_only": [
+    "created_at"
+   ],
+   "logical_only": [
+    "key_epoch"
+   ],
+   "note": "No key_epoch in M1: key rotation is out of scope (decision C-06)."
+  },
+  {
+   "physical": "capability_snapshots",
+   "logical": "capability_snapshots",
+   "column_renames": {
+    "features": "supported_features",
+    "device_mode": "management_mode"
+   },
+   "physical_only": [
+    "is_device_owner",
+    "received_at"
+   ],
+   "logical_only": [
+    "os_reject_reasons"
+   ],
+   "note": "Physical stores android_api and device_mode (assumed equal to the ERD management_mode; confirm when the ERD is revised) plus is_device_owner and received_at; os_reject_reasons is not stored in M1."
+  },
+  {
+   "physical": "device_health",
+   "logical": "device_health",
+   "column_renames": {
+    "battery_percent": "battery_pct"
+   },
+   "physical_only": [
+    "observed_at",
+    "permission_revision",
+    "recorded_at"
+   ],
+   "logical_only": [
+    "last_seen_at",
+    "network_status",
+    "queue_pressure"
+   ],
+   "note": "One current row per device (device_id is the key, as in the ERD). M1 stores battery, charging, permission revision and observed/recorded times; network status, queue pressure and last_seen_at are later work."
+  },
+  {
+   "physical": "commands",
+   "logical": "device_commands",
+   "column_renames": {
+    "created_by": "initiator_adult_id",
+    "command_type": "type",
+    "command_state": "state"
+   },
+   "physical_only": [
+    "created_at",
+    "family_id"
+   ],
+   "logical_only": [
+    "child_id",
+    "idempotency_key",
+    "reason_code"
+   ],
+   "note": "Physical carries family_id (RLS). child_id, reason_code and the idempotency_key column are not stored on the row: idempotency lives in idempotency_keys."
+  },
+  {
+   "physical": "command_results",
+   "logical": "command_results",
+   "column_renames": {
+    "outcome": "result_code",
+    "recorded_at": "received_at"
+   },
+   "physical_only": [
+    "observed_at"
+   ],
+   "logical_only": [
+    "device_proof",
+    "failure_reason"
+   ],
+   "note": "Device proof and failure_reason are not stored in M1 (proof is verified at enrollment and renewal only, decision C-03)."
+  },
+  {
+   "physical": "audit_events",
+   "logical": "security_audit_events",
+   "column_renames": {
+    "observed_at": "occurred_at",
+    "result_code": "outcome"
+   },
+   "physical_only": [
+    "actor_device_id",
+    "actor_principal_id",
+    "family_id"
+   ],
+   "logical_only": [
+    "actor_ref",
+    "child_ref",
+    "digest",
+    "trace_id"
+   ],
+   "note": "M1 audit rows reference the acting principal or device in two columns instead of one actor_ref, and have neither child_ref, digest nor trace id."
+  },
+  {
+   "physical": "revocation_epochs",
+   "logical": "family_revocation_epochs",
+   "column_renames": {
+    "generation": "epoch",
+    "updated_at": "changed_at"
+   },
+   "physical_only": [],
+   "logical_only": [],
+   "note": "Same purpose; renamed columns."
+  },
+  {
+   "physical": "idempotency_keys",
+   "logical": "idempotency_claims",
+   "column_renames": {
+    "key_sha256": "key_hash",
+    "actor_id": "actor_ref"
+   },
+   "physical_only": [
+    "body_omitted",
+    "completed_at",
+    "request_sha256",
+    "response_body",
+    "response_status"
+   ],
+   "logical_only": [
+    "result_digest"
+   ],
+   "note": "Deliberate deviation (migration 0004): the primary key includes the actor so callers cannot collide or probe each other; the table also stores the request hash and the response so a replay can be answered. Reconcile the ERD entity with this design."
+  },
+  {
+   "physical": "device_credentials",
+   "logical": "device_sessions",
+   "column_renames": {
+    "token_sha256": "token_hash",
+    "key_id": "bound_key_id"
+   },
+   "physical_only": [
+    "issued_at",
+    "issued_via"
+   ],
+   "logical_only": [
+    "latest_ip_hash"
+   ],
+   "note": "Short-lived opaque device bearer credential (decision C-01). Physical adds issued_at and issued_via; latest_ip_hash is not stored."
+  }
+ ],
+ "physical_without_entity": [
+  {
+   "physical": "credential_renewal_challenges",
+   "reason": "Introduced by migrations 0002/0003 (device credential renewal). The ERD has no entity for single-use renewal challenges; add one next to device_sessions when the ERD is next revised."
+  }
+ ]
+}

@@ -1,0 +1,1685 @@
+{
+  "fileKey": "TKiZXwjkWdkponF1zNsfli",
+  "pageId": "92:2",
+  "domainCount": 11,
+  "tableCount": 124,
+  "domains": [
+    {
+      "id": "93:2",
+      "title": "ERD 01 / Family identity, child-scoped V2 cross-family grants and lawful authority",
+      "notes": [
+        "MADALASA · ALARKA  /  LOGICAL DATA MODEL",
+        "01   Family, identity & explicit guardian authority",
+        "Tenant boundary ≠ a parent's automatic right to view every child. Co-parent access is child-scoped and blocked until trusted relationship verification exists.",
+        "M1 SRS FR-001/022 · Data Authorization · M7 two-parent policy · India consent",
+        "2026-10-28: Family Link third-party parental role requirement DROPPED; legal authority/consent remains independent and real-data gated"
+      ],
+      "tables": [
+        {
+          "name": "families",
+          "label": "TENANT ROOT",
+          "columns": [
+            "PK id : uuid",
+            "FK billing_owner_id : uuid",
+            "founding_rank : integer?",
+            "status : enum",
+            "created_at : timestamptz",
+            "revocation_epoch : bigint"
+          ]
+        },
+        {
+          "name": "adult_accounts",
+          "label": "IDENTITY ONLY",
+          "columns": [
+            "PK id : uuid",
+            "oidc_issuer, oidc_subject : unique",
+            "google_identity_verified_at : time",
+            "adult_authority_state : enum",
+            "disabled_at : time?"
+          ]
+        },
+        {
+          "name": "family_memberships",
+          "label": "NOT A CHILD GRANT",
+          "columns": [
+            "PK (family_id, adult_id)",
+            "FK family_id → families",
+            "FK adult_id → adult_accounts",
+            "role : owner / member",
+            "revoked_at : time?"
+          ]
+        },
+        {
+          "name": "children",
+          "label": "ONE CHILD = ONE PRIVACY SUBJECT",
+          "columns": [
+            "PK id : uuid",
+            "FK home_family_id → families",
+            "display_name : encrypted?",
+            "device_status : enum",
+            "erasure_epoch : bigint",
+            "deleted_at : time?"
+          ]
+        },
+        {
+          "name": "child_authority_reviews",
+          "label": "LEGAL AUTHORITY · NOT FAMILY LINK",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children",
+            "FK adult_id → adult_accounts",
+            "method, secure_evidence_ref : opaque",
+            "state : PENDING / APPROVED / DISPUTED",
+            "reviewed_at, expires_at : time?"
+          ]
+        },
+        {
+          "name": "child_access_grants_v2",
+          "label": "CROSS-FAMILY · DENY DEFAULT",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children",
+            "FK adult_id → adult_accounts",
+            "FK authority_review_id : uuid?",
+            "scopes : per-child enum + invite_id",
+            "expires, revoked, revocation_epoch"
+          ]
+        },
+        {
+          "name": "child_access_invites",
+          "label": "ONE CHILD · ACCEPTED BY INVITEE",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children",
+            "inviter_id, invitee_id : uuid",
+            "one_time_secret_hash : bytea",
+            "expires_at, accepted_at : time?"
+          ]
+        },
+        {
+          "name": "consent_records",
+          "label": "LEGAL RELEASE GATE",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, adult_id : uuid",
+            "purpose, notice_version : text",
+            "granted_at, withdrawn_at : time?",
+            "legal_basis_review_state : enum"
+          ]
+        },
+        {
+          "name": "family_revocation_epochs",
+          "label": "AUTH CACHE FENCE",
+          "columns": [
+            "PK FK family_id → families",
+            "epoch : bigint",
+            "changed_at : timestamptz",
+            "invalidate cached child scopes"
+          ]
+        },
+        {
+          "name": "trial_redemptions",
+          "label": "48h ONCE",
+          "columns": [
+            "PK family_id : uuid",
+            "anti_abuse_token_hash : bytea?",
+            "started_at, expires_at : time",
+            "redeemed_once : boolean",
+            "privacy/retention review pending"
+          ]
+        },
+        {
+          "name": "child_pickup_viewer_passes",
+          "label": "TEMPORARY PICKUP PASS (45m)",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children",
+            "FK created_by → adult_accounts",
+            "pass_token_hash : varchar(64) UNIQUE",
+            "recipient_phone_hash : varchar(64)",
+            "expires_at : timestamptz",
+            "current_location_only : boolean",
+            "max_views, view_count : int",
+            "is_revoked : boolean",
+            "created_at : timestamptz"
+          ]
+        }
+      ],
+      "relationships": [
+        "families → children",
+        "families → family_memberships",
+        "adult_accounts → family_memberships",
+        "children → child_authority_reviews",
+        "adult_accounts → child_authority_reviews",
+        "children → child_access_grants_v2",
+        "adult_accounts → child_access_grants_v2",
+        "children → child_access_invites",
+        "children → consent_records",
+        "families → trial_redemptions",
+        "families → family_revocation_epochs",
+        "children → child_pickup_viewer_passes",
+        "adult_accounts → child_pickup_viewer_passes"
+      ]
+    },
+    {
+      "id": "94:2",
+      "title": "ERD 02 / Devices, permissions & remote commands",
+      "notes": [
+        "MADALASA · ALARKA  /  LOGICAL DATA MODEL",
+        "02   Devices, permissions & remote commands",
+        "Devices are separate principals; permissions are observed states, never inferred from a parent's subscription.",
+        "M1 implementation, capability-sync ADR, command/SOS queue"
+      ],
+      "tables": [
+        {
+          "name": "child_devices",
+          "label": "DEVICE IS NOT CHILD",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children",
+            "enrollment_state : enum",
+            "android_api, device_mode : int/enum",
+            "revoked_at, last_seen_at : time",
+            "public_key_ref : opaque"
+          ]
+        },
+        {
+          "name": "pairing_codes",
+          "label": "ONE-TIME HASHED",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children",
+            "issued_by_adult_id : uuid",
+            "code_hash : bytea unique",
+            "expires_at, consumed_at : time"
+          ]
+        },
+        {
+          "name": "enrollment_challenges",
+          "label": "REPLAY-PROTECTED",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id → child_devices",
+            "challenge_hash : bytea",
+            "expires_at, consumed_at : time",
+            "audience, state : text/enum"
+          ]
+        },
+        {
+          "name": "device_key_records",
+          "label": "KEYSTORE PUBLIC PROOF",
+          "columns": [
+            "PK key_id : uuid",
+            "FK device_id → child_devices",
+            "fingerprint_hash : bytea",
+            "key_epoch : bigint",
+            "state, revoked_at : enum/time"
+          ]
+        },
+        {
+          "name": "device_sessions",
+          "label": "SHORT-LIVED",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id → child_devices",
+            "token_hash, bound_key_id : opaque",
+            "expires_at, revoked_at : time",
+            "latest_ip_hash : optional"
+          ]
+        },
+        {
+          "name": "capability_snapshots",
+          "label": "NOT GUARANTEED",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id → child_devices",
+            "observed_at : timestamptz",
+            "android_api, management_mode",
+            "supported_features : jsonb",
+            "os_reject_reasons : jsonb"
+          ]
+        },
+        {
+          "name": "permission_snapshots",
+          "label": "VISIBLE / CURRENT",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id → child_devices",
+            "observed_at, version : time/int",
+            "permission_states : jsonb",
+            "revocation_epoch : bigint"
+          ]
+        },
+        {
+          "name": "device_health",
+          "label": "STALE AWARE",
+          "columns": [
+            "PK FK device_id",
+            "battery_pct, charging : int/bool",
+            "network_status : enum",
+            "last_seen_at : timestamptz",
+            "queue_pressure : int?"
+          ]
+        },
+        {
+          "name": "device_commands",
+          "label": "STATE MACHINE",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id, child_id : uuid",
+            "initiator_adult_id : uuid",
+            "type, state, reason_code : enum",
+            "idempotency_key : uuid",
+            "expires_at : timestamptz"
+          ]
+        },
+        {
+          "name": "command_results",
+          "label": "DEVICE CONFIRMATION",
+          "columns": [
+            "PK id : uuid",
+            "FK command_id → device_commands",
+            "received_at : timestamptz",
+            "device_proof : opaque",
+            "result_code, failure_reason"
+          ]
+        },
+        {
+          "name": "credential_renewal_challenges",
+          "label": "DEVICE CREDENTIAL RENEWAL",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id → child_devices",
+            "key_id, nonce_sha256 : varchar(64)",
+            "created_at, expires_at : timestamptz",
+            "consumed_at, redeemed_at : timestamptz?"
+          ]
+        }
+      ],
+      "relationships": [
+        "child_devices → pairing_codes",
+        "child_devices → device_key_records",
+        "child_devices → device_sessions",
+        "child_devices → capability_snapshots",
+        "child_devices → permission_snapshots",
+        "child_devices → device_health",
+        "child_devices → device_commands",
+        "device_commands → command_results",
+        "child_devices → enrollment_challenges",
+        "child_devices → credential_renewal_challenges"
+      ]
+    },
+    {
+      "id": "94:100",
+      "title": "ERD 03 / GPS intake, route evidence & reconstruction",
+      "notes": [
+        "MADALASA · ALARKA  /  LOGICAL DATA MODEL",
+        "03   GPS intake, route evidence & reconstruction",
+        "Store original event time and device provenance. A reconstructed route is an interpretation, never fabricated continuous GPS.",
+        "M2 GPS ADR-004 · tracking algorithm · SRS route requirements"
+      ],
+      "tables": [
+        {
+          "name": "location_ingest_batches",
+          "label": "DURABLE 202 AFTER COMMIT",
+          "columns": [
+            "PK batch_id : uuid",
+            "FK device_id, child_id : uuid",
+            "batch_hash : bytea unique?",
+            "accepted_at, status : time/enum",
+            "payload_ref : encrypted",
+            "commit_receipt : opaque"
+          ]
+        },
+        {
+          "name": "location_batch_items",
+          "label": "RETRYABLE",
+          "columns": [
+            "PK (batch_id, event_id)",
+            "FK batch_id → location_ingest_batches",
+            "device_event_id : uuid",
+            "observed_at : timestamptz",
+            "decode_status : enum"
+          ]
+        },
+        {
+          "name": "location_event_dedup",
+          "label": "NO DOUBLE INSERT",
+          "columns": [
+            "PK (device_id, event_id)",
+            "payload_digest : bytea",
+            "first_seen_at : time",
+            "last_seen_at : time",
+            "replay_window : policy"
+          ]
+        },
+        {
+          "name": "location_observations",
+          "label": "POSTGIS PARTITIONED",
+          "columns": [
+            "PK (device_id, observed_at, event_id)",
+            "FK child_id, device_id : uuid",
+            "geom : geography POINT",
+            "accuracy_m : float",
+            "fix_source, quality : enum",
+            "ingested_at : timestamptz"
+          ]
+        },
+        {
+          "name": "device_latest_positions",
+          "label": "STALE / UNKNOWN",
+          "columns": [
+            "PK device_id : uuid",
+            "FK observation_ref : composite",
+            "observed_at, accuracy_m",
+            "quality : enum",
+            "compare-and-swap only"
+          ]
+        },
+        {
+          "name": "trips",
+          "label": "DERIVED, VERSIONED",
+          "columns": [
+            "PK trip_id : uuid",
+            "FK child_id : uuid",
+            "start_at, end_at : time",
+            "current_revision : integer",
+            "confidence, status : enum"
+          ]
+        },
+        {
+          "name": "trip_revisions",
+          "label": "CORRECTIONS",
+          "columns": [
+            "PK (trip_id, revision)",
+            "evidence_window : time range",
+            "recomputed_at : time",
+            "is_provisional : bool",
+            "algorithm_version : text"
+          ]
+        },
+        {
+          "name": "trip_legs",
+          "label": "OBSERVED / INFERRED",
+          "columns": [
+            "PK leg_id : uuid",
+            "FK trip_id, revision",
+            "start/end time, distance_m",
+            "mode_inference : enum",
+            "confidence, gaps_present"
+          ]
+        },
+        {
+          "name": "stops",
+          "label": "NO FAKE EXACT STOPS",
+          "columns": [
+            "PK stop_id : uuid",
+            "FK trip_id, child_id",
+            "start_at, end_at",
+            "center_geom : geography",
+            "confidence, name_source"
+          ]
+        },
+        {
+          "name": "route_geometry",
+          "label": "NO GAP FABRICATION",
+          "columns": [
+            "PK (trip_id, revision, point_no)",
+            "geom : geography POINT",
+            "observed_or_inferred : enum",
+            "source_event_ref : optional"
+          ]
+        },
+        {
+          "name": "reconstruction_jobs",
+          "label": "FENCED WORKERS",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, device_id",
+            "affected_interval : tstzrange",
+            "job_state, lease_epoch",
+            "retry_count : integer"
+          ]
+        },
+        {
+          "name": "ingestion_outbox",
+          "label": "RECOVERABLE",
+          "columns": [
+            "PK id : uuid",
+            "FK batch_id : uuid",
+            "kind, state : enum",
+            "created_at, dispatched_at",
+            "lease_epoch, attempts"
+          ]
+        }
+      ],
+      "relationships": [
+        "location_ingest_batches → location_batch_items",
+        "location_batch_items → location_event_dedup",
+        "location_event_dedup → location_observations",
+        "location_observations → device_latest_positions",
+        "location_observations → trips",
+        "trips → trip_revisions",
+        "trip_revisions → trip_legs",
+        "trips → stops",
+        "trip_revisions → route_geometry",
+        "location_ingest_batches → ingestion_outbox",
+        "ingestion_outbox → reconstruction_jobs"
+      ]
+    },
+    {
+      "id": "94:214",
+      "title": "ERD 04 / Places, geofence alerts, SOS & check-ins",
+      "notes": [
+        "MADALASA · ALARKA  /  LOGICAL DATA MODEL",
+        "04   Places, geofence alerts, SOS & check-ins",
+        "Place notifications are per child and per place. Emergency notifications are best effort, not guaranteed human delivery.",
+        "SRS places/SOS · command pipeline · screenshot workflow register"
+      ],
+      "tables": [
+        {
+          "name": "named_places",
+          "label": "CHILD SCOPED",
+          "columns": [
+            "PK place_id : uuid",
+            "FK child_id : uuid",
+            "label, place_kind : text/enum",
+            "center_geom : geography",
+            "radius_m : integer",
+            "address_label, icon_symbol : text",
+            "archived_at : time?"
+          ]
+        },
+        {
+          "name": "place_notification_rules",
+          "label": "PER PLACE + GUARDIAN",
+          "columns": [
+            "PK id : uuid",
+            "FK place_id : uuid",
+            "FK adult_id : uuid",
+            "arrival_enabled, exit_enabled",
+            "quiet_hours_id : uuid?"
+          ]
+        },
+        {
+          "name": "geofence_events",
+          "label": "DEDUPE / DELAY",
+          "columns": [
+            "PK event_id : uuid",
+            "FK child_id, place_id",
+            "type : ARRIVE / EXIT / UNKNOWN",
+            "observed_at : timestamptz",
+            "confidence, hysteresis_state"
+          ]
+        },
+        {
+          "name": "notification_preferences",
+          "label": "PERSONAL PREFERENCES",
+          "columns": [
+            "PK id : uuid",
+            "FK adult_id, child_id",
+            "alert_type : enum",
+            "enabled, quiet_schedule",
+            "channel_policy : jsonb"
+          ]
+        },
+        {
+          "name": "notification_deliveries",
+          "label": "SENT ≠ SEEN",
+          "columns": [
+            "PK id : uuid",
+            "FK event_ref, recipient_id",
+            "provider_message_id : opaque",
+            "submitted_at, acknowledged_at",
+            "status : PENDING / SENT / ACK"
+          ]
+        },
+        {
+          "name": "sos_events",
+          "label": "CHILD INITIATED",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, device_id",
+            "device_event_uuid : uuid unique",
+            "trigger_at, accepted_at",
+            "status, location_ref optional"
+          ]
+        },
+        {
+          "name": "sos_acknowledgements",
+          "label": "HUMAN ACK DISTINCT",
+          "columns": [
+            "PK id : uuid",
+            "FK sos_event_id : uuid",
+            "FK guardian_id : uuid",
+            "acknowledged_at : time",
+            "delivery_channel : enum"
+          ]
+        },
+        {
+          "name": "child_checkins",
+          "label": "EXPLICIT UI",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, device_id",
+            "requested_by : adult?",
+            "checked_in_at : time",
+            "status, note : optional"
+          ]
+        },
+        {
+          "name": "alert_delivery_outbox",
+          "label": "RECHECK AUTH BEFORE SEND",
+          "columns": [
+            "PK id : uuid",
+            "FK event_ref, child_id",
+            "recipient_scope : string",
+            "attempts, next_retry_at",
+            "state : enum"
+          ]
+        }
+      ],
+      "relationships": [
+        "named_places → place_notification_rules",
+        "named_places → geofence_events",
+        "geofence_events → notification_deliveries",
+        "notification_preferences → notification_deliveries",
+        "sos_events → sos_acknowledgements",
+        "sos_events → alert_delivery_outbox",
+        "child_checkins → alert_delivery_outbox",
+        "geofence_events → alert_delivery_outbox"
+      ]
+    },
+    {
+      "id": "95:2",
+      "title": "ERD 05 / App usage, screen-time & managed controls",
+      "notes": [
+        "MADALASA · ALARKA / LOGICAL DATA MODEL",
+        "05   App usage, screen-time & managed controls",
+        "Usage monitoring is legally gated; unsupported Android app-block controls must never be represented as successful.",
+        "M4 command/usage contract · SRS FR-005/007 · capability decisions"
+      ],
+      "tables": [
+        {
+          "name": "installed_app_inventory",
+          "label": "OS PACKAGE VISIBILITY",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id, child_id",
+            "package_name : text",
+            "category_id : uuid?",
+            "observed_at : time",
+            "visibility_mode : enum"
+          ]
+        },
+        {
+          "name": "app_usage_events",
+          "label": "USAGE ACCESS GATED",
+          "columns": [
+            "PK (device_id, event_uuid)",
+            "FK child_id, app_id",
+            "event_at : timestamptz",
+            "kind : foreground/background",
+            "duration_ms : bigint?",
+            "quality : enum"
+          ]
+        },
+        {
+          "name": "usage_period_summaries",
+          "label": "UNKNOWN ≠ ZERO",
+          "columns": [
+            "PK (child_id, period, app_id)",
+            "period_start / period_end",
+            "observed_seconds : bigint",
+            "coverage_quality : enum",
+            "computed_at : time"
+          ]
+        },
+        {
+          "name": "usage_categories",
+          "label": "CONFIGURABLE",
+          "columns": [
+            "PK category_id : uuid",
+            "category_key : text",
+            "classification_source",
+            "updated_at : time"
+          ]
+        },
+        {
+          "name": "screen_time_rules",
+          "label": "MANAGED MODE ONLY",
+          "columns": [
+            "PK rule_id : uuid",
+            "FK child_id : uuid",
+            "app_id or category_id",
+            "schedule : jsonb",
+            "daily_limit_seconds : int",
+            "legal_gate : state"
+          ]
+        },
+        {
+          "name": "rule_assignments",
+          "label": "DEVICE SPECIFIC",
+          "columns": [
+            "PK id : uuid",
+            "FK rule_id, device_id",
+            "effective_at, expires_at",
+            "policy_revision : bigint",
+            "state : requested/applied"
+          ]
+        },
+        {
+          "name": "policy_execution_receipts",
+          "label": "DEVICE CONFIRMED",
+          "columns": [
+            "PK id : uuid",
+            "FK assignment_id",
+            "execution_at : time",
+            "os_outcome, reason_code",
+            "device_proof_ref : opaque"
+          ]
+        },
+        {
+          "name": "scheduled_child_tasks",
+          "label": "OPTIONAL FUTURE",
+          "columns": [
+            "PK task_id : uuid",
+            "FK child_id, adult_id",
+            "kind, goal, schedule",
+            "status, completed_at"
+          ]
+        },
+        {
+          "name": "usage_permission_checks",
+          "label": "FAIL CLOSED",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id : uuid",
+            "observed_at : time",
+            "usage_access_state",
+            "legal_feature_gate"
+          ]
+        }
+      ],
+      "relationships": [
+        "installed_app_inventory → app_usage_events",
+        "app_usage_events → usage_period_summaries",
+        "usage_categories → usage_period_summaries",
+        "screen_time_rules → rule_assignments",
+        "rule_assignments → policy_execution_receipts",
+        "usage_permission_checks → app_usage_events"
+      ]
+    },
+    {
+      "id": "95:87",
+      "title": "ERD 06 / Prepaid billing, founding seats & 100-day addon",
+      "notes": [
+        "MADALASA · ALARKA / LOGICAL DATA MODEL",
+        "06   Prepaid billing, founding seats & 100-day addon",
+        "Each selected child has a separate paid seat; two approved guardians can share its benefits. Addon validity is independent of base lapse.",
+        "M7 prepaid policy · founding 1008 · 100-day extra viewer · no auto-renew"
+      ],
+      "tables": [
+        {
+          "name": "billing_product_catalog",
+          "label": "NOT YET LIVE",
+          "columns": [
+            "PK sku_id : text",
+            "kind : prepaid/addon",
+            "term_days : int?",
+            "currency : INR",
+            "play_configuration_state"
+          ]
+        },
+        {
+          "name": "price_offers",
+          "label": "ACTUAL PLAY PRICE WINS",
+          "columns": [
+            "PK offer_id : uuid",
+            "FK sku_id : text",
+            "public ₹99/₹999",
+            "founding ₹50/₹500",
+            "eligible_rule, dates"
+          ]
+        },
+        {
+          "name": "founding_families",
+          "label": "COUNT FAMILY ONCE",
+          "columns": [
+            "PK family_id : uuid",
+            "qualifying_rank : 1..1008",
+            "first_paid_at : timestamptz",
+            "eligibility_active : bool"
+          ]
+        },
+        {
+          "name": "play_purchase_records",
+          "label": "SERVER-VERIFIED",
+          "columns": [
+            "PK purchase_id : uuid",
+            "FK payer_adult_id",
+            "play_token_hash : unique",
+            "sku_id, verified_state",
+            "verified_at, refund_state"
+          ]
+        },
+        {
+          "name": "prepaid_family_batches",
+          "label": "MANUAL RENEW ONLY",
+          "columns": [
+            "PK batch_id : uuid",
+            "FK family_id, purchase_id",
+            "capacity : int",
+            "starts_at, expires_at",
+            "status : prepaid / expired"
+          ]
+        },
+        {
+          "name": "child_seat_assignments",
+          "label": "EXPLICIT CHILD CHOICE",
+          "columns": [
+            "PK id : uuid",
+            "FK batch_id, child_id",
+            "assigned_at, removed_at",
+            "capacity_txn_ref",
+            "active uniqueness"
+          ]
+        },
+        {
+          "name": "child_paid_entitlements",
+          "label": "NO CO-PARENT AUTO ACCESS",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, assignment_id",
+            "valid_from, valid_until",
+            "feature_set_id",
+            "entitlement_epoch"
+          ]
+        },
+        {
+          "name": "extra_viewer_purchases",
+          "label": "DORMANT, NOT FORFEITED",
+          "columns": [
+            "PK id : uuid",
+            "FK purchase_id, child_id",
+            "activated_at : time",
+            "expires_at : +100 days",
+            "extra_slots : 1",
+            "extra_AV_seconds : 1800"
+          ]
+        },
+        {
+          "name": "payment_reconciliation_inbox",
+          "label": "RTDN VERIFICATION",
+          "columns": [
+            "PK event_id : uuid",
+            "purchase_token_hash",
+            "Play event_type : enum",
+            "received_at, verified_at",
+            "idempotent_state"
+          ]
+        },
+        {
+          "name": "purchase_adjustments",
+          "label": "REVOKE UNUSED",
+          "columns": [
+            "PK id : uuid",
+            "FK purchase_id",
+            "reason : refund/chargeback",
+            "effective_at : time",
+            "reconciled_at : time"
+          ]
+        },
+        {
+          "name": "trial_eligibility_checks",
+          "label": "48H ONCE",
+          "columns": [
+            "PK id : uuid",
+            "FK family_id : uuid",
+            "FK trial_redemptions",
+            "risk_result : enum",
+            "checked_at : time"
+          ]
+        },
+        {
+          "name": "family_checkout_intents",
+          "label": "EXPLICIT PRICE CONFIRM",
+          "columns": [
+            "PK id : uuid",
+            "FK family_id, payer_id",
+            "selected_child_ids snapshot",
+            "offer_reference",
+            "intent_expires_at, status"
+          ]
+        }
+      ],
+      "relationships": [
+        "billing_product_catalog → price_offers",
+        "price_offers → family_checkout_intents",
+        "family_checkout_intents → play_purchase_records",
+        "play_purchase_records → prepaid_family_batches",
+        "prepaid_family_batches → child_seat_assignments",
+        "child_seat_assignments → child_paid_entitlements",
+        "play_purchase_records → extra_viewer_purchases",
+        "play_purchase_records → purchase_adjustments",
+        "play_purchase_records → payment_reconciliation_inbox",
+        "founding_families → prepaid_family_batches"
+      ]
+    },
+    {
+      "id": "96:2",
+      "title": "ERD 07 / Premium viewer leases, media & delivered quotas",
+      "notes": [
+        "MADALASA · ALARKA / LOGICAL DATA MODEL",
+        "07   Premium viewer leases, media & delivered quotas",
+        "One viewer per paid child (+1 per valid 100-day addon). Media capabilities are gated, child-visible and charged only when delivered.",
+        "P3 media ADR · accepted Balanced usage · M7 concurrent viewer contract"
+      ],
+      "tables": [
+        {
+          "name": "premium_viewer_leases",
+          "label": "ATOMIC TTL ADMISSION",
+          "columns": [
+            "PK lease_id : uuid",
+            "FK child_id, adult_id",
+            "device_session_id : uuid",
+            "screen_kind : enum",
+            "heartbeat_at, expires_at",
+            "entitlement_epoch : bigint"
+          ]
+        },
+        {
+          "name": "viewer_takeover_requests",
+          "label": "NO SILENT TAKEOVER",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, active_lease",
+            "requester_adult_id",
+            "state, requested_at",
+            "expires_at : time"
+          ]
+        },
+        {
+          "name": "media_command_requests",
+          "label": "LEGAL + OS CHECK",
+          "columns": [
+            "PK command_id : uuid",
+            "FK child_id, device_id",
+            "FK adult_id : uuid",
+            "kind : audio/video/photo/screen",
+            "reason_code, state"
+          ]
+        },
+        {
+          "name": "media_sessions",
+          "label": "SESSION EVIDENCE",
+          "columns": [
+            "PK media_session_id : uuid",
+            "FK child_id, command_id",
+            "authorized_adult_id : uuid",
+            "started_at, ended_at",
+            "transport_mode, exit_reason"
+          ]
+        },
+        {
+          "name": "media_lifecycle_events",
+          "label": "METADATA, NOT FILES",
+          "columns": [
+            "PK event_id : uuid",
+            "FK media_session_id",
+            "event_at : timestamptz",
+            "state, reason, device_proof",
+            "duration_s, bytes_sent"
+          ]
+        },
+        {
+          "name": "child_media_quota_pools",
+          "label": "SHARED ALL GUARDIANS",
+          "columns": [
+            "PK pool_id : uuid",
+            "FK child_id, entitlement",
+            "base_audio_s : 3600",
+            "base_video_s : 1200",
+            "base_photos : 30; screen_s : 600",
+            "extra_combined_av_s : 1800/slot"
+          ]
+        },
+        {
+          "name": "media_quota_ledger",
+          "label": "DEBIT ONLY DELIVERED",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, pool_id",
+            "FK media_session_id?",
+            "media_kind, delivered_amount",
+            "reserved_at, committed_at"
+          ]
+        },
+        {
+          "name": "capture_artifact_refs",
+          "label": "NO VPS MEDIA BINARIES",
+          "columns": [
+            "PK id : uuid",
+            "FK media_session_id, child_id",
+            "kind : media artifact",
+            "parent_controlled_uri_ref",
+            "expires_at, erasure_state"
+          ]
+        },
+        {
+          "name": "media_access_audit",
+          "label": "AUDIT READS",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, adult_id",
+            "FK media_session_id",
+            "action, result, accessed_at",
+            "case_id optional"
+          ]
+        },
+        {
+          "name": "media_capability_gates",
+          "label": "FAIL CLOSED",
+          "columns": [
+            "PK (feature, api, mode)",
+            "android_gate : state",
+            "play_legal_gate : state",
+            "last_verified_at : time",
+            "released : boolean"
+          ]
+        }
+      ],
+      "relationships": [
+        "premium_viewer_leases → viewer_takeover_requests",
+        "media_command_requests → media_sessions",
+        "media_sessions → media_lifecycle_events",
+        "child_media_quota_pools → media_quota_ledger",
+        "media_sessions → media_quota_ledger",
+        "media_sessions → capture_artifact_refs",
+        "media_sessions → media_access_audit",
+        "media_capability_gates → media_command_requests"
+      ]
+    },
+    {
+      "id": "96:98",
+      "title": "ERD 08 / Privacy, deletion, retention & admin-case access",
+      "notes": [
+        "MADALASA · ALARKA / LOGICAL DATA MODEL",
+        "08   Privacy, deletion, retention & admin-case access",
+        "Six-hour free history VISIBILITY is separate from DATA RETENTION. Full account-lifetime history is not approved without India legal review.",
+        "M0 DPDP/retention · M6 deletion · P3 admin/media audits"
+      ],
+      "tables": [
+        {
+          "name": "purpose_authorizations",
+          "label": "SEPARATE FROM OS PERM",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id, adult_id",
+            "purpose_key, version",
+            "lawful_authority_state",
+            "granted_at, withdrawn_at"
+          ]
+        },
+        {
+          "name": "retention_policy_versions",
+          "label": "NO UNAPPROVED FOREVER",
+          "columns": [
+            "PK policy_id : uuid",
+            "data_category : enum",
+            "period_days : nullable",
+            "policy_status : DRAFT/APPROVED",
+            "effective_from, approved_by"
+          ]
+        },
+        {
+          "name": "history_visibility_rules",
+          "label": "VIEW ≠ STORAGE",
+          "columns": [
+            "PK rule_id : uuid",
+            "tier : FREE / PAID / TRIAL",
+            "visible_hours : FREE=6",
+            "paid_range : policy approval",
+            "effective_at : timestamptz"
+          ]
+        },
+        {
+          "name": "account_deletion_requests",
+          "label": "NO REVIVAL",
+          "columns": [
+            "PK id : uuid",
+            "FK requested_by_adult",
+            "family_id, child_id optional",
+            "received_at, confirmed_at",
+            "state, scope, deadline"
+          ]
+        },
+        {
+          "name": "child_erasure_tombstones",
+          "label": "FENCE OFFLINE REPLAY",
+          "columns": [
+            "PK child_id : uuid",
+            "revoke_epoch : bigint",
+            "delete_started_at",
+            "deny_future_ingest : bool",
+            "source_request_id"
+          ]
+        },
+        {
+          "name": "erasure_jobs",
+          "label": "VERIFY CLEANUP",
+          "columns": [
+            "PK job_id : uuid",
+            "FK deletion_request_id",
+            "target_store : primary/backup",
+            "state, attempts, last_error",
+            "completed_at : time"
+          ]
+        },
+        {
+          "name": "erasure_job_targets",
+          "label": "ALL STORES",
+          "columns": [
+            "PK id : uuid",
+            "FK erasure_job_id",
+            "category / partition",
+            "completed_at, proof_ref"
+          ]
+        },
+        {
+          "name": "backup_erasure_manifests",
+          "label": "RESTORE SAFETY",
+          "columns": [
+            "PK id : uuid",
+            "FK deletion_request_id",
+            "backup_ref, restore_epoch",
+            "replay_tombstone_status",
+            "purge_by, verified_at"
+          ]
+        },
+        {
+          "name": "admin_principals",
+          "label": "NO BLANKET CHILD ACCESS",
+          "columns": [
+            "PK id : uuid",
+            "identity_subject : text",
+            "role : limited / audited",
+            "MFA_state, disabled_at",
+            "break_glass_expiry"
+          ]
+        },
+        {
+          "name": "admin_cases",
+          "label": "NEED-TO-KNOW",
+          "columns": [
+            "PK case_id : uuid",
+            "purpose, approver_id",
+            "affected_child_id",
+            "opened_at, expires_at",
+            "case_status"
+          ]
+        },
+        {
+          "name": "admin_case_scopes",
+          "label": "DUAL APPROVAL GATE",
+          "columns": [
+            "PK id : uuid",
+            "FK case_id, admin_id",
+            "permitted_fields",
+            "valid_from, valid_until",
+            "second_approver_ref"
+          ]
+        },
+        {
+          "name": "admin_read_audit",
+          "label": "EVERY SENSITIVE READ",
+          "columns": [
+            "PK id : uuid",
+            "FK case_id, admin_id",
+            "child_ref, action, result",
+            "accessed_at : time",
+            "immutable_digest"
+          ]
+        },
+        {
+          "name": "compliance_export_bundles",
+          "label": "DSAR & REGULATORY EXPORT",
+          "columns": [
+            "PK id : uuid",
+            "FK case_id → admin_cases",
+            "FK requested_by_admin → admin_principals",
+            "export_type : enum (DSAR, LAWFUL_AUTHORITY, REGULATORY_AUDIT)",
+            "target_family_id : uuid",
+            "target_child_id : uuid?",
+            "export_status : enum (REQUESTED, PROCESSING, COMPLETED, EXPIRED, FAILED)",
+            "file_archive_sha256 : varchar(64)",
+            "download_count : int",
+            "created_at, expires_at : timestamptz"
+          ]
+        }
+      ],
+      "relationships": [
+        "retention_policy_versions → erasure_jobs",
+        "account_deletion_requests → child_erasure_tombstones",
+        "account_deletion_requests → erasure_jobs",
+        "erasure_jobs → erasure_job_targets",
+        "erasure_jobs → backup_erasure_manifests",
+        "admin_principals → admin_case_scopes",
+        "admin_cases → admin_case_scopes",
+        "admin_case_scopes → admin_read_audit",
+        "purpose_authorizations → account_deletion_requests",
+        "admin_cases → compliance_export_bundles"
+      ]
+    },
+    {
+      "id": "96:208",
+      "title": "ERD 09 / Operations, evidence gates & resilient event flow",
+      "notes": [
+        "MADALASA · ALARKA / LOGICAL DATA MODEL",
+        "09   Operations, evidence gates & resilient event flow",
+        "PostgreSQL-backed inbox/outbox and per-child tenant isolation; audit, billing, data minimization and production gates remain explicit.",
+        "M1 operations/security · M2 inbox ADR · M8 OCI Chicago cost · M9 Play release"
+      ],
+      "tables": [
+        {
+          "name": "durable_event_inbox",
+          "label": "DURABLE ACK",
+          "columns": [
+            "PK id : uuid",
+            "source_device, message_hash",
+            "accepted_at : time",
+            "processed_at, attempt_count",
+            "status / error_reason"
+          ]
+        },
+        {
+          "name": "processing_outbox",
+          "label": "RETRY-SAFE",
+          "columns": [
+            "PK id : uuid",
+            "event_kind, subject_ref",
+            "payload_digest : bytea",
+            "next_attempt_at : time",
+            "state, lease_epoch"
+          ]
+        },
+        {
+          "name": "idempotency_claims",
+          "label": "PURCHASE / COMMAND SAFE",
+          "columns": [
+            "PK (namespace, key_hash)",
+            "actor_ref : opaque",
+            "created_at, expires_at",
+            "result_digest : bytea"
+          ]
+        },
+        {
+          "name": "worker_lease_fences",
+          "label": "SINGLE-ACTIVE WORKER",
+          "columns": [
+            "PK worker_name : text",
+            "lease_epoch : bigint",
+            "owner_instance_ref",
+            "valid_until : time"
+          ]
+        },
+        {
+          "name": "feature_release_gates",
+          "label": "DISABLED BY DEFAULT",
+          "columns": [
+            "PK feature_id : text",
+            "android_status : enum",
+            "google_play_status : enum",
+            "india_legal_status : enum",
+            "released_at, approver_id"
+          ]
+        },
+        {
+          "name": "external_service_accounts",
+          "label": "NO RAW CREDENTIALS",
+          "columns": [
+            "PK provider_ref : uuid",
+            "service : maps / FCM / Play",
+            "credential_secret_ref",
+            "scope, state, expires_at",
+            "residency_check : state"
+          ]
+        },
+        {
+          "name": "security_audit_events",
+          "label": "REDACTED / IMMUTABLE",
+          "columns": [
+            "PK id : uuid",
+            "actor_ref, child_ref optional",
+            "action, outcome : enum",
+            "occurred_at : time",
+            "trace_id, digest"
+          ]
+        },
+        {
+          "name": "support_cases",
+          "label": "DATA ACCESS CASE-GATED",
+          "columns": [
+            "PK case_id : uuid",
+            "account_ref / child_ref",
+            "issue_category, priority",
+            "consent_scope, opened_at",
+            "resolved_at : time"
+          ]
+        },
+        {
+          "name": "export_requests",
+          "label": "DATA SUBJECT RIGHTS",
+          "columns": [
+            "PK request_id : uuid",
+            "FK principal_id, child_id",
+            "approved_scope",
+            "status, expires_at",
+            "delivery_ref : encrypted"
+          ]
+        },
+        {
+          "name": "telemetry_aggregates",
+          "label": "MINIMAL OP METRICS",
+          "columns": [
+            "PK period + service + metric",
+            "count, p50, p95",
+            "no child coordinates",
+            "retained_until : time"
+          ]
+        },
+        {
+          "name": "cost_usage_snapshots",
+          "label": "₹100/100D LOAD TEST",
+          "columns": [
+            "PK period + cloud_service",
+            "turn_gb, outbound_gb",
+            "viewer_concurrency_peak",
+            "estimated_cost_inr",
+            "scenario_status : estimate/actual"
+          ]
+        },
+        {
+          "name": "architecture_decisions",
+          "label": "TRACEABLE CHANGE LOG",
+          "columns": [
+            "PK adr_id : text",
+            "decision, supersedes_adr",
+            "status : DRAFT/APPROVED",
+            "owner, approved_at"
+          ]
+        }
+      ],
+      "relationships": [
+        "durable_event_inbox → processing_outbox",
+        "processing_outbox → worker_lease_fences",
+        "idempotency_claims → durable_event_inbox",
+        "feature_release_gates → external_service_accounts",
+        "support_cases → export_requests",
+        "support_cases → security_audit_events",
+        "telemetry_aggregates → cost_usage_snapshots",
+        "architecture_decisions → feature_release_gates"
+      ]
+    },
+    {
+      "id": "108:2",
+      "title": "ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs",
+      "notes": [
+        "MADALASA · ALARKA  /  LOGICAL DATA MODEL",
+        "10   Admin access, content, support & usage metadata",
+        "Owner approval is exclusive to verified swarna.s.jobs@gmail.com (Google sub bound); FULL admin authority does not expose child-private data.",
+        "SOURCE: ADMIN_OWNER_GOOGLE_ACCESS_FAQ_SUPPORT_BILLING_AND_USAGE_2026.md · DESIGN / NO AUTH IMPLEMENTED"
+      ],
+      "tables": [
+        {
+          "name": "admin_accounts",
+          "label": "OWNER BOOTSTRAP",
+          "columns": [
+            "PK id : uuid",
+            "google_issuer, google_sub : UNIQUE",
+            "verified_google_email : text",
+            "email_verified_at : timestamp",
+            "state : NO_ACCESS/ACTIVE/REVOKED",
+            "session_revocation_epoch : bigint"
+          ]
+        },
+        {
+          "name": "admin_profiles",
+          "label": "PERSONAL • ENCRYPTED",
+          "columns": [
+            "PK/FK admin_id → admin_accounts",
+            "name : encrypted text",
+            "address : encrypted text",
+            "dob, gender : encrypted? (gate)",
+            "contact_email, verified_at",
+            "email_verified_at, verification_method : enum",
+            "profile_version, privacy_notice"
+          ]
+        },
+        {
+          "name": "admin_email_challenges",
+          "label": "HASHED SINGLE USE",
+          "columns": [
+            "PK id : uuid",
+            "FK admin_id : uuid",
+            "contact_email_digest : bytea",
+            "challenge_hash : unique",
+            "expires_at, used_at",
+            "attempts : int"
+          ]
+        },
+        {
+          "name": "admin_access_requests",
+          "label": "OWNER APPROVES ONLY",
+          "columns": [
+            "PK id : uuid",
+            "FK admin_id : uuid",
+            "profile_version : bigint",
+            "state : DRAFT/PENDING/APPROVED",
+            "submitted_at, decided_at",
+            "decided_by_owner_id, reason"
+          ]
+        },
+        {
+          "name": "admin_roles",
+          "label": "ROLE CATALOG",
+          "columns": [
+            "PK role_id : uuid",
+            "code : ROOT_OWNER/FAQ_EDITOR/...",
+            "description, active : text/bool",
+            "owner_assignable : bool"
+          ]
+        },
+        {
+          "name": "admin_permissions",
+          "label": "PERMISSION CATALOG",
+          "columns": [
+            "PK code : text",
+            "module : enum",
+            "requires_case, step_up : bool",
+            "description : text"
+          ]
+        },
+        {
+          "name": "admin_role_permissions",
+          "label": "RBAC JOIN",
+          "columns": [
+            "PK (role_id, permission_code)",
+            "FK role_id → admin_roles",
+            "FK permission_code → admin_permissions"
+          ]
+        },
+        {
+          "name": "admin_role_grants",
+          "label": "OWNER ISSUED / REVOKABLE",
+          "columns": [
+            "PK grant_id : uuid",
+            "FK admin_id, role_id",
+            "FK granted_by_owner_id",
+            "created_at, revoked_at",
+            "expires_at : time?"
+          ]
+        },
+        {
+          "name": "admin_action_audit",
+          "label": "NO OFF SWITCH",
+          "columns": [
+            "PK audit_id : uuid",
+            "FK actor_admin_id : uuid",
+            "action, result, target_ref",
+            "case_docket_id, masked_target_account : text",
+            "occurred_at, request_id",
+            "digest / case_ref"
+          ]
+        },
+        {
+          "name": "admin_notifications",
+          "label": "PII MINIMAL",
+          "columns": [
+            "PK id : uuid",
+            "FK access_request_id : uuid",
+            "recipient_owner_id : uuid",
+            "queued_at, delivered_at",
+            "dedup_key, status"
+          ]
+        },
+        {
+          "name": "faq_entries",
+          "label": "PUBLIC ONLY IF PUBLISHED",
+          "columns": [
+            "PK faq_id : uuid",
+            "slug : unique",
+            "category, status : enum",
+            "current_revision_id : uuid?",
+            "created_at, updated_at"
+          ]
+        },
+        {
+          "name": "faq_revisions",
+          "label": "REVISION HISTORY",
+          "columns": [
+            "PK revision_id : uuid",
+            "FK faq_id : uuid",
+            "language_code : en",
+            "title, safe_body : text",
+            "created_by_admin_id, published_at"
+          ]
+        },
+        {
+          "name": "support_tickets",
+          "label": "AUTHENTICATED PARENT",
+          "columns": [
+            "PK id : uuid",
+            "FK adult_id → adult_accounts",
+            "subject, initial_body : encrypted",
+            "category, priority : enum",
+            "FK assigned_admin_id → admin_accounts",
+            "status : OPEN/PENDING/RESOLVED",
+            "created_at, updated_at"
+          ]
+        },
+        {
+          "name": "support_messages",
+          "label": "SANITIZED REPLIES",
+          "columns": [
+            "PK message_id : uuid",
+            "FK ticket_id : uuid",
+            "sender_parent_or_admin_ref",
+            "safe_body : text",
+            "sent_at, delivery_state"
+          ]
+        },
+        {
+          "name": "parent_service_usage_events",
+          "label": "SERVICE METADATA ONLY",
+          "columns": [
+            "PK event_id : uuid",
+            "FK parent_adult_id : uuid",
+            "child_ref : masked optional",
+            "service_code, outcome",
+            "started_at, ended_at, duration_s",
+            "quota_debit, receipt_ref"
+          ]
+        },
+        {
+          "name": "admin_support_read_audit",
+          "label": "EVERY SENSITIVE READ",
+          "columns": [
+            "PK id : uuid",
+            "FK admin_id, ticket_id",
+            "request_id, purpose",
+            "accessed_at, outcome",
+            "immutable_digest"
+          ]
+        },
+        {
+          "name": "admin_sessions",
+          "label": "ADMIN OPERATOR SESSION",
+          "columns": [
+            "PK id : uuid",
+            "FK admin_id → admin_principals",
+            "token_hash : varchar(64) UNIQUE",
+            "created_at, expires_at, last_seen_at : timestamptz",
+            "ip_address : inet, user_agent : text",
+            "is_revoked : boolean",
+            "mfa_verified_at : timestamptz?"
+          ]
+        }
+      ],
+      "relationships": [
+        "admin_accounts → admin_profiles",
+        "admin_accounts → admin_email_challenges",
+        "admin_accounts → admin_access_requests",
+        "admin_accounts → admin_role_grants",
+        "admin_roles → admin_role_permissions",
+        "admin_permissions → admin_role_permissions",
+        "admin_roles → admin_role_grants",
+        "admin_accounts → admin_action_audit",
+        "admin_access_requests → admin_notifications",
+        "faq_entries → faq_revisions",
+        "admin_accounts → faq_revisions",
+        "support_tickets → support_messages",
+        "admin_accounts → admin_support_read_audit",
+        "support_tickets → admin_support_read_audit",
+        "admin_accounts → parent_service_usage_events",
+        "admin_accounts → admin_sessions"
+      ]
+    },
+    {
+      "id": "121:2",
+      "title": "ERD 11 / Figma API gap closure additional persistence (CONCEPT ONLY)",
+      "notes": [
+        "MADALASA · ALARKA / SCREEN & API GAP DB ADDENDUM",
+        "11    Missing screen-backed persistence candidates",
+        "8 additional logical entities; 112 existing + 8 proposed = 120. NOT APPROVED SQL; reuse existing tables where possible.",
+        "MISSING STATE: parent logout • permission audit • per-guardian read • commute plans • cadence policies • outages • device-approved media",
+        "RELATIONSHIPS · parent referenced entity → dependent entity"
+      ],
+      "tables": [
+        {
+          "name": "parent_auth_sessions",
+          "label": "AUTH LOGOUT/REVOKE",
+          "columns": [
+            "PK id : uuid",
+            "FK adult_id → adult_accounts.id",
+            "token_hash : bytea unique",
+            "issued_at, expires_at : timestamp",
+            "revoked_at, revocation_epoch",
+            "client_audience : PARENT"
+          ]
+        },
+        {
+          "name": "device_permission_change_events",
+          "label": "REVOCATION HISTORY",
+          "columns": [
+            "PK id : uuid",
+            "FK device_id → child_devices.id",
+            "FK child_id → children.id",
+            "permission_key, old_state, new_state",
+            "observed_at, received_at : timestamp",
+            "device_state_revision : bigint"
+          ]
+        },
+        {
+          "name": "parent_notification_read_receipts",
+          "label": "ONE GUARDIAN READ",
+          "columns": [
+            "PK (delivery_id, adult_id)",
+            "FK delivery_id → notification_deliveries.id",
+            "FK adult_id → adult_accounts.id",
+            "read_at : timestamptz",
+            "is_read : boolean",
+            "source_revision : bigint"
+          ]
+        },
+        {
+          "name": "commute_plans",
+          "label": "M3 ROUTE PLAN",
+          "columns": [
+            "PK plan_id : uuid",
+            "FK child_id → children.id",
+            "start_place_id, end_place_id : uuid?",
+            "schedule_json : validated",
+            "version, created_by_adult_id",
+            "legal_history_gate : enum"
+          ]
+        },
+        {
+          "name": "commute_plan_revisions",
+          "label": "REVISIONS / NO FAKE ARRIVAL",
+          "columns": [
+            "PK (plan_id, revision)",
+            "FK plan_id → commute_plans.plan_id",
+            "expected_window : tstzrange",
+            "change_reason, edited_by : uuid",
+            "created_at, supersedes_revision"
+          ]
+        },
+        {
+          "name": "tracking_policy_revisions",
+          "label": "FREE / PAID CADENCE",
+          "columns": [
+            "PK id : uuid",
+            "FK child_id → children.id",
+            "FK device_id → child_devices.id",
+            "policy_version : bigint",
+            "frequency_class : enum",
+            "effective_at, device_ack_at"
+          ]
+        },
+        {
+          "name": "service_incidents",
+          "label": "NO PRIVATE TELEMETRY",
+          "columns": [
+            "PK id : uuid",
+            "component, status : enum",
+            "public_message : sanitized text",
+            "began_at, resolved_at",
+            "severity, release_stage",
+            "no child data or coordinates"
+          ]
+        },
+        {
+          "name": "media_request_device_approvals",
+          "label": "EXPLICIT USER-AUTHORIZED",
+          "columns": [
+            "PK id : uuid",
+            "FK command_id → media_command_requests.id",
+            "FK device_id → child_devices.id",
+            "device_ui_consent_state : enum",
+            "requested_at, decided_at",
+            "os_decision_reason : enum"
+          ]
+        }
+      ],
+      "relationships": [
+        "adult_accounts.id → parent_auth_sessions.adult_id",
+        "child_devices.id → device_permission_change_events.device_id",
+        "notification_deliveries.id → parent_notification_read_receipts.delivery_id",
+        "children.id → commute_plans.child_id",
+        "commute_plans.plan_id → commute_plan_revisions.plan_id",
+        "child_devices.id → tracking_policy_revisions.device_id",
+        "media_command_requests.id → media_request_device_approvals.command_id",
+        "child_devices.id → media_request_device_approvals.device_id"
+      ],
+      "source_status": "CONCEPTUAL_NOT_MIGRATED"
+    }
+  ],
+  "stage": "CONCEPTUAL_NOT_MIGRATED",
+  "generatedFrom": "Figma editable text layers",
+  "exportDate": "2026-10-28",
+  "adminRevision": "2026-10-28: Owner-controlled Google admin auth, FAQ, support and parent service metadata; design only; V2 cross-family grant update 2026-10-28",
+  "screenAuditAddendum": {
+    "date": "2026-10-28",
+    "new_domain_id": "121:2",
+    "new_tables": 8,
+    "rationale": "Only 8 missing state-bearing logical tables; 112 prior conceptual entities preserved; proposals are not executable migrations."
+  },
+  "provenance": {
+    "state": "PROPOSED_LOCAL_EXTENSION_NOT_APPROVED_FIGMA_BASELINE",
+    "source_commit": "7123fd3d4c01043e460a94f3fc0645411c55654c",
+    "canonical_baseline": "MADALASA_ALARKA_FIGMA_LOGICAL_ERD_V1_2026.json",
+    "live_figma_reverified": false,
+    "notes": "Preserves the four added entities and column proposals separately; physical SQL presence does not prove screen/API or legal acceptance."
+  }
+}

@@ -1,0 +1,2 @@
+# PostgreSQL driver; binary distribution includes a libpq client.
+psycopg[binary]==3.3.6

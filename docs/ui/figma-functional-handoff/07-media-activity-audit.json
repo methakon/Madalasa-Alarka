@@ -1,0 +1,279 @@
+{
+  "document_id": "MA-MEDIA-AUDIT-FIGMA-007",
+  "updated_at": "2026-10-27",
+  "status": "DESIGN_ONLY_NOT_IMPLEMENTED",
+  "file_key": "TKiZXwjkWdkponF1zNsfli",
+  "page_id": "32:2",
+  "page_url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-2",
+  "counts": {
+    "parent": 11,
+    "admin": 17,
+    "total": 28
+  },
+  "architecture": [
+    {
+      "type": "HLD",
+      "node_id": "35:2",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=35-2"
+    },
+    {
+      "type": "LLD",
+      "node_id": "35:56",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=35-56"
+    }
+  ],
+  "screen_specs": [
+    {
+      "id": "PA-01",
+      "actor": "PARENT",
+      "title": "Media activity",
+      "node_id": "32:3",
+      "note_node_id": "32:25",
+      "implementation_note": "Parent shows only authorized children; default last 7 days; server cursor pagination, no server media file links.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-3"
+    },
+    {
+      "id": "PA-02",
+      "actor": "PARENT",
+      "title": "Choose a child",
+      "node_id": "32:29",
+      "note_node_id": "32:55",
+      "implementation_note": "Accessible dropdown filters using child name + masked ID; no child from another family. Parent changes clear cursor.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-29"
+    },
+    {
+      "id": "PA-03",
+      "actor": "PARENT",
+      "title": "Date range",
+      "node_id": "32:59",
+      "note_node_id": "32:85",
+      "implementation_note": "Timezone localized, to-exclusive UTC server boundary; reject reversed/oversized/retention-exceeding queries.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-59"
+    },
+    {
+      "id": "PA-04",
+      "actor": "PARENT",
+      "title": "Filter results",
+      "node_id": "32:89",
+      "note_node_id": "32:115",
+      "implementation_note": "Filters are server-side and intersect date and child scopes; page cursor resets upon any filter change.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-89"
+    },
+    {
+      "id": "PA-05",
+      "actor": "PARENT",
+      "title": "Session details",
+      "node_id": "32:119",
+      "note_node_id": "32:149",
+      "implementation_note": "VIEWED_ONLY only if parent display/playback receipt verified. Live-only file_size_bytes is NULL.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-119"
+    },
+    {
+      "id": "PA-06",
+      "actor": "PARENT",
+      "title": "Saved recording details",
+      "node_id": "32:153",
+      "note_node_id": "32:183",
+      "implementation_note": "Historical receipt cannot prove parent file remains after deletion; do not provide server download links.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-153"
+    },
+    {
+      "id": "PA-07",
+      "actor": "PARENT",
+      "title": "Why did it fail?",
+      "node_id": "32:187",
+      "note_node_id": "32:217",
+      "implementation_note": "Show exact OS error only when verified. Phone call/mic-used attribution cannot be invented.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-187"
+    },
+    {
+      "id": "PA-08",
+      "actor": "PARENT",
+      "title": "No matching activity",
+      "node_id": "32:221",
+      "note_node_id": "32:243",
+      "implementation_note": "Empty is distinct from unauthorized, failed server request, and offline device.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-221"
+    },
+    {
+      "id": "PA-09",
+      "actor": "PARENT",
+      "title": "Historical activity offline",
+      "node_id": "32:247",
+      "note_node_id": "32:273",
+      "implementation_note": "Read-only history does not wake child. Never infer a sensor-specific failure from an offline phone.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-247"
+    },
+    {
+      "id": "PA-10",
+      "actor": "PARENT",
+      "title": "Browse more activity",
+      "node_id": "32:277",
+      "note_node_id": "32:299",
+      "implementation_note": "Stable sort (request_at DESC, ID DESC) and signed cursors with previous/next; no duplicate rows on changes.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-277"
+    },
+    {
+      "id": "PA-11",
+      "actor": "PARENT",
+      "title": "Access not available",
+      "node_id": "32:303",
+      "note_node_id": "32:325",
+      "implementation_note": "No cross-family ID enumeration and expired guardian grants invalidate cached pages.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=32-303"
+    },
+    {
+      "id": "ADM-01",
+      "actor": "ADMIN",
+      "title": "Administrator sign-in",
+      "node_id": "33:2",
+      "note_node_id": "33:44",
+      "implementation_note": "Separate admin JWT audience, MFA, short TTL, server-side role and case. No media log data before sign-in.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-2"
+    },
+    {
+      "id": "ADM-02",
+      "actor": "ADMIN",
+      "title": "Operations overview",
+      "node_id": "33:48",
+      "note_node_id": "33:94",
+      "implementation_note": "No named children in routine support dashboard. Hide aggregate when small-number inference risky.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-48"
+    },
+    {
+      "id": "ADM-03",
+      "actor": "ADMIN",
+      "title": "Request case-based access",
+      "node_id": "33:98",
+      "note_node_id": "33:144",
+      "implementation_note": "Case/purpose scope server-issued, expiring; ordinary operator role cannot grant itself universal search.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-98"
+    },
+    {
+      "id": "ADM-04",
+      "actor": "ADMIN",
+      "title": "Media activity explorer",
+      "node_id": "33:148",
+      "note_node_id": "33:194",
+      "implementation_note": "Parent/child names resolved read-time under active scope; filter intersection + max page size and stable cursor pagination.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-148"
+    },
+    {
+      "id": "ADM-05",
+      "actor": "ADMIN",
+      "title": "Search parent accounts",
+      "node_id": "33:198",
+      "note_node_id": "33:240",
+      "implementation_note": "Name/ID autocomplete debounced and server-scope filtered; lookup itself recorded in access audit.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-198"
+    },
+    {
+      "id": "ADM-06",
+      "actor": "ADMIN",
+      "title": "Search children",
+      "node_id": "33:244",
+      "note_node_id": "33:286",
+      "implementation_note": "Child parent relationship validated server-side; dropdown may not reveal siblings outside explicit case.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-244"
+    },
+    {
+      "id": "ADM-07",
+      "actor": "ADMIN",
+      "title": "Media record details",
+      "node_id": "33:290",
+      "note_node_id": "33:340",
+      "implementation_note": "Admin cannot replay, download, thumbnail or access media; viewed requires parent display/playback receipt.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-290"
+    },
+    {
+      "id": "ADM-08",
+      "actor": "ADMIN",
+      "title": "Failure reason & evidence",
+      "node_id": "33:344",
+      "note_node_id": "33:390",
+      "implementation_note": "No raw exception texts or third-party call data. Distinguish verified reason source from unknown context.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-344"
+    },
+    {
+      "id": "ADM-09",
+      "actor": "ADMIN",
+      "title": "No results or no access",
+      "node_id": "33:394",
+      "note_node_id": "33:436",
+      "implementation_note": "UI distinguishes zero result/403/401/422/429, no identity leaks in error or suggestions.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=33-394"
+    },
+    {
+      "id": "ADM-10",
+      "actor": "ADMIN",
+      "title": "Pagination and retry",
+      "node_id": "34:2",
+      "note_node_id": "34:48",
+      "implementation_note": "Keyset cursor with previous/next history, bounded page size max 100, cancellation and retry; scope checked every page.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-2"
+    },
+    {
+      "id": "ADM-11",
+      "actor": "ADMIN",
+      "title": "Administrator access audit",
+      "node_id": "34:52",
+      "note_node_id": "34:98",
+      "implementation_note": "Search, suggestions, detail reads and export attempts write audit; fail closed if audit not persisted.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-52"
+    },
+    {
+      "id": "ADM-12",
+      "actor": "ADMIN",
+      "title": "Privacy and retention gates",
+      "node_id": "34:102",
+      "note_node_id": "34:148",
+      "implementation_note": "Privacy-approved retention TTLs TBD; operator read-only unless separate signed change; backup/deletion protection.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-102"
+    },
+    {
+      "id": "ADM-13",
+      "actor": "ADMIN",
+      "title": "Session expired",
+      "node_id": "34:152",
+      "note_node_id": "34:194",
+      "implementation_note": "401 and session expiry require step-up; no cached child rows displayed on expired screen.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-152"
+    },
+    {
+      "id": "ADM-14",
+      "actor": "ADMIN",
+      "title": "Access denied",
+      "node_id": "34:198",
+      "note_node_id": "34:244",
+      "implementation_note": "403 must not reveal existence of target parent/child. Audit failed attempt. No admin superuser default bypass.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-198"
+    },
+    {
+      "id": "ADM-15",
+      "actor": "ADMIN",
+      "title": "Controlled export request",
+      "node_id": "34:248",
+      "note_node_id": "34:294",
+      "implementation_note": "Download/export disabled by default, requires case-bound dual control, audit and DLP review.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-248"
+    },
+    {
+      "id": "ADM-16",
+      "actor": "ADMIN",
+      "title": "Role and case assignment",
+      "node_id": "34:298",
+      "note_node_id": "34:348",
+      "implementation_note": "Manage role grants via separate governed workflow; root does not automatically receive child metadata rights.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-298"
+    },
+    {
+      "id": "ADM-17",
+      "actor": "ADMIN",
+      "title": "Audit service unavailable",
+      "node_id": "34:352",
+      "note_node_id": "34:398",
+      "implementation_note": "Fail closed for detailed access if independent admin-access audit cannot durably append.",
+      "url": "https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=34-352"
+    }
+  ]
+}

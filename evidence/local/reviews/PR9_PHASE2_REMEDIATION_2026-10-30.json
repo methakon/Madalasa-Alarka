@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-30",
+  "status": "PHASE2_LOCAL_AND_HOSTED_VERIFIED_PHASE3_PENDING",
+  "source_commit": "b1df65742faf3674486d7935cf02bd147957e103",
+  "branch": "feat/m1-create-family",
+  "baseline_commit": "c693899e4b411cbadd1639f0bcb642844af50ea9",
+  "migration": {
+    "path": "backend/persistence/migrations/0006_m1_concurrency_and_retention_holds.sql",
+    "sha256": "7d52f28a22e283bc4a2a528b4033e4fcc18ed8e0ee69dbc9833070b96f5363ca",
+    "lineage": "historical M1 only",
+    "published": true,
+    "physical_table_count": 18,
+    "original_five_migrations": "byte-identical to baseline; separate V2 untouched"
+  },
+  "runtime": {"postgres": "16.15", "container": "madalasa-pr9-remediation-pg16", "network": "none; no published ports", "data": "synthetic only", "psycopg": "3.2.13"},
+  "environment": {
+    "PGHOST": "$PWD/.dev-environment/pr9-pg-socket", "PGPORT": "5432", "PGUSER": "postgres",
+    "PATH_prefix": "$PWD/.dev-environment/sysroot/usr/lib/postgresql/16/bin",
+    "LD_LIBRARY_PATH": "$PWD/.dev-environment/sysroot/usr/lib/x86_64-linux-gnu",
+    "retention_fixture_database": "ma_pr9_retention_final"
+  },
+  "executions": [
+    {"command": ".dev-environment/concurrency-venv/bin/python backend/tests/m1_credential_concurrency.py", "exit_code": 1, "expected_exit_code": 1, "result": "Historical RED includes actual two unrevoked credentials and six open challenges"},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/tests/m1_retention_holds.sql", "database": "ma_pr9_retention_parent before0006", "exit_code": 3, "expected_exit_code": 3, "result": "Historical RED: expired completed ACTIVE enrollment not purged"},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/persistence/migrations/0006_m1_concurrency_and_retention_holds.sql", "exit_code": 0, "result": "Applied after explicit original five, both upgrade and fresh chain"},
+    {"command": ".dev-environment/concurrency-venv/bin/python backend/tests/m1_credential_concurrency.py --migration backend/persistence/migrations/0006_m1_concurrency_and_retention_holds.sql", "exit_code": 0, "tests": 17, "result": "Combined migration; lifecycle signatures/results/defaults/owner/ACL/security-definer/search_path preserved"},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -v retention_check_hold_acl=1 -f backend/tests/m1_retention_holds.sql", "database": "ma_pr9_retention_final", "exit_code": 0, "repetitions": 2, "result": "Lifecycle, holds, exact counts, FK blockers, evidence preservation, invalid grace and unauthorized hold mutation"},
+    {"command": ".dev-environment/concurrency-venv/bin/python backend/tests/m1_purge_concurrency.py", "exit_code": 0, "tests": 20, "result": "Device-first lock seams, both hold/purge orders, explicit missing-target hold failure, pairing redemption serialization, post-lock wall clock and optional runner"},
+    {"command": "bash backend/tests/purge_job.sh", "exit_code": 0, "result": "Executed serially; exactly three function grants/no table privileges; optional explicit-grace pairing counts/idempotence/holds; invalid grace fail-closed; default two-job compatibility; bounded wait"},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/tests/m1_tenant_isolation.sql", "exit_code": 0},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/tests/m1_credential_lifecycle.sql", "exit_code": 0},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/tests/m1_enrollment.sql", "exit_code": 0},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/tests/m1_idempotency.sql", "exit_code": 0},
+    {"command": "psql -X -v ON_ERROR_STOP=1 -f backend/tests/m1_family_provisioning.sql", "exit_code": 0},
+    {"command": "python3 backend/tests/integration_db_failures.py \"$PWD/.dev-environment/pr9-fixed-build/ma_backend\" --case all", "exit_code": 0},
+    {"command": "bash backend/tests/integration_families.sh \"$PWD/.dev-environment/pr9-fixed-build/ma_backend\"", "exit_code": 0},
+    {"command": "/usr/bin/python3 -m unittest discover -s backend/tests -p 'test_*.py' -v", "exit_code": 0, "tests": 70},
+    {"command": "python3 backend/tests/check_physical_catalog.py --write", "exit_code": 0},
+    {"command": "python3 backend/tests/check_physical_catalog.py", "exit_code": 0},
+    {"command": "python3 backend/tests/check_document_structure.py", "exit_code": 0},
+    {"command": "python3 backend/tests/lint_openapi_m1.py docs/openapi-m1.yaml", "exit_code": 0},
+    {"command": "python3 backend/tests/lint_openapi_full.py", "exit_code": 0},
+    {"command": "git diff --check", "exit_code": 0}
+  ],
+  "failed_integration_attempt": {"database": "madalasa_pr9_review already used by earlier suites", "exit_code": 3, "reason": "Global fixture count expected an empty database", "resolution": "Fresh dedicated empty database passed; added dedicated-name/empty preflight without weakening assertions"},
+  "ci_runs": [
+    {"url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41050956770", "head_sha": "b1df65742faf3674486d7935cf02bd147957e103", "conclusion": "success", "workflow": "M1 API and tenant isolation"},
+    {"url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41050956590", "head_sha": "b1df65742faf3674486d7935cf02bd147957e103", "conclusion": "success", "workflow": "Documentation structure and draft status"}
+  ],
+  "limits": ["Synthetic engineering retention settings, not approved legal retention", "Hold booleans are not a provenance/multi-case legal hold management system", "No idempotency hold extension", "No device HTTP enrollment/renewal implementation or rate-limit claim", "Not deployed or scheduled", "Real ParentOIDC implementation and final all-checks acceptance remain pending"],
+  "readiness": "NOT_READY",
+  "merge_authorized": false
+}

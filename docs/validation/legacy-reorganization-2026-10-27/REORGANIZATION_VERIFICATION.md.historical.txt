@@ -1,0 +1,75 @@
+# Local Documentation Reorganization Verification
+
+Verification date: 2026-10-27. Branch: `docs/phase-category-reorganization-2026-10-27`. Scope: documentation-only completion; no application, architecture, OpenAPI, deployment or legal-approval change.
+
+## Baselines and history
+
+- Original complete source baseline: `b3cddfc45ddb1c99bb545ddc5a7828fe534fe772`.
+- Actual fetched completion baseline: `13c36995e46e108e199f7980a9a7ed18df20c16a`.
+- Contrary to the handoff's earlier snapshot, fetched history already contains folder migration `f769960` followed by CI correction `13c3699`. This task completed and verified that existing state instead of repeating the moves or using abandoned remote tree objects.
+- The handoff's exact 72-file destination mapping was independently parsed and compared with the committed manifest: exact match.
+- The unrelated untracked consolidation patch was preserved in a named local Git stash. It was not applied, deleted, included in this commit or mixed with the documentation work.
+
+[Register](../MASTER_DOCUMENT_CONTROL_REGISTER.md) · [Machine register](../document-control-register.json) · [Phase gates](../DOCUMENTATION_PHASE_GATE_CHECKLIST.md) · [Tooling/reproduction](../tools/README.md) · [Machine link/preservation results](reorganization-results.json) · [Local workflow results](local-ci-results.json) · [Protected baseline](reorganization-baseline.json) · [Known link issue](link-exceptions.json).
+
+## Delivered control structure
+
+- 72 complete canonical source documents under `docs/phases/`; 12 phase indexes and 19 category indexes. M5 accurately has zero dedicated source documents, with links to existing M1 and M0 prerequisites.
+- Owner-directed cleanup (2026-10-27): the 71 root forwarding stubs were retired so `docs/` root holds only ten control artifacts — README, LICENSE pointer, master register, machine register, relocation manifest, control policy, phase-gate checklist, phase coverage matrix and the two API contracts. Historic paths remain recorded in both registers; former `docs/<FILE>` URLs no longer resolve.
+- Five root/governance/Android/backend documents that still linked to retired paths were repointed to canonical files, recorded as `navigation_reference_updates` and accepted only when the normalized text (all local link destinations masked) is byte-identical. `backend/tests/check_document_structure.py` is a recorded `policy_code_updates` revision enforcing the new root allowlist.
+- Complete Markdown control table and matching machine register: 72 source records plus five separate unmoved entries (two OpenAPI contracts and three UI indexes).
+- Each source entry records catalogue/existing IDs, baseline/version or TBD, canonical/legacy paths, proposed unassigned owner/reviewer roles, stage, independent content-approval and implementation-evidence states, blockers, unknown review date and explicit linked design/requirement references.
+- Marked metadata headers are navigation/control only. No named owner, date of substantive review or legal approval was invented. Existing accepted architecture and milestone definitions remain unchanged.
+
+## Executed verification
+
+| Check | Actual result and scope |
+|---|---|
+| Exact handoff mapping | PASS: 72 unique sources and destinations match |
+| Full source preservation | PASS: all 72 original Git blobs independently verified; all non-link-destination bytes retained after stripping the marked header |
+| Link target fidelity | PASS: each original local destination resolves to the same mapped logical target, query and fragment; external destinations and all code/prose remain unchanged |
+| Phase/category structure | PASS: 72 canonical documents in 12 phases / 19 categories, 10 allowlisted root files, zero retired stubs present, no stale links to retired paths |
+| Regression tests | PASS: 21 tests, including fenced/indented/inline code, reference/image/HTML links, balanced destinations, anchors, duplicates, Unicode and repository escapes |
+| Negative controls | PASS: isolated copies reject truncation, a wrong-but-existing legacy target, a modified API contract and fabricated approval; live working files are not mutated by these tests |
+| Protected scope | PASS: 37 existing artifacts byte-identical to the completion baseline, including contracts, UI, Android/backend sources, public HTML and root governance |
+| Local links and anchors | 1,839 local links across 129 files plus 5 anchor checks: zero unexpected errors, zero accepted exceptions |
+| M1 OpenAPI structural linter | PASS: 11 operations, 16 schemas, 11 unique operation IDs; unchanged contract and linter |
+| JSON parsing | PASS: both API contracts and the machine register |
+| Documentation workflow | All seven shell run blocks executed locally with successful exits; exact commands/output retained in local workflow results. This is not a hosted GitHub Actions run |
+| Whitespace | `git diff --check` passes |
+
+The local workflow environment uses project-local Python 3.12.3 and pinned markdown-it-py 4.2.0 / mdurl 0.1.2. Inherited Python module search overrides are removed for the isolated local reproduction. No project installable or validation source is placed in another project folder.
+
+## Workflow changes and interpretation
+
+The documentation workflow now uses full checkout history to independently verify original source blobs, installs the pinned parser, checks parser regressions, validates the complete control register, exact pointers, protected hashes and all local Markdown/HTML navigation. Existing canonical DRAFT checks and the M1 API path/linter remain unchanged in meaning. Canonical checks must not read short pointer stubs as evidence of actual legal text. Backend paths also trigger documentation validation so contract/tool references cannot silently drift.
+
+No deployment or publishing step was introduced. Dependency installation and all validation run blocks were reproduced locally; hosted checkout/setup actions have not run because no push is authorized.
+
+## Link repairs completed
+
+All local navigation now resolves. Repairs made after the folder migration:
+
+| Area | Change | Verification |
+|---|---|---|
+| `docs/ui/tldraw/README.md` | Pre-existing wrong relative depth corrected to the canonical naming document (was one level short and 404ed) | Link-only edit; normalized text unchanged |
+| `CONTRIBUTING.md`, `SECURITY.md`, `CHANGELOG.md`, `android/README.md`, `backend/tests/M1_ACCEPTANCE_TEST_CASES.md` | Repointed from retired `docs/<FILE>` paths to canonical phase paths | Recorded as `navigation_reference_updates`; accepted only when all local link destinations are masked and the remaining text is byte-identical |
+| `.github/CODEOWNERS` | Ownership patterns repointed to canonical document paths so sensitive-file review coverage still matches | Recorded in `supporting_path_updates` |
+| `.github/ISSUE_TEMPLATE/config.yml` | Engineering-setup contact link repointed to the canonical `BUILD_AND_RUN` path | Recorded in `supporting_path_updates` |
+| Root `LICENSE` | The one referenced review-document path string corrected; no licence term, permission or restriction touched | Recorded with `text_reference_updates`; validator re-substitutes the old string and requires an identical normalized body |
+
+Final link state: 1,839 local links across 129 files plus 5 anchor checks, **zero unexpected errors and zero accepted exceptions** (`docs/validation/link-exceptions.json` is now empty). Former `docs/<FILE>` URLs still do not resolve — that is the intended effect of the root cleanup, and the master register is the redirect index.
+
+Residual path text that is deliberately untouched: comments inside `docs/openapi.yaml` / `docs/openapi-m1.yaml` (contracts are frozen by scope) and provenance strings inside the Figma handoff JSON under `docs/ui/` (design artifacts, not navigation). Neither is a clickable link; both still name documents that exist at canonical paths.
+
+## Open approvals and checks not run
+
+- DPIA, publisher, guardian verification, India/Play G01/G02, retention, vendor DPAs and licensing remain DRAFT/UNAPPROVED. The historical raw-GPS 14-vs-30-day conflict remains unresolved; no retention period was chosen.
+- No application implementation, architecture change, real-child test, device provisioning, infrastructure deployment, Play submission or legal approval was performed.
+- PostgreSQL migration/RLS execution was not rerun: SQL is unchanged and no disposable PostgreSQL instance was started. No live database was contacted.
+- External source URLs, Figma node contents and remote availability were not fetched for link validation. Their original source text/identifiers remain preserved.
+- Hosted GitHub Actions results are unavailable because the work is local-only. Local workflow-equivalent success is not claimed as a remote CI pass.
+
+## Local publication boundary
+
+Commit only to the dedicated local branch after final checks. Do not push, open a remote PR, merge into main or update any remote ref without owner authorization. Main remains at the completion baseline. The local commit SHA is reported separately to avoid a self-referential hash in this file.

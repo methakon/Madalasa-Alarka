@@ -1,0 +1,55 @@
+{
+  "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+  "status": "HISTORICAL_SOURCE_ONLY_NOT_CURRENT_PASS",
+  "artifacts": [
+    {
+      "old_path": "docs/tools/check_reorganization.py",
+      "current_path": "docs/validation/legacy-reorganization-2026-10-27/check_reorganization.py",
+      "classification": "ARCHIVED_HISTORICAL_ONLY_NOT_CURRENT_PASS",
+      "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "source_sha256": "ec9978d46f75875f1dce67c0c3008733e5f0ace61f785f5863f178e043d08fed",
+      "current_sha256": "ec9978d46f75875f1dce67c0c3008733e5f0ace61f785f5863f178e043d08fed",
+      "current_adaptation": "docs/tools/check_documentation.py"
+    },
+    {
+      "old_path": "docs/validation/REORGANIZATION_VERIFICATION.md",
+      "current_path": "docs/validation/legacy-reorganization-2026-10-27/REORGANIZATION_VERIFICATION.md.historical.txt",
+      "classification": "ARCHIVED_HISTORICAL_ONLY_NOT_CURRENT_PASS",
+      "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "source_sha256": "cfbb499698b3e6d634f33594c84a4581196259b0394fbc6a621d0b0fb02daf51",
+      "current_sha256": "cfbb499698b3e6d634f33594c84a4581196259b0394fbc6a621d0b0fb02daf51"
+    },
+    {
+      "old_path": "docs/validation/link-exceptions.json",
+      "current_path": "docs/validation/legacy-reorganization-2026-10-27/link-exceptions.json",
+      "classification": "ARCHIVED_HISTORICAL_ONLY_NOT_CURRENT_PASS",
+      "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "source_sha256": "584e697cce0eb005ea6f0037f5757f418c6cad912bcca8f486ed97c7cdfa7fe1",
+      "current_sha256": "584e697cce0eb005ea6f0037f5757f418c6cad912bcca8f486ed97c7cdfa7fe1"
+    },
+    {
+      "old_path": "docs/validation/local-ci-results.json",
+      "current_path": "docs/validation/legacy-reorganization-2026-10-27/local-ci-results.json",
+      "classification": "ARCHIVED_HISTORICAL_ONLY_NOT_CURRENT_PASS",
+      "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "source_sha256": "e11dd4935f5f1957ffa1785165ffe1bae7f5e0c09fe2c56de5598af55152453b",
+      "current_sha256": "e11dd4935f5f1957ffa1785165ffe1bae7f5e0c09fe2c56de5598af55152453b"
+    },
+    {
+      "old_path": "docs/validation/reorganization-baseline.json",
+      "current_path": "docs/validation/legacy-reorganization-2026-10-27/reorganization-baseline.json",
+      "classification": "ARCHIVED_HISTORICAL_ONLY_NOT_CURRENT_PASS",
+      "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "source_sha256": "775ed0433527ea2e741e438d037a91e48900c1350c45df16d187e9a87ef59935",
+      "current_sha256": "775ed0433527ea2e741e438d037a91e48900c1350c45df16d187e9a87ef59935"
+    },
+    {
+      "old_path": "docs/validation/reorganization-results.json",
+      "current_path": "docs/validation/legacy-reorganization-2026-10-27/reorganization-results.json",
+      "classification": "ARCHIVED_HISTORICAL_ONLY_NOT_CURRENT_PASS",
+      "source_commit": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "source_sha256": "fc2ffe7c81bd735f0773f23263cc0439507920f37a7da4af605420a40218cb78",
+      "current_sha256": "fc2ffe7c81bd735f0773f23263cc0439507920f37a7da4af605420a40218cb78"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "preview_only": true,
+  "requires_html_escape_and_verified_url": true,
+  "templates": [
+    {
+      "id": "SECURITY_OTP",
+      "subject": "Madalasa verification code: {{otp_code}}",
+      "html": "security_otp.html",
+      "text": "security_otp.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "security"
+    },
+    {
+      "id": "PLAN_EXPIRY_30D",
+      "subject": "Your Madalasa plan expires on {{expiry_date_ist}}",
+      "html": "plan_expiry_30d.html",
+      "text": "plan_expiry_30d.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "PLAN_EXPIRY_7D",
+      "subject": "7 days remaining on your Madalasa plan",
+      "html": "plan_expiry_7d.html",
+      "text": "plan_expiry_7d.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "PLAN_EXPIRY_1D",
+      "subject": "Your Madalasa plan ends in 24 hours",
+      "html": "plan_expiry_1d.html",
+      "text": "plan_expiry_1d.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "PLAN_EXPIRY_9H",
+      "subject": "9 hours left on your Madalasa plan",
+      "html": "plan_expiry_9h.html",
+      "text": "plan_expiry_9h.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "PLAN_EXPIRED_NOW",
+      "subject": "Your Madalasa plan expired — free features remain",
+      "html": "plan_expired_now.html",
+      "text": "plan_expired_now.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "PLAN_RENEWAL_1D",
+      "subject": "Your Madalasa plan ended — renewal is optional",
+      "html": "plan_renewal_1d.html",
+      "text": "plan_renewal_1d.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "PLAN_RENEWAL_7D",
+      "subject": "Final reminder about your Madalasa plan",
+      "html": "plan_renewal_7d.html",
+      "text": "plan_renewal_7d.txt",
+      "sender": "noreply@berhampore.in",
+      "category": "renewal"
+    },
+    {
+      "id": "SUPPORT_RECEIVED",
+      "subject": "[{{ticket_ref}}] We received your support request",
+      "html": "support_received.html",
+      "text": "support_received.txt",
+      "sender": "madalasa-alarka@berhampore.in",
+      "category": "support"
+    },
+    {
+      "id": "SUPPORT_REPLY",
+      "subject": "Re: [{{ticket_ref}}] {{ticket_subject}}",
+      "html": "support_reply.html",
+      "text": "support_reply.txt",
+      "sender": "madalasa-alarka@berhampore.in",
+      "category": "support"
+    },
+    {
+      "id": "FEEDBACK_RECEIVED",
+      "subject": "Thank you for your Madalasa feedback",
+      "html": "feedback_received.html",
+      "text": "feedback_received.txt",
+      "sender": "madalasa-alarka@berhampore.in",
+      "category": "support"
+    }
+  ]
+}

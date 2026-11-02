@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Madalasa — synthetic demo</string>
+    <string name="app_status">Guardian prototype. Synthetic data only. No tracking or recording is active.</string>
+</resources>

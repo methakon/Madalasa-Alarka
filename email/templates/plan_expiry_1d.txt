@@ -1,0 +1,10 @@
+Subject: Your Madalasa plan ends in 24 hours
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your prepaid {{plan_label}} for {{child_display_label}} ends at {{expiry_time_ist}} IST on {{expiry_date_ist}}. There is no automatic payment. Review a manual renewal: {{renew_url}}.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka

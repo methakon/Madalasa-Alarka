@@ -1,0 +1,10 @@
+Subject: Final reminder about your Madalasa plan
+From: Madalasa Notifications <noreply@berhampore.in>
+
+Hello,
+
+Your {{plan_label}} for {{child_display_label}} ended on {{expiry_date_ist}}. This is the final post-expiry reminder for this period. If you wish to restore paid access, visit {{renew_url}}. No automatic charge occurs.
+
+For assistance: {{support_email}}
+
+Madalasa–Alarka

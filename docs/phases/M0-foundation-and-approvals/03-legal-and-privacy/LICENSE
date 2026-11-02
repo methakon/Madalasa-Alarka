@@ -1,0 +1,84 @@
+Madalasa–Alarka — UPLOADED LICENSE DRAFT REVIEW (NOT THE PROJECT LICENSE)
+
+Document review date: 2026-10-27
+Status: DRAFT COMPARISON ONLY / NOT APPROVED / NOT OPERATIVE
+
+IMPORTANT:
+  The authoritative repository-wide intellectual-property and reuse notice is
+  ../LICENSE in the repository root, together with
+  LICENSING_DECISION_AND_IP_REGISTER.md.
+
+  THIS docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/LICENSE FILE DOES NOT GRANT OR RESTRICT RIGHTS, AUTHORIZE USE,
+  MAKE A TRADEMARK CLAIM OR REPLACE THE ROOT LICENSE. It records review of
+  an uploaded proposed proprietary/source-available licence. No grant in
+  the uploaded draft was accepted or signed by the actual rights holder.
+
+UPLOADED PROPOSAL REVIEW — RIGHTS HOLDER DECISION REQUIRED
+
+1. OWNERSHIP AND COPYRIGHT
+   The uploaded file states Copyright (c) 2026 [PUBLISHER LEGAL NAME].
+   Legal publisher, code/design/diagram copyright provenance and all
+   contributor rights remain UNVERIFIED. Keep root all-rights-reserved
+   holding notice until ownership and publication strategy are confirmed.
+
+2. PROPOSED PERMISSIONS AND GitHub FORKING
+   The upload allowed reading for evaluation and GitHub Terms-permitted
+   forks solely for proposals to this repository. Any operative licence
+   must be reconciled with GitHub Terms, contributor workflow and counsel;
+   this comparison does not promise those permissions beyond applicable law.
+
+3. COPYING, MODIFICATION AND COMMERCIAL REUSE
+   Proposed custom prohibitions on copying/redistribution/derivatives
+   and commercial/noncommercial service use require an owner-approved,
+   legally enforceable grant/restriction structure. The current root
+   notice is NOT an OSI-approved open-source licence.
+
+4. NAMES, MARKS AND MODEL TRAINING
+   Proposed blanket bans on Madalasa/Alarka "confusingly similar" brands,
+   AI training and benchmarking cannot be assumed enforceable merely
+   because source text says so. Trademark registration, ownership,
+   licensing and applicable statutory limits require independent counsel.
+
+5. HUMAN MONITORING AND CHILD DATA
+   The uploaded clause prohibiting unauthorized monitoring matches the
+   project's safety intent, but **software copyright permissions are not
+   the legal basis to process a child's data**. Applicable India child
+   data, verified guardian authority, Android OS permissions, and Google
+   Play monitoring rules must be satisfied independently. Never promote
+   a proposed licence clause as product/privacy regulatory approval.
+
+6. CONTRIBUTIONS
+   The uploaded draft claimed a perpetual, worldwide, irrevocable,
+   royalty-free contributor grant. DO NOT represent this as accepted by
+   any past/current contributor. Obtain a separate approved contributor
+   license/assignment process with appropriate affirmative agreement.
+
+7. THIRD-PARTY RIGHTS
+   All dependencies, screenshots, fonts, maps, trademarks and Figma
+   content are governed by their actual upstream licences/terms.
+   Root copyright notice cannot relicense third-party materials.
+
+8. WARRANTY, LIABILITY AND INDIA GOVERNING LAW
+   Uploaded "as is", broad liability exclusion and India law/jurisdiction
+   clauses require real publisher identification and lawyer review.
+   [CONFIRM JURISDICTION AND COURTS WITH COUNSEL] remains unfilled.
+   No legal opinion or enforceability certification is made here.
+
+9. CONTACT DETAILS
+   Uploaded [CONTACT EMAIL] is UNSET. Do not show it to users as a
+   functioning permission or security contact. Provide a verified
+   identity and address before approving a publishing agreement.
+
+RECOMMENDED OWNER ACTION
+  Choose one route: proprietary/source-available licence negotiated with
+  counsel; an unmodified recognized open-source text such as Apache-2.0/MIT
+  with proper copyright owner; or closed/private distribution. Document
+  third-party and contribution rights. Only after explicit legal/owner
+  sign-off should ../LICENSE be revised.
+
+  Related decision tracker: LICENSING_DECISION_AND_IP_REGISTER.md
+  Related contributor process: ../CONTRIBUTING.md
+  Related dependency register: THIRD_PARTY_DEPENDENCY_AND_SBOM_REGISTER.md
+
+THIS REVIEW IS NOT AN OFFER, LICENCE, CONTRACT, LEGAL ADVICE, OR
+PERMISSION TO COLLECT PERSONAL DATA ABOUT CHILDREN.

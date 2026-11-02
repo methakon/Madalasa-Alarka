@@ -1,0 +1,4261 @@
+{
+  "real_child_release": "OFF",
+  "policy_approval": "NONE",
+  "erasure_inventory_captured": true,
+  "table_count": 144,
+  "tables": [
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.account_deletion_requests",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.account_deletion_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "received_at",
+      "retention_clock": "received",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_access_requests",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_accounts",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_action_audit",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_case_scopes",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.admin_case_scopes.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 3,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_cases",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.admin_cases.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 4,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_email_challenges",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_notifications",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_permissions",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_profiles",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_role_grants",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_role_permissions",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_roles",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_sessions",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.admin_support_read_audit",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.adult_erasure_jobs",
+      "module_owner": [
+        "backend/persistence/migrations/0014_account_erasure_requests.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.adult_erasure_requests",
+      "module_owner": [
+        "backend/persistence/migrations/0014_account_erasure_requests.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.alert_delivery_attempts",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.alert_delivery_attempts.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 41,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.alert_delivery_outbox",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.alert_delivery_outbox.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 44,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.alert_events",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.alert_events.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 50,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.app_usage_intervals",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.app_usage_intervals.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "received_at",
+      "retention_clock": "received",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 171,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.architecture_decisions",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.audit_events",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "audit_events",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "audit_events_actor_device_id_fkey",
+            "definition": "FOREIGN KEY (actor_device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "actor_device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.backup_erasure_manifests",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.backup_erasure_manifests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.backup_inventory",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.billing_product_catalog",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.capability_snapshots",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "capability_snapshots",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "capability_snapshots_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "DEVICE",
+        "purge_order": 390,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.capture_artifact_refs",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.capture_artifact_refs.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 300,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_access_grants_v2",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_access_grants_v2.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_access_invites",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_access_invites.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_authority_reviews",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_authority_reviews.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_erasure_tombstones",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_erasure_tombstones.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_guardian_grants",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_guardian_grants.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_media_quota_pools",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_media_quota_pools.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 380,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_paid_entitlements",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_paid_entitlements.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_pickup_viewer_passes",
+      "module_owner": [
+        "backend/persistence/migrations/0016_pickup_passes_and_compliance_bundles.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_pickup_viewer_passes.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 295,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_seat_assignments",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_seat_assignments.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.child_signals",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.child_signals.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 51,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.children",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.children.id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.command_receipts",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.command_receipts.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 273,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.command_results",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "command_results",
+            "target_schema": "ap_m1",
+            "target": "commands",
+            "name": "command_results_command_id_fkey",
+            "definition": "FOREIGN KEY (command_id) REFERENCES ap_m1.commands(id)",
+            "columns": [
+              "command_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.commands.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "COMMAND",
+        "purge_order": 420,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.commands",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.commands.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "DEVICE",
+        "purge_order": 430,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.commute_plan_revisions",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.commute_plan_revisions.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 53,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.commute_plans",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.commute_plans.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 54,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.compliance_export_bundles",
+      "module_owner": [
+        "backend/persistence/migrations/0016_pickup_passes_and_compliance_bundles.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.compliance_export_bundles.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 296,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.consent_decision_audit",
+      "module_owner": [
+        "backend/persistence/migrations/0003_consent_authority_and_retention.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "consent_decision_audit",
+            "target_schema": "ap_m1",
+            "target": "consent_records",
+            "name": "consent_decision_audit_consent_id_fkey",
+            "definition": "FOREIGN KEY (consent_id) REFERENCES ap_m1.consent_records(id)",
+            "columns": [
+              "consent_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.consent_records.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.consent_documents",
+      "module_owner": [
+        "backend/persistence/migrations/0003_consent_authority_and_retention.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.consent_policy_versions",
+      "module_owner": [
+        "backend/persistence/migrations/0003_consent_authority_and_retention.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.consent_records",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.consent_records.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.cost_usage_snapshots",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.credential_renewal_challenges",
+      "module_owner": [
+        "backend/persistence/migrations/0002_m1_device_credentials.sql",
+        "backend/persistence/migrations/0016_pickup_passes_and_compliance_bundles.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "credential_renewal_challenges",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "credential_renewal_challenges_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "DEVICE",
+        "purge_order": 406,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.device_credentials",
+      "module_owner": [
+        "backend/persistence/migrations/0002_m1_device_credentials.sql",
+        "backend/persistence/migrations/0017_m1_lineage_compatibility.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "device_credentials",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "device_credentials_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "DEVICE",
+        "purge_order": 405,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.device_health",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "device_health",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "device_health_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "DEVICE",
+        "purge_order": 400,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.device_key_records",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "device_key_records",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "device_key_records_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.device_latest_positions",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.device_latest_positions.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 210,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.device_permission_change_events",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.device_permission_change_events.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 270,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.device_reenrollment_events",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.device_reenrollment_events.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 272,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.devices",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.durable_event_inbox",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": "received_at",
+      "retention_clock": "received",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.enrollment_challenges",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "enrollment_challenges",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "enrollment_challenges_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "DEVICE",
+        "purge_order": 410,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.entitlement_audit",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.erasure_evidence",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "erasure_evidence",
+            "target_schema": "ap_m1",
+            "target": "erasure_jobs",
+            "name": "erasure_evidence_job_id_fkey",
+            "definition": "FOREIGN KEY (job_id) REFERENCES ap_m1.erasure_jobs(id)",
+            "columns": [
+              "job_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          },
+          {
+            "table_schema": "ap_m1",
+            "table": "erasure_jobs",
+            "target_schema": "ap_m1",
+            "target": "account_deletion_requests",
+            "name": "erasure_jobs_request_id_fkey",
+            "definition": "FOREIGN KEY (request_id) REFERENCES ap_m1.account_deletion_requests(id)",
+            "columns": [
+              "request_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.account_deletion_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.erasure_job_targets",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "erasure_job_targets",
+            "target_schema": "ap_m1",
+            "target": "erasure_jobs",
+            "name": "erasure_job_targets_job_id_fkey",
+            "definition": "FOREIGN KEY (job_id) REFERENCES ap_m1.erasure_jobs(id)",
+            "columns": [
+              "job_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          },
+          {
+            "table_schema": "ap_m1",
+            "table": "erasure_jobs",
+            "target_schema": "ap_m1",
+            "target": "account_deletion_requests",
+            "name": "erasure_jobs_request_id_fkey",
+            "definition": "FOREIGN KEY (request_id) REFERENCES ap_m1.account_deletion_requests(id)",
+            "columns": [
+              "request_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.account_deletion_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.erasure_jobs",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "erasure_jobs",
+            "target_schema": "ap_m1",
+            "target": "account_deletion_requests",
+            "name": "erasure_jobs_request_id_fkey",
+            "definition": "FOREIGN KEY (request_id) REFERENCES ap_m1.account_deletion_requests(id)",
+            "columns": [
+              "request_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.account_deletion_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.erasure_store_inventory",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.export_jobs",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.export_jobs.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.external_service_accounts",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.extra_viewer_purchases",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.extra_viewer_purchases.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.families",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.family_checkout_intents",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.faq_entries",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.faq_revisions",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.feature_release_gates",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.founding_families",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.guardian_memberships",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.idempotency_claims",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.ingestion_outbox",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.ingestion_outbox.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 220,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.installed_app_inventory",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.installed_app_inventory.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 190,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.local_test_settings",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.location_batch_items",
+      "module_owner": [
+        "backend/persistence/migrations/0015_ingestion_membership_and_fences.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.location_batch_items.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 225,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.location_collection_policies",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.location_collection_policies.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 260,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.location_event_dedup",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.location_event_dedup.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 240,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.location_ingest_batches",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.location_ingest_batches.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 250,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.location_observations",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.location_observations.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 230,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.m1_renewal_hold_preservation",
+      "module_owner": [
+        "backend/persistence/migrations/0020_m1_current_lineage_convergence.sql",
+        "backend/persistence/migrations/compat/m1_pre_v2_0017.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_access_audit",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.media_access_audit.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 310,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_capability_gates",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_command_requests",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.media_command_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 350,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_export_requests",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.media_export_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 301,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_lifecycle_events",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "media_lifecycle_events",
+            "target_schema": "ap_m1",
+            "target": "media_sessions",
+            "name": "media_lifecycle_events_media_session_id_fkey",
+            "definition": "FOREIGN KEY (media_session_id) REFERENCES ap_m1.media_sessions(id)",
+            "columns": [
+              "media_session_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.media_sessions.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "MEDIA_SESSION",
+        "purge_order": 330,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_quota_ledger",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.media_quota_ledger.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 320,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_request_device_approvals",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.media_request_device_approvals.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 290,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.media_sessions",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.media_sessions.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 340,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.named_places",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.named_places.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 60,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.notification_deliveries",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.notification_deliveries.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 43,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.notification_preferences",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.notification_preferences.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 120,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.owner_identity_allowlist",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.pairing_codes",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.pairing_codes.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 440,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.parent_notification_read_receipts",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.parent_notification_read_receipts.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 42,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.parent_principals",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.parent_service_usage_events",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.payment_reconciliation_inbox",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": "received_at",
+      "retention_clock": "received",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.permission_snapshots",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.permission_snapshots.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 271,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.place_notification_rules",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.place_notification_rules.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 40,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.play_purchase_records",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.policy_execution_receipts",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.policy_execution_receipts.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 151,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.premium_viewer_leases",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.premium_viewer_leases.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 370,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.prepaid_family_batches",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.price_offers",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.processing_outbox",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.purchase_adjustments",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.restore_ledger_imports",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.restore_runs",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.restore_suppression_receipts",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.restore_suppression_receipts.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.retention_holds",
+      "module_owner": [
+        "backend/persistence/migrations/0010_erasure_audit_and_recovery.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.retention_policy_versions",
+      "module_owner": [
+        "backend/persistence/migrations/0003_consent_authority_and_retention.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.revocation_epochs",
+      "module_owner": [
+        "backend/persistence/migrations/0001_m1_identity.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.rule_assignments",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.rule_assignments.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 152,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.scheduled_child_tasks",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.scheduled_child_tasks.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 155,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.screen_time_rules",
+      "module_owner": [
+        "backend/persistence/migrations/0007_commands_and_device_capabilities.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.screen_time_rules.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 160,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.security_audit_events",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.service_incidents",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.signal_acknowledgements",
+      "module_owner": [
+        "backend/persistence/migrations/0006_alerts_checkins_and_usage.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.signal_acknowledgements.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 45,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.stops",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.stops.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 2,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.support_messages",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.support_tickets",
+      "module_owner": [
+        "backend/persistence/migrations/0008_admin_identity_rbac_and_support.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.telemetry_aggregates",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.tracking_policy_revisions",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.tracking_policy_revisions.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 280,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trial_child_entitlements",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.trial_child_entitlements.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trial_eligibility_checks",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trial_redemptions",
+      "module_owner": [
+        "backend/persistence/migrations/0004_billing_prepaid_entitlements.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trip_legs",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.trip_legs.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 1,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trip_revisions",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.trip_revisions.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 20,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trip_routepoints",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.trip_routepoints.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": "observed_at",
+      "retention_clock": "observed",
+      "clock_basis": "EXPLICIT_COLUMN_NAME",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 10,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trips",
+      "module_owner": [
+        "backend/persistence/migrations/0005_location_ingestion_and_history.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.trips.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 30,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trusted_principal_verifications",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.trusted_sessions",
+      "module_owner": [
+        "backend/persistence/migrations/0002_child_scoped_cross_family_guardians.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "INDIRECT",
+        "foreign_keys": [
+          {
+            "table_schema": "ap_m1",
+            "table": "trusted_sessions",
+            "target_schema": "ap_m1",
+            "target": "devices",
+            "name": "trusted_sessions_device_id_fkey",
+            "definition": "FOREIGN KEY (device_id) REFERENCES ap_m1.devices(id)",
+            "columns": [
+              "device_id"
+            ],
+            "target_columns": [
+              "id"
+            ]
+          }
+        ],
+        "terminal": "ap_m1.devices.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.usage_categories",
+      "module_owner": [
+        "backend/persistence/migrations/0012_screen_dependency_completion.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.viewer_takeover_requests",
+      "module_owner": [
+        "backend/persistence/migrations/0009_media_sessions_and_quota.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ap_m1.viewer_takeover_requests.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": {
+        "source": "ap_m1.erasure_store_inventory",
+        "key_kind": "CHILD",
+        "purge_order": 360,
+        "operation": "CONFIGURED_PRIMARY_PURGE"
+      },
+      "erasure_strategy_unknown_reason": null,
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ap_m1",
+      "table": "ap_m1.worker_lease_fences",
+      "module_owner": [
+        "backend/persistence/migrations/0011_operations_integrity_and_indexes.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ma_migrations",
+      "table": "ma_migrations.history",
+      "module_owner": [
+        "tools/database/manage.py:migrate migration history DDL"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ma_migrations",
+      "table": "ma_migrations.lineage_history",
+      "module_owner": [
+        "tools/database/manage.py:migrate namespaced migration history DDL"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ma_recovery",
+      "table": "ma_recovery.control",
+      "module_owner": [
+        "backend/persistence/migrations/0013_restore_quarantine_and_erasure_ledger.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": null,
+      "child_owner_path": null,
+      "child_data_unknown_reason": "No catalog child identifier/outbound FK path; manual classification required",
+      "retention_category": "UNCLASSIFIED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    },
+    {
+      "schema": "ma_recovery",
+      "table": "ma_recovery.erasure_ledger",
+      "module_owner": [
+        "backend/persistence/migrations/0013_restore_quarantine_and_erasure_ledger.sql"
+      ],
+      "module_owner_basis": "DECLARING_MIGRATION_FILES_OR_DOCUMENTED_MANUAL_MAP",
+      "child_data": true,
+      "child_owner_path": {
+        "kind": "DIRECT",
+        "foreign_keys": [],
+        "terminal": "ma_recovery.erasure_ledger.child_id",
+        "basis": "CATALOG_COLUMN; child_id may intentionally lack FK (erasure tombstones)"
+      },
+      "child_data_unknown_reason": null,
+      "retention_category": "CHILD_LINKED_POLICY_PENDING",
+      "time_column": null,
+      "retention_clock": "configuration",
+      "clock_basis": "NO_APPROVED_DATA_CLOCK; configuration placeholder, not TTL",
+      "candidate_period": null,
+      "approval_state": "OWNER_COUNSEL_PENDING",
+      "erasure_strategy": null,
+      "erasure_strategy_unknown_reason": "Not in captured inventory; null does not mean exempt or unimplemented",
+      "backup_restore_effect": "PRIMARY_PURGE_NOT_BACKUP_ERASURE; RESTORE_SUPPRESSION_REQUIRES_INDEPENDENT_LEDGER_AND_VERIFICATION",
+      "audit_legal_hold_exception": "PENDING_CONFIGURED_POLICY",
+      "partition_policy": "NONE",
+      "partition_key": null
+    }
+  ]
+}

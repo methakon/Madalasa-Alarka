@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-30",
+  "status": "SAFE_REMOTE_CLEANUP_COMPLETE_V2_INTEGRATION_BLOCKED",
+  "original_main": "754fea90a67350af9d63b38762162ebf2369855b",
+  "verified_runtime_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc",
+  "new_branches_created": 0,
+  "force_pushes": 0,
+  "backup": {
+    "path": ".dev-environment/pre-consolidation-2026-10-30.bundle",
+    "sha256": "172b480588d6f8e1df8d96bd903fc10f07b11acbddec1a27e39970e278489ab6",
+    "verified": true
+  },
+  "sources": [
+    {
+      "branch": "audit/2026-10-29-final-screen-api-db-reconciliation",
+      "original_head": "33773388e4c7eb66433d479eb08492769954109a",
+      "status": "merged and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "docs/2026-10-29-six-gate-owner-handoff",
+      "original_head": "59125d402b07c20aaf6ecb13d69542997223bedf",
+      "status": "merged and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "docs/phase-category-reorganization-2026-10-27",
+      "original_head": "09689396ac87cc427e9de51b0e6adc1a2dc85e4c",
+      "status": "consolidated and deleted",
+      "verified_main": "1312dac9889f8ecd83fe106aaf874c7ca933802d",
+      "reason": "All12 source-only paths independently hash-checked and imported, adapted or explicitly archived; newer canonical policy preserved.22 tests and exact-source hosted CI passed before deletion; remote absence read back.",
+      "evidence": "evidence/local/integration/DOCUMENTATION_CONSOLIDATION_2026-10-30.json"
+    },
+    {
+      "branch": "feat/google-oidc",
+      "original_head": "a0527a77cb9c3ee2fd588a44fb84f6453ab667e2",
+      "status": "merged and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "feat/local-postgresql-physical-schema",
+      "original_head": "b507e5f47e78d453db2703d02a3d80dcb45fa1dc",
+      "status": "retained",
+      "reason": "SOURCE-REVIEW BLOCKED: published0017 drops historical renewal holds without copying them; runner pins M1 through0004; newer mutators and V2 session authorization need additive, independently tested convergence before merge."
+    },
+    {
+      "branch": "feat/m1-backend-skeleton-idempotency",
+      "original_head": "58ba650ea5fc712ee2f78db8b026072eabb52983",
+      "status": "already integrated and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "feat/m1-create-family",
+      "original_head": "7c8e2dc0ae1a2334cb60328a0529be4cc51037d6",
+      "status": "consolidated and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "feat/m1-g6-lint",
+      "original_head": "62a33a664bc8171315fecd152abf437264b375ea",
+      "status": "already integrated and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "feat/m1-physical-table-catalog",
+      "original_head": "976805d52f5e35d5367fbc2025f1dffa4d175275",
+      "status": "already integrated and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "feat/m1-purge-jobs",
+      "original_head": "61065423373be456c8355ea4cab66d5a3c108f06",
+      "status": "already integrated and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    },
+    {
+      "branch": "fix/m1-lint-credential-lifecycle",
+      "original_head": "2821a8a014ae4ef9ae8939ebfd2ab12026ae29e0",
+      "status": "already integrated and deleted",
+      "verified_main": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc"
+    }
+  ],
+  "ci": [
+    {
+      "url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41095355237",
+      "head": "1312dac9889f8ecd83fe106aaf874c7ca933802d",
+      "conclusion": "success"
+    },
+    {
+      "url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41091776173",
+      "head": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc",
+      "conclusion": "success"
+    },
+    {
+      "url": "https://github.com/methakon/Madalasa-Alarka/actions/runs/41091776101",
+      "head": "9c5b9bd2ff2a4a789e54e1fdf37377dd68d125fc",
+      "conclusion": "success"
+    }
+  ],
+  "release_readiness": "NOT_READY",
+  "deployment": "NOT_PERFORMED"
+}

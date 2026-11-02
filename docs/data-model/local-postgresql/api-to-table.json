@@ -1,0 +1,4147 @@
+{
+  "operation_count": 171,
+  "canonical_screen_count": 187,
+  "operations": [
+    {
+      "operation": "POST /pairing-codes",
+      "operation_id": "post_pairing_codes",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /enrollment",
+      "operation_id": "post_enrollment",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-09",
+          "figma_node_id": "9:386"
+        },
+        {
+          "source": "05-child-app",
+          "screen": "C-03",
+          "figma_node_id": "12:2150"
+        },
+        {
+          "source": "05-child-app",
+          "screen": "C-21",
+          "figma_node_id": "12:3014"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-05",
+          "figma_node_id": "23:105"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices",
+      "operation_id": "get_devices",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/capabilities",
+      "operation_id": "post_devices_deviceId_capabilities",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/health",
+      "operation_id": "post_devices_deviceId_health",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "05-child-app",
+          "screen": "C-13",
+          "figma_node_id": "12:2630"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/locations:batch",
+      "operation_id": "post_devices_deviceId_locations_batch",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/usage:batch",
+      "operation_id": "post_devices_deviceId_usage_batch",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/motion-events:batch",
+      "operation_id": "post_devices_deviceId_motion_events_batch",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices/{deviceId}/commands",
+      "operation_id": "get_devices_deviceId_commands",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/commands/{commandId}:result",
+      "operation_id": "post_devices_deviceId_commands_commandId_result",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/sos",
+      "operation_id": "post_devices_deviceId_sos",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.child_signals",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots",
+        "ap_m1.signal_acknowledgements"
+      ],
+      "source_screens": [
+        {
+          "source": "05-child-app",
+          "screen": "C-16",
+          "figma_node_id": "12:2774"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/checkins",
+      "operation_id": "post_devices_deviceId_checkins",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.child_signals",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots",
+        "ap_m1.signal_acknowledgements"
+      ],
+      "source_screens": [
+        {
+          "source": "05-child-app",
+          "screen": "C-15",
+          "figma_node_id": "12:2726"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices/{deviceId}/tracking-policy",
+      "operation_id": "get_devices_deviceId_tracking_policy",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/position",
+      "operation_id": "get_children_childId_position",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.device_latest_positions",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-05",
+          "figma_node_id": "9:194"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-05",
+          "figma_node_id": "52:164"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/locations",
+      "operation_id": "get_children_childId_locations",
+      "physical_dependencies": [
+        "ap_m1.device_latest_positions",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations",
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-15",
+          "figma_node_id": "9:674"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-15",
+          "figma_node_id": "52:192"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/trips",
+      "operation_id": "get_children_childId_trips",
+      "physical_dependencies": [
+        "ap_m1.device_latest_positions",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations",
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-15",
+          "figma_node_id": "9:674"
+        },
+        {
+          "source": "02-parent-operations",
+          "screen": "P-23",
+          "figma_node_id": "12:230"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-15",
+          "figma_node_id": "52:192"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /trips/{tripId}/segments",
+      "operation_id": "get_trips_tripId_segments",
+      "physical_dependencies": [
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-24",
+          "figma_node_id": "12:278"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-24",
+          "figma_node_id": "52:212"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /trips/{tripId}/stops",
+      "operation_id": "get_trips_tripId_stops",
+      "physical_dependencies": [
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-24",
+          "figma_node_id": "12:278"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-24",
+          "figma_node_id": "52:212"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /trips/{tripId}/revisions",
+      "operation_id": "get_trips_tripId_revisions",
+      "physical_dependencies": [
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-25",
+          "figma_node_id": "12:326"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/places",
+      "operation_id": "get_children_childId_places",
+      "physical_dependencies": [
+        "ap_m1.alert_events",
+        "ap_m1.named_places",
+        "ap_m1.place_notification_rules"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-26",
+          "figma_node_id": "12:374"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/places",
+      "operation_id": "post_children_childId_places",
+      "physical_dependencies": [
+        "ap_m1.alert_events",
+        "ap_m1.named_places",
+        "ap_m1.place_notification_rules"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-27",
+          "figma_node_id": "12:422"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PATCH /children/{childId}/places/{placeId}",
+      "operation_id": "patch_children_childId_places_placeId_",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "DELETE /children/{childId}/places/{placeId}",
+      "operation_id": "delete_children_childId_places_placeId_",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/usage",
+      "operation_id": "get_children_childId_usage",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-31",
+          "figma_node_id": "12:614"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-31",
+          "figma_node_id": "52:317"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/health",
+      "operation_id": "get_children_childId_health",
+      "physical_dependencies": [],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-13",
+          "figma_node_id": "9:578"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/tracking-trust",
+      "operation_id": "get_children_childId_tracking_trust",
+      "physical_dependencies": [
+        "ap_m1.device_latest_positions",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-21",
+          "figma_node_id": "12:134"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/guardian-grants",
+      "operation_id": "get_children_childId_guardian_grants",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-16",
+          "figma_node_id": "9:722"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-40",
+          "figma_node_id": "12:1046"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/guardian-grants",
+      "operation_id": "post_children_childId_guardian_grants",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "DELETE /children/{childId}/guardian-grants/{grantId}",
+      "operation_id": "delete_children_childId_guardian_grants_grantId_",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/access-history",
+      "operation_id": "get_children_childId_access_history",
+      "physical_dependencies": [],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-41",
+          "figma_node_id": "12:1094"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/commute-plans",
+      "operation_id": "post_children_childId_commute_plans",
+      "physical_dependencies": [
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-29",
+          "figma_node_id": "12:518"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/commute-plans",
+      "operation_id": "get_children_childId_commute_plans",
+      "physical_dependencies": [
+        "ap_m1.stops",
+        "ap_m1.trip_legs",
+        "ap_m1.trip_revisions",
+        "ap_m1.trips"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-30",
+          "figma_node_id": "12:566"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/policy-preview",
+      "operation_id": "post_children_childId_policy_preview",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-36",
+          "figma_node_id": "12:854"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/commands",
+      "operation_id": "post_children_childId_commands",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-33",
+          "figma_node_id": "12:710"
+        },
+        {
+          "source": "02-parent-operations",
+          "screen": "P-34",
+          "figma_node_id": "12:758"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/commands/{commandId}",
+      "operation_id": "get_children_childId_commands_commandId_",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/sos/{eventId}/ack",
+      "operation_id": "post_children_childId_sos_eventId_ack",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /account/deletion-request",
+      "operation_id": "post_account_deletion_request",
+      "physical_dependencies": [
+        "ap_m1.account_deletion_requests",
+        "ap_m1.export_jobs",
+        "ap_m1.media_export_requests",
+        "ap_m1.retention_policy_versions"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-44",
+          "figma_node_id": "12:1238"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /account/deletion-request/{requestId}",
+      "operation_id": "get_account_deletion_request_requestId_",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /billing/entitlement",
+      "operation_id": "get_billing_entitlement",
+      "physical_dependencies": [
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.family_checkout_intents",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-18",
+          "figma_node_id": "9:818"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /support/diagnostics",
+      "operation_id": "post_support_diagnostics",
+      "physical_dependencies": [
+        "ap_m1.support_messages",
+        "ap_m1.support_tickets"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-45",
+          "figma_node_id": "12:1286"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /enrollment/{enrollmentId}/proof",
+      "operation_id": "post_enrollment_enrollmentId_proof",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "05-child-app",
+          "screen": "C-04",
+          "figma_node_id": "12:2198"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "DELETE /devices/{deviceId}/pairing",
+      "operation_id": "delete_devices_deviceId_pairing",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/devices/{deviceId}/capabilities",
+      "operation_id": "getChildDeviceVerifiedCapabilities",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.permission_snapshots",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-11",
+          "figma_node_id": "9:482"
+        },
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-12",
+          "figma_node_id": "9:530"
+        },
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-14",
+          "figma_node_id": "9:626"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-37",
+          "figma_node_id": "12:902"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-46",
+          "figma_node_id": "12:1334"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-03",
+          "figma_node_id": "23:51"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-04",
+          "figma_node_id": "23:78"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-06",
+          "figma_node_id": "23:129"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-17",
+          "figma_node_id": "24:104"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-19",
+          "figma_node_id": "24:155"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-20",
+          "figma_node_id": "24:179"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-21",
+          "figma_node_id": "24:206"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-22",
+          "figma_node_id": "24:233"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-23",
+          "figma_node_id": "24:257"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-03",
+          "figma_node_id": "25:53"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-04",
+          "figma_node_id": "25:80"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-05",
+          "figma_node_id": "25:107"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-06",
+          "figma_node_id": "25:131"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-08",
+          "figma_node_id": "25:182"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-13",
+          "figma_node_id": "26:2"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-16",
+          "figma_node_id": "26:80"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-18",
+          "figma_node_id": "26:134"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-19",
+          "figma_node_id": "26:158"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-22",
+          "figma_node_id": "26:239"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/media-activity/children",
+      "operation_id": "listParentAuthorizedMediaActivityChildren",
+      "physical_dependencies": [
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-02",
+          "figma_node_id": "32:29"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/media-activity",
+      "operation_id": "listParentMediaActivity",
+      "physical_dependencies": [
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-01",
+          "figma_node_id": "32:3"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-03",
+          "figma_node_id": "32:59"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-04",
+          "figma_node_id": "32:89"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-05",
+          "figma_node_id": "32:119"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-06",
+          "figma_node_id": "32:153"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-07",
+          "figma_node_id": "32:187"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-08",
+          "figma_node_id": "32:221"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-09",
+          "figma_node_id": "32:247"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-10",
+          "figma_node_id": "32:277"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-11",
+          "figma_node_id": "32:303"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/media-activity/{activityId}",
+      "operation_id": "getParentMediaActivityDetail",
+      "physical_dependencies": [
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-01",
+          "figma_node_id": "32:3"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-03",
+          "figma_node_id": "32:59"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-04",
+          "figma_node_id": "32:89"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-05",
+          "figma_node_id": "32:119"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-06",
+          "figma_node_id": "32:153"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-07",
+          "figma_node_id": "32:187"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-08",
+          "figma_node_id": "32:221"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-09",
+          "figma_node_id": "32:247"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-10",
+          "figma_node_id": "32:277"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-11",
+          "figma_node_id": "32:303"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/media-activity",
+      "operation_id": "listAdminCaseScopedMediaActivity",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-01",
+          "figma_node_id": "33:2"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-02",
+          "figma_node_id": "33:48"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-03",
+          "figma_node_id": "33:98"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-04",
+          "figma_node_id": "33:148"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-05",
+          "figma_node_id": "33:198"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-06",
+          "figma_node_id": "33:244"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-07",
+          "figma_node_id": "33:290"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-08",
+          "figma_node_id": "33:344"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-09",
+          "figma_node_id": "33:394"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-10",
+          "figma_node_id": "34:2"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-11",
+          "figma_node_id": "34:52"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-12",
+          "figma_node_id": "34:102"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-13",
+          "figma_node_id": "34:152"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-14",
+          "figma_node_id": "34:198"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-17",
+          "figma_node_id": "34:352"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/media-activity/{activityId}",
+      "operation_id": "getAdminMediaActivityDetail",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-01",
+          "figma_node_id": "33:2"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-02",
+          "figma_node_id": "33:48"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-03",
+          "figma_node_id": "33:98"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-04",
+          "figma_node_id": "33:148"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-05",
+          "figma_node_id": "33:198"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-06",
+          "figma_node_id": "33:244"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-07",
+          "figma_node_id": "33:290"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-08",
+          "figma_node_id": "33:344"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-09",
+          "figma_node_id": "33:394"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-10",
+          "figma_node_id": "34:2"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-11",
+          "figma_node_id": "34:52"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-12",
+          "figma_node_id": "34:102"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-13",
+          "figma_node_id": "34:152"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-14",
+          "figma_node_id": "34:198"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-17",
+          "figma_node_id": "34:352"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/media-activity/parents/suggest",
+      "operation_id": "suggestCaseScopedParent",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/media-activity/children/suggest",
+      "operation_id": "suggestCaseScopedChild",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/media-activity/access-audit",
+      "operation_id": "listAdminMediaAccessAudit",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/access/me",
+      "operation_id": "get__admin_access_me",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-01",
+          "figma_node_id": "106:2"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/access/requests/me",
+      "operation_id": "get__admin_access_requests_me",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-03",
+          "figma_node_id": "106:106"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/faqs",
+      "operation_id": "get__admin_faqs",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/faqs",
+      "operation_id": "post__admin_faqs",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/owner/access-requests",
+      "operation_id": "get__admin_owner_access_requests",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-04",
+          "figma_node_id": "107:2"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-09",
+          "figma_node_id": "107:202"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/security/audit",
+      "operation_id": "get__admin_security_audit",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-09",
+          "figma_node_id": "107:202"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/subscribers",
+      "operation_id": "get__admin_subscribers",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-07",
+          "figma_node_id": "107:123"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/subscribers/{familyId}/children",
+      "operation_id": "get__admin_subscribers_familyId_children",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-08",
+          "figma_node_id": "107:161"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/subscribers/{familyId}/payments",
+      "operation_id": "get__admin_subscribers_familyId_payments",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-07",
+          "figma_node_id": "107:123"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/support/tickets",
+      "operation_id": "get__admin_support_tickets",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.support_messages",
+        "ap_m1.support_tickets"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-06",
+          "figma_node_id": "107:85"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/usage/parents",
+      "operation_id": "get__admin_usage_parents",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-08",
+          "figma_node_id": "107:161"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /billing/catalog",
+      "operation_id": "get__billing_catalog",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.permission_snapshots",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-46",
+          "figma_node_id": "12:1334"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}",
+      "operation_id": "get__children_childId",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-07",
+          "figma_node_id": "9:290"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": "backend/src/Database.cc:child",
+      "handler_status": "IMPLEMENTED_LOCAL_SESSION_ADAPTER",
+      "http_acceptance": "SEE_EXECUTED_EVIDENCE",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/consents",
+      "operation_id": "get__children_childId_consents",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-10",
+          "figma_node_id": "9:434"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": "backend/src/Database.cc:consents",
+      "handler_status": "IMPLEMENTED_LOCAL_SESSION_ADAPTER",
+      "http_acceptance": "SEE_EXECUTED_EVIDENCE",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/consents",
+      "operation_id": "post__children_childId_consents",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-10",
+          "figma_node_id": "9:434"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/devices",
+      "operation_id": "get__children_childId_devices",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-07",
+          "figma_node_id": "9:290"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/guardian-verification",
+      "operation_id": "get__children_childId_guardian_verification",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-02",
+          "figma_node_id": "84:201"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/paid-entitlement",
+      "operation_id": "get__children_childId_paid_entitlement",
+      "physical_dependencies": [
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.family_checkout_intents",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-49",
+          "figma_node_id": "12:1478"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-49",
+          "figma_node_id": "81:201"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-06",
+          "figma_node_id": "89:180"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/provenance",
+      "operation_id": "get__children_childId_provenance",
+      "physical_dependencies": [
+        "ap_m1.device_latest_positions",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-38",
+          "figma_node_id": "12:950"
+        },
+        {
+          "source": "04-parent-conditional",
+          "screen": "P-59",
+          "figma_node_id": "12:1958"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/screen-time-rules",
+      "operation_id": "get__children_childId_screen_time_rules",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-35",
+          "figma_node_id": "12:806"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/screen-time-rules",
+      "operation_id": "post__children_childId_screen_time_rules",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-35",
+          "figma_node_id": "12:806"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/sos-events",
+      "operation_id": "get__children_childId_sos_events",
+      "physical_dependencies": [
+        "ap_m1.child_signals",
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences",
+        "ap_m1.signal_acknowledgements"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-17",
+          "figma_node_id": "9:770"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/tracking-policy",
+      "operation_id": "get__children_childId_tracking_policy",
+      "physical_dependencies": [
+        "ap_m1.device_latest_positions",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-51",
+          "figma_node_id": "12:1574"
+        },
+        {
+          "source": "04-parent-conditional",
+          "screen": "P-60",
+          "figma_node_id": "12:2006"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/usage/apps",
+      "operation_id": "get__children_childId_usage_apps",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-32",
+          "figma_node_id": "12:662"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/viewer-leases",
+      "operation_id": "get__children_childId_viewer_leases",
+      "physical_dependencies": [
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.family_checkout_intents",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-03",
+          "figma_node_id": "84:221"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/viewer-leases",
+      "operation_id": "post__children_childId_viewer_leases",
+      "physical_dependencies": [
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.family_checkout_intents",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-03",
+          "figma_node_id": "84:221"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices/{deviceId}/consent-status",
+      "operation_id": "get__devices_deviceId_consent_status",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.devices",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "05-child-app",
+          "screen": "C-02",
+          "figma_node_id": "12:2102"
+        },
+        {
+          "source": "05-child-app",
+          "screen": "C-05",
+          "figma_node_id": "12:2246"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-C-02",
+          "figma_node_id": "52:337"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices/{deviceId}/permission-events",
+      "operation_id": "get__devices_deviceId_permission_events",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-53",
+          "figma_node_id": "12:1670"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-03",
+          "figma_node_id": "23:51"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-04",
+          "figma_node_id": "23:78"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-06",
+          "figma_node_id": "23:129"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-17",
+          "figma_node_id": "24:104"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-19",
+          "figma_node_id": "24:155"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-20",
+          "figma_node_id": "24:179"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-21",
+          "figma_node_id": "24:206"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-22",
+          "figma_node_id": "24:233"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-ALARKA-A-23",
+          "figma_node_id": "24:257"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-03",
+          "figma_node_id": "25:53"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-04",
+          "figma_node_id": "25:80"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-05",
+          "figma_node_id": "25:107"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-06",
+          "figma_node_id": "25:131"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-08",
+          "figma_node_id": "25:182"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-13",
+          "figma_node_id": "26:2"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-16",
+          "figma_node_id": "26:80"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-18",
+          "figma_node_id": "26:134"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-19",
+          "figma_node_id": "26:158"
+        },
+        {
+          "source": "06-capability-onboarding",
+          "screen": "CAP-MADALASA-P-22",
+          "figma_node_id": "26:239"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices/{deviceId}/state",
+      "operation_id": "get__devices_deviceId_state",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "05-child-app",
+          "screen": "C-12",
+          "figma_node_id": "12:2582"
+        },
+        {
+          "source": "05-child-app",
+          "screen": "C-17",
+          "figma_node_id": "12:2822"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /families/{familyId}/children",
+      "operation_id": "get__families_familyId_children",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-06",
+          "figma_node_id": "9:242"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": "backend/src/Database.cc:children",
+      "handler_status": "IMPLEMENTED_LOCAL_SESSION_ADAPTER",
+      "http_acceptance": "SEE_EXECUTED_EVIDENCE",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /families/{familyId}/entitlements",
+      "operation_id": "get__families_familyId_entitlements",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-47",
+          "figma_node_id": "12:1382"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-54",
+          "figma_node_id": "12:1718"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-47",
+          "figma_node_id": "81:179"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me",
+      "operation_id": "get__parents_me",
+      "physical_dependencies": [
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.family_checkout_intents",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-18",
+          "figma_node_id": "9:818"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": "backend/src/Database.cc:profile",
+      "handler_status": "IMPLEMENTED_LOCAL_SESSION_ADAPTER",
+      "http_acceptance": "SEE_EXECUTED_EVIDENCE",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/authorized-children",
+      "operation_id": "get__parents_me_authorized_children",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.device_latest_positions",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-05",
+          "figma_node_id": "9:194"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-05",
+          "figma_node_id": "52:164"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-05",
+          "figma_node_id": "84:263"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/notification-preferences",
+      "operation_id": "get__parents_me_notification_preferences",
+      "physical_dependencies": [
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-50",
+          "figma_node_id": "12:1526"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PUT /parents/me/notification-preferences",
+      "operation_id": "put__parents_me_notification_preferences",
+      "physical_dependencies": [
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-50",
+          "figma_node_id": "12:1526"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/notifications",
+      "operation_id": "get__parents_me_notifications",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.child_signals",
+        "ap_m1.consent_records",
+        "ap_m1.device_latest_positions",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.location_ingest_batches",
+        "ap_m1.location_observations",
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences",
+        "ap_m1.parent_principals",
+        "ap_m1.signal_acknowledgements"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-05",
+          "figma_node_id": "9:194"
+        },
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-17",
+          "figma_node_id": "9:770"
+        },
+        {
+          "source": "02-parent-operations",
+          "screen": "P-19",
+          "figma_node_id": "12:38"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-05",
+          "figma_node_id": "52:164"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/notifications/{notificationId}",
+      "operation_id": "get__parents_me_notifications_notificationId",
+      "physical_dependencies": [
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-20",
+          "figma_node_id": "12:86"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/retention-policy",
+      "operation_id": "get__parents_me_retention_policy",
+      "physical_dependencies": [
+        "ap_m1.account_deletion_requests",
+        "ap_m1.export_jobs",
+        "ap_m1.media_export_requests",
+        "ap_m1.retention_policy_versions"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-42",
+          "figma_node_id": "12:1142"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /service/status",
+      "operation_id": "get__service_status",
+      "physical_dependencies": [],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-52",
+          "figma_node_id": "12:1622"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /account/export-requests",
+      "operation_id": "post__account_export_requests",
+      "physical_dependencies": [
+        "ap_m1.account_deletion_requests",
+        "ap_m1.export_jobs",
+        "ap_m1.media_export_requests",
+        "ap_m1.retention_policy_versions"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-43",
+          "figma_node_id": "12:1190"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/access/confirm-email",
+      "operation_id": "post__admin_access_confirm_email",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02V",
+          "figma_node_id": "106:71"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/access/requests",
+      "operation_id": "post__admin_access_requests",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02V",
+          "figma_node_id": "106:71"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/access/verify-email",
+      "operation_id": "post__admin_access_verify_email",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02",
+          "figma_node_id": "106:35"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/auth/google",
+      "operation_id": "post__admin_auth_google",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-01",
+          "figma_node_id": "106:2"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/faqs/{faqId}/publish",
+      "operation_id": "post__admin_faqs_faqId_publish",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/media-activity/cases",
+      "operation_id": "post__admin_media_activity_cases",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-16",
+          "figma_node_id": "34:298"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/media-activity/exports",
+      "operation_id": "post__admin_media_activity_exports",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "ADM-15",
+          "figma_node_id": "34:248"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/owner/access-requests/{requestId}/decision",
+      "operation_id": "post__admin_owner_access_requests_requestId_decision",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-04",
+          "figma_node_id": "107:2"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/support/tickets/{ticketId}/reply",
+      "operation_id": "post__admin_support_tickets_ticketId_reply",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.support_messages",
+        "ap_m1.support_tickets"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-06",
+          "figma_node_id": "107:85"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /auth/parent/google",
+      "operation_id": "post__auth_parent_google",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-02",
+          "figma_node_id": "9:50"
+        },
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-03",
+          "figma_node_id": "9:98"
+        },
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-04",
+          "figma_node_id": "9:146"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/extra-viewer-purchase-intents",
+      "operation_id": "post__children_childId_extra_viewer_purchase_intents",
+      "physical_dependencies": [
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.extra_viewer_purchases",
+        "ap_m1.family_checkout_intents",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-04",
+          "figma_node_id": "84:242"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/guardian-invitations",
+      "operation_id": "post__children_childId_guardian_invitations",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-39",
+          "figma_node_id": "12:998"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-39",
+          "figma_node_id": "52:263"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-SH-01",
+          "figma_node_id": "84:179"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/media/requests",
+      "operation_id": "post__children_childId_media_requests",
+      "physical_dependencies": [
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "04-parent-conditional",
+          "screen": "P-57",
+          "figma_node_id": "12:1862"
+        },
+        {
+          "source": "04-parent-conditional",
+          "screen": "P-58",
+          "figma_node_id": "12:1910"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-58",
+          "figma_node_id": "52:303"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/pairing-codes",
+      "operation_id": "post__children_childId_pairing_codes",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.permission_snapshots"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-09",
+          "figma_node_id": "9:386"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /families",
+      "operation_id": "post__families",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-03",
+          "figma_node_id": "9:98"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /families/{familyId}/checkout-intents",
+      "operation_id": "post__families_familyId_checkout_intents",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.child_paid_entitlements",
+        "ap_m1.child_seat_assignments",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals",
+        "ap_m1.play_purchase_records"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-48",
+          "figma_node_id": "12:1430"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-54",
+          "figma_node_id": "12:1718"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-48",
+          "figma_node_id": "52:281"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PUT /admin/access/profile",
+      "operation_id": "put__admin_access_profile",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02",
+          "figma_node_id": "106:35"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/access/profile",
+      "operation_id": "get__screen_audit_admin_access_profile",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02",
+          "figma_node_id": "106:35"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02V",
+          "figma_node_id": "106:71"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PUT /admin/faqs/{faqId}",
+      "operation_id": "put__admin_faqs_faqId",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/faqs/{faqId}",
+      "operation_id": "get__admin_faqs_faqId",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PUT /children/{childId}/places/{placeId}/notifications",
+      "operation_id": "put__children_childId_places_placeId_notifications",
+      "physical_dependencies": [
+        "ap_m1.alert_events",
+        "ap_m1.named_places",
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences",
+        "ap_m1.place_notification_rules"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-28",
+          "figma_node_id": "12:470"
+        },
+        {
+          "source": "09-theme-c-story-and-screens",
+          "screen": "THEME-P-28",
+          "figma_node_id": "52:237"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/places/{placeId}/notifications",
+      "operation_id": "get__screen_audit_children_childId_places_placeId_notifications",
+      "physical_dependencies": [
+        "ap_m1.alert_events",
+        "ap_m1.named_places",
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences",
+        "ap_m1.place_notification_rules"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-28",
+          "figma_node_id": "12:470"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/sessions",
+      "operation_id": "get__parents_me_sessions",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /parents/me/logout",
+      "operation_id": "post__parents_me_logout",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/guardian-verification/requests",
+      "operation_id": "post__children_childId_guardian_verification_requests",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/commute-plans/{planId}",
+      "operation_id": "get__children_childId_commute_plans_planId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PATCH /children/{childId}/commute-plans/{planId}",
+      "operation_id": "patch__children_childId_commute_plans_planId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/sos-events/{eventId}",
+      "operation_id": "get__children_childId_sos_events_eventId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/device-state",
+      "operation_id": "get__children_childId_device_state",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/notifications/preferences",
+      "operation_id": "get__parents_me_notifications_preferences",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /parents/me/notifications/{notificationId}/read",
+      "operation_id": "post__parents_me_notifications_notificationId_read",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /families/{familyId}/trial/eligibility",
+      "operation_id": "get__families_familyId_trial_eligibility",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /families/{familyId}/trial/start",
+      "operation_id": "post__families_familyId_trial_start",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /families/{familyId}/founding-status",
+      "operation_id": "get__families_familyId_founding_status",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /billing/purchases/verify",
+      "operation_id": "post__billing_purchases_verify",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /billing/purchases/{purchaseId}",
+      "operation_id": "get__billing_purchases_purchaseId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/media-quota",
+      "operation_id": "get__children_childId_media_quota",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/viewer-leases/{leaseId}/heartbeat",
+      "operation_id": "post__children_childId_viewer_leases_leaseId_heartbeat",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "DELETE /children/{childId}/viewer-leases/{leaseId}",
+      "operation_id": "delete__children_childId_viewer_leases_leaseId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/viewer-takeover-requests",
+      "operation_id": "post__children_childId_viewer_takeover_requests",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/media/requests/{requestId}",
+      "operation_id": "get__children_childId_media_requests_requestId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /devices/{deviceId}/media/requests/{requestId}/result",
+      "operation_id": "post__devices_deviceId_media_requests_requestId_result",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /account/export-requests/{exportId}",
+      "operation_id": "get__account_export_requests_exportId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /faqs",
+      "operation_id": "get__faqs",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /faqs/{slug}",
+      "operation_id": "get__faqs_slug",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /support/tickets",
+      "operation_id": "post__support_tickets",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /support/tickets",
+      "operation_id": "get__support_tickets",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /support/tickets/{ticketId}",
+      "operation_id": "get__support_tickets_ticketId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /support/tickets/{ticketId}/messages",
+      "operation_id": "post__support_tickets_ticketId_messages",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/owner/access-requests/{requestId}",
+      "operation_id": "get__admin_owner_access_requests_requestId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/owner/staff",
+      "operation_id": "get__admin_owner_staff",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/owner/grants/{grantId}/revoke",
+      "operation_id": "post__admin_owner_grants_grantId_revoke",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/faqs/{faqId}/revisions",
+      "operation_id": "get__admin_faqs_faqId_revisions",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PATCH /admin/support/tickets/{ticketId}",
+      "operation_id": "patch__admin_support_tickets_ticketId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/support/tickets/{ticketId}",
+      "operation_id": "get__screen_audit_admin_support_tickets_ticketId",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.support_messages",
+        "ap_m1.support_tickets"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-06",
+          "figma_node_id": "107:85"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/subscribers/{familyId}",
+      "operation_id": "get__admin_subscribers_familyId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/security/access-audit",
+      "operation_id": "get__admin_security_access_audit",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /devices/{deviceId}/permission-snapshots",
+      "operation_id": "get__devices_deviceId_permission_snapshots",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/access/email-verification/status",
+      "operation_id": "get__screen_audit_admin_access_email_verification_status",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02",
+          "figma_node_id": "106:35"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-02V",
+          "figma_node_id": "106:71"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/owner/roles",
+      "operation_id": "get__screen_audit_admin_owner_roles",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-04",
+          "figma_node_id": "107:2"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/owner/staff/{adminId}",
+      "operation_id": "get__screen_audit_admin_owner_staff_adminId",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-04",
+          "figma_node_id": "107:2"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-09",
+          "figma_node_id": "107:202"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/owner/access-requests/summary",
+      "operation_id": "get__screen_audit_admin_owner_access_requests_summary",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-09",
+          "figma_node_id": "107:202"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/support/tickets/{ticketId}/messages",
+      "operation_id": "get__screen_audit_admin_support_tickets_ticketId_messages",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.support_messages",
+        "ap_m1.support_tickets"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-06",
+          "figma_node_id": "107:85"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/usage/parents/summary",
+      "operation_id": "get__screen_audit_admin_usage_parents_summary",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-08",
+          "figma_node_id": "107:161"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-09",
+          "figma_node_id": "107:202"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/subscribers/{familyId}/entitlements",
+      "operation_id": "get__screen_audit_admin_subscribers_familyId_entitlements",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-07",
+          "figma_node_id": "107:123"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-08",
+          "figma_node_id": "107:161"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/billing/reconciliation-status",
+      "operation_id": "get__screen_audit_admin_billing_reconciliation_status",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-07",
+          "figma_node_id": "107:123"
+        },
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-09",
+          "figma_node_id": "107:202"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/extra-viewer-addons",
+      "operation_id": "get__screen_audit_children_childId_extra_viewer_addons",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/viewer-takeover-requests/{requestId}",
+      "operation_id": "get__screen_audit_children_childId_viewer_takeover_requests_requestId",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/viewer-takeover-requests/{requestId}/decision",
+      "operation_id": "post__screen_audit_children_childId_viewer_takeover_requests_requestId_decision",
+      "physical_dependencies": [],
+      "source_screens": [],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/checkins",
+      "operation_id": "get__screen_audit_children_childId_checkins",
+      "physical_dependencies": [
+        "ap_m1.capability_snapshots",
+        "ap_m1.child_signals",
+        "ap_m1.commands",
+        "ap_m1.device_health",
+        "ap_m1.devices",
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences",
+        "ap_m1.permission_snapshots",
+        "ap_m1.signal_acknowledgements"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-17",
+          "figma_node_id": "9:770"
+        },
+        {
+          "source": "05-child-app",
+          "screen": "C-15",
+          "figma_node_id": "12:2726"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/faqs/{faqId}/unpublish",
+      "operation_id": "post__screen_audit_admin_faqs_faqId_unpublish",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /admin/faqs/{faqId}/restore",
+      "operation_id": "post__screen_audit_admin_faqs_faqId_restore",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /admin/faqs/{faqId}/preview",
+      "operation_id": "get__screen_audit_admin_faqs_faqId_preview",
+      "physical_dependencies": [
+        "ap_m1.admin_access_requests",
+        "ap_m1.admin_accounts",
+        "ap_m1.admin_action_audit",
+        "ap_m1.admin_role_grants",
+        "ap_m1.admin_roles",
+        "ap_m1.faq_entries",
+        "ap_m1.faq_revisions"
+      ],
+      "source_screens": [
+        {
+          "source": "10-admin-back-office",
+          "screen": "BO-05",
+          "figma_node_id": "107:44"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /families/{familyId}/members",
+      "operation_id": "get__screen_audit_families_familyId_members",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "01-parent-foundation",
+          "screen": "P-16",
+          "figma_node_id": "9:722"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-39",
+          "figma_node_id": "12:998"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "PATCH /children/{childId}/screen-time-rules/{ruleId}",
+      "operation_id": "patch__screen_audit_remainder_children_childId_screen_time_rules_ruleId",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-35",
+          "figma_node_id": "12:806"
+        },
+        {
+          "source": "02-parent-operations",
+          "screen": "P-36",
+          "figma_node_id": "12:854"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "DELETE /children/{childId}/screen-time-rules/{ruleId}",
+      "operation_id": "delete__screen_audit_remainder_children_childId_screen_time_rules_ruleId",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-35",
+          "figma_node_id": "12:806"
+        },
+        {
+          "source": "02-parent-operations",
+          "screen": "P-36",
+          "figma_node_id": "12:854"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /parents/me/media-activity/export-requests/{id}",
+      "operation_id": "get__screen_audit_remainder_parents_me_media_activity_export_requests_id",
+      "physical_dependencies": [
+        "ap_m1.media_command_requests",
+        "ap_m1.media_quota_ledger",
+        "ap_m1.media_sessions",
+        "ap_m1.premium_viewer_leases"
+      ],
+      "source_screens": [
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-06",
+          "figma_node_id": "32:153"
+        },
+        {
+          "source": "07-media-activity-audit",
+          "screen": "PA-10",
+          "figma_node_id": "32:277"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/usage/coverage",
+      "operation_id": "get__screen_audit_remainder_children_childId_usage_coverage",
+      "physical_dependencies": [
+        "ap_m1.app_usage_intervals",
+        "ap_m1.screen_time_rules",
+        "ap_m1.usage_period_summaries"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-31",
+          "figma_node_id": "12:614"
+        },
+        {
+          "source": "02-parent-operations",
+          "screen": "P-32",
+          "figma_node_id": "12:662"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "POST /children/{childId}/guardian-invitations/{inviteId}/cancel",
+      "operation_id": "post__screen_audit_remainder_children_childId_guardian_invitations_inviteId_cancel",
+      "physical_dependencies": [
+        "ap_m1.child_access_grants_v2",
+        "ap_m1.child_authority_reviews",
+        "ap_m1.consent_records",
+        "ap_m1.families",
+        "ap_m1.guardian_memberships",
+        "ap_m1.parent_principals"
+      ],
+      "source_screens": [
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-39",
+          "figma_node_id": "12:998"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    },
+    {
+      "operation": "GET /children/{childId}/notification-rules",
+      "operation_id": "get__screen_audit_remainder_children_childId_notification_rules",
+      "physical_dependencies": [
+        "ap_m1.alert_events",
+        "ap_m1.named_places",
+        "ap_m1.notification_deliveries",
+        "ap_m1.notification_preferences",
+        "ap_m1.place_notification_rules"
+      ],
+      "source_screens": [
+        {
+          "source": "02-parent-operations",
+          "screen": "P-28",
+          "figma_node_id": "12:470"
+        },
+        {
+          "source": "03-parent-governance-billing",
+          "screen": "P-50",
+          "figma_node_id": "12:1526"
+        }
+      ],
+      "unmapped_historical_terms": [],
+      "mapping_method": "SCREEN_REGISTER_DEPENDENCY_NOT_HANDLER_BINDING",
+      "handler": null,
+      "handler_status": "PENDING",
+      "http_acceptance": "NOT_IMPLEMENTED",
+      "android_integration": "NOT_RUN"
+    }
+  ]
+}

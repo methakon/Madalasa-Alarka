@@ -1,0 +1,19 @@
+requirement_id,title,priority,ui_ref,db_ref,api_ref,test_id,test_status,release_candidate
+FR-001,Secure parent/child pairing,P0,P-08/P-09,"child_devices,pairing_codes",POST /pairing-codes;POST /enrollment,T-FR-001,NOT_RUN,YES
+FR-002,Transparent permission onboarding,P0,P-11,permission_snapshots,GET /devices/{deviceId}/capabilities,T-CAP-01..24,NOT_RUN,YES
+FR-003,Location observations (live),P1C,P-05/P-21,"location_observations,device_latest_positions",POST /children/{childId}/locations,T-FR-003,NOT_RUN,GATED
+FR-004,Travel and route history,P1,P-23/P-24,"trips,trip_legs,location_observations",GET /children/{childId}/trips,T-FR-004,NOT_RUN,GATED
+FR-005,Usage statistics,P1C,P-31/P-32,"app_usage_events,usage_period_summaries",GET /children/{childId}/usage,T-FR-005,NOT_RUN,GATED
+FR-006,Authenticated remote commands,P0,P-33/P-34,"commands,capability_snapshots",POST /children/{childId}/commands,T-FR-006,NOT_RUN,YES
+FR-007,Scheduled screen-time restrictions,P2C,P-35/P-36,screen_time_rules,POST /children/{childId}/screen-time-rules,T-FR-007,NOT_RUN,DEFERRED
+FR-008,File/media access,P2C,P-46,media_activity_events,GET /children/{childId}/media,T-FR-008,NOT_RUN,GATED
+FR-009,Authorized photo/video request,P3D,P-46,media_activity_events,POST /children/{childId}/media-requests,T-MEDIA-01..18,NOT_RUN,OFF
+FR-010,Authorized audio capture,P3D,P-58,media_activity_events,POST /children/{childId}/media-requests,T-MEDIA-01..18,NOT_RUN,OFF
+FR-011,Google Drive backup,P2C,P-42,export_requests,POST /account/export-requests,T-FR-011,NOT_RUN,GATED
+FR-044,SOS event,P0,B06-handoff,"commands,sos_events",POST /children/{childId}/sos,T-FR-044,NOT_RUN,GATED
+FR-045,Check-in,P1,B06-handoff,sos_events,POST /children/{childId}/check-ins,T-FR-045,NOT_RUN,GATED
+FR-046,Device health,P1,P-38,child_devices,GET /children/{childId}/devices,T-FR-046,NOT_RUN,YES
+NFR-SEC-01,Tenant isolation / RLS,P0,n/a,all child tables,all child-scoped routes,m1_tenant_isolation.sql;m2_blended_family_isolation.sql,NOT_RUN,YES
+NFR-SEC-02,Distinct Parent/Device/Admin bearers,P0,n/a,"parent_principals,admin_accounts",POST /v1/auth/parent/google,test_parent_session_bridge.py,NOT_RUN,YES
+NFR-PRIV-01,No real child data before lawful authority,P0,n/a,n/a,n/a,check-local-data-rules.py,NOT_RUN,YES
+NFR-COMM-01,Prepaid no-auto-renew + 100-day add-on,P1,SH-04/SH-06,"child_paid_entitlements,play_purchase_records",POST /children/{childId}/extra-viewer-purchase-intents,T-BILL-100day,NOT_RUN,GATED

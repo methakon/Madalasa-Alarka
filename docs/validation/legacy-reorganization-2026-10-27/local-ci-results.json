@@ -1,0 +1,63 @@
+{
+  "scope": "Local execution of documentation workflow run blocks; hosted checkout/setup actions not executed",
+  "python": "Python 3.12.3 (project-local .venv; inherited PYTHONPATH/PYTHONHOME unset in each shell)",
+  "handoff_mapping_count": 72,
+  "handoff_mapping_exact_match": true,
+  "results": [
+    {
+      "name": "Install pinned documentation parser",
+      "command": "python3 -m pip install -r docs/tools/requirements.txt",
+      "exit_code": 0,
+      "stdout": "Requirement already satisfied: markdown-it-py==4.2.0 in ./.venv/lib/python3.12/site-packages (from -r docs/tools/requirements.txt (line 2)) (4.2.0)\nRequirement already satisfied: mdurl==0.1.2 in ./.venv/lib/python3.12/site-packages (from -r docs/tools/requirements.txt (line 3)) (0.1.2)\n",
+      "stderr": ""
+    },
+    {
+      "name": "Confirm project documentation and prevent false signed-off blanks",
+      "command": "set -eu\nfor f in \\\n  docs/phases/M1-secure-platform-foundation/02-development-process/BUILD_AND_RUN.md \\\n  docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/DPIA.md \\\n  docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/DATA_RETENTION_SCHEDULE.md \\\n  docs/phases/M8-operational-readiness/02-operations-and-support/INCIDENT_AND_BREACH_RESPONSE_PROCEDURE.md \\\n  docs/phases/M1-secure-platform-foundation/03-security-and-permissions/THREAT_MODEL_STRIDE.md \\\n  docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/VERIFIABLE_PARENTAL_CONSENT_AND_GUARDIAN_AUTHORITY.md \\\n  docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/VENDOR_DPA_AND_PROCESSOR_REGISTER.md \\\n  docs/phases/M9-play-release/03-release-gates/DEPLOYMENT_RELEASE_READINESS_CHECKLIST.md \\\n  docs/phases/M0-foundation-and-approvals/01-project-governance/PROJECT_DOCUMENTS_INDEX_2026.md \\\n  docs/document-control-register.json docs/DOCUMENTATION_PHASE_GATE_CHECKLIST.md \\\n  SECURITY.md LICENSE .env.example CONTRIBUTING.md CODE_OF_CONDUCT.md CHANGELOG.md \\\n  android/README.md public/legal/terms.html public/legal/privacy.html \\\n  public/legal/refund-cancellation.html\ndo\n  test -s \"$f\"\ndone\ngrep -q \"DRAFT\" docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/DPIA.md\ngrep -q \"DRAFT\" docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/DATA_RETENTION_SCHEDULE.md\ngrep -qi \"not published\" public/legal/privacy.html\npython3 -m json.tool docs/openapi-m1.yaml >/dev/null\npython3 -m json.tool docs/openapi.yaml >/dev/null\npython3 -m json.tool docs/document-control-register.json >/dev/null\n",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Regression tests for code-aware links and preservation",
+      "command": "python3 -m unittest discover -s docs/tools -p 'test_*.py'",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "......................\n----------------------------------------------------------------------\nRan 22 tests in 24.254s\n\nOK\n"
+    },
+    {
+      "name": "Validate phase-organized project documentation",
+      "command": "python3 backend/tests/check_document_structure.py",
+      "exit_code": 0,
+      "stdout": "Documentation structure OK: 72 canonical docs, 12 phase indexes, 19 categories, 10 root control files, retired root stubs absent, unchanged M1/API/UI paths.\n",
+      "stderr": ""
+    },
+    {
+      "name": "Verify complete source preservation, register, protected scope and links",
+      "command": "python3 docs/tools/check_reorganization.py --check-source-git",
+      "exit_code": 0,
+      "stdout": "Documents: 72 canonical in phase folders; 71 retired root stubs absent; 1 retained root pointer; 72 source bodies preserved\ndocs/ root control files: 10; phases/categories: 12/19\nProtected artifacts: 36 (7 navigation-only link updates recorded)\nLinks: 1839 across 129 files; anchors: 5\nUnexpected errors: 0; known protected-scope issues: 0\n",
+      "stderr": ""
+    },
+    {
+      "name": "M1 structural contract smoke",
+      "command": "python3 backend/tests/lint_openapi_m1.py docs/openapi-m1.yaml",
+      "exit_code": 0,
+      "stdout": "M1 OpenAPI structural lint PASS (11 M1 operations, 16 schemas, 11 unique operationIds)\n",
+      "stderr": ""
+    },
+    {
+      "name": "Whitespace check",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "all_local_run_blocks_passed": true,
+  "not_run": [
+    "Hosted GitHub Actions run for this cleanup commit (see CI link in the completion report)",
+    "PostgreSQL migration/RLS execution (unchanged SQL; no disposable database started)",
+    "Android builds/device tests/cloud/legal review (out of scope)"
+  ]
+}
