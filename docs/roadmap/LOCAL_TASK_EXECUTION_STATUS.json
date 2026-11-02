@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 170,
-    "PASS": 92
+    "NOT_STARTED": 158,
+    "PASS": 104
   },
   "task_statuses": {
     "L00-001": {
@@ -927,88 +927,100 @@
       "verification": "AUTOMATED_TEST: test_location test_20 erasure tombstone/child_deleted denies stale queued events; exit 0"
     },
     "L07-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-001.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: AuthorizedChildSelectorTest unshared sibling hidden/uncounted/unselectable; :madalasa:testDebugUnitTest exit 0"
     },
     "L07-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-002.md",
+      "commit_sha": "3291669",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location_read_auth wrong-guardian denied latest+history; exit 0"
     },
     "L07-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-003.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: MapProviderTest blank key=UNCONFIGURED; source scan no committed key; exit 0"
     },
     "L07-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-004.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: LocationStatusChipsTest unknown/unavailable shown, no invented coords; exit 0"
     },
     "L07-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-005.md",
+      "commit_sha": "3291669",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_11 + test_history_cursor_cannot_cross_six_hour_free_boundary; exit 0"
     },
     "L07-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-006.md",
+      "commit_sha": "3291669",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_premium_history_leases 12 tests expiry/revoke/exact-child; exit 0"
     },
     "L07-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-007.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: MapProviderTest ordered fallback first-supported-or-NONE, no false claim; exit 0"
     },
     "L07-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-008.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: RouteTimelineTest adjacent pages no overlap/dup, cursor exhaustion; exit 0"
     },
     "L07-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-009.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: RouteTimelineTest GAP not plotted/no snapping (RoutePoint init invariants); exit 0"
     },
     "L07-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-010.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: ParentReadUxStateTest revoke/permission purge cache, offline stale badge; exit 0"
     },
     "L07-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-011.md",
+      "commit_sha": "20f5bfd",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: connectedDebugAndroidTest ParentScreenRegressionTest 1/1 on Xiaomi Mi A3 Android11/API30 Theme C copy+children; exit 0"
     },
     "L07-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L07-012.md",
+      "commit_sha": "3291669",
+      "verified_at_utc": "2026-11-02T13:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location_read_auth parent/child isolation + crafted cursor child B invisible; exit 0"
     },
     "L08-001": {
       "status": "NOT_STARTED",
