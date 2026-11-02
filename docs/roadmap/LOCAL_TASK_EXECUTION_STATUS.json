@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 183,
-    "PASS": 79
+    "NOT_STARTED": 170,
+    "PASS": 92
   },
   "task_statuses": {
     "L00-001": {
@@ -823,95 +823,108 @@
       "verification": "AUTOMATED_TEST: SecureLocalQueueTest guardian revoke halts uploads + uninstall guidance; gradle exit 0"
     },
     "L06-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-001.md",
+      "commit_sha": "66928bf",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: LocationProvenanceTest provider+sensorFused+timestamp+accuracy retained; :alarka:testDebugUnitTest exit 0"
     },
     "L06-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-002.md",
+      "commit_sha": "66928bf",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: TrackingCadencePolicyTest free>paid, battery-saver steps down, never guaranteed; exit 0"
     },
     "L06-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-003.md",
+      "commit_sha": "66928bf",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: SecureLocalQueueTest 48h bounded, airplane-reconnect no loss, no plaintext, overflow warn; exit 0"
     },
     "L06-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-004.md",
+      "commit_sha": "66928bf",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: ForegroundServiceStartPolicyTest FGS reject/USER_ACTION reasons, never runs hidden; exit 0"
     },
     "L06-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-005.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location.py device-key/revoke/batch-hash (test_09/12/20 + reassignment); exit 0"
     },
     "L06-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-006.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location_recovery crash-before-commit no rows/no 202; test_21 atomic; exit 0"
     },
     "L06-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-007.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_ingestion_pipeline fence rejects stale completion; worker restart exactly-once; exit 0"
     },
     "L06-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-008.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location test_09/test_19 duplicate/out-of-order/old-fix dedup; exit 0"
     },
     "L06-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-009.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location test_10 impossible coords/future clock INVALID_GPS atomic; COARSE/QUALIFIED; exit 0"
     },
     "L06-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-010.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: device_latest_positions observed_at-gated ON CONFLICT; test_09 last-known; exit 0"
     },
     "L06-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-011.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location_recovery diagnostics UNKNOWN/STALE/observed-vs-received; exit 0"
     },
     "L06-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-012.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location_recovery 48h reconnect N=200 no loss exactly-once + envelope ~20 batches/s; exit 0"
     },
     "L06-013": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L06-013.md",
+      "commit_sha": "744598f",
+      "verified_at_utc": "2026-11-02T12:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location test_20 erasure tombstone/child_deleted denies stale queued events; exit 0"
     },
     "L07-001": {
       "status": "NOT_STARTED",
