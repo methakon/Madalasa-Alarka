@@ -1,6 +1,6 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-01",
+  "as_of": "2026-11-02",
   "note": "2026-11-01 reconciliation: Phase 00 (L00-001..012) and Phase 01 (L01-001..014) are PASS with committed evidence under evidence/local/tasks/. Phase 01 includes the real JDK17 Android build at targetSdk 36 (both apps), the C++20 Drogon backend compile + ctest 18/18, local Postgres loopback + RLS, and the governance/CI/seed tooling. Phases 02+ individual task acceptance remain NOT_STARTED in this ledger even though substantial schema/API/UI code exists and passes cross-cutting suites (see workstream_checkpoints); those are not per-task-evidence closures. Neither PASS here nor passing CI grants legal/Play/DPDP release permission.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "PASS": 67,
-    "NOT_STARTED": 195
+    "NOT_STARTED": 183,
+    "PASS": 79
   },
   "task_statuses": {
     "L00-001": {
@@ -727,88 +727,100 @@
       "verification": "AUTOMATED_TEST (reconcile-and-verify of implemented identity layer): test_privacy_admin.py 13 OK: sensitive read audited with actor/scope/outcome"
     },
     "L05-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-001.md",
+      "commit_sha": "927c457",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: :alarka:testDebugUnitTest exit 0; AlarkaManifestInvariantTest proves no surveillance permissions, allowBackup/cleartext false"
     },
     "L05-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-002.md",
+      "commit_sha": "687b1dd",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: SyntheticPairingAuthorityTest expired/wrong-family/replay rejected; gradle exit 0"
     },
     "L05-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-003.md",
+      "commit_sha": "687b1dd",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: copied device-key token rejected (verifyDeviceBinding); gradle exit 0"
     },
     "L05-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-004.md",
+      "commit_sha": "687b1dd",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: monotonic config revisions + device-bound token; gradle exit 0"
     },
     "L05-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-005.md",
+      "commit_sha": "927c457",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: AndroidDeviceCapabilityScanner actual checkSelfPermission; ChildPrivacyScreensTest; gradle exit 0"
     },
     "L05-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-006.md",
+      "commit_sha": "927c457",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: distinct explanation pages + settings guidance; ChildPrivacyScreensTest; gradle exit 0"
     },
     "L05-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-007.md",
+      "commit_sha": "eb7bafe",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: CapabilitySyncReconcilerTest offline revocation detected, fails closed; gradle exit 0"
     },
     "L05-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-008.md",
+      "commit_sha": "eb7bafe",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: DeviceManagementModeTest normal install never claims Device Owner; gradle exit 0"
     },
     "L05-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-009.md",
+      "commit_sha": "f879881",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: MonitoringDisclosureTest monitoring gated on persistent identifying notification; gradle exit 0"
     },
     "L05-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-010.md",
+      "commit_sha": "f879881",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: SecureLocalQueueTest no plaintext GPS at rest; gradle exit 0"
     },
     "L05-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-011.md",
+      "commit_sha": "c654abd",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: PermissionMatrixEvaluatorTest (API29..36 fail-closed) + connectedDebugAndroidTest 3/3 on Xiaomi Mi A3 Android 11/API30 exit 0"
     },
     "L05-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L05-012.md",
+      "commit_sha": "f879881",
+      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: SecureLocalQueueTest guardian revoke halts uploads + uninstall guidance; gradle exit 0"
     },
     "L06-001": {
       "status": "NOT_STARTED",
