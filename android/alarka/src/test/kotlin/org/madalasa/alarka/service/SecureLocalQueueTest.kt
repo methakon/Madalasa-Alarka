@@ -79,4 +79,52 @@ class SecureLocalQueueTest {
         assertTrue(status.guidance.contains("uninstall", ignoreCase = true))
         assertTrue(status.guidance.contains("No data is being sent"))
     }
+
+    // ---- L06-003: 48h bounded offline queue ----
+
+    @Test
+    fun airplaneModeThenReconnectReplaysAllEntriesWithoutLoss() {
+        val q = SecureLocalQueue()
+        val base = 1_730_000_000_000L
+        // Buffer 100 fixes while "offline" (no flush).
+        (0 until 100).forEach { i ->
+            q.enqueue(
+                obs().copy(eventId = "evt-$i", observedAtEpochMs = base + i * 1000L),
+                nowMillis = base + i * 1000L
+            )
+        }
+        assertEquals(100, q.pendingCount())
+        // Reconnect: flush delivers every buffered event, decrypted, no loss.
+        val flushed = q.flush()
+        assertEquals(100, flushed.size)
+        assertEquals(0, q.pendingCount())
+    }
+
+    @Test
+    fun entriesOlderThanFortyEightHoursAreEvicted() {
+        val q = SecureLocalQueue()
+        val base = 1_730_000_000_000L
+        q.enqueue(obs().copy(eventId = "old", observedAtEpochMs = base), nowMillis = base)
+        // A new enqueue 49h later evicts the stale entry and raises overflow warning.
+        val later = base + 49L * 60 * 60 * 1000
+        q.enqueue(obs().copy(eventId = "fresh", observedAtEpochMs = later), nowMillis = later)
+        assertEquals(1, q.pendingCount())
+        assertTrue(q.overflowWarning)
+        assertEquals("fresh", q.flush().single().eventId)
+    }
+
+    @Test
+    fun capacityOverflowDropsOldestAndWarns() {
+        val q = SecureLocalQueue(maxEntries = 10)
+        val base = 1_730_000_000_000L
+        (0 until 15).forEach { i ->
+            q.enqueue(obs().copy(eventId = "e$i", observedAtEpochMs = base + i), nowMillis = base + i)
+        }
+        assertEquals(10, q.pendingCount())
+        assertTrue(q.overflowWarning)
+        // Oldest (e0..e4) dropped; newest retained.
+        val ids = q.flush().map { it.eventId }
+        assertFalse(ids.contains("e0"))
+        assertTrue(ids.contains("e14"))
+    }
 }
