@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Confidential vulnerability disclosure
-    url: https://github.com/methakon/Madalasa-Alarka/security/advisories
-    about: Follow SECURITY.md; repository owner must enable private vulnerability reporting. Never post exploit details publicly.
-  - name: Engineering setup and release gates
-    url: https://github.com/methakon/Madalasa-Alarka/blob/main/docs/phases/M1-secure-platform-foundation/02-development-process/BUILD_AND_RUN.md
-    about: Current executable CI scope and planned components.
