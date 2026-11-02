@@ -8,6 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.launch
+import org.madalasa.madalasa.api.GoogleParentConfiguration
+import org.madalasa.madalasa.api.ParentSessionMemory
 import org.madalasa.madalasa.api.PrivacyGateway
 import org.madalasa.madalasa.ui.screens.ParentPrivacyRow
 import org.madalasa.madalasa.ui.screens.parentVerifiedOverviewRows
@@ -18,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import org.madalasa.madalasa.ui.figma.P01Screen
 import org.madalasa.madalasa.ui.figma.P03Screen
+import org.madalasa.madalasa.ui.figma.P04Screen
 import org.madalasa.madalasa.ui.screens.AuthenticationScreen
 import org.madalasa.madalasa.ui.screens.ChildSelectionScreen
 import org.madalasa.madalasa.ui.screens.OnboardingScreen
@@ -30,6 +33,8 @@ import org.madalasa.madalasa.ui.viewmodel.ParentViewModel
 fun MadalasaNavHost(
     viewModel: ParentViewModel,
     privacyGateway: PrivacyGateway,
+    googleConfiguration: GoogleParentConfiguration,
+    parentSessionMemory: ParentSessionMemory,
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -66,12 +71,24 @@ fun MadalasaNavHost(
                 },
                 onExploreAccountSetup = {
                     navController.navigate(Screen.CreateAccount.route)
+                },
+                onGoogleAccountHandoff = {
+                    navController.navigate(Screen.GoogleHandoff.route)
                 }
             )
         }
 
         composable(Screen.CreateAccount.route) {
             P03Screen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.GoogleHandoff.route) {
+            P04Screen(
+                configuration = googleConfiguration,
+                onNewAttempt = { parentSessionMemory.clear() },
+                onVerifiedSession = { parentSessionMemory.accept(it) },
+                onBack = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.ChildSelection.route) {
