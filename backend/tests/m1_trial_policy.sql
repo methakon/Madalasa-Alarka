@@ -79,8 +79,8 @@ BEGIN
   -- TP_10 the eligibility check (GET path) reports a result and audits it; it stores a verdict, not an identifier.
   -- Note: a refused start_family_trial raises, so its own audit insert rolls back with the statement; only the
   -- separate eligibility call is durable. Recorded in docs/FRICTION_LOG-style follow-up, not hidden.
-  r := pg_temp.as_parent(a, f2, format('CREATE TEMP TABLE IF NOT EXISTS t10 AS SELECT ap_m1.check_trial_eligibility(%L) AS ok', f2));
-  PERFORM pg_temp.ok(r='OK' OR r LIKE '42P07:%', 'TP_10 check runs ('||r||')');
+  r := pg_temp.as_parent(a, f2, format('SELECT ap_m1.check_trial_eligibility(%L)', f2));
+  PERFORM pg_temp.ok(r='OK', 'TP_10 check runs ('||r||')');
   PERFORM pg_temp.ok((SELECT count(*) FROM ap_m1.trial_eligibility_checks WHERE family_id=f2 AND risk_result='ALREADY_REDEEMED')=1, 'TP_10 refusal verdict audited');
 END $$;
 ROLLBACK;
