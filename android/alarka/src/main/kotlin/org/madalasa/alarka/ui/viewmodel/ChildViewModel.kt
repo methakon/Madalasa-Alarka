@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.madalasa.alarka.di.ChildAppContainer
+import org.madalasa.alarka.service.CapabilitySyncReconciler
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.alarka.service.EnrollmentResult
 
@@ -17,6 +18,8 @@ data class ChildUiState(
     val isEnrolling: Boolean = false,
     val enrollmentResult: EnrollmentResult? = null,
     val capabilityReport: DeviceCapabilityReport? = null,
+    val lastRevokedPermissions: List<String> = emptyList(),
+    val uploadsHalted: Boolean = false,
     val connectivityStatus: String = "Standby (Synthetic)",
     val errorMessage: String? = null
 )
@@ -41,11 +44,18 @@ class ChildViewModel(
     }
 
     /** Re-read device-local OS state when opened/returned from Android Settings.
+     * Reconciles against the last-applied snapshot so a permission revoked while
+     * offline is detected now and fails closed (halts synthetic uploads).
      * No permissions are requested and no report is uploaded from this preview.
      */
     fun refreshCapabilities() {
+        val previous = _uiState.value.capabilityReport
+        val current = container.capabilityScanner.getCapabilityReport()
+        val reconciliation = CapabilitySyncReconciler.reconcile(previous, current)
         _uiState.value = _uiState.value.copy(
-            capabilityReport = container.capabilityScanner.getCapabilityReport()
+            capabilityReport = current,
+            lastRevokedPermissions = reconciliation.revoked,
+            uploadsHalted = _uiState.value.uploadsHalted || reconciliation.mustHaltUploads
         )
     }
 
