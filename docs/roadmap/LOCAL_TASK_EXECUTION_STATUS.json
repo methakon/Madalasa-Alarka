@@ -1,7 +1,7 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-02",
-  "note": "2026-11-01 reconciliation: Phase 00 (L00-001..012) and Phase 01 (L01-001..014) are PASS with committed evidence under evidence/local/tasks/. Phase 01 includes the real JDK17 Android build at targetSdk 36 (both apps), the C++20 Drogon backend compile + ctest 18/18, local Postgres loopback + RLS, and the governance/CI/seed tooling. Phases 02+ individual task acceptance remain NOT_STARTED in this ledger even though substantial schema/API/UI code exists and passes cross-cutting suites (see workstream_checkpoints); those are not per-task-evidence closures. Neither PASS here nor passing CI grants legal/Play/DPDP release permission.",
+  "as_of": "2026-11-02T19:15:00Z",
+  "note": "Phase 09 (L09-001..012) reconciled after execution on child, parent, and api; 128 PASS / 134 NOT_STARTED.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 146,
-    "PASS": 116
+    "NOT_STARTED": 134,
+    "PASS": 128
   },
   "task_statuses": {
     "L00-001": {
@@ -1119,88 +1119,100 @@
       "verification": "AUTOMATED_TEST: test_route_quality labeled precision=1.00 recall=1.00 threshold>=0.8, uncertain reported; exit 0"
     },
     "L09-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-001.md",
+      "commit_sha": "a69f21e",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: ChildSafetySignal domain model, SyntheticChildSafetyService, receipt!=ack, all kinds tested; :alarka:testDebugUnitTest exit 0"
     },
     "L09-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-002.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_safety_sos test_device_sos_receipt_is_not_guardian_acknowledgement; exit 0"
     },
     "L09-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-003.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_safety_sos test_delivery_to_unrelated_parent_is_rejected alert_recipient_authorized; exit 0"
     },
     "L09-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-004.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_safety_sos test_failed_delivery_keeps_outbox_pending_and_not_confirmed; exit 0"
     },
     "L09-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-005.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_safety_sos test_device_health_retains_observed_and_recorded_timestamps, staleness retained; exit 0"
     },
     "L09-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-006.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_usage_events test_usage_ingest_denied_without_usage_consent legal OFF gate; exit 0"
     },
     "L09-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-007.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_usage_events partial coverage not complete, missing time never counted as zero; exit 0"
     },
     "L09-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-008.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_command_state_machine unreleased command kind refused with FEATURE_NOT_RELEASED; exit 0"
     },
     "L09-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-009.md",
+      "commit_sha": "a69f21e",
+      "verified_at_utc": "2026-11-02T13:45:02Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: connectedDebugAndroidTest on Xiaomi Mi A3 API 30, DeviceOwnerLabOnlyTest proves app is NOT device owner on standard phone; exit 0"
     },
     "L09-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-010.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_command_state_machine full transition graph, OS refusal named failure and audit; exit 0"
     },
     "L09-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-011.md",
+      "commit_sha": "d82a81a",
+      "verified_at_utc": "2026-11-02T13:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: FeatureModuleGateTest honest gating for usage/health/SOS/media modules with truthful reasons; :madalasa:testDebugUnitTest exit 0"
     },
     "L09-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L09-012.md",
+      "commit_sha": "c3e60aa",
+      "verified_at_utc": "2026-11-02T13:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_safety_sos duplicate SOS idempotent, replay rejected, unrelated parent rejected; exit 0"
     },
     "L10-001": {
       "status": "NOT_STARTED",
