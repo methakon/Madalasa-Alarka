@@ -4,9 +4,17 @@
 
 > **Current product:** **Madalasa** (parent app) + **Alarka** (child app); the GitHub repository is now **[Madalasa-Alarka](https://github.com/methakon/Madalasa-Alarka)**. [English mythological inspiration](../02-market-and-feasibility/BRAND_NAME_MADALASA_ALARKA_AND_MYTHOLOGY_CONCEPT.md).
 
-**Established:** 2026-10-25 | **Updated:** 2026-10-31 | **Version:** 1.3 | **State:** DOCUMENTED_REVIEW_PENDING | **Purpose:** actionable project-owner decisions and independently verifiable engineering/release gates. Current statements below supersede historical question/queue text; an owner decision is not external verification.
+**Established:** 2026-10-25 | **Updated:** 2026-11-03 | **Version:** 1.4 | **State:** DOCUMENTED_REVIEW_PENDING | **Purpose:** actionable project-owner decisions and independently verifiable engineering/release gates. Current statements below supersede historical question/queue text; an owner decision is not external verification.
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
+
+## 2026-11-03 X-01B — BillDesk portal submission confirmed; review still pending
+
+**Owner-provided BillDesk Connect portal confirmation:** the application was **successfully submitted**; a numeric **Application ID** was issued for future correspondence and must appear in the email subject when writing to **onboarding@billdesk.com**. The Application ID is retained privately, **not entered into the public repository**. No `BD`-prefixed Partner ID is necessary when the correct Application ID is available.
+
+**X-01 status, current:** **X-01A** Google Play publisher identity = owner-confirmed complete; **X-01B** BillDesk application = owner-confirmed `SUBMITTED / PROVIDER RESPONSE AWAITED` (Video KYC completion and provider approval **not yet evidenced**); **X-01C** Google Payments/merchant/payout/tax activation = **not verified**. Outstanding question: is a public Google Play listing mandatory for the unpublished Madalasa application, or can an internal-test/Console link suffice? Owner can ask BillDesk directly. Submission is not approval or monetization enablement.
+
+[Current BillDesk submission tracker and no-secrets correspondence workflow](../../M9-play-release/03-release-gates/BILLDESK_APPLICATION_SUBMISSION_TRACKER_2026-11-03.md). Prior dated statements below are historical unless explicitly current. No coding gate is created; external payment/Play release gates stay independent.
 
 **Official-text review:** [Independent Indian DPDP/Rule 12 feature assessment — 2026-10-31](../03-legal-and-privacy/INDIA_DPDP_CHILD_PRIVACY_AND_CROSS_BORDER_GATE.md#2026-10-31-first-party-primary-law-review-no-mandatory-paid-counsel-opinion). Signed-paper prerequisite REMOVED, substantive child monitoring G02 restrictions and Play G01/G04 remain unresolved.
 
