@@ -25,6 +25,7 @@
 #include "http_support.h"
 #include "pairing.h"
 #include "parent_session.h"
+#include "billing_trial.h"
 #include "privacy_endpoints.h"
 
 namespace {
@@ -303,6 +304,18 @@ int main() {
         co_return co_await ma::list_families(std::move(req), parent);
       },
       {Get});
+
+  // L10-002: server-side 48h family trial (policy enforced in SQL).
+  app().registerHandler(
+      "/v1/families/{familyId}/trial/eligibility",
+      [parent](HttpRequestPtr req, std::string familyId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::family_trial(std::move(req), std::move(familyId), parent, false);
+      }, {Get});
+  app().registerHandler(
+      "/v1/families/{familyId}/trial/start",
+      [parent](HttpRequestPtr req, std::string familyId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::family_trial(std::move(req), std::move(familyId), parent, true);
+      }, {Post});
 
   // Existing master OpenAPI: child-scoped privacy operations, server-enforced.
   app().registerHandler(
