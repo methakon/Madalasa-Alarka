@@ -44,10 +44,10 @@ Equivalent **non-secret** environment variable names are `MA_GOOGLE_WEB_CLIENT_I
 - [x] One-time HTTPS Google ID-token exchange targets existing C++/PostgreSQL session bridge
 - [x] Fail-closed behavior for no config, credential cancellation, unexpected credential, response rejection and expired session
 - [x] Unit tests added for route, readiness, origin validation, session expiry and error states
-- [ ] Android build/test run **on the final branch commit**: check [parent branch Android Actions](https://github.com/methakon/Madalasa-Alarka/actions/workflows/android-ui-build.yml) for actual result; do not infer a pass from older commits
+- [x] Android **build and JVM tests PASS** at code commit [`224a96e`](https://github.com/methakon/Madalasa-Alarka/commit/224a96e56dff562cda24e075f12afb79b0462be8): [Android UI Actions run 41399945625](https://github.com/methakon/Madalasa-Alarka/actions/runs/41399945625). This workflow compiled both debug APKs and ran both apps’ JVM tests. Subsequent branch documentation-only merge did not change Android sources.
 - [ ] Real adult-operated test phone with an independently registered Google Cloud **development** OAuth configuration: account chooser, server-verified identity, network drop, wrong account, cancel and replay
 - [ ] Verify server grants/consents, exact-child RLS and no privacy data from an unrelated family; negative tests and actual `dev` merge candidate
 - [ ] Screenshot parity against 9:147, accessibility/large font/dark mode/keyboard/touch, Android lifecycle/rotation
 - [ ] Full owner-approved legal purpose, Android/Google Play audience and permission checks for release (not required to write or compile this source)
 
-**Branch flow:** commit Android changes on `parent`, request reviewed `parent` → `dev`, then independently review/test `dev` → `main`. This canonical documentation lives on `main` only. No deployment or Play submission is part of P-04 source work.
+**Branch flow:** Android code is in [draft PR #27 (`parent` → `dev`)](https://github.com/methakon/Madalasa-Alarka/pull/27), then independently review/test `dev` → `main`. This canonical documentation lives on `main` only. No deployment or Play submission is part of P-04 source work.
