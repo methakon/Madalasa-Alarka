@@ -12,11 +12,13 @@ import org.madalasa.madalasa.ui.figma.P02Screen
 fun AuthenticationScreen(
     onAuthenticated: () -> Unit,
     onBackToWelcome: (() -> Unit)? = null,
-    onExploreAccountSetup: (() -> Unit)? = null
+    onExploreAccountSetup: (() -> Unit)? = null,
+    onGoogleAccountHandoff: (() -> Unit)? = null
 ) {
     P02Screen(
         onSyntheticContinue = onAuthenticated,
         onBack = onBackToWelcome,
-        onExploreAccountSetup = onExploreAccountSetup
+        onExploreAccountSetup = onExploreAccountSetup,
+        onGoogleAccountHandoff = onGoogleAccountHandoff
     )
 }
