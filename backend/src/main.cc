@@ -25,6 +25,7 @@
 #include "http_support.h"
 #include "pairing.h"
 #include "parent_session.h"
+#include "billing_catalog.h"
 #include "billing_trial.h"
 #include "privacy_endpoints.h"
 
@@ -304,6 +305,13 @@ int main() {
         co_return co_await ma::list_families(std::move(req), parent);
       },
       {Get});
+
+  // L10-005: product catalog; prices are never quoted until Play metadata is verified.
+  app().registerHandler(
+      "/v1/billing/catalog",
+      [parent](HttpRequestPtr req) -> Task<HttpResponsePtr> {
+        co_return co_await ma::billing_catalog(std::move(req), parent);
+      }, {Get});
 
   // L10-002: server-side 48h family trial (policy enforced in SQL).
   app().registerHandler(
