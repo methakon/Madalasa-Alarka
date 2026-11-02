@@ -16,7 +16,7 @@ import org.madalasa.madalasa.ui.viewmodel.ParentViewModel
  */
 class MainActivity : ComponentActivity() {
 
-    private val appContainer by lazy { DefaultAppContainer() }
+    private val appContainer by lazy { DefaultAppContainer(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,12 @@ class MainActivity : ComponentActivity() {
                 val viewModel: ParentViewModel = viewModel(
                     factory = ParentViewModel.provideFactory(appContainer.repository)
                 )
-                MadalasaNavHost(viewModel = viewModel, privacyGateway = appContainer.privacyGateway)
+                MadalasaNavHost(
+                    viewModel = viewModel,
+                    privacyGateway = appContainer.privacyGateway,
+                    googleConfiguration = appContainer.googleParentConfiguration,
+                    parentSessionMemory = appContainer.parentSessionMemory
+                )
             }
         }
     }
