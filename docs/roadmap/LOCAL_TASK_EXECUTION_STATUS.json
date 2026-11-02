@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 158,
-    "PASS": 104
+    "NOT_STARTED": 146,
+    "PASS": 116
   },
   "task_statuses": {
     "L00-001": {
@@ -1023,88 +1023,100 @@
       "verification": "AUTOMATED_TEST: test_location_read_auth parent/child isolation + crafted cursor child B invisible; exit 0"
     },
     "L08-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-001.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_route_quality segment_trip OBSERVED/GAP split; exit 0"
     },
     "L08-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-002.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_route_quality detect_stops CONFIRMED/UNCERTAIN, gap=UNKNOWN no false stop; exit 0"
     },
     "L08-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-003.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_route_quality classify_mode always inferred hypothesis; exit 0"
     },
     "L08-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-004.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_location test_22 immutable trip revisions preserve gaps; exit 0"
     },
     "L08-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-005.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_route_quality polyline_segments omits GAP never snaps; exit 0"
     },
     "L08-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-006.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_places_notifications place visible only to authorized guardian, unauthorized save denied; exit 0"
     },
     "L08-007": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-007.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_route_quality geofence_transitions hysteresis ignores jitter + ambiguous accuracy; exit 0"
     },
     "L08-008": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-008.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_places_notifications per-adult notification rule only; exit 0"
     },
     "L08-009": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-009.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_places_notifications SUBMITTED distinct from DELIVERY_CONFIRMED and read; exit 0"
     },
     "L08-010": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-010.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_places_notifications named_places FORCE RLS other-family reads nothing; exit 0"
     },
     "L08-011": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-011.md",
+      "commit_sha": "f6d59eb",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: ThemeCFunctionalCatalogTest P-05/P-15/P-24/P-28 place/route/history screens; :madalasa:testDebugUnitTest exit 0"
     },
     "L08-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L08-012.md",
+      "commit_sha": "eb1aa45",
+      "verified_at_utc": "2026-11-02T13:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "verification": "AUTOMATED_TEST: test_route_quality labeled precision=1.00 recall=1.00 threshold>=0.8, uncertain reported; exit 0"
     },
     "L09-001": {
       "status": "NOT_STARTED",
