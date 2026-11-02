@@ -73,6 +73,7 @@ fun P02Screen(
     onSyntheticContinue: (() -> Unit)? = null,
     onBack: (() -> Unit)? = null,
     onExploreAccountSetup: (() -> Unit)? = null,
+    onGoogleAccountHandoff: (() -> Unit)? = null,
     issue: SignInIssue = SignInIssue.NOT_STARTED
 ) {
     val teal = Color(0xFF087E83)
@@ -141,7 +142,7 @@ fun P02Screen(
         Spacer(Modifier.height(10.dp))
         SignInCard("Google identity button") {
             Text(
-                "Android Credential Manager and verified server OIDC exchange are pending.",
+                "Continue to P-04 to select an account using Android Credential Manager. The backend must accept the ID token before sign-in succeeds.",
                 fontSize = 12.sp, color = ink
             )
         }
@@ -161,8 +162,10 @@ fun P02Screen(
 
         // A visually accurate Figma primary action cannot assert a real OIDC flow.
         Button(
-            onClick = {},
-            enabled = canStartGoogleSignIn(false, false),
+            // P-02 opens the verified handoff screen. The native account
+            // chooser itself is initiated only by a deliberate tap on P-04.
+            onClick = { onGoogleAccountHandoff?.invoke() },
+            enabled = onGoogleAccountHandoff != null,
             modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
             shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(
