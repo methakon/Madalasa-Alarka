@@ -14,6 +14,53 @@ Owner request: implement **(1) admin and security, (2) parent Android core, (3) 
 | Child Android | `child` at `5bea4f4` | `ChildPairingPolicy` requires disclosure acknowledgment and six ASCII digits explicitly entered; `ChildViewModel` enforces it; unpairing resets disclosure; JUnit regression tests committed | Equivalent policy compiled and executed with `kotlinc` + `java -jar` on JDK; **Gradle Android unit/device tests NOT RUN here**. Still a synthetic enrollment service, not real pairing proof. |
 | Privacy erasure | `api` at `e5ff928` | Pure C++20 erasure coordinator state machine: request immediately denies reads; requires authority revocation then durable tombstone; generation-bound per-store receipts; cannot report completion early; restored items are suppressed; CMake test target registered | Equivalent standalone header/test verified with `g++ -std=c++20 -Wall -Wextra -Werror`: PASS. **Not wired to SQL, deletion workers, queues, APIs or backup recovery.** |
 
+## Follow-up integration changes (same day)
+
+- **Parent read-only job status:** `parent` now includes `PrivacyGateway.erasureRequests/exportRequests`, the requests-page navigation and unauthenticated negative tests. Submission buttons remain disabled.
+- **Backend authenticated request routes:** `api` now includes four POST/GET child-scoped erasure/export routes, using existing reviewed PostgreSQL request functions and request-owner RLS. **202 means accepted request, not completed processing.** See [narrow API contract supplement](NON_PAYMENT_PRIVACY_API_CONTRACT_2026-11-03.md).
+- **Branch reconciliation:** `api` was synchronized to the latest `main` as a two-parent merge commit, preserving all existing Phase 10 work while removing outdated `docs/**` differences; `dev` fast-forwarded to current documentation. Existing API PR #28 still includes Phase 10 work; do not merge billing changes without its independent tests.
+- **CI findings:** Admin web and child Android checks passed on their initial PR heads. Parent Android CI caught two outdated test expectations; those tests were updated and require a new CI pass. API full C++/PostgreSQL checks and branch-route revalidation are pending. No unsupported claim of complete E2E acceptance.
+
+## Parent verified HTTPS integration update
+
+The `parent` branch now includes `HttpsMadalasaApiClient` and a verified-session actor accessor. With a configured HTTPS API origin it uses the real V2 parent session to obtain:
+
+- GET `/v1/families`: authorized family identifiers, with server membership checks.
+- GET `/v1/families/{familyId}/children`: DB grant/RLS-filtered child list.
+- GET `/v1/children/{childId}`: exact-child existence/authority check before any location projection.
+- POST `/v1/children/{childId}/pairing-codes`: UUID idempotency key and bounded requested TTL, parsed expiration.
+
+**Missing server interface:** there is currently **no parent-facing latest-location GET handler** in the C++ server. The HTTPS client therefore returns `Freshness.UNAVAILABLE` and null latitude/longitude even after a child is authorized; `ShellScreen` explicitly renders "Location unavailable" instead of the previous synthetic `0,0` coordinates. No live location capability is claimed. A real parent location/history endpoint and legal/Android gate checks remain a separate integration task.
+
+`DefaultAppContainer` selects the live HTTPS client when an origin is configured, uses mock fixtures only in debuggable builds with no API origin and fails closed in unconfigured non-debuggable builds. Successful Google P-04 handoff reloads the real repository; an attempted child selection cannot navigate to the child shell until a scoped read succeeds. The synthetic demo is hidden in a configured Google environment.
+
+CI for these new transport/navigation changes still requires the parent Android Gradle suite and physical/HTTPS integration tests. No production account/child data was used.
+
+## Child synthetic-enrollment release fence and CI
+
+The `child` branch now contains `UnavailableAlarkaEnrollmentService` and a `DefaultChildAppContainer` injection rule: only debuggable builds instantiate `SyntheticAlarkaEnrollmentService`. Non-debuggable builds refuse pairing until Keystore-bound device proof, approved guardian authority, Android platform consent and backend enrollment are implemented and tested.
+
+`ChildViewModel` no longer labels any successful synthetic operation as a live guardian connection; unsuccessful enrollment results are not turned into success, and a failed unpair request does not wipe local UI state or falsely claim revocation. The PairingScreen identifies mock enrollment as **synthetic preview** and shows test helper codes only in debuggable builds. The release fallback has an explicit JUnit denial test.
+
+**CI checkpoint:** Admin-web synthetic checks and original child Android build/tests passed; parent Android CI (latest verified head before these doc changes) passed its compile/unit workflow including the authenticated family client. The final child-branch production-guard test run remains to be independently verified before merge. The API's M1 backend/test suite and branch-route CI passed after rebasing the effective code changes on the newer main docs; no production OAuth, actual child enrollment, HTTP-to-Postgres deletion/export or real-location endpoint has been end-to-end exercised by this record.
+
+## Blended-family and latest branch acceptance
+
+The parent repository now loads **every** server-authorized family in the verified session, rather than selecting only its first family. It rejects children with a mismatched `family_id`, clears cached child lists if any family grant refresh fails, allows an authorized adult with zero families to see an empty state, and does not expose a child screen before a fresh scoped read succeeds. `MultipleFamilyAuthorizationTest` adds two-family, sibling-leak and revoked-family tests.
+
+**Verified GitHub CI checkpoints at time of authoring:** `admin-web` local checks, synthetic admin checks and branch-governance PASS; `api` M1 API/tenant, local checks and branch-governance PASS; `child` Android build/unit, branch governance and docs structure PASS including the release synthetic-enrollment guard; `parent` Android compile/unit and branch governance PASS at prior head `34f317f`. The subsequent parent blended-family commits and tests at `21487fc` are **awaiting a fresh CI result**. Earlier parent test failures were corrected before the prior passing run; do not reuse an earlier run as evidence for an untested new head.
+
+## Latest completed CI evidence (2026-11-03)
+
+| Branch | Commit | Completed run(s) | Outcome |
+|---|---|---|---|
+| `admin-web` | `ad9932f` | [Admin synthetic](https://github.com/methakon/Madalasa-Alarka/actions/runs/41561359105), [local checks](https://github.com/methakon/Madalasa-Alarka/actions/runs/41561358994) | **PASS** |
+| `parent` | `21487fc` | [Android debug compilation/JUnit (push)](https://github.com/methakon/Madalasa-Alarka/actions/runs/41564037137), [branch governance (PR)](https://github.com/methakon/Madalasa-Alarka/actions/runs/41564127160) | **PASS**; separate PR local checks still running at inspection |
+| `child` | `74e2e89` | [Android debug compilation/JUnit](https://github.com/methakon/Madalasa-Alarka/actions/runs/41563748053), [local checks](https://github.com/methakon/Madalasa-Alarka/actions/runs/41563748094) | **PASS** |
+| `api` | `c4edf58` | [M1 API/tenant suite](https://github.com/methakon/Madalasa-Alarka/actions/runs/41562824958), [branch governance](https://github.com/methakon/Madalasa-Alarka/actions/runs/41562824924), [local checks](https://github.com/methakon/Madalasa-Alarka/actions/runs/41562824851) | **PASS** |
+
+CI is **source/build/unit/fixture verification**, not an Android parent↔child↔API real-device E2E test, penetration test, deletion backup-restoration certification, or legal/Google Play approval. Workstream PRs #28–31 remain unmerged pending integrated testing/review.
+
 ## Key fail-closed invariants
 
 - An administrator's OIDC identity alone never supplies privileges; the server authorizes current roles from a live session. The frontend keeps CSRF proof only in process memory; the admin logout button invokes the server logout route and does not silently claim success.
