@@ -58,11 +58,21 @@ inline drogon::Task<drogon::HttpResponsePtr> list_children(
       rollback_quietly(transaction);
       co_return error_response("NOT_FOUND", "family not found", rid);
     }
-    // children_r uses BOTH family context and a live per-child
-    // VIEW_CHILD_PROFILE grant. No broader membership-only listing.
+    // Normal child rows preserve strict VIEW_CHILD_PROFILE RLS. The second
+    // branch contains only registrations personally created by the bound
+    // adult in that family, not other ungranted siblings. It conveys queue
+    // status without adding a permissive policy to ap_m1.children.
     auto result = co_await transaction->execSqlCoro(
-        "SELECT id::text AS id, family_id::text AS family_id, alias, state "
-        "FROM ap_m1.children ORDER BY id");
+        "SELECT c.id::text AS id,c.family_id::text AS family_id,c.alias,c.state,"
+        " a.service_state,a.queue_position,a.max_children "
+        "FROM ap_m1.children c "
+        "LEFT JOIN LATERAL ap_m1.free_child_admission_status(c.id) a ON true "
+        "UNION ALL "
+        "SELECT r.id::text,r.family_id::text,r.alias,r.state,"
+        " r.service_state,r.queue_position,r.max_children "
+        "FROM ap_m1.my_free_registration_profiles($1::uuid) r "
+        "WHERE NOT EXISTS (SELECT 1 FROM ap_m1.children c WHERE c.id=r.id) "
+        "ORDER BY id",*family_id);
     Json::Value body(Json::objectValue);
     body["items"] = Json::Value(Json::arrayValue);
     for (const auto& record : result) {
@@ -71,6 +81,16 @@ inline drogon::Task<drogon::HttpResponsePtr> list_children(
       child["family_id"] = record["family_id"].as<std::string>();
       child["alias"] = record["alias"].as<std::string>();
       child["state"] = record["state"].as<std::string>();
+      child["free_service_state"] = record["service_state"].isNull()
+          ? "UNAVAILABLE" : record["service_state"].as<std::string>();
+      child["queue_position"] = record["queue_position"].isNull()
+          ? Json::Value(Json::nullValue)
+          : Json::Value(static_cast<Json::Int64>(record["queue_position"].as<long long>()));
+      child["slot_limit"] = record["max_children"].isNull()
+          ? 108 : record["max_children"].as<int>();
+      child["service_message"]=child["free_service_state"]=="WAITLISTED"
+          ? "You are in the service queue. Your child's free services will start when a slot becomes available."
+          : "";
       body["items"].append(child);
     }
     rollback_quietly(transaction);  // closes read snapshot and any temporary principal
