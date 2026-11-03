@@ -11,6 +11,8 @@ interface MadalasaApiClient {
     suspend fun getChildren(familyId: String): Result<List<ChildSummaryResponse>>
     suspend fun getChildLocation(childId: String): Result<VerifiedLocationState>
     suspend fun createPairingCode(childId: String): Result<PairingCodeResponse>
+    suspend fun createFamily(label: String): Result<String> = Result.failure(IllegalStateException("Family creation unavailable"))
+    suspend fun createChild(familyId: String, alias: String): Result<ChildSummaryResponse> = Result.failure(IllegalStateException("Child registration unavailable"))
 }
 
 data class ParentProfileResponse(
@@ -21,7 +23,10 @@ data class ParentProfileResponse(
 data class ChildSummaryResponse(
     val id: String,
     val familyId: String,
-    val alias: String
+    val alias: String,
+    val freeServiceState: String = "UNAVAILABLE",
+    val queuePosition: Long? = null,
+    val slotLimit: Int = 108
 )
 
 data class PairingCodeResponse(
