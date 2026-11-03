@@ -71,6 +71,41 @@ class FreeAdmissionTests(unittest.TestCase):
             db.rollback()
             db.close()
 
+    def test_self_registration_receipt_preserves_original_child_scope_rls(self):
+        # Unconsented child can be confirmed only to its actual registrant.
+        # Do not widen ordinary children SELECT to family owners.
+        from fixtures import seed_core, runtime_connection, as_parent
+        f = seed_core()
+        with runtime_connection() as db:
+            as_parent(db, f['a'], f['family_a'])
+            new_id = db.execute(
+                "SELECT ap_m1.create_child(%s)", ('synthetic pending registration',)
+            ).fetchone()[0]
+            # RLS remains strict before consent/child-specific grant.
+            self.assertEqual(db.execute(
+                "SELECT count(*) FROM ap_m1.children WHERE id=%s", (new_id,)
+            ).fetchone()[0], 0)
+            receipt = db.execute(
+                "SELECT service_state FROM ap_m1.my_free_registration_profiles(%s) WHERE id=%s",
+                (f['family_a'],new_id)
+            ).fetchone()
+            self.assertIsNotNone(receipt)
+            self.assertIn(receipt[0], ('ADMITTED','WAITLISTED'))
+            # A different family selector must not expose the receipt.
+            self.assertEqual(db.execute(
+                "SELECT count(*) FROM ap_m1.my_free_registration_profiles(%s)",
+                (f['family_b'],)
+            ).fetchone()[0],0)
+            db.rollback()
+
+    def test_existing_child_select_rls_was_never_broadened(self):
+        with admin_connection() as db:
+            rows=db.execute(
+                "SELECT policyname FROM pg_policies "
+                "WHERE schemaname='ap_m1' AND tablename='children'"
+            ).fetchall()
+            self.assertNotIn('free_queue_owner_child_profile',[x[0] for x in rows])
+
     def test_denied_or_missing_children_never_have_slots(self):
         with admin_connection() as db:
             self.assertFalse(db.execute(
