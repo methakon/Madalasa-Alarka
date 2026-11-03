@@ -58,14 +58,21 @@ inline drogon::Task<drogon::HttpResponsePtr> list_children(
       rollback_quietly(transaction);
       co_return error_response("NOT_FOUND", "family not found", rid);
     }
-    // children_r uses BOTH family context and a live per-child
-    // VIEW_CHILD_PROFILE grant. No broader membership-only listing.
+    // Normal child rows preserve strict VIEW_CHILD_PROFILE RLS. The second
+    // branch contains only registrations personally created by the bound
+    // adult in that family, not other ungranted siblings. It conveys queue
+    // status without adding a permissive policy to ap_m1.children.
     auto result = co_await transaction->execSqlCoro(
         "SELECT c.id::text AS id,c.family_id::text AS family_id,c.alias,c.state,"
         " a.service_state,a.queue_position,a.max_children "
         "FROM ap_m1.children c "
         "LEFT JOIN LATERAL ap_m1.free_child_admission_status(c.id) a ON true "
-        "ORDER BY c.id");
+        "UNION ALL "
+        "SELECT r.id::text,r.family_id::text,r.alias,r.state,"
+        " r.service_state,r.queue_position,r.max_children "
+        "FROM ap_m1.my_free_registration_profiles($1::uuid) r "
+        "WHERE NOT EXISTS (SELECT 1 FROM ap_m1.children c WHERE c.id=r.id) "
+        "ORDER BY id",*family_id);
     Json::Value body(Json::objectValue);
     body["items"] = Json::Value(Json::arrayValue);
     for (const auto& record : result) {
