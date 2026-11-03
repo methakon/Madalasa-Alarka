@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- DEBUG/INTERNAL TEST ONLY. Never merge these location permissions into
+       free public release until Play Families + monitoring + India legal signoff.
+       Android 10–16 tests use real OS permission UX with synthetic/adult fixtures. -->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+  <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
   <application>
-    <!-- Debug only; deliberately absent from release manifest. -->
     <activity android:name=".DesignPreviewActivity"
       android:label="Screen design previews (debug)"
       android:exported="true" />
+    <!-- Visible test notification only. This class DOES NOT read GPS or upload. -->
+    <service
+      android:name=".service.VisibleLocationTestService"
+      android:exported="false"
+      android:stopWithTask="true"
+      android:foregroundServiceType="location"/>
   </application>
 </manifest>
