@@ -4,7 +4,9 @@
 
 The detailed engineering checkpoints, edge-case acceptance matrix and customer-facing alternate copy are recorded in [the 108-child implementation supplement](FREE_FIRST_108_CHILD_RELEASE_ROADMAP_2026-11-03.md). This page remains the release-sequencing source of truth.
 
-## Child app is fully free; activation is parent-pairing-dependent (owner decision 2026-11-03)
+## Child app is fully free; activation is parent-pairing-dependent
+
+> **QR PRIMARY DESIGN (2026-11-03):** Alarka displays a short-lived server-issued invitation QR; Madalasa scans and a guardian explicitly approves. The 10-character one-time code remains a fallback. The backend enforces one active child device using additive V2 migration 0024, with minimized device-specification audit and privacy erasure. QR issuance/claim/polling and scanner UI are **not yet live**; see [QR pairing contract](QR_PAIRING_SINGLE_DEVICE_2026-11-03.md) and [editable QR storyboard](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=177-3). (owner decision 2026-11-03)
 
 **Mandatory architecture boundary:** Alarka is a full, separately installable **free** Android child companion. Implement every compliant child-side screen, device integration, safety function and back-end protocol planned for the release; do **not** delete, defer, stub or paywall child-app engineering merely because billing is delayed. A child can download/install/open Alarka without a subscription, credit card or active parent device, and can view public setup, disclosure, privacy/permissions information, support and device compatibility locally.
 
