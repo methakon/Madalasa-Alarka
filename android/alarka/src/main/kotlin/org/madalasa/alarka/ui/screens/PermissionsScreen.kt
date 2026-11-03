@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.madalasa.alarka.service.AndroidLocationSetupPlan
+import org.madalasa.alarka.service.LocationSetupAction
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.uicommon.APButton
 import org.madalasa.uicommon.APTopBar
@@ -31,6 +33,13 @@ fun PermissionsScreen(
     onRefresh: () -> Unit,
     onViewCapabilityGuide: () -> Unit,
     onViewPrivacy: () -> Unit,
+    permissionPlan: AndroidLocationSetupPlan? = null,
+    onRequestForegroundLocation: () -> Unit = {},
+    onRequestBackgroundLocation: () -> Unit = {},
+    onRequestNotifications: () -> Unit = {},
+    onOpenLocationSettings: () -> Unit = {},
+    onOpenAppSettings: () -> Unit = {},
+    onOpenNotificationSettings: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -123,6 +132,68 @@ fun PermissionsScreen(
                     status = "Strictly Prohibited",
                     color = ThemeCColors.Leaf
                 )
+            }
+        }
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = ThemeCColors.Surface)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text("Android 10–16 compatibility result",
+                    style = MaterialTheme.typography.titleMedium)
+                Text(
+                    permissionPlan?.action?.name?.replace('_', ' ') ?: "Not evaluated",
+                    color = ThemeCColors.Indigo
+                )
+                Text(
+                    permissionPlan?.explanation
+                        ?: "Refresh local status and verify parent authorization.",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    "Monitoring does not start from this screen. A valid parent pairing, " +
+                        "admitted child slot, lawful consent, Android grants and a visible " +
+                        "ongoing notification are separately required.",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                when (permissionPlan?.action) {
+                    LocationSetupAction.REQUEST_FOREGROUND_LOCATION ->
+                        OutlinedButton(
+                            onClick = onRequestForegroundLocation,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Request location while using the app") }
+                    LocationSetupAction.REQUEST_BACKGROUND_LOCATION_ANDROID_10 ->
+                        OutlinedButton(
+                            onClick = onRequestBackgroundLocation,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Request background location separately") }
+                    LocationSetupAction.OPEN_BACKGROUND_LOCATION_SETTINGS,
+                    LocationSetupAction.MANIFEST_NOT_READY ->
+                        OutlinedButton(
+                            onClick = onOpenAppSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Review Android app settings") }
+                    LocationSetupAction.REQUEST_NOTIFICATION_PERMISSION ->
+                        OutlinedButton(
+                            onClick = onRequestNotifications,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Request monitoring notification permission") }
+                    LocationSetupAction.ENABLE_SYSTEM_LOCATION ->
+                        OutlinedButton(
+                            onClick = onOpenLocationSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Open Android location settings") }
+                    LocationSetupAction.OPEN_NOTIFICATION_SETTINGS ->
+                        OutlinedButton(
+                            onClick = onOpenNotificationSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Open Android notification settings") }
+                    else -> Unit
+                }
             }
         }
 
