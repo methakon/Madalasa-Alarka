@@ -208,7 +208,7 @@ class HttpsMadalasaApiClient(
                             androidApi = if (device.isNull("android_api")) null else device.getInt("android_api"),
                             appVersion = device.getString("app_version").take(60),
                             pairingMethod = device.getString("pairing_method"),
-                            pairedAt = device.optString("paired_at").ifBlank { null }
+                            pairedAt = device.optString("paired_at").takeIf { it.isNotBlank() }
                         )
                     }
                     else -> throw SecurityException("Unverified device pairing state")
