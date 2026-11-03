@@ -62,3 +62,9 @@ All eight API levels are explicitly covered by `Android10To16PermissionPlanTest`
 - https://support.google.com/googleplay/android-developer/answer/12955211
 
 **Verdict:** Android 10–16 capability/preflight and safe permission UI implementation progressing on `child`; as of this revision **free version with live child tracking is NOT deployable to the public Play Store**. Signed AAB, production backend and actual permissions/approval remain necessary.
+
+## Verified GitHub CI checkpoint (2026-11-03)
+
+- Child branch `1d5121e`: [Android compilation and JVM tests PASS](https://github.com/methakon/Madalasa-Alarka/actions/runs/41694371449), [local checks PASS](https://github.com/methakon/Madalasa-Alarka/actions/runs/41694371341). Includes OS API 29–36 matrix, permission UI and debug-only visible FGS test scaffold.
+- API branch `1bb3afc`: [M1 API/tenant workflow PASS](https://github.com/methakon/Madalasa-Alarka/actions/runs/41694949726), including C++ build, PostgreSQL V2 migrations, tenant isolation and ParentOIDC session HTTP E2E. New device consent response reports child-slot admission but still has `collection_authorized=false`.
+- These results **do not** prove physical-device Android 10–16 compatibility, an operational tracking service, a signed production AAB, Play approval, or live/real-child rollout. The associated PRs are still subject to review and merge.
