@@ -94,7 +94,7 @@ class MigrationLineages(unittest.TestCase):
                          ['common:0001'] + ['m1:%04d' % n for n in range(2, 7)])
         clean = manage.migration_plan(entries, 'v2')
         self.assertEqual([e['id'] for e in clean], ['common:0001'] + ['v2:%04d' % n for n in range(2, 17)]
-                         + ['compat:m1_pre_v2_0017'] + ['v2:%04d' % n for n in range(17, 24)])
+                         + ['compat:m1_pre_v2_0017'] + ['v2:%04d' % n for n in range(17, 25)])
         self.assertEqual([e['id'] for e in manage.migration_plan(entries, 'v2', through='0001')], ['common:0001'])
 
     def entries(self):
@@ -115,7 +115,7 @@ class MigrationLineages(unittest.TestCase):
     def test_m1_upgrade_order_and_downgrade_block(self):
         applied = manage.validate_migration_history(self.entries(), self.rows(['common:0001','m1:0002','m1:0003','m1:0004']), [])
         plan = [e['id'] for e in manage.migration_plan(self.entries(), applied=applied)]
-        self.assertEqual(plan[-9:], ['v2:0016', 'compat:m1_pre_v2_0017', 'v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022', 'v2:0024'])
+        self.assertEqual(plan[-10:], ['v2:0016', 'compat:m1_pre_v2_0017', 'v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022', 'v2:0023', 'v2:0024'])
         self.assertEqual([e['id'] for e in manage.migration_plan(self.entries(), applied={
             'common:0001','m1:0002','m1:0003','m1:0004'})][:4],
             ['common:0001', 'm1:0005', 'm1:0006', 'v2:0002'])
