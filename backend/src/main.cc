@@ -31,6 +31,7 @@
 #include "privacy_request_endpoints.h"
 #include "release_profile.h"
 #include "free_location_reads.h"
+#include "child_device_pairing_status.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -369,6 +370,11 @@ int main() {
 
   }
 
+  app().registerHandler(
+      "/v1/children/{childId}/paired-device",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::child_pairing_status(std::move(req),std::move(childId),parent);
+      },{Get});
   app().registerHandler(
       "/v1/children/{childId}/location/latest",
       [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
