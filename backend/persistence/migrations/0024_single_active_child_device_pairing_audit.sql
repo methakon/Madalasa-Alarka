@@ -137,3 +137,34 @@ ON CONFLICT(device_id) DO NOTHING;
 
 -- No direct SELECT/UPDATE privileges for ap_m1_api or arbitrary guardians.
 -- Key fingerprint and model are informational; QR nonce is never stored here.
+
+-- Security-definer read for the guardian pairing endpoint; never expose
+-- raw devices to an arbitrary parent or trust client-side cached state.
+CREATE FUNCTION ap_m1.child_has_live_alarka_device(p_child uuid) RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
+ SELECT EXISTS(
+   SELECT 1 FROM ap_m1.devices
+   WHERE child_id=p_child AND enrollment_state='ACTIVE' AND revoked_at IS NULL
+ )
+$fn$;
+ALTER FUNCTION ap_m1.child_has_live_alarka_device(uuid) OWNER TO ap_m1_auth;
+REVOKE ALL ON FUNCTION ap_m1.child_has_live_alarka_device(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION ap_m1.child_has_live_alarka_device(uuid) TO ap_m1_api;
+
+-- Minimized parent-facing device detail: exact-child guardian scope, no
+-- secrets, no raw SPKI, no IMEI/serial or credential token.
+CREATE FUNCTION ap_m1.child_active_device_summary(p_child uuid)
+RETURNS TABLE(device_id uuid,manufacturer text,model text,android_api integer,
+              app_version text,method text,paired_at timestamptz)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
+ SELECT d.id,d.reported_manufacturer,d.reported_model,d.reported_android_api,
+        d.reported_app_version,d.pairing_method,l.paired_at
+ FROM ap_m1.devices d
+ LEFT JOIN ap_m1.child_device_pairing_log l ON l.device_id=d.id
+ WHERE d.child_id=p_child AND d.enrollment_state='ACTIVE' AND d.revoked_at IS NULL
+   AND ap_m1.has_child_scope_v2(p_child,'VIEW_CHILD_PROFILE')
+ ORDER BY d.created_at DESC LIMIT 1
+$fn$;
+ALTER FUNCTION ap_m1.child_active_device_summary(uuid) OWNER TO ap_m1_auth;
+REVOKE ALL ON FUNCTION ap_m1.child_active_device_summary(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION ap_m1.child_active_device_summary(uuid) TO ap_m1_api;
