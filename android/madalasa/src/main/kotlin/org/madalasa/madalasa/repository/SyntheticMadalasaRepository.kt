@@ -27,6 +27,18 @@ class SyntheticMadalasaRepository(
     private val _selectedChildLocation = MutableStateFlow<VerifiedLocationState?>(null)
     override val selectedChildLocation: StateFlow<VerifiedLocationState?> = _selectedChildLocation.asStateFlow()
 
+    // Client-side guard prevents stale/sibling preview data. Backend child grants/RLS
+    // remain authoritative; this is NOT a substitute for checking them on the server.
+    private fun selectedChildAllowed(id: String): Boolean =
+        _children.value.any { child ->
+            child.id == id && _profile.value?.familyIds?.contains(child.familyId) == true
+        }
+
+    private fun clearSelectedChild() {
+        _selectedChildId.value = null
+        _selectedChildLocation.value = null
+    }
+
     override suspend fun refreshProfile(): Result<Unit> {
         val result = apiClient.getMe()
         return if (result.isSuccess) {
@@ -34,35 +46,60 @@ class SyntheticMadalasaRepository(
             refreshChildren()
             Result.success(Unit)
         } else {
+            _profile.value = null
+            _children.value = emptyList()
+            clearSelectedChild()
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown profile error"))
         }
     }
 
     override suspend fun refreshChildren(): Result<Unit> {
-        val familyId = _profile.value?.familyIds?.firstOrNull() ?: "00000000-0000-0000-0000-00000000000a"
+        val familyId = _profile.value?.familyIds?.firstOrNull()
+            ?: run {
+                _children.value = emptyList()
+                clearSelectedChild()
+                return Result.failure(IllegalStateException("Verified family context unavailable"))
+            }
         val result = apiClient.getChildren(familyId)
         return if (result.isSuccess) {
             val list = result.getOrDefault(emptyList())
-            _children.value = list
-            if (_selectedChildId.value == null && list.isNotEmpty()) {
-                selectChild(list.first().id)
+            // Never retain a previously selected child after their grant disappears.
+            _children.value = list.filter { it.familyId in (_profile.value?.familyIds ?: emptyList()) }
+            if (_selectedChildId.value != null && !selectedChildAllowed(_selectedChildId.value!!)) {
+                clearSelectedChild()
+            }
+            if (_selectedChildId.value == null && _children.value.isNotEmpty()) {
+                selectChild(_children.value.first().id)
             }
             Result.success(Unit)
         } else {
+            _children.value = emptyList()
+            clearSelectedChild()
             Result.failure(result.exceptionOrNull() ?: Exception("Unknown children error"))
         }
     }
 
     override suspend fun selectChild(childId: String): Result<Unit> {
-        _selectedChildId.value = childId
-        val locResult = apiClient.getChildLocation(childId)
-        if (locResult.isSuccess) {
-            _selectedChildLocation.value = locResult.getOrNull()
+        if (!selectedChildAllowed(childId)) {
+            clearSelectedChild()
+            return Result.failure(SecurityException("Child is absent from the authorized family list"))
         }
+        // Clear before IO so an old child's coordinates are never rendered with a new label.
+        clearSelectedChild()
+        val locResult = apiClient.getChildLocation(childId)
+        if (locResult.isFailure) {
+            return Result.failure(locResult.exceptionOrNull()
+                ?: IllegalStateException("Child location is unavailable"))
+        }
+        _selectedChildId.value = childId
+        _selectedChildLocation.value = locResult.getOrNull()
         return Result.success(Unit)
     }
 
     override suspend fun generatePairingCode(childId: String): Result<String> {
+        if (!selectedChildAllowed(childId)) {
+            return Result.failure(SecurityException("Pairing requires an authorized child"))
+        }
         val result = apiClient.createPairingCode(childId)
         return if (result.isSuccess) {
             Result.success(result.getOrThrow().pairingCode)
