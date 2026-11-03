@@ -55,9 +55,11 @@ class ParentViewModel(
         }
     }
 
-    fun selectChild(childId: String) {
+    fun selectChild(childId: String, onAuthorized: () -> Unit = {}) {
         viewModelScope.launch {
-            repository.selectChild(childId)
+            // Do not navigate or present a child screen if the network/RLS
+            // re-check failed (including a revoked or expired child grant).
+            if (repository.selectChild(childId).isSuccess) onAuthorized()
         }
     }
 
