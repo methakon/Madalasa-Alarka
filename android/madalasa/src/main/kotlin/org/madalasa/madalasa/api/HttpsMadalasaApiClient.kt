@@ -189,6 +189,33 @@ class HttpsMadalasaApiClient(
             }
         }
 
+    override suspend fun getPairedChildDevice(childId: String): Result<PairedChildDevice?> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val child = exactId(childId)
+                val body = request("/v1/children/" + child + "/paired-device")
+                check(exactId(body.getString("child_id")) == child) {
+                    "Pairing status belongs to another child"
+                }
+                when (body.getString("state")) {
+                    "UNPAIRED" -> null
+                    "PAIRED" -> {
+                        val device = body.getJSONObject("device")
+                        PairedChildDevice(
+                            id = exactId(device.getString("device_id")),
+                            manufacturer = device.getString("manufacturer").take(80),
+                            model = device.getString("model").take(120),
+                            androidApi = if (device.isNull("android_api")) null else device.getInt("android_api"),
+                            appVersion = device.getString("app_version").take(60),
+                            pairingMethod = device.getString("pairing_method"),
+                            pairedAt = device.optString("paired_at").ifBlank { null }
+                        )
+                    }
+                    else -> throw SecurityException("Unverified device pairing state")
+                }
+            }
+        }
+
     override suspend fun createPairingCode(childId: String): Result<PairingCodeResponse> =
         withContext(Dispatchers.IO) {
             runCatching {
