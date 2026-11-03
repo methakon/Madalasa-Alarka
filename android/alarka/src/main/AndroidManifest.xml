@@ -13,6 +13,9 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <!-- Explicit Play designation. Location collection remains unavailable
+             until Families target-audience review and OS/Play permission gates. -->
+        <meta-data android:name="isMonitoringTool" android:value="child_monitoring" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
