@@ -19,4 +19,6 @@ interface MadalasaRepository {
     suspend fun refreshChildren(): Result<Unit>
     suspend fun selectChild(childId: String): Result<Unit>
     suspend fun generatePairingCode(childId: String): Result<String>
+    suspend fun registerChild(familyLabel: String, alias: String): Result<ChildSummaryResponse> =
+        Result.failure(IllegalStateException("Child signup unavailable"))
 }
