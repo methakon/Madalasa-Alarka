@@ -123,6 +123,12 @@ fun MadalasaNavHost(
                     viewModel.registerChild(familyLabel,childAlias,onResult)
                 },
                 onRefreshServiceStatus = { viewModel.loadData() },
+                onViewPairedDevice = { onResult ->
+                    val currentId = uiState.selectedChildId
+                        ?: uiState.children.firstOrNull { it.freeServiceState == "ADMITTED" }?.id
+                    if (currentId == null) onResult("No admitted child profile available")
+                    else viewModel.checkPairedDevice(currentId, onResult)
+                },
                 onPairNewChild = { onCode, onError ->
                     val currentId = uiState.selectedChildId
                         ?: uiState.children.firstOrNull { it.freeServiceState == "ADMITTED" }?.id
