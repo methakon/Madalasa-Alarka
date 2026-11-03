@@ -10,6 +10,7 @@
 #include "db_support.h"
 #include "http_support.h"
 #include "idempotency_key.h"
+#include "privacy_endpoints.h"
 
 namespace ma {
 
