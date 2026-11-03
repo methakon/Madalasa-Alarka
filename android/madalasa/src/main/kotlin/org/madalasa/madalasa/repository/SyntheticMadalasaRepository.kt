@@ -89,10 +89,8 @@ class SyntheticMadalasaRepository(
             !selectedChildAllowed(_selectedChildId.value!!)) {
             clearSelectedChild()
         }
-        val firstAdmitted=_children.value.firstOrNull { it.freeServiceState == "ADMITTED" }
-        if (_selectedChildId.value == null && firstAdmitted != null) {
-            return selectChild(firstAdmitted.id)
-        }
+        // Signup and waitlist review must not require location authorization.
+        // A parent explicitly selects a child after consent/device setup.
         return Result.success(Unit)
     }
 
