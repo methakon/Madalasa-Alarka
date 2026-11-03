@@ -174,6 +174,12 @@
       "path": "backend/persistence/migrations/0022_admin_session_bridge_and_back_office.sql",
       "sha256": "dcc7fcee66c1707478e65c850ba36d150da649440a71e7956fcba5f88b5e7d49",
       "published": true
+    },
+    {
+      "id": "v2:0023",
+      "path": "backend/persistence/migrations/0023_free_first_108_child_admission.sql",
+      "sha256": "77304e31557f6f313aad983909cf1ba7cd1c9109d5433c114ac9c935caa7ce6a",
+      "published": false
     }
   ]
 }
