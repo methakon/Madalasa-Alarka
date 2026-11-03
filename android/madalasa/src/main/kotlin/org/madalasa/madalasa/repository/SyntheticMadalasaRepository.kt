@@ -121,6 +121,13 @@ class SyntheticMadalasaRepository(
         return created
     }
 
+    override suspend fun getPairedDevice(childId: String): Result<org.madalasa.madalasa.api.PairedChildDevice?> {
+        val allowed = _children.value.any { it.id == childId &&
+            _profile.value?.familyIds?.contains(it.familyId) == true }
+        if (!allowed) return Result.failure(SecurityException("Child is not in the verified family list"))
+        return apiClient.getPairedChildDevice(childId)
+    }
+
     override suspend fun generatePairingCode(childId: String): Result<String> {
         if (!selectedChildAllowed(childId)) {
             return Result.failure(SecurityException("Pairing requires an authorized child"))
