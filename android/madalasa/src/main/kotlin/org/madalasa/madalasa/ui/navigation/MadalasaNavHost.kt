@@ -1,5 +1,7 @@
 package org.madalasa.madalasa.ui.navigation
 
+import android.content.pm.ApplicationInfo
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,6 +40,10 @@ fun MadalasaNavHost(
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val syntheticPreviewEnabled =
+        context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 &&
+            googleConfiguration.normalizedOrigin() == null
 
     NavHost(
         navController = navController,
@@ -60,7 +66,7 @@ fun MadalasaNavHost(
 
         composable(Screen.Authentication.route) {
             AuthenticationScreen(
-                onAuthenticated = if (googleConfiguration.isConfigured()) null else ({
+                onAuthenticated = if (!syntheticPreviewEnabled) null else ({
                     // Synthetic preview is never reachable from configured
                     // OIDC/backend environments or a non-debuggable release.
                     viewModel.loadData()
@@ -105,7 +111,7 @@ fun MadalasaNavHost(
         composable(Screen.ChildSelection.route) {
             ChildSelectionScreen(
                 uiState = uiState,
-                syntheticPreview = !googleConfiguration.isConfigured(),
+                syntheticPreview = syntheticPreviewEnabled,
                 onChildSelected = { childId ->
                     // Navigate only after this specific child has passed a
                     // fresh authenticated, server-scoped repository read.
