@@ -6,7 +6,9 @@ Launch a **free-only public build first**. Keep all previously built billing, 48
 
 The free entitlement remains **live last-known location** (moving collection target 10–15 minutes, not an Android timing promise), **most recent six hours of visible history**, and essential authenticated guardian/privacy controls. Six hours is NOT a data-retention schedule. No trial, paid history, live media, remote microphone/camera/screen or payment transaction is available in this release. SOS and app-usage monitoring are separately compliance-gated, not silently activated by this free entitlement.
 
-## Child app is fully free; activation is parent-pairing-dependent (owner decision 2026-11-03)
+## Child app is fully free; activation is parent-pairing-dependent
+
+> **QR PAIRING DESIGN:** Primary user journey is child-displayed, server-issued short-lived QR → parent-scan → approved child binding → Keystore P-256 proof → one active device and audit metadata. Legacy 10-character code is fallback. The QR handshake is **not yet implemented**, despite V2:0024 active-device uniqueness and audit source. See [QR pairing contract](QR_PAIRING_SINGLE_DEVICE_2026-11-03.md). (owner decision 2026-11-03)
 
 **Mandatory architecture boundary:** Alarka is a full, separately installable **free** Android child companion. Implement every compliant child-side screen, device integration, safety function and back-end protocol planned for the release; do **not** delete, defer, stub or paywall child-app engineering merely because billing is delayed. A child can download/install/open Alarka without a subscription, credit card or active parent device, and can view public setup, disclosure, privacy/permissions information, support and device compatibility locally.
 
