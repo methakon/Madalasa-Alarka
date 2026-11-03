@@ -37,7 +37,7 @@ import org.madalasa.madalasa.ui.viewmodel.ParentUiState
 fun ChildSelectionScreen(
     uiState: ParentUiState,
     onChildSelected: (String) -> Unit,
-    onPairNewChild: () -> Unit,
+    onPairNewChild: (onCode: (String) -> Unit, onError: (String) -> Unit) -> Unit,
     onRefreshServiceStatus: () -> Unit = {},
     onRegisterChild: (familyLabel: String, childAlias: String, onResult: (String) -> Unit) -> Unit = { _, _, _ -> },
     syntheticPreview: Boolean = false
@@ -188,12 +188,31 @@ fun ChildSelectionScreen(
             Spacer(modifier = Modifier.height(8.dp))
         }
         Button(
-            onClick = onPairNewChild,
+            onClick = {
+                generatedCode = null
+                registrationMessage = ""
+                onPairNewChild(
+                    { code -> generatedCode = code },
+                    { message -> registrationMessage = message }
+                )
+            },
             enabled=availableChildren.isNotEmpty(),
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = ThemeCTokens.DeepIndigo)
         ) {
             Text("+ Pair New Companion Device", color = ThemeCTokens.Parchment)
+        }
+        if (generatedCode != null) {
+            Text(
+                "Parent-issued pairing code: ${generatedCode}",
+                fontWeight = FontWeight.Bold,
+                color = ThemeCTokens.DeepIndigo
+            )
+            Text(
+                "Enter this one-time code in Alarka on the child's phone. It expires shortly. Pairing alone does not start monitoring.",
+                color = ThemeCTokens.MutedText,
+                fontSize = 12.sp
+            )
         }
     }
 }
