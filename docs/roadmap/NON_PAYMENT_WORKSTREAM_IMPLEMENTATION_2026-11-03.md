@@ -50,6 +50,17 @@ The parent repository now loads **every** server-authorized family in the verifi
 
 **Verified GitHub CI checkpoints at time of authoring:** `admin-web` local checks, synthetic admin checks and branch-governance PASS; `api` M1 API/tenant, local checks and branch-governance PASS; `child` Android build/unit, branch governance and docs structure PASS including the release synthetic-enrollment guard; `parent` Android compile/unit and branch governance PASS at prior head `34f317f`. The subsequent parent blended-family commits and tests at `21487fc` are **awaiting a fresh CI result**. Earlier parent test failures were corrected before the prior passing run; do not reuse an earlier run as evidence for an untested new head.
 
+## Latest completed CI evidence (2026-11-03)
+
+| Branch | Commit | Completed run(s) | Outcome |
+|---|---|---|---|
+| `admin-web` | `ad9932f` | [Admin synthetic](https://github.com/methakon/Madalasa-Alarka/actions/runs/41561359105), [local checks](https://github.com/methakon/Madalasa-Alarka/actions/runs/41561358994) | **PASS** |
+| `parent` | `21487fc` | [Android debug compilation/JUnit (push)](https://github.com/methakon/Madalasa-Alarka/actions/runs/41564037137), [branch governance (PR)](https://github.com/methakon/Madalasa-Alarka/actions/runs/41564127160) | **PASS**; separate PR local checks still running at inspection |
+| `child` | `74e2e89` | [Android debug compilation/JUnit](https://github.com/methakon/Madalasa-Alarka/actions/runs/41563748053), [local checks](https://github.com/methakon/Madalasa-Alarka/actions/runs/41563748094) | **PASS** |
+| `api` | `c4edf58` | [M1 API/tenant suite](https://github.com/methakon/Madalasa-Alarka/actions/runs/41562824958), [branch governance](https://github.com/methakon/Madalasa-Alarka/actions/runs/41562824924), [local checks](https://github.com/methakon/Madalasa-Alarka/actions/runs/41562824851) | **PASS** |
+
+CI is **source/build/unit/fixture verification**, not an Android parent↔child↔API real-device E2E test, penetration test, deletion backup-restoration certification, or legal/Google Play approval. Workstream PRs #28–31 remain unmerged pending integrated testing/review.
+
 ## Key fail-closed invariants
 
 - An administrator's OIDC identity alone never supplies privileges; the server authorizes current roles from a live session. The frontend keeps CSRF proof only in process memory; the admin logout button invokes the server logout route and does not silently claim success.
