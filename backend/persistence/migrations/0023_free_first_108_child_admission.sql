@@ -2,13 +2,13 @@
 -- Additive release policy; existing billing/trial/media tables are retained.
 -- Runner owns migration transaction. All uses are synthetic pending legal/Play signoff.
 CREATE TABLE ap_m1.free_child_admissions (
- child_id uuid PRIMARY KEY REFERENCES ap_m1.children(id),
+ child_id uuid PRIMARY KEY REFERENCES ap_m1.children(id) ON DELETE CASCADE,
  family_id uuid NOT NULL,
  admission_state text NOT NULL CHECK(admission_state IN ('ADMITTED','WAITLISTED','RELEASED')),
  queued_at timestamptz NOT NULL DEFAULT clock_timestamp(),
  admitted_at timestamptz,
  released_at timestamptz,
- FOREIGN KEY(family_id,child_id) REFERENCES ap_m1.children(family_id,id),
+ FOREIGN KEY(family_id,child_id) REFERENCES ap_m1.children(family_id,id) ON DELETE CASCADE,
  CHECK ((admission_state='ADMITTED' AND admitted_at IS NOT NULL AND released_at IS NULL) OR
         (admission_state='WAITLISTED' AND admitted_at IS NULL AND released_at IS NULL) OR
         (admission_state='RELEASED' AND released_at IS NOT NULL))
