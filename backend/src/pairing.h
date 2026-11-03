@@ -137,6 +137,18 @@ inline drogon::Task<drogon::HttpResponsePtr> issue_pairing_code(
       co_return error_response("INTERNAL_ERROR", "unexpected server error", rid);
     }
 
+    // Fail early on a second active device: only an explicit parent-approved
+    // revocation/replacement can release the current child's device binding.
+    // PostgreSQL's unique partial index also blocks racing activation paths.
+    auto occupied = co_await trans->execSqlCoro(
+        "SELECT ap_m1.child_has_live_alarka_device($1::uuid) AS occupied",
+        *normalized_child);
+    if (!occupied.empty() && occupied.at(0)["occupied"].as<bool>()) {
+      rollback_quietly(trans);
+      co_return error_response(
+          "CONFLICT", "a child device is already paired; revoke it before replacing", rid);
+    }
+
     // Check if an unexpired unconsumed code already exists (409 Conflict)
     auto active_res = co_await trans->execSqlCoro(
         "SELECT id::text AS id FROM ap_m1.pairing_codes "
