@@ -172,6 +172,28 @@ fun MadalasaNavHost(
                                 }
                             )
                         }
+                        ParentPrivacyPage.REQUESTS -> {
+                            apiStatus = "Loading authenticated privacy request status"
+                            val erasures = privacyGateway.erasureRequests(selectedChildId)
+                            val exports = privacyGateway.exportRequests(selectedChildId)
+                            if (erasures.isSuccess && exports.isSuccess) {
+                                val jobs = erasures.getOrThrow() + exports.getOrThrow()
+                                rows = if (jobs.isEmpty()) listOf(
+                                    ParentPrivacyRow("No privacy requests",
+                                        "No verified deletion or export request was returned for this child.")
+                                ) else jobs.map { job ->
+                                    ParentPrivacyRow(
+                                        "${job.kind} · ${job.state}",
+                                        "Request ${job.requestId.take(8)}… · ${job.requestedAt.ifBlank { "Time unavailable" }}"
+                                    )
+                                }
+                                apiStatus = "SERVER VERIFIED · request status only; deletion not assumed complete"
+                            } else {
+                                rows = null
+                                apiStatus = erasures.exceptionOrNull()?.message
+                                    ?: exports.exceptionOrNull()?.message ?: "Privacy service unavailable"
+                            }
+                        }
                         else -> apiStatus = "Backend entitlement/requests API not yet connected"
                     }
                 }
