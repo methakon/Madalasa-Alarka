@@ -213,7 +213,10 @@ class KeystoreAlarkaEnrollmentService(
                             .put("algorithm", "ECDSA_P256_SHA256")
                             .put("app_version", context.packageManager
                                 .getPackageInfo(context.packageName, 0).versionName ?: "0.1")
-                            .put("android_api", Build.VERSION.SDK_INT))
+                            .put("android_api", Build.VERSION.SDK_INT)
+                            .put("device_info", JSONObject()
+                                .put("manufacturer", Build.MANUFACTURER.filter { it >= ' ' }.take(80))
+                                .put("model", Build.MODEL.filter { it >= ' ' }.take(120))))
                         val enrollmentId = UUID.fromString(challenge.getString("enrollment_id")).toString()
                         val deviceId = UUID.fromString(challenge.getString("device_id")).toString()
                         val nonce = challenge.getString("nonce_base64url")
