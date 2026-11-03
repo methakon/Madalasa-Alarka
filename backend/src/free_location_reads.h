@@ -22,7 +22,7 @@ inline drogon::Task<drogon::HttpResponsePtr> free_location_read(
   auto child=normalize_uuid(child_param);
   if (!child) co_return error_response("INVALID_REQUEST","childId must be a UUID",rid);
   // No client-supplied time range can ever expand the free-history window.
-  if (!req->parameters().empty())
+  if (!req->getParameters().empty())
     co_return error_response("INVALID_REQUEST","free location reads do not accept query parameters",rid);
   if(auth.mode!=ParentAuthMode::V2Session)
     co_return error_response("SERVICE_UNAVAILABLE","trusted parent session required",rid,true);
