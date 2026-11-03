@@ -7,6 +7,8 @@ Planning baseline: 20 phases and 262 atomic acceptance tasks; implementation che
 - [Free-first public release: 108 child slots and waitlist, premium disabled, Play/BillDesk staging](FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md)
 
 - [QR pairing and one-active-Alarka-device-per-child design, audit, replacement gates](QR_PAIRING_SINGLE_DEVICE_2026-11-03.md)
+
+- [Android 10–16 free release dynamic permissions and deployment-readiness gates](ANDROID_10_TO_16_FREE_RELEASE_COMPATIBILITY_2026-11-03.md)
 - [Child erasure/export request API contract supplement (2026-11-03)](NON_PAYMENT_PRIVACY_API_CONTRACT_2026-11-03.md)
 - [Local development roadmap](LOCAL_AGENT_DEVELOPMENT_ROADMAP_2026-10-28.md)
 - [Machine-readable task dependency graph](LOCAL_TASK_GRAPH_2026-10-28.json)
