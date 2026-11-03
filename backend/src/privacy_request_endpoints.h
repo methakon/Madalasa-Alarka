@@ -89,10 +89,13 @@ inline drogon::Task<drogon::HttpResponsePtr> child_privacy_job(
       co_return privacy_pending(result,rid);
     }
     // RLS restricts status to the requesting parent, independent of family membership.
+    // The DB timestamps are explicitly serialized in UTC for Kotlin clients.
     const std::string sql=erasure
-      ? "SELECT id::text AS id,state,received_at AS requested_at FROM ap_m1.account_deletion_requests "
+      ? "SELECT id::text AS id,state," + pg_utc("received_at") + " AS requested_at "
+        "FROM ap_m1.account_deletion_requests "
         "WHERE child_id=$1::uuid AND requested_by=ap_m1.ctx_principal() ORDER BY received_at DESC,id LIMIT 50"
-      : "SELECT id::text AS id,state,requested_at FROM ap_m1.export_jobs "
+      : "SELECT id::text AS id,state," + pg_utc("requested_at") + " AS requested_at "
+        "FROM ap_m1.export_jobs "
         "WHERE child_id=$1::uuid AND requester_id=ap_m1.ctx_principal() ORDER BY requested_at DESC,id LIMIT 50";
     auto rows=co_await tx->execSqlCoro(sql,*child);
     Json::Value result(Json::objectValue);
