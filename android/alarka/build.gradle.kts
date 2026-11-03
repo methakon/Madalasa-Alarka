@@ -16,6 +16,12 @@ android {
         versionCode = 1
         versionName = "0.1.0-synthetic"
 
+        // Empty by default: release can be installed but cannot falsely activate.
+        // Inject a reviewed HTTPS API origin for device/closed tests:
+        // ./gradlew :alarka:assembleDebug -PalarkaApiOrigin=https://api.example
+        resValue("string", "alarka_api_origin",
+            providers.gradleProperty("alarkaApiOrigin").orNull ?: "")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
