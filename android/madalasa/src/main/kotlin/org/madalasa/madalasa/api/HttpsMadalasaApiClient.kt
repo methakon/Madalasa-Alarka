@@ -201,7 +201,7 @@ class HttpsMadalasaApiClient(
                     "Pairing response did not match requested child"
                 }
                 val code = payload.getString("pairing_code")
-                check(Regex("[0-9]{3}-?[0-9]{3}").matches(code)) {
+                check(Regex("[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{10}").matches(code)) {
                     "Unexpected pairing code format"
                 }
                 val expiry = Instant.parse(payload.getString("expires_at")).toEpochMilli()
