@@ -32,6 +32,16 @@ Current work branch: `api` / PR #28 (contains unrelated unfinished Phase 10 expe
 - `GET /v1/children/{childId}/location/latest` and `.../location/history` use verified parent sessions, exact-child authorization, SQL RLS, and an **explicit six-hour maximum**. Missing location is UNAVAILABLE, never 0,0.
 - `MA_RELEASE_PROFILE=FREE_ONLY` is the startup default; premium catalog/trial HTTP routes are not registered. `PAID_VERIFIED` is an exceptional deliberate deployment latch requiring explicit independent owner, BillDesk and Play approvals; these environment variables do **not** prove those approvals actually happened. Premium media remains OFF.
 
+## Security and deletion regression correction
+
+The first admission migration iteration incorrectly expanded the ordinary child-profile RLS to all family owners, and blocked device revocation during privacy deletion. Both patterns were rejected during CI and repaired on the `api` branch:
+
+- **No sibling visibility expansion:** normal `ap_m1.children` row-level-security grants remain untouched. A separate SECURITY DEFINER function `ap_m1.my_free_registration_profiles(family_id)` is filtered to the child profile's recorded `requested_by` principal, its current verified OWNER membership, active child state and absence of an erasure tombstone. The regular child-list endpoint may UNION these narrow *own signup receipts* with RLS-visible child profiles; family ownership does not grant other siblings' profiles.
+- **Privacy deletion always works:** free admission triggers permit setting `enrollment_state='REVOKED'` even when a child has already been waitlisted, deactivated or marked deleted. No slot decision can block right-to-delete or backup-restoration suppression.
+- Existing migration and security regression tests are not weakened to accommodate a broader visibility policy. The v2:0023 lineage is registered and separately testable.
+
+**Acceptance remains conditional:** confirm a fresh clean PostgreSQL V2 migration and CI tests for identity isolation, 108/109 allocation, deletion/restore, and new registrant-only list behavior before merging. Real children cannot be enrolled or tracked solely because admission tests pass.
+
 ## Android and Figma
 Current work branch: `parent` / draft PR #30.
 
