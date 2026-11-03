@@ -56,7 +56,7 @@ ALTER TABLE ap_m1.child_device_pairing_log OWNER TO ap_m1_owner;
 CREATE POLICY child_device_pairing_log_auth_write
  ON ap_m1.child_device_pairing_log FOR ALL TO ap_m1_auth
  USING(true) WITH CHECK(true);
-GRANT SELECT,INSERT,UPDATE ON ap_m1.child_device_pairing_log TO ap_m1_auth;
+GRANT SELECT,INSERT,UPDATE,DELETE ON ap_m1.child_device_pairing_log TO ap_m1_auth;
 
 -- Called only inside the same backend transaction as redeem_pairing_code,
 -- with the UUID returned from that one-time code. It does NOT authenticate a
@@ -168,3 +168,17 @@ $fn$;
 ALTER FUNCTION ap_m1.child_active_device_summary(uuid) OWNER TO ap_m1_auth;
 REVOKE ALL ON FUNCTION ap_m1.child_active_device_summary(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION ap_m1.child_active_device_summary(uuid) TO ap_m1_api;
+
+-- Erasure is stronger than a pairing audit retention preference: a durable
+-- child-erasure tombstone removes this personal-device pairing history.
+CREATE FUNCTION ap_m1._erase_child_pairing_logs_on_tombstone() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
+BEGIN
+ DELETE FROM ap_m1.child_device_pairing_log WHERE child_id=NEW.child_id;
+ RETURN NEW;
+END $fn$;
+ALTER FUNCTION ap_m1._erase_child_pairing_logs_on_tombstone() OWNER TO ap_m1_auth;
+REVOKE ALL ON FUNCTION ap_m1._erase_child_pairing_logs_on_tombstone() FROM PUBLIC;
+CREATE TRIGGER purge_child_pairing_audit_after_erasure
+ AFTER INSERT ON ap_m1.child_erasure_tombstones
+ FOR EACH ROW EXECUTE FUNCTION ap_m1._erase_child_pairing_logs_on_tombstone();
