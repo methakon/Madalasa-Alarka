@@ -58,7 +58,7 @@ Current work branch: `parent` / draft PR #30.
 - Parent Google session proceeds to family signup → child nickname → server registration. Show the returned waitlist/admitted state **after successful signup**, not as a signup failure.
 - A waitlisted child remains visible with its queue position and cannot be selected, paired or navigated into monitoring. Any missing/unverified state fails closed.
 - No unverified dashboard dots, synthetic 0,0 coordinates, or fake location on real sessions. A configured HTTPS backend is mandatory; debug synthetic fixtures are labeled and isolated.
-- Child `Alarka` production release must include real approved device enrollment and appropriate disclosure/Android permissions. Current synthetic child enrollment is not itself publishable.
+- Child `Alarka` production release must include real approved device enrollment and appropriate disclosure/Android permissions. The child branch now has an explicitly configured Android Keystore P-256/HTTPS enrollment transport and activation-policy tests, with synthetic enrollment isolated to debug-only preview. Enrollment/consent/child-admission E2E, Android foreground location service, token renewal and Play/legal acceptance remain outstanding; a committed transport alone is not publishable.
 - Editable design storyboard: [Figma — Free-first / 108 child slots](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=175-2). Existing premium screens remain intact but must be designated **disabled/not released**.
 
 ## New prioritized delivery checkpoints (do not falsify L00–L19 PASS counts)
