@@ -171,8 +171,7 @@ fun PermissionsScreen(
                             onClick = onRequestBackgroundLocation,
                             modifier = Modifier.fillMaxWidth()
                         ) { Text("Request background location separately") }
-                    LocationSetupAction.OPEN_BACKGROUND_LOCATION_SETTINGS,
-                    LocationSetupAction.MANIFEST_NOT_READY ->
+                    LocationSetupAction.OPEN_BACKGROUND_LOCATION_SETTINGS ->
                         OutlinedButton(
                             onClick = onOpenAppSettings,
                             modifier = Modifier.fillMaxWidth()
