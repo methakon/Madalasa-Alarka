@@ -6313,5 +6313,54 @@
     "Family Link role attestation removed; Google OIDC identity + own exact-child grant remains",
     "Legal parent/guardian authority not waived",
     "Hosting-region and final bandwidth economics removed from local implementation blockers"
-  ]
+  ],
+  "free_first_release_2026_11_03": {
+    "decision": "Release free-only app first; preserve all premium source and Figma screens but do not expose subscription/checkout/trial routes until separately approved.",
+    "free_capacity_children": 108,
+    "overflow": "Complete adult and child registration, assign WAITLISTED child status FIFO; deny monitoring/tracking/device pairing until admitted.",
+    "entry_stage": "FREE_ONLY",
+    "free_features": [
+      "adult signup",
+      "child registration",
+      "exact-child consent and privacy rights",
+      "location tracking when lawfully authorized",
+      "last six hours of visible location history",
+      "support"
+    ],
+    "server_gates": [
+      "MA_RELEASE_PROFILE=FREE_ONLY by default",
+      "Postgres v2:0023 admission slots and queue",
+      "paid routes not registered",
+      "child-service RLS/trigger admission fence"
+    ],
+    "free_first_priority_phases": [
+      "04",
+      "05",
+      "06",
+      "07",
+      "09",
+      "12",
+      "13",
+      "14",
+      "15",
+      "17",
+      "18",
+      "19"
+    ],
+    "deferred_but_retained_phases": [
+      "10",
+      "11",
+      "16"
+    ],
+    "release_holds": [
+      "Android real enrollment/device proofs",
+      "OS/Families and tracking policy",
+      "India child-data consent and region decisions",
+      "full testing and Play production approval"
+    ],
+    "planned_later": "Merchant/provider verification + Play Billing sandbox + paid entitlement tests, then approved paid update.",
+    "canonical_plan": "docs/roadmap/FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md",
+    "authoritative_task_count_unchanged": 262,
+    "status": "CODE_IN_PROGRESS_NOT_LIVE"
+  }
 }
