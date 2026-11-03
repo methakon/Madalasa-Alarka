@@ -22,7 +22,7 @@ class MultipleFamilyAuthorizationTest {
                 return Result.failure(SecurityException("scope revoked"))
             return Result.success(listOf(
                 ChildSummaryResponse(if (familyId=="family-a") "a" else "b",
-                    if (leakWrongFamily) "another-family" else familyId, "Test")
+                    if (leakWrongFamily) "another-family" else familyId, "Test", "ADMITTED")
             ))
         }
         override suspend fun getChildLocation(childId: String) =
