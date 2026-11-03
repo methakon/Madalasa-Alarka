@@ -126,7 +126,7 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS 
 $fn$;
 ALTER FUNCTION ap_m1.child_free_admitted(uuid) OWNER TO ap_db_executor;
 REVOKE ALL ON FUNCTION ap_m1.child_free_admitted(uuid) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION ap_m1.child_free_admitted(uuid) TO ap_m1_api,ap_auth_issuer,ap_db_executor;
+GRANT EXECUTE ON FUNCTION ap_m1.child_free_admitted(uuid) TO ap_m1_api,ap_auth_issuer,ap_db_executor,ap_m1_auth;
 
 -- Parent-only status: no cross-family aliases or queue identities are exposed.
 -- Queue number is FIFO rank over all WAITLISTED records.
@@ -207,8 +207,11 @@ LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn
 BEGIN
  -- A privacy erasure must always be allowed to REVOKE a device, including
  -- after the child has lost admission. Never block cleanup or restored purge.
- IF TG_TABLE_NAME='devices' AND TG_OP='UPDATE' AND NEW.enrollment_state='REVOKED'
- THEN RETURN NEW; END IF;
+ IF TG_TABLE_NAME='devices' THEN
+   IF TG_OP='UPDATE' AND NEW.enrollment_state='REVOKED' THEN
+     RETURN NEW;
+   END IF;
+ END IF;
  IF NOT ap_m1.child_free_admitted(NEW.child_id) THEN
    RAISE EXCEPTION 'FREE_SERVICE_WAITLISTED' USING ERRCODE='42501';
  END IF;
