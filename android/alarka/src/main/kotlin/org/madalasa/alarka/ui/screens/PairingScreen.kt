@@ -38,8 +38,11 @@ fun PairingScreen(
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+    // A debuggable app can also be connected to a real HTTPS backend.
+    // Only the explicit sample-code mode is synthetic.
     val syntheticPreview =
-        context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 &&
+            suggestedCode.isNotBlank()
 
     Column(
         modifier = modifier
