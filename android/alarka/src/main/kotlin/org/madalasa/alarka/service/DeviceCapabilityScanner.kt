@@ -12,7 +12,8 @@ data class DeviceCapabilityReport(
     val hasNetworkLocationHardware: Boolean = false,
     val systemLocationEnabled: Boolean = false,
     val notificationsEnabled: Boolean = false,
-    val locationForegroundServiceDeclared: Boolean = false
+    val locationForegroundServiceDeclared: Boolean = false,
+    val hardware: DeviceHardwareInventory = DeviceHardwareInventory()
 )
 
 interface DeviceCapabilityScanner {
