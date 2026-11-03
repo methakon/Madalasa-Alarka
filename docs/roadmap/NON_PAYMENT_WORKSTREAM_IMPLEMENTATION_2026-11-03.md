@@ -21,6 +21,21 @@ Owner request: implement **(1) admin and security, (2) parent Android core, (3) 
 - **Branch reconciliation:** `api` was synchronized to the latest `main` as a two-parent merge commit, preserving all existing Phase 10 work while removing outdated `docs/**` differences; `dev` fast-forwarded to current documentation. Existing API PR #28 still includes Phase 10 work; do not merge billing changes without its independent tests.
 - **CI findings:** Admin web and child Android checks passed on their initial PR heads. Parent Android CI caught two outdated test expectations; those tests were updated and require a new CI pass. API full C++/PostgreSQL checks and branch-route revalidation are pending. No unsupported claim of complete E2E acceptance.
 
+## Parent verified HTTPS integration update
+
+The `parent` branch now includes `HttpsMadalasaApiClient` and a verified-session actor accessor. With a configured HTTPS API origin it uses the real V2 parent session to obtain:
+
+- GET `/v1/families`: authorized family identifiers, with server membership checks.
+- GET `/v1/families/{familyId}/children`: DB grant/RLS-filtered child list.
+- GET `/v1/children/{childId}`: exact-child existence/authority check before any location projection.
+- POST `/v1/children/{childId}/pairing-codes`: UUID idempotency key and bounded requested TTL, parsed expiration.
+
+**Missing server interface:** there is currently **no parent-facing latest-location GET handler** in the C++ server. The HTTPS client therefore returns `Freshness.UNAVAILABLE` and null latitude/longitude even after a child is authorized; `ShellScreen` explicitly renders "Location unavailable" instead of the previous synthetic `0,0` coordinates. No live location capability is claimed. A real parent location/history endpoint and legal/Android gate checks remain a separate integration task.
+
+`DefaultAppContainer` selects the live HTTPS client when an origin is configured, uses mock fixtures only in debuggable builds with no API origin and fails closed in unconfigured non-debuggable builds. Successful Google P-04 handoff reloads the real repository; an attempted child selection cannot navigate to the child shell until a scoped read succeeds. The synthetic demo is hidden in a configured Google environment.
+
+CI for these new transport/navigation changes still requires the parent Android Gradle suite and physical/HTTPS integration tests. No production account/child data was used.
+
 ## Key fail-closed invariants
 
 - An administrator's OIDC identity alone never supplies privileges; the server authorizes current roles from a live session. The frontend keeps CSRF proof only in process memory; the admin logout button invokes the server logout route and does not silently claim success.
