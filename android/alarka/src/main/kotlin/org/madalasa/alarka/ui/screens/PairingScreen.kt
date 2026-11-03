@@ -79,15 +79,15 @@ fun PairingScreen(
                     )
 
                     Text(
-                        text = "Enter the 6-digit challenge code shown on your parent or guardian's Madalasa screen to initiate mutual cryptographic verification.",
+                        text = "Enter the ten-character, one-time pairing code issued in Madalasa after a free child-service slot is allocated and guardian checks are complete.",
                         style = MaterialTheme.typography.bodyMedium
                     )
 
                     OutlinedTextField(
                         value = pairingCode,
                         onValueChange = onCodeChange,
-                        label = { Text("Challenge Code (e.g., $suggestedCode)") },
-                        placeholder = { Text(suggestedCode) },
+                        label = { Text(if (syntheticPreview) "Synthetic pairing code" else "Parent-issued pairing code") },
+                        placeholder = { Text(if (syntheticPreview) suggestedCode else "10-character code") },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
@@ -128,7 +128,7 @@ fun PairingScreen(
                 }
             } else {
                 Text(
-                    "Real device pairing is disabled until server proof-of-possession and guardian authorization are verified.",
+                    "Pairing requires a parent-created child profile, an admitted child-service slot and verified guardian authorization. Monitoring also requires consent and Android permissions.",
                     style = MaterialTheme.typography.bodySmall,
                     color = ThemeCColors.Critical
                 )
