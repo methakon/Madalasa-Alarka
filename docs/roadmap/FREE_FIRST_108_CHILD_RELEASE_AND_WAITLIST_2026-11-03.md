@@ -2,6 +2,8 @@
 
 **Decision date:** 2026-11-03 | **Owner direction:** Implement and publish a free-only version before merchant/BillDesk approval; preserve, but disable, all paid/preview functionality. **Engineering status:** partial implementation in PRs #28–31. **Real-child public release:** NO-GO until legal, Android and Google Play gates pass. Do not represent a code commit or Figma frame as publication.
 
+The detailed engineering checkpoints, edge-case acceptance matrix and customer-facing alternate copy are recorded in [the 108-child implementation supplement](FREE_FIRST_108_CHILD_RELEASE_ROADMAP_2026-11-03.md). This page remains the release-sequencing source of truth.
+
 ## 1. Release sequencing (new source of truth)
 
 **Stage F0 — local / synthetic:** Merge approved PRs `api`, `parent`, `child`, `admin-web` via `dev` only after all GitHub CI/DB and Android tests pass. A new V2 migration 0023 enables global 108-child admission and FIFO waitlist. All premium code, database tables, SKU catalog, 48-hour Super Access, media and admin billing reporting remain in source; public endpoints and checkout actions default to **OFF**.
