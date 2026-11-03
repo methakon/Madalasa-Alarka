@@ -45,7 +45,7 @@ fun ChildSelectionScreen(
     var familyLabel by remember { mutableStateOf("") }
     var childAlias by remember { mutableStateOf("") }
     var registrationMessage by remember { mutableStateOf("") }
-    val availableChildren=uiState.children.filter { it.freeServiceState != "WAITLISTED" }
+    val availableChildren=uiState.children.filter { it.freeServiceState == "ADMITTED" }
 
     Column(
         modifier = Modifier
@@ -81,7 +81,7 @@ fun ChildSelectionScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(enabled = child.freeServiceState != "WAITLISTED") {
+                        .clickable(enabled = child.freeServiceState == "ADMITTED") {
                             onChildSelected(child.id)
                         },
                     colors = CardDefaults.cardColors(
