@@ -134,3 +134,7 @@ endif()
 # Phase 15: pure erasure state/fence tests (no database or credentials required).
 add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
 add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
+
+# Free-first release must default to no payment or trial.
+add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
+add_test(NAME free_release_profile COMMAND test_free_release_profile)
