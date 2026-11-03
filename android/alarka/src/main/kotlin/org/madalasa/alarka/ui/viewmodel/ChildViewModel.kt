@@ -123,7 +123,7 @@ class ChildViewModel(
                     enrollmentResult = null,
                     pairingCode = "",
                     disclosureAcknowledged = false,
-                    connectivityStatus = "Not paired · No monitoring",
+                    connectivityStatus = "Disconnected locally · Guardian must revoke device in Madalasa",
                     errorMessage = null
                 )
             } else {
