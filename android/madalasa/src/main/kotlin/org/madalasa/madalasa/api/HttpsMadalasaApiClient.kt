@@ -16,10 +16,8 @@ import javax.net.ssl.HttpsURLConnection
  * Parent data requests must be authenticated with an accepted, unexpired V2
  * session. No synthetic child, guardian scope or location is inferred here.
  *
- * The current Drogon server exposes live family/child grant-filtered reads and
- * pairing codes. It does NOT expose a parent latest-location GET endpoint yet.
- * We therefore verify the child's scope and return explicitly UNAVAILABLE,
- * never invented coordinates or a current position.
+ * The free-first API returns RLS-scoped latest location and the last 6 hours of
+ * observations. Missing/stale data is UNAVAILABLE, never invented coordinates.
  */
 class HttpsMadalasaApiClient(
     origin: String,
@@ -119,7 +117,10 @@ class HttpsMadalasaApiClient(
                     ChildSummaryResponse(
                         id = exactId(row.getString("id")),
                         familyId = rowFamily,
-                        alias = row.getString("alias").take(100)
+                        alias = row.getString("alias").take(100),
+                        freeServiceState = row.optString("free_service_state","UNAVAILABLE"),
+                        queuePosition = if (row.isNull("queue_position")) null else row.optLong("queue_position",0).takeIf { it>0 },
+                        slotLimit = row.optInt("slot_limit",108)
                     )
                 }
             }
@@ -129,22 +130,61 @@ class HttpsMadalasaApiClient(
         withContext(Dispatchers.IO) {
             runCatching {
                 val child = exactId(childId)
-                // GET child details is RLS filtered; 404/403 denies any location
-                // projection. The latest-location API is not yet released.
-                val response = request("/v1/children/" + child)
-                check(exactId(response.getString("id")) == child) {
-                    "Child response did not match requested scope"
+                val response = request("/v1/children/" + child + "/location/latest")
+                check(exactId(response.getString("child_id")) == child &&
+                    response.optInt("history_window_hours",-1) == 6 &&
+                    response.optBoolean("server_verified",false)) {
+                    "Free location response is unverified or mismatched"
+                }
+                val point = response.optJSONObject("location")
+                val latitude = if (point?.has("latitude_e6") == true) point.getInt("latitude_e6") else null
+                val longitude = if (point?.has("longitude_e6") == true) point.getInt("longitude_e6") else null
+                if ((latitude == null) != (longitude == null)) {
+                    throw SecurityException("Partial location must never be rendered")
                 }
                 VerifiedLocationState(
                     childId = child,
-                    sourceDeviceId = "",
-                    observedAtEpochMs = null,
-                    ingestedAtEpochMs = null,
+                    sourceDeviceId = point?.optString("source_device_id").orEmpty(),
+                    observedAtEpochMs = point?.optLong("observed_at_epoch_ms"),
+                    ingestedAtEpochMs = point?.optLong("ingested_at_epoch_ms"),
                     tripProcessedAtEpochMs = null,
-                    latitudeE6 = null,
-                    longitudeE6 = null,
-                    accuracyMeters = null,
-                    freshness = Freshness.UNAVAILABLE
+                    latitudeE6 = latitude,
+                    longitudeE6 = longitude,
+                    accuracyMeters = point?.optDouble("accuracy_meters")?.toFloat(),
+                    // Do not infer freshness from device clock or API success.
+                    freshness = if (point == null) Freshness.UNAVAILABLE else Freshness.LAST_KNOWN
+                )
+            }
+        }
+
+    override suspend fun createFamily(label: String): Result<String> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                require(label.isNotBlank() && label.length <= 100) { "Enter a family name" }
+                exactId(request("/v1/families", JSONObject().put("label",label.trim()).toString())
+                    .getString("id"))
+            }
+        }
+
+    override suspend fun createChild(familyId: String, alias: String): Result<ChildSummaryResponse> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val family = exactId(familyId)
+                require(alias.isNotBlank() && alias.length <= 80) { "Enter a child nickname (1–80 characters)" }
+                val row=request("/v1/families/" + family + "/children",
+                    JSONObject().put("alias",alias.trim()).toString())
+                check(exactId(row.getString("family_id")) == family)
+                val state=row.getString("free_service_state")
+                check(state=="ADMITTED" || state=="WAITLISTED") {
+                    "Child admission was not confirmed by the server"
+                }
+                ChildSummaryResponse(
+                    id=exactId(row.getString("id")),
+                    familyId=family,
+                    alias=row.getString("alias"),
+                    freeServiceState=state,
+                    queuePosition=if(row.isNull("queue_position")) null else row.getLong("queue_position"),
+                    slotLimit=row.optInt("slot_limit",108)
                 )
             }
         }
