@@ -11,17 +11,18 @@ import org.madalasa.alarka.service.ChildPairingPolicy
 import org.madalasa.alarka.service.CapabilitySyncReconciler
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.alarka.service.EnrollmentResult
+import org.madalasa.alarka.service.SyntheticAlarkaEnrollmentService
 
 data class ChildUiState(
     val disclosureAcknowledged: Boolean = false,
     val pairingCode: String = "",
-    val suggestedCode: String = "482-901",
+    val suggestedCode: String = "",
     val isEnrolling: Boolean = false,
     val enrollmentResult: EnrollmentResult? = null,
     val capabilityReport: DeviceCapabilityReport? = null,
     val lastRevokedPermissions: List<String> = emptyList(),
     val uploadsHalted: Boolean = false,
-    val connectivityStatus: String = "Standby (Synthetic)",
+    val connectivityStatus: String = "Not paired · No monitoring",
     val errorMessage: String? = null
 )
 
@@ -40,7 +41,7 @@ class ChildViewModel(
         val report = container.capabilityScanner.getCapabilityReport()
         _uiState.value = _uiState.value.copy(
             capabilityReport = report,
-            suggestedCode = "482-901"
+            suggestedCode = if (container.enrollmentService is SyntheticAlarkaEnrollmentService) "482-901" else ""
         )
     }
 
@@ -74,7 +75,8 @@ class ChildViewModel(
     fun submitPairing() {
         if (_uiState.value.isEnrolling) return
         val validated = ChildPairingPolicy.validate(
-            _uiState.value.disclosureAcknowledged, _uiState.value.pairingCode
+            _uiState.value.disclosureAcknowledged, _uiState.value.pairingCode,
+            syntheticPreview = container.enrollmentService is SyntheticAlarkaEnrollmentService
         )
         if (validated.isFailure) {
             _uiState.value = _uiState.value.copy(
@@ -92,7 +94,9 @@ class ChildViewModel(
                     _uiState.value = _uiState.value.copy(
                         isEnrolling = false,
                         enrollmentResult = enrollment,
-                        connectivityStatus = "Synthetic pairing preview · not a live guardian connection"
+                        connectivityStatus = if (container.enrollmentService is SyntheticAlarkaEnrollmentService)
+                            "Synthetic pairing preview · no live guardian connection"
+                        else "Device paired · Monitoring not yet authorized"
                     )
                 } else {
                     _uiState.value = _uiState.value.copy(
@@ -119,7 +123,7 @@ class ChildViewModel(
                     enrollmentResult = null,
                     pairingCode = "",
                     disclosureAcknowledged = false,
-                    connectivityStatus = "Standby (Synthetic)",
+                    connectivityStatus = "Not paired · No monitoring",
                     errorMessage = null
                 )
             } else {
