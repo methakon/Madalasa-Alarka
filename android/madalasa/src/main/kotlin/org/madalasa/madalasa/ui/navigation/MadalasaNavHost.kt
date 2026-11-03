@@ -61,9 +61,13 @@ fun MadalasaNavHost(
         composable(Screen.Authentication.route) {
             AuthenticationScreen(
                 onAuthenticated = {
-                    viewModel.loadData()
-                    navController.navigate(Screen.ChildSelection.route) {
-                        popUpTo(Screen.Onboarding.route) { inclusive = true }
+                    // A synthetic preview must never stand in for live Google
+                    // authentication when the backend/OIDC client is configured.
+                    if (!googleConfiguration.isConfigured()) {
+                        viewModel.loadData()
+                        navController.navigate(Screen.ChildSelection.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
                     }
                 },
                 onBackToWelcome = {
@@ -86,7 +90,16 @@ fun MadalasaNavHost(
             P04Screen(
                 configuration = googleConfiguration,
                 onNewAttempt = { parentSessionMemory.clear() },
-                onVerifiedSession = { parentSessionMemory.accept(it) },
+                onVerifiedSession = { verified ->
+                    val accepted = parentSessionMemory.accept(verified)
+                    if (accepted) {
+                        viewModel.loadData()
+                        navController.navigate(Screen.ChildSelection.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    }
+                    accepted
+                },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -95,8 +108,11 @@ fun MadalasaNavHost(
             ChildSelectionScreen(
                 uiState = uiState,
                 onChildSelected = { childId ->
-                    viewModel.selectChild(childId)
-                    navController.navigate(Screen.Shell.route)
+                    // Navigate only after this specific child has passed a
+                    // fresh authenticated, server-scoped repository read.
+                    viewModel.selectChild(childId) {
+                        navController.navigate(Screen.Shell.route)
+                    }
                 },
                 onPairNewChild = {
                     val currentId = uiState.selectedChildId ?: uiState.children.firstOrNull()?.id ?: ""
