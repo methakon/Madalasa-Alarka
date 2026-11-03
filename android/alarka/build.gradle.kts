@@ -22,6 +22,9 @@ android {
         resValue("string", "alarka_api_origin",
             providers.gradleProperty("alarkaApiOrigin").orNull ?: "")
 
+        // Deliberately FALSE until independent legal, Play, Android and
+        // deployment signoff; a UI button cannot override this binary gate.
+        resValue("bool", "alarka_location_release_approved", "false")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
