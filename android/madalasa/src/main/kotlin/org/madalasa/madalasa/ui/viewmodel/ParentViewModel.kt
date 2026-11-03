@@ -78,11 +78,17 @@ class ParentViewModel(
         }
     }
 
-    fun generatePairingCode(childId: String, onGenerated: (String) -> Unit) {
+    fun generatePairingCode(
+        childId: String,
+        onGenerated: (String) -> Unit,
+        onFailure: (String) -> Unit = {}
+    ) {
         viewModelScope.launch {
             val result = repository.generatePairingCode(childId)
             if (result.isSuccess) {
                 onGenerated(result.getOrThrow())
+            } else {
+                onFailure(result.exceptionOrNull()?.message ?: "Pairing code was not issued")
             }
         }
     }
