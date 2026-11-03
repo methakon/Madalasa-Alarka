@@ -28,6 +28,7 @@
 #include "billing_catalog.h"
 #include "billing_trial.h"
 #include "privacy_endpoints.h"
+#include "privacy_request_endpoints.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -344,6 +345,28 @@ int main() {
         co_return co_await ma::delete_child_privacy_grant(std::move(req), std::move(childId),
                                                            std::move(grantId), parent);
       }, {Delete});
+  // Phase 15: SQL-authorized erasure/export jobs with truthful pending status.
+  app().registerHandler(
+      "/v1/children/{childId}/erasure-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,true,true);
+      }, {Post});
+  app().registerHandler(
+      "/v1/children/{childId}/erasure-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,true,false);
+      }, {Get});
+  app().registerHandler(
+      "/v1/children/{childId}/export-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,false,true);
+      }, {Post});
+  app().registerHandler(
+      "/v1/children/{childId}/export-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,false,false);
+      }, {Get});
+
   app().registerHandler(
       "/v1/devices/{deviceId}/consent-status",
       [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
