@@ -3842,8 +3842,7 @@
       "depends_on": [
         "L07-012",
         "L08-012",
-        "L09-012",
-        "L11-014"
+        "L09-012"
       ],
       "inputs": [
         "docs/ui/figma-functional-handoff/README.md",
@@ -3997,7 +3996,8 @@
       "name": "Implement plan/child-seat selection and founding offers",
       "status": "NOT_STARTED",
       "depends_on": [
-        "L12-007"
+        "L12-007",
+        "L10-014"
       ],
       "inputs": [
         "docs/ui/figma-functional-handoff/README.md",
@@ -4019,7 +4019,8 @@
       "name": "Implement one-screen-used and ₹100/100day addon UI",
       "status": "NOT_STARTED",
       "depends_on": [
-        "L12-008"
+        "L12-007",
+        "L11-014"
       ],
       "inputs": [
         "docs/ui/figma-functional-handoff/README.md",
@@ -4041,7 +4042,7 @@
       "name": "Implement parent media audit metadata history screens",
       "status": "NOT_STARTED",
       "depends_on": [
-        "L12-009"
+        "L12-007"
       ],
       "inputs": [
         "docs/ui/figma-functional-handoff/README.md",
@@ -4704,7 +4705,7 @@
       "name": "Implement minimal child alias/paid status restricted projection",
       "status": "NOT_STARTED",
       "depends_on": [
-        "L14-013"
+        "L14-012"
       ],
       "inputs": [
         "docs/phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_OWNER_GOOGLE_ACCESS_FAQ_SUPPORT_BILLING_AND_USAGE_2026.md",
