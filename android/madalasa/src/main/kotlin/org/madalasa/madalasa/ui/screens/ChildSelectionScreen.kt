@@ -38,6 +38,7 @@ fun ChildSelectionScreen(
     uiState: ParentUiState,
     onChildSelected: (String) -> Unit,
     onPairNewChild: () -> Unit,
+    onRefreshServiceStatus: () -> Unit = {},
     onRegisterChild: (familyLabel: String, childAlias: String, onResult: (String) -> Unit) -> Unit = { _, _, _ -> },
     syntheticPreview: Boolean = false
 ) {
@@ -180,6 +181,12 @@ fun ChildSelectionScreen(
             Text(registrationMessage,color=ThemeCTokens.MutedText,fontSize=12.sp)
         }
         Spacer(modifier = Modifier.height(8.dp))
+        if (uiState.children.any { it.freeServiceState != "ADMITTED" }) {
+            Button(onClick = onRefreshServiceStatus, modifier = Modifier.fillMaxWidth()) {
+                Text("Refresh service queue status")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         Button(
             onClick = onPairNewChild,
             enabled=availableChildren.isNotEmpty(),
