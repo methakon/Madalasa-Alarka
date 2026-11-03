@@ -180,6 +180,12 @@
       "path": "backend/persistence/migrations/0023_free_first_108_child_admission.sql",
       "sha256": "1546311dbcf0cb0161403f2309a0ce3f80760b877962bcf752dba3363a224231",
       "published": false
+    },
+    {
+      "id": "v2:0024",
+      "path": "backend/persistence/migrations/0024_single_active_child_device_pairing_audit.sql",
+      "sha256": "da50091293b0486935e987b3c0377928bd49692fd82117e79b5ae6a9b73ea745",
+      "published": false
     }
   ]
 }
