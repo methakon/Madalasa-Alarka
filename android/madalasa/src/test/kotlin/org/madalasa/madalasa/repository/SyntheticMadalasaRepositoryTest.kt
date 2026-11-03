@@ -25,11 +25,15 @@ class SyntheticMadalasaRepositoryTest {
         val children = repository.children.value
         assertEquals("should have 2 synthetic children", 2, children.size)
 
-        val selectedId = repository.selectedChildId.value
-        assertEquals("should select first child by default", children.first().id, selectedId)
+        // Registration/status screens are accessible without implied location
+        // permission. No child is selected until an explicit guardian action.
+        assertEquals(null, repository.selectedChildId.value)
+        assertEquals(null, repository.selectedChildLocation.value)
+        assertTrue(repository.selectChild(children.first().id).isSuccess)
+        assertEquals(children.first().id, repository.selectedChildId.value)
 
         val location = repository.selectedChildLocation.value
-        assertNotNull("location should be loaded for selected child", location)
+        assertNotNull("authorized child location should load after explicit selection", location)
         assertEquals(Freshness.VERIFIED_CURRENT, location?.freshness)
     }
 
