@@ -44,6 +44,12 @@ The `child` branch now contains `UnavailableAlarkaEnrollmentService` and a `Defa
 
 **CI checkpoint:** Admin-web synthetic checks and original child Android build/tests passed; parent Android CI (latest verified head before these doc changes) passed its compile/unit workflow including the authenticated family client. The final child-branch production-guard test run remains to be independently verified before merge. The API's M1 backend/test suite and branch-route CI passed after rebasing the effective code changes on the newer main docs; no production OAuth, actual child enrollment, HTTP-to-Postgres deletion/export or real-location endpoint has been end-to-end exercised by this record.
 
+## Blended-family and latest branch acceptance
+
+The parent repository now loads **every** server-authorized family in the verified session, rather than selecting only its first family. It rejects children with a mismatched `family_id`, clears cached child lists if any family grant refresh fails, allows an authorized adult with zero families to see an empty state, and does not expose a child screen before a fresh scoped read succeeds. `MultipleFamilyAuthorizationTest` adds two-family, sibling-leak and revoked-family tests.
+
+**Verified GitHub CI checkpoints at time of authoring:** `admin-web` local checks, synthetic admin checks and branch-governance PASS; `api` M1 API/tenant, local checks and branch-governance PASS; `child` Android build/unit, branch governance and docs structure PASS including the release synthetic-enrollment guard; `parent` Android compile/unit and branch governance PASS at prior head `34f317f`. The subsequent parent blended-family commits and tests at `21487fc` are **awaiting a fresh CI result**. Earlier parent test failures were corrected before the prior passing run; do not reuse an earlier run as evidence for an untested new head.
+
 ## Key fail-closed invariants
 
 - An administrator's OIDC identity alone never supplies privileges; the server authorizes current roles from a live session. The frontend keeps CSRF proof only in process memory; the admin logout button invokes the server logout route and does not silently claim success.
