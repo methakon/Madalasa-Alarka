@@ -1,12 +1,14 @@
 package org.madalasa.alarka.di
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import org.madalasa.alarka.service.ChildPrivacyGateway
 import org.madalasa.alarka.service.UnauthenticatedChildPrivacyGateway
 import org.madalasa.alarka.service.AndroidDeviceCapabilityScanner
 import org.madalasa.alarka.service.AlarkaEnrollmentService
 import org.madalasa.alarka.service.DeviceCapabilityScanner
 import org.madalasa.alarka.service.SyntheticAlarkaEnrollmentService
+import org.madalasa.alarka.service.UnavailableAlarkaEnrollmentService
 
 interface ChildAppContainer {
     val enrollmentService: AlarkaEnrollmentService
@@ -19,7 +21,9 @@ class DefaultChildAppContainer(context: Context) : ChildAppContainer {
     override val privacyGateway: ChildPrivacyGateway = UnauthenticatedChildPrivacyGateway()
     private val applicationContext = context.applicationContext
     override val enrollmentService: AlarkaEnrollmentService by lazy {
-        SyntheticAlarkaEnrollmentService()
+        val debugBuild = applicationContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        if (debugBuild) SyntheticAlarkaEnrollmentService()
+        else UnavailableAlarkaEnrollmentService()
     }
     override val capabilityScanner: DeviceCapabilityScanner by lazy {
         AndroidDeviceCapabilityScanner(applicationContext)
