@@ -22,12 +22,6 @@ ALTER TABLE ap_m1.free_child_admissions FORCE ROW LEVEL SECURITY;
 ALTER TABLE ap_m1.free_child_admissions OWNER TO ap_m1_owner;
 CREATE POLICY admission_worker_rw ON ap_m1.free_child_admissions
  FOR ALL TO ap_db_executor USING(true) WITH CHECK(true);
-CREATE POLICY admission_owner_read ON ap_m1.free_child_admissions
- FOR SELECT TO ap_m1_api
- USING(ap_m1.free_child_family_owner(family_id) OR ap_m1.has_child_scope_v2(child_id,'VIEW_CHILD_PROFILE'));
-GRANT SELECT,INSERT,UPDATE ON ap_m1.free_child_admissions TO ap_db_executor;
-GRANT SELECT ON ap_m1.free_child_admissions TO ap_m1_api;
-
 -- Active owner status requires verified principal, not URL family or login text.
 CREATE FUNCTION ap_m1.free_child_family_owner(p_family uuid) RETURNS boolean
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
@@ -39,6 +33,12 @@ $fn$;
 ALTER FUNCTION ap_m1.free_child_family_owner(uuid) OWNER TO ap_m1_auth;
 REVOKE ALL ON FUNCTION ap_m1.free_child_family_owner(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION ap_m1.free_child_family_owner(uuid) TO ap_m1_api,ap_db_executor;
+
+CREATE POLICY admission_owner_read ON ap_m1.free_child_admissions
+ FOR SELECT TO ap_m1_api
+ USING(ap_m1.free_child_family_owner(family_id) OR ap_m1.has_child_scope_v2(child_id,'VIEW_CHILD_PROFILE'));
+GRANT SELECT,INSERT,UPDATE ON ap_m1.free_child_admissions TO ap_db_executor;
+GRANT SELECT ON ap_m1.free_child_admissions TO ap_m1_api;
 
 -- Owners must be able to review a newly created queued profile before
 -- consent/guardian-grant approval; other guardians retain per-child RLS.
