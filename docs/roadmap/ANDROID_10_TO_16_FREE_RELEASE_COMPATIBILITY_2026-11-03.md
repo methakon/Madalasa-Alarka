@@ -18,6 +18,8 @@
 
 ## OS-specific implementation and expected behavior
 
+> **2026-11-04 HARDWARE SCAN EXTENSION:** Optional accelerometer, gyro, gravity, proximity, light, barometer, compass, step and motion sensors now use `SensorManager` presence checks, not an automatic runtime permission; battery/charging/saver are local read-only diagnostics. Both GPS and network-provider availability are checked. NavIC (IRNSS) is marked **unknown** without authorized GNSS observation. Public manifest hardware features are `android:required="false"`, not dangerous sensor permissions. Child camera/mic capture remain absent from the public release. See [compliance and module fallback contract](PINGO_COMPARISON_OPTIONAL_DEVICE_HARDWARE_2026-11-04.md).
+
 | Android | API | Free tracking permission/platform UX |
 |---|---|---|
 | 10 | 29 | Ask foreground location after guardian authorization. If separately approved and necessary for restart beyond visible FGS, ask background location in a **separate request**. Declare location FGS type on the active build. |
