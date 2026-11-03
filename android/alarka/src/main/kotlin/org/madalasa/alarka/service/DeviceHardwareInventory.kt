@@ -91,7 +91,7 @@ object OptionalHardwareModulePolicy {
     ): List<OptionalModuleDecision> {
         val d = report.permissionsDeclared.toSet()
         val g = report.permissionsGranted.toSet()
-        val sensors = report.hardware.sensorsPresent
+        val sensors: (String) -> Boolean = { it in report.hardware.sensorsPresent }
         val out = mutableListOf<OptionalModuleDecision>()
 
         fun module(
