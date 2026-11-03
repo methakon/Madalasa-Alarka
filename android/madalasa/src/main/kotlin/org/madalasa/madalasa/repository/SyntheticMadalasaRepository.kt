@@ -44,7 +44,6 @@ class SyntheticMadalasaRepository(
         return if (result.isSuccess) {
             _profile.value = result.getOrNull()
             refreshChildren()
-            Result.success(Unit)
         } else {
             _profile.value = null
             _children.value = emptyList()
@@ -54,29 +53,45 @@ class SyntheticMadalasaRepository(
     }
 
     override suspend fun refreshChildren(): Result<Unit> {
-        val familyId = _profile.value?.familyIds?.firstOrNull()
-            ?: run {
-                _children.value = emptyList()
-                clearSelectedChild()
-                return Result.failure(IllegalStateException("Verified family context unavailable"))
-            }
-        val result = apiClient.getChildren(familyId)
-        return if (result.isSuccess) {
-            val list = result.getOrDefault(emptyList())
-            // Never retain a previously selected child after their grant disappears.
-            _children.value = list.filter { it.familyId in (_profile.value?.familyIds ?: emptyList()) }
-            if (_selectedChildId.value != null && !selectedChildAllowed(_selectedChildId.value!!)) {
-                clearSelectedChild()
-            }
-            if (_selectedChildId.value == null && _children.value.isNotEmpty()) {
-                selectChild(_children.value.first().id)
-            }
-            Result.success(Unit)
-        } else {
+        val families = _profile.value?.familyIds?.distinct()
+            ?: return Result.failure(IllegalStateException("Verified parent session unavailable"))
+        if (families.isEmpty()) {
+            // A newly signed-in adult may legitimately have no family yet.
             _children.value = emptyList()
             clearSelectedChild()
-            Result.failure(result.exceptionOrNull() ?: Exception("Unknown children error"))
+            return Result.success(Unit)
         }
+        val discovered = mutableListOf<ChildSummaryResponse>()
+        for (familyId in families) {
+            val result = apiClient.getChildren(familyId)
+            if (result.isFailure) {
+                _children.value = emptyList()
+                clearSelectedChild()
+                return Result.failure(result.exceptionOrNull()
+                    ?: IllegalStateException("Family authorization refresh failed"))
+            }
+            for (child in result.getOrThrow()) {
+                if (child.familyId != familyId) {
+                    _children.value = emptyList()
+                    clearSelectedChild()
+                    return Result.failure(SecurityException(
+                        "Child was returned under a different family scope"
+                    ))
+                }
+                discovered += child
+            }
+        }
+        // Preserve a child in a blended-family account only if it survived all
+        // fresh family-scope reads. Never promote one sibling's visibility to another.
+        _children.value = discovered.distinctBy { it.id }
+        if (_selectedChildId.value != null &&
+            !selectedChildAllowed(_selectedChildId.value!!)) {
+            clearSelectedChild()
+        }
+        if (_selectedChildId.value == null && _children.value.isNotEmpty()) {
+            return selectChild(_children.value.first().id)
+        }
+        return Result.success(Unit)
     }
 
     override suspend fun selectChild(childId: String): Result<Unit> {
