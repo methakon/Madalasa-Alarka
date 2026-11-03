@@ -88,11 +88,20 @@ class ChildViewModel(
         viewModelScope.launch {
             val result = container.enrollmentService.completeEnrollment(code)
             result.onSuccess { enrollment ->
-                _uiState.value = _uiState.value.copy(
-                    isEnrolling = false,
-                    enrollmentResult = enrollment,
-                    connectivityStatus = "Connected to Guardian (Synthetic)"
-                )
+                if (enrollment.success) {
+                    _uiState.value = _uiState.value.copy(
+                        isEnrolling = false,
+                        enrollmentResult = enrollment,
+                        connectivityStatus = "Synthetic pairing preview · not a live guardian connection"
+                    )
+                } else {
+                    _uiState.value = _uiState.value.copy(
+                        isEnrolling = false,
+                        enrollmentResult = null,
+                        connectivityStatus = "Not enrolled",
+                        errorMessage = enrollment.errorMessage ?: "Device enrollment not accepted"
+                    )
+                }
             }.onFailure { error ->
                 _uiState.value = _uiState.value.copy(
                     isEnrolling = false,
@@ -104,14 +113,22 @@ class ChildViewModel(
 
     fun resetPairing() {
         viewModelScope.launch {
-            container.enrollmentService.unpairDevice()
-            _uiState.value = _uiState.value.copy(
-                enrollmentResult = null,
-                pairingCode = "",
-                disclosureAcknowledged = false,
-                connectivityStatus = "Standby (Synthetic)",
-                errorMessage = null
-            )
+            val outcome = container.enrollmentService.unpairDevice()
+            if (outcome.getOrNull() == true) {
+                _uiState.value = _uiState.value.copy(
+                    enrollmentResult = null,
+                    pairingCode = "",
+                    disclosureAcknowledged = false,
+                    connectivityStatus = "Standby (Synthetic)",
+                    errorMessage = null
+                )
+            } else {
+                // Server/device refusal is not a confirmed unpair operation.
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = outcome.exceptionOrNull()?.message
+                        ?: "Device unpairing not verified"
+                )
+            }
         }
     }
 }
