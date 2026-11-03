@@ -190,3 +190,36 @@ BEGIN
     'FOR SELECT TO ap_m1_api USING (ap_m1.child_free_admitted(child_id))',tab);
  END LOOP;
 END $pol$;
+
+-- Queued children cannot start child-originated SOS/check-in, app-usage, alerts
+-- or background command/event pipelines via any API or privileged worker.
+-- Privacy requests, account management, and the support ticketing flows remain
+-- accessible (they are not child-service telemetry).
+DO $more_service_gates$
+DECLARE tab text;
+BEGIN
+ FOREACH tab IN ARRAY ARRAY[
+   'child_signals','alert_events','alert_delivery_outbox','notification_deliveries',
+   'app_usage_intervals','permission_snapshots','command_receipts','tracking_policy_revisions'
+ ] LOOP
+   EXECUTE format(
+     'CREATE TRIGGER free_admission_%s BEFORE INSERT ON ap_m1.%I '
+     'FOR EACH ROW EXECUTE FUNCTION ap_m1._require_free_child_admission()',tab,tab
+   );
+ END LOOP;
+END $more_service_gates$;
+
+-- RLS on these read surfaces is likewise AND-restricted by admission.
+-- The existing finer-grained consent and guardian permissions still apply.
+DO $more_read_gates$
+DECLARE tab text;
+BEGIN
+ FOREACH tab IN ARRAY ARRAY[
+   'child_signals','alert_events','notification_deliveries','app_usage_intervals'
+ ] LOOP
+   EXECUTE format(
+     'CREATE POLICY free_admission_read_gate ON ap_m1.%I AS RESTRICTIVE '
+     'FOR SELECT TO ap_m1_api USING (ap_m1.child_free_admitted(child_id))',tab
+   );
+ END LOOP;
+END $more_read_gates$;
