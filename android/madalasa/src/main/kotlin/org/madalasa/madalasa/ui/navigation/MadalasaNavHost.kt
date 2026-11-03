@@ -107,6 +107,7 @@ fun MadalasaNavHost(
         composable(Screen.ChildSelection.route) {
             ChildSelectionScreen(
                 uiState = uiState,
+                syntheticPreview = !googleConfiguration.isConfigured(),
                 onChildSelected = { childId ->
                     // Navigate only after this specific child has passed a
                     // fresh authenticated, server-scoped repository read.
@@ -126,6 +127,7 @@ fun MadalasaNavHost(
         composable(Screen.Shell.route) {
             ShellScreen(
                 uiState = uiState,
+                syntheticPreview = !googleConfiguration.isConfigured(),
                 onNavigateToChildSelection = {
                     navController.navigate(Screen.ChildSelection.route)
                 },
