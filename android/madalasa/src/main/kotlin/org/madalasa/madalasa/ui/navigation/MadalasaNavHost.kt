@@ -60,16 +60,14 @@ fun MadalasaNavHost(
 
         composable(Screen.Authentication.route) {
             AuthenticationScreen(
-                onAuthenticated = {
-                    // A synthetic preview must never stand in for live Google
-                    // authentication when the backend/OIDC client is configured.
-                    if (!googleConfiguration.isConfigured()) {
-                        viewModel.loadData()
-                        navController.navigate(Screen.ChildSelection.route) {
-                            popUpTo(Screen.Onboarding.route) { inclusive = true }
-                        }
+                onAuthenticated = if (googleConfiguration.isConfigured()) null else ({
+                    // Synthetic preview is never reachable from configured
+                    // OIDC/backend environments or a non-debuggable release.
+                    viewModel.loadData()
+                    navController.navigate(Screen.ChildSelection.route) {
+                        popUpTo(Screen.Onboarding.route) { inclusive = true }
                     }
-                },
+                }),
                 onBackToWelcome = {
                     navController.popBackStack()
                 },
