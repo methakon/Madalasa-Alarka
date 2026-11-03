@@ -14,6 +14,12 @@ object AndroidPermissionPreflight {
         if (report == null) return AndroidLocationSetupPlan(
             LocationSetupAction.MANIFEST_NOT_READY, "Android capability scan is unavailable"
         )
+        if (pairedWithVerifiedCredential && server == null) {
+            return AndroidLocationSetupPlan(
+                LocationSetupAction.AWAITING_SERVER_CONSENT,
+                "Current server authorization is unavailable; monitoring remains off"
+            )
+        }
         val declared = report.permissionsDeclared.toSet()
         val granted = report.permissionsGranted.toSet()
         return Android10To16PermissionPlan.evaluate(AndroidLocationSetupFacts(
