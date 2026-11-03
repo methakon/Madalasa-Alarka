@@ -127,6 +127,12 @@ fun ChildSelectionScreen(
                             } else if (child.freeServiceState == "ADMITTED") {
                                 Text("Free slot allocated · Consent and device setup required",
                                     color = ThemeCTokens.Teal,fontSize=12.sp)
+                            } else {
+                                Text(
+                                    "Service status not verified. Refresh before proceeding.",
+                                    color = ThemeCTokens.Vermilion,
+                                    fontSize = 12.sp
+                                )
                             }
                         }
                         if (child.id == uiState.selectedChildId) {
