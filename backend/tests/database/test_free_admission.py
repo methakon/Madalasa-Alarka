@@ -4,6 +4,7 @@ The test changes are rolled back, including the synthetic family, child aliases,
 admission rows and erasure tombstone. It NEVER runs on a production DSN.
 """
 import unittest
+import psycopg
 from uuid import uuid4
 from fixtures import admin_connection
 
@@ -41,6 +42,15 @@ class FreeAdmissionTests(unittest.TestCase):
                 "SELECT ap_m1.child_free_admitted(%s)", (ids[-2],)).fetchone()[0])
             self.assertFalse(db.execute(
                 "SELECT ap_m1.child_free_admitted(%s)", (ids[-1],)).fetchone()[0])
+            # Even a fabricated device id cannot start a queued child's
+            # SOS/check-in pipeline: admission is enforced before FK checks.
+            with self.assertRaises(psycopg.errors.InsufficientPrivilege):
+                with db.transaction():
+                    db.execute(
+                        "INSERT INTO ap_m1.child_signals(event_id,child_id,device_id,kind,observed_at) "
+                        "VALUES(%s,%s,%s,'IM_SAFE',clock_timestamp())",
+                        (uuid4(), ids[-2], uuid4())
+                    )
             if needed:
                 db.execute(
                     "INSERT INTO ap_m1.child_erasure_tombstones(child_id,reason_code) "
