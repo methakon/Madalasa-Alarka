@@ -4,6 +4,7 @@
 CREATE TABLE ap_m1.free_child_admissions (
  child_id uuid PRIMARY KEY REFERENCES ap_m1.children(id) ON DELETE CASCADE,
  family_id uuid NOT NULL,
+ requested_by uuid REFERENCES ap_m1.parent_principals(id),
  admission_state text NOT NULL CHECK(admission_state IN ('ADMITTED','WAITLISTED','RELEASED')),
  queued_at timestamptz NOT NULL DEFAULT clock_timestamp(),
  admitted_at timestamptz,
@@ -36,14 +37,14 @@ GRANT EXECUTE ON FUNCTION ap_m1.free_child_family_owner(uuid) TO ap_m1_api,ap_db
 
 CREATE POLICY admission_owner_read ON ap_m1.free_child_admissions
  FOR SELECT TO ap_m1_api
- USING(ap_m1.free_child_family_owner(family_id) OR ap_m1.has_child_scope_v2(child_id,'VIEW_CHILD_PROFILE'));
+ USING((requested_by=ap_m1.ctx_principal() AND ap_m1.free_child_family_owner(family_id))
+       OR ap_m1.has_child_scope_v2(child_id,'VIEW_CHILD_PROFILE'));
 GRANT SELECT,INSERT,UPDATE ON ap_m1.free_child_admissions TO ap_db_executor;
 GRANT SELECT ON ap_m1.free_child_admissions TO ap_m1_api;
 
--- Owners must be able to review a newly created queued profile before
--- consent/guardian-grant approval; other guardians retain per-child RLS.
-CREATE POLICY free_queue_owner_child_profile ON ap_m1.children
- FOR SELECT TO ap_m1_api USING(ap_m1.free_child_family_owner(family_id) AND NOT ap_m1.has_consent(id,'CORE'));
+-- Preserve the original children_r RLS policy unchanged: registration never
+-- grants wider access to siblings, revoked children or unconsented profiles.
+-- The new registrant-only view below supplies the queue receipt separately.
 
 -- Backfill preexisting synthetic child profiles deterministically.
 -- Historical child state is never rewritten, and deleted children occupy no slot.
@@ -71,8 +72,8 @@ BEGIN
  PERFORM pg_catalog.pg_advisory_xact_lock(108,20261103);
  SELECT count(*) INTO n FROM ap_m1.free_child_admissions WHERE admission_state='ADMITTED';
  admitted:=n<108 AND NEW.state='ACTIVE' AND NEW.deleted_at IS NULL AND NEW.deletion_requested_at IS NULL;
- INSERT INTO ap_m1.free_child_admissions(child_id,family_id,admission_state,admitted_at)
- VALUES(NEW.id,NEW.family_id,
+ INSERT INTO ap_m1.free_child_admissions(child_id,family_id,requested_by,admission_state,admitted_at)
+ VALUES(NEW.id,NEW.family_id,ap_m1.ctx_principal(),
         CASE WHEN admitted THEN 'ADMITTED' ELSE 'WAITLISTED' END,
         CASE WHEN admitted THEN clock_timestamp() ELSE NULL END);
  RETURN NEW;
@@ -135,8 +136,9 @@ LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public
 DECLARE v ap_m1.free_child_admissions%ROWTYPE;
 BEGIN
  SELECT * INTO v FROM ap_m1.free_child_admissions WHERE child_id=p_child;
- IF NOT FOUND OR NOT (ap_m1.free_child_family_owner(v.family_id)
-          OR ap_m1.has_child_scope_v2(p_child,'VIEW_CHILD_PROFILE')) THEN
+ IF NOT FOUND OR NOT (
+      (v.requested_by=ap_m1.ctx_principal() AND ap_m1.free_child_family_owner(v.family_id))
+      OR ap_m1.has_child_scope_v2(p_child,'VIEW_CHILD_PROFILE')) THEN
    RETURN;
  END IF;
  service_state:=v.admission_state;
@@ -169,12 +171,44 @@ ALTER FUNCTION ap_m1.has_child_scope_v2(uuid,text) OWNER TO ap_m1_auth;
 REVOKE ALL ON FUNCTION ap_m1.has_child_scope_v2(uuid,text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION ap_m1.has_child_scope_v2(uuid,text) TO ap_m1_api,ap_db_executor,ap_m1_auth;
 
+-- Status of profiles this authenticated adult actually registered. The
+-- privileged selector is intentionally more narrow than family membership;
+-- no modification to the original children_r policy is required.
+GRANT SELECT ON ap_m1.free_child_admissions TO ap_m1_auth;
+CREATE FUNCTION ap_m1.my_free_registration_profiles(p_family uuid)
+ RETURNS TABLE(id uuid,family_id uuid,alias text,state text,
+               service_state text,queue_position bigint,max_children integer)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
+ SELECT c.id,c.family_id,c.alias,c.state,
+        a.admission_state,
+        CASE WHEN a.admission_state='WAITLISTED' THEN
+           (SELECT count(*) FROM ap_m1.free_child_admissions q
+              WHERE q.admission_state='WAITLISTED'
+              AND (q.queued_at,q.child_id)<=(a.queued_at,a.child_id))
+             ELSE NULL::bigint END,
+        108
+ FROM ap_m1.free_child_admissions a
+ JOIN ap_m1.children c ON c.id=a.child_id AND c.family_id=a.family_id
+ WHERE a.family_id=p_family
+ AND a.requested_by=ap_m1.ctx_principal()
+ AND ap_m1.free_child_family_owner(p_family)
+ AND c.state='ACTIVE' AND c.deleted_at IS NULL AND c.deletion_requested_at IS NULL
+ AND NOT ap_m1.child_deleted(c.id)
+$fn$;
+ALTER FUNCTION ap_m1.my_free_registration_profiles(uuid) OWNER TO ap_m1_auth;
+REVOKE ALL ON FUNCTION ap_m1.my_free_registration_profiles(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION ap_m1.my_free_registration_profiles(uuid) TO ap_m1_api;
+
 -- Gate service operations at the storage layer so alternate HTTP handlers
 -- cannot bypass the 108-slot cap. Guardian signup, status, consent and
 -- erasure requests are intentionally NOT blocked.
 CREATE FUNCTION ap_m1._require_free_child_admission() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
 BEGIN
+ -- A privacy erasure must always be allowed to REVOKE a device, including
+ -- after the child has lost admission. Never block cleanup or restored purge.
+ IF TG_TABLE_NAME='devices' AND TG_OP='UPDATE' AND NEW.enrollment_state='REVOKED'
+ THEN RETURN NEW; END IF;
  IF NOT ap_m1.child_free_admitted(NEW.child_id) THEN
    RAISE EXCEPTION 'FREE_SERVICE_WAITLISTED' USING ERRCODE='42501';
  END IF;
