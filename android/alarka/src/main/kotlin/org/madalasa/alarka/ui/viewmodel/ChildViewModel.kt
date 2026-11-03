@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.madalasa.alarka.di.ChildAppContainer
+import org.madalasa.alarka.service.ChildPairingPolicy
 import org.madalasa.alarka.service.CapabilitySyncReconciler
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.alarka.service.EnrollmentResult
@@ -71,7 +72,18 @@ class ChildViewModel(
     }
 
     fun submitPairing() {
-        val code = _uiState.value.pairingCode.ifBlank { _uiState.value.suggestedCode }
+        if (_uiState.value.isEnrolling) return
+        val validated = ChildPairingPolicy.validate(
+            _uiState.value.disclosureAcknowledged, _uiState.value.pairingCode
+        )
+        if (validated.isFailure) {
+            _uiState.value = _uiState.value.copy(
+                isEnrolling = false,
+                errorMessage = validated.exceptionOrNull()?.message ?: "Pairing not permitted"
+            )
+            return
+        }
+        val code = validated.getOrThrow()
         _uiState.value = _uiState.value.copy(isEnrolling = true, errorMessage = null)
         viewModelScope.launch {
             val result = container.enrollmentService.completeEnrollment(code)
@@ -96,6 +108,7 @@ class ChildViewModel(
             _uiState.value = _uiState.value.copy(
                 enrollmentResult = null,
                 pairingCode = "",
+                disclosureAcknowledged = false,
                 connectivityStatus = "Standby (Synthetic)",
                 errorMessage = null
             )
