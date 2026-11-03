@@ -63,6 +63,21 @@ class ParentViewModel(
         }
     }
 
+    fun registerChild(familyLabel: String, alias: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            repository.registerChild(familyLabel,alias).fold(
+                onSuccess = { child ->
+                    onResult(if(child.freeServiceState=="WAITLISTED")
+                        "Signup complete. You are in the service queue" +
+                            (child.queuePosition?.let { " (position $it)" } ?: "") +
+                            ". Your child's free services will begin when a slot becomes available."
+                    else "Child profile created. A free slot is allocated; finish authority, consent and device setup.")
+                },
+                onFailure = { e -> onResult(e.message ?: "Registration could not be confirmed") }
+            )
+        }
+    }
+
     fun generatePairingCode(childId: String, onGenerated: (String) -> Unit) {
         viewModelScope.launch {
             val result = repository.generatePairingCode(childId)
