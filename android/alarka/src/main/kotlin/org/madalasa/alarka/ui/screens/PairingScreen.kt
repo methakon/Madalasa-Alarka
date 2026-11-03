@@ -1,5 +1,7 @@
 package org.madalasa.alarka.ui.screens
 
+import android.content.pm.ApplicationInfo
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +37,9 @@ fun PairingScreen(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val syntheticPreview =
+        context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
 
     Column(
         modifier = modifier
@@ -50,8 +55,10 @@ fun PairingScreen(
 
         if (enrollmentResult != null && enrollmentResult.success) {
             APStatusPanel(
-                title = "Device Enrolled Successfully",
-                detail = "Paired with ${enrollmentResult.guardianAlias ?: "Guardian"} as ${enrollmentResult.devicePseudonym ?: "Child Device"}.",
+                title = if (syntheticPreview) "Synthetic Pairing Preview" else "Device Enrollment Verified",
+                detail = if (syntheticPreview)
+                    "Mock-only pairing succeeded. No live guardian connection, monitoring or server proof was established."
+                else "Verified device enrollment received.",
                 actionLabel = "Proceed to Permission & Status",
                 onAction = onNavigateNext
             )
@@ -104,19 +111,27 @@ fun PairingScreen(
                 )
             }
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = ThemeCColors.Parchment
-                )
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Synthetic Test Helper: Use code $suggestedCode or 123456 to simulate immediate parent handshake.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = ThemeCColors.Ink.copy(alpha = 0.7f)
+            if (syntheticPreview) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = ThemeCColors.Parchment
                     )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Synthetic test only: $suggestedCode or 123456. This is NOT cryptographic enrollment.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = ThemeCColors.Ink.copy(alpha = 0.7f)
+                        )
+                    }
                 }
+            } else {
+                Text(
+                    "Real device pairing is disabled until server proof-of-possession and guardian authorization are verified.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = ThemeCColors.Critical
+                )
             }
         }
     }
