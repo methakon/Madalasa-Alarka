@@ -13,7 +13,9 @@ data class ServerConsentStatus(
     val usageConsent: Boolean,
     val mediaConsent: Boolean,
     val childDeleted: Boolean,
-    val collectionAuthorized: Boolean
+    val collectionAuthorized: Boolean,
+    /** Exact child's free-service admission, returned by the trusted server. */
+    val childServiceAdmitted: Boolean = false
 )
 
 interface ChildPrivacyGateway {
@@ -66,7 +68,8 @@ class HttpsChildPrivacyGateway(
                         usageConsent = body.getBoolean("usage_consent"),
                         mediaConsent = body.getBoolean("media_consent"),
                         childDeleted = body.getBoolean("deleted"),
-                        collectionAuthorized = body.getBoolean("collection_authorized")
+                        collectionAuthorized = body.getBoolean("collection_authorized"),
+                        childServiceAdmitted = body.optBoolean("child_service_admitted", false)
                     )
                 } finally {
                     connection.disconnect()
