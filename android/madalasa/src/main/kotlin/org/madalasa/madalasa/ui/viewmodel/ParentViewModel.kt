@@ -78,6 +78,24 @@ class ParentViewModel(
         }
     }
 
+    fun checkPairedDevice(childId: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            repository.getPairedDevice(childId).fold(
+                onSuccess = { device ->
+                    onResult(if (device == null)
+                        "No active paired device for this child."
+                    else "Paired Alarka: ${device.manufacturer} ${device.model}" +
+                        (device.androidApi?.let { " · Android API $it" } ?: "") +
+                        " · App ${device.appVersion} · ${device.pairingMethod}" +
+                        (device.pairedAt?.let { " · Paired $it" } ?: ""))
+                },
+                onFailure = { error ->
+                    onResult(error.message ?: "Verified child device information is unavailable")
+                }
+            )
+        }
+    }
+
     fun generatePairingCode(
         childId: String,
         onGenerated: (String) -> Unit,
