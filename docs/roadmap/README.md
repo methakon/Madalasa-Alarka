@@ -3,6 +3,7 @@
 Planning baseline: 20 phases and 262 atomic acceptance tasks; implementation checkpoints are separately evidenced. Local development uses synthetic test data.
 
 > **Implementation status reconciliation (2026-11-01):** The original 262 task acceptance statuses have **not** been reverified and remain NOT_STARTED in the evidence ledger. This does not mean no code exists: both Android Gradle application modules and the shared UI module are present; 60 parent and 21 child initial screen composables exist on the `parent`/`child` branches; their builds, runtime navigation and Figma visual fidelity are not yet verified. The ParentOIDC bridge PR #16 is merged. The new 168-hour inactivity sampling design is documented but not coded. See [Android UI and inactivity execution addendum](ANDROID_UI_AND_INACTIVITY_EXECUTION_ADDENDUM_2026-11-01.md) and [execution status ledger](LOCAL_TASK_EXECUTION_STATUS.json).\n\n- [Non-payment implementation progress (2026-11-03): code, tests, limitations and branch handoffs](NON_PAYMENT_WORKSTREAM_IMPLEMENTATION_2026-11-03.md)
+- [Child erasure/export request API contract supplement (2026-11-03)](NON_PAYMENT_PRIVACY_API_CONTRACT_2026-11-03.md)
 - [Local development roadmap](LOCAL_AGENT_DEVELOPMENT_ROADMAP_2026-10-28.md)
 - [Machine-readable task dependency graph](LOCAL_TASK_GRAPH_2026-10-28.json)
 - [Task execution status ledger](LOCAL_TASK_EXECUTION_STATUS.json)
