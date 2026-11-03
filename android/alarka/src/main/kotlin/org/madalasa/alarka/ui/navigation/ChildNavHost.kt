@@ -152,6 +152,7 @@ fun ChildNavHost(
             composable(ChildNavRoute.Permissions.route) {
                 PermissionsScreen(
                     report = uiState.capabilityReport,
+                    pairedForOptionalModules = viewModel.hasVerifiedParentPairing(),
                     onNavigateNext = { navController.navigate(ChildNavRoute.Connectivity.route) },
                     onRefresh = { viewModel.refreshCapabilities() },
                     onViewCapabilityGuide = { navController.navigate(ChildNavRoute.CapabilityGuide.route) },
