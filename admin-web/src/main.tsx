@@ -105,7 +105,20 @@ function App(){
      }else{setRoles([]);setAuth('applicant');}
    }catch(e){clearCsrfToken();setRoles([]);setSessionError(e instanceof Error?e.message:'Authentication failed');setAuth('signed-out');}
  }}/>
- if(auth==='applicant')return <Applicant access={access} onRefresh={()=>{void request<AccessState>('/admin/access/me').then(setAccess).catch(()=>setSessionError('Unable to refresh application status'));}} error={sessionError}/>;
+ if(auth==='applicant')return <Applicant access={access} onRefresh={()=>{
+   void (async()=>{
+     try{
+       const updated=await request<AccessState>('/admin/access/me');
+       const serverRoles=updated.status==='APPROVED'?onlyServerRoles(updated.role_codes):[];
+       if(serverRoles.length){
+         const proof=await request<{csrf_token:string}>('/admin/auth/csrf',{method:'POST'});
+         if(!setCsrfToken(proof.csrf_token))throw new Error('Session confirmation failed');
+         setRoles(serverRoles);setAuth('active');
+       }
+       setAccess(updated);setSessionError('');
+     }catch{setSessionError('Unable to verify updated application status');}
+   })();
+ }} error={sessionError}/>;
  const accessLocked=(!permitted||!allowed);
  return <div className="app-shell">
   <aside className={'sidebar '+(menuOpen?'open':'')}>
@@ -193,7 +206,7 @@ function GoogleEntry({error,onApproved}:{error:string;onApproved:(idToken:string
  return <main className="auth-layout"><div className="auth-card"><div className="brand-mark"><ShieldCheck/></div><p className="overline">MADALASA · ADMINISTRATION</p><h1>Welcome to the secure administration portal</h1><p>Continue with Google. Only a verified owner can approve staff and assign roles. An applicant may only access their own application status.</p><div ref={setRoot} className="google-button"/>{!clientId&&<div className="notice"><LockKeyhole size={17}/> Google admin login is unavailable until the approved OAuth client and secure admin backend are configured.</div>}{status&&<div className="notice">{status}</div>}{error&&<div className="error-note" role="alert">{error}</div>}<p className="fine">Google sign-in alone does not grant administrative access, billing visibility or access to child data.</p></div></main>;
 }
 function Applicant({access,onRefresh,error}:{access:AccessState|null;onRefresh:()=>void;error:string}){
- const [fullName,setFullName]=useState(''),[email,setEmail]=useState(''),[address,setAddress]=useState(''),[gender,setGender]=useState(''),[dob,setDob]=useState('');
+ const [fullName,setFullName]=useState(''),[email,setEmail]=useState('');
  const revision=access?.profile_revision??0;const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[problem,setProblem]=useState('');
  const [challenge,setChallenge]=useState(''),[code,setCode]=useState('');
  const act=async(path:string,method:'PUT'|'POST',body:unknown)=>{
@@ -208,11 +221,9 @@ function Applicant({access,onRefresh,error}:{access:AccessState|null;onRefresh:(
  <h1>{pending?'Your access application is awaiting review':'Complete your verified applicant profile'}</h1>
  <p>Application state: <strong>{currentState}</strong>. Only your own application is visible before owner approval.</p>
  {error&&<div className="error-note">{error}</div>}{problem&&<div className="error-note">{problem}</div>}{message&&<div className="success-note">{message}</div>}
- {!pending&&<><div className="notice"><LockKeyhole size={18}/> Name and contact email are required by the proposed contract. Date of birth, postal address and gender remain optional unless separately justified by approved privacy policy.</div>
+ {!pending&&<><div className="notice"><LockKeyhole size={18}/> Only the minimum contact details required for staff access review are collected. Date of birth, address and gender are not requested.</div>
  <label>Full name<input value={fullName} onChange={e=>setFullName(e.target.value)} maxLength={150} autoComplete="name"/></label>
  <label>Contact email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email"/></label>
- <label>Postal address (optional)<textarea rows={2} value={address} onChange={e=>setAddress(e.target.value)} maxLength={600}/></label>
- <div className="grid two"><label>Date of birth (optional)<input type="date" value={dob} onChange={e=>setDob(e.target.value)}/></label><label>Gender (optional)<select value={gender} onChange={e=>setGender(e.target.value)}><option value="">Prefer not to specify</option><option>Female</option><option>Male</option><option>Non-binary</option><option>Self-describe</option><option>Prefer not to say</option></select></label></div>
  <div className="button-row"><Button disabled={busy||!fullName.trim()||!email.includes('@')} onClick={()=>void act('/admin/access/profile','PUT',{full_name:fullName.trim(),contact_email:email.trim(),expected_revision:revision,privacy_notice_version:'admin-access-draft-2026-10'})}>Save profile</Button>
  <Button kind="secondary" disabled={busy||!email.includes('@')} onClick={()=>void act('/admin/access/verify-email','POST',{contact_email:email.trim()})}>Verify email</Button></div>
  <p className="fine">The backend must create the email challenge and validate verified Google email server-side; the UI cannot self-certify.</p>
