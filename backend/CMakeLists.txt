@@ -130,3 +130,7 @@ if(MA_LOCAL_DB_READ_PROBE)
   target_link_libraries(database_config_test PRIVATE ma_local_database)
   add_test(NAME database_config COMMAND database_config_test)
 endif()
+
+# Phase 15: pure erasure state/fence tests (no database or credentials required).
+add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
+add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
