@@ -18,6 +18,8 @@ interface ChildAppContainer {
     val enrollmentService: AlarkaEnrollmentService
     val capabilityScanner: DeviceCapabilityScanner
     val privacyGateway: ChildPrivacyGateway
+    /** A local, unexpired server-issued credential is necessary, not sufficient. */
+    fun hasVerifiedParentPairing(): Boolean = false
 }
 
 class DefaultChildAppContainer(context: Context) : ChildAppContainer {
@@ -50,6 +52,9 @@ class DefaultChildAppContainer(context: Context) : ChildAppContainer {
             credentialProvider = { sessionStore.currentSession()?.credential }
         )
     }
+
+    override fun hasVerifiedParentPairing(): Boolean =
+        apiOrigin.isNotBlank() && sessionStore.currentSession() != null
 
     override val capabilityScanner: DeviceCapabilityScanner by lazy {
         AndroidDeviceCapabilityScanner(applicationContext)
