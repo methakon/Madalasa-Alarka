@@ -38,6 +38,7 @@ fun ChildSelectionScreen(
     uiState: ParentUiState,
     onChildSelected: (String) -> Unit,
     onPairNewChild: (onCode: (String) -> Unit, onError: (String) -> Unit) -> Unit,
+    onViewPairedDevice: (onStatus: (String) -> Unit) -> Unit = {},
     onRefreshServiceStatus: () -> Unit = {},
     onRegisterChild: (familyLabel: String, childAlias: String, onResult: (String) -> Unit) -> Unit = { _, _, _ -> },
     syntheticPreview: Boolean = false
@@ -201,6 +202,14 @@ fun ChildSelectionScreen(
             colors = ButtonDefaults.buttonColors(containerColor = ThemeCTokens.DeepIndigo)
         ) {
             Text("+ Pair New Companion Device", color = ThemeCTokens.Parchment)
+        }
+        if (availableChildren.isNotEmpty()) {
+            Button(
+                onClick = { onViewPairedDevice { registrationMessage = it } },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("View paired child device")
+            }
         }
         if (generatedCode != null) {
             Text(
