@@ -31,7 +31,8 @@ class SyntheticMadalasaRepository(
     // remain authoritative; this is NOT a substitute for checking them on the server.
     private fun selectedChildAllowed(id: String): Boolean =
         _children.value.any { child ->
-            child.id == id && _profile.value?.familyIds?.contains(child.familyId) == true
+            child.id == id && child.freeServiceState != "WAITLISTED" &&
+                _profile.value?.familyIds?.contains(child.familyId) == true
         }
 
     private fun clearSelectedChild() {
@@ -88,8 +89,9 @@ class SyntheticMadalasaRepository(
             !selectedChildAllowed(_selectedChildId.value!!)) {
             clearSelectedChild()
         }
-        if (_selectedChildId.value == null && _children.value.isNotEmpty()) {
-            return selectChild(_children.value.first().id)
+        val firstAdmitted=_children.value.firstOrNull { it.freeServiceState != "WAITLISTED" }
+        if (_selectedChildId.value == null && firstAdmitted != null) {
+            return selectChild(firstAdmitted.id)
         }
         return Result.success(Unit)
     }
@@ -109,6 +111,16 @@ class SyntheticMadalasaRepository(
         _selectedChildId.value = childId
         _selectedChildLocation.value = locResult.getOrNull()
         return Result.success(Unit)
+    }
+
+    override suspend fun registerChild(familyLabel: String, alias: String): Result<ChildSummaryResponse> {
+        val profile=_profile.value
+            ?: return Result.failure(SecurityException("Parent must sign in before registration"))
+        val familyId=profile.familyIds.firstOrNull()
+            ?: apiClient.createFamily(familyLabel).getOrElse { return Result.failure(it) }
+        val created=apiClient.createChild(familyId,alias)
+        if(created.isSuccess) refreshProfile()
+        return created
     }
 
     override suspend fun generatePairingCode(childId: String): Result<String> {
