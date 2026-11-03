@@ -1,7 +1,10 @@
 package org.madalasa.madalasa.di
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import org.madalasa.madalasa.R
+import org.madalasa.madalasa.api.HttpsMadalasaApiClient
+import org.madalasa.madalasa.api.UnavailableMadalasaApiClient
 import org.madalasa.madalasa.api.GoogleParentConfiguration
 import org.madalasa.madalasa.api.HttpsPrivacyGateway
 import org.madalasa.madalasa.api.ParentSessionMemory
@@ -42,7 +45,19 @@ class DefaultAppContainer(context: Context) : AppContainer {
         } ?: UnauthenticatedPrivacyGateway()
     }
     override val apiClient: MadalasaApiClient by lazy {
-        SyntheticMadalasaApiClient()
+        val origin = googleParentConfiguration.normalizedOrigin()
+        val debugPreview = appContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        when {
+            // A configured API always takes priority: never mix actual accounts
+            // and the synthetic demo fixtures in the same repository.
+            origin != null -> HttpsMadalasaApiClient(
+                origin = origin,
+                bearer = { parentSessionMemory.currentToken() },
+                actorId = { parentSessionMemory.currentActorId() }
+            )
+            debugPreview -> SyntheticMadalasaApiClient()
+            else -> UnavailableMadalasaApiClient()
+        }
     }
 
     override val repository: MadalasaRepository by lazy {
