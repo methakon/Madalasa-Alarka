@@ -14,6 +14,13 @@ Owner request: implement **(1) admin and security, (2) parent Android core, (3) 
 | Child Android | `child` at `5bea4f4` | `ChildPairingPolicy` requires disclosure acknowledgment and six ASCII digits explicitly entered; `ChildViewModel` enforces it; unpairing resets disclosure; JUnit regression tests committed | Equivalent policy compiled and executed with `kotlinc` + `java -jar` on JDK; **Gradle Android unit/device tests NOT RUN here**. Still a synthetic enrollment service, not real pairing proof. |
 | Privacy erasure | `api` at `e5ff928` | Pure C++20 erasure coordinator state machine: request immediately denies reads; requires authority revocation then durable tombstone; generation-bound per-store receipts; cannot report completion early; restored items are suppressed; CMake test target registered | Equivalent standalone header/test verified with `g++ -std=c++20 -Wall -Wextra -Werror`: PASS. **Not wired to SQL, deletion workers, queues, APIs or backup recovery.** |
 
+## Follow-up integration changes (same day)
+
+- **Parent read-only job status:** `parent` now includes `PrivacyGateway.erasureRequests/exportRequests`, the requests-page navigation and unauthenticated negative tests. Submission buttons remain disabled.
+- **Backend authenticated request routes:** `api` now includes four POST/GET child-scoped erasure/export routes, using existing reviewed PostgreSQL request functions and request-owner RLS. **202 means accepted request, not completed processing.** See [narrow API contract supplement](NON_PAYMENT_PRIVACY_API_CONTRACT_2026-11-03.md).
+- **Branch reconciliation:** `api` was synchronized to the latest `main` as a two-parent merge commit, preserving all existing Phase 10 work while removing outdated `docs/**` differences; `dev` fast-forwarded to current documentation. Existing API PR #28 still includes Phase 10 work; do not merge billing changes without its independent tests.
+- **CI findings:** Admin web and child Android checks passed on their initial PR heads. Parent Android CI caught two outdated test expectations; those tests were updated and require a new CI pass. API full C++/PostgreSQL checks and branch-route revalidation are pending. No unsupported claim of complete E2E acceptance.
+
 ## Key fail-closed invariants
 
 - An administrator's OIDC identity alone never supplies privileges; the server authorizes current roles from a live session. The frontend keeps CSRF proof only in process memory; the admin logout button invokes the server logout route and does not silently claim success.
