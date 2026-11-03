@@ -36,6 +36,14 @@ The `parent` branch now includes `HttpsMadalasaApiClient` and a verified-session
 
 CI for these new transport/navigation changes still requires the parent Android Gradle suite and physical/HTTPS integration tests. No production account/child data was used.
 
+## Child synthetic-enrollment release fence and CI
+
+The `child` branch now contains `UnavailableAlarkaEnrollmentService` and a `DefaultChildAppContainer` injection rule: only debuggable builds instantiate `SyntheticAlarkaEnrollmentService`. Non-debuggable builds refuse pairing until Keystore-bound device proof, approved guardian authority, Android platform consent and backend enrollment are implemented and tested.
+
+`ChildViewModel` no longer labels any successful synthetic operation as a live guardian connection; unsuccessful enrollment results are not turned into success, and a failed unpair request does not wipe local UI state or falsely claim revocation. The PairingScreen identifies mock enrollment as **synthetic preview** and shows test helper codes only in debuggable builds. The release fallback has an explicit JUnit denial test.
+
+**CI checkpoint:** Admin-web synthetic checks and original child Android build/tests passed; parent Android CI (latest verified head before these doc changes) passed its compile/unit workflow including the authenticated family client. The final child-branch production-guard test run remains to be independently verified before merge. The API's M1 backend/test suite and branch-route CI passed after rebasing the effective code changes on the newer main docs; no production OAuth, actual child enrollment, HTTP-to-Postgres deletion/export or real-location endpoint has been end-to-end exercised by this record.
+
 ## Key fail-closed invariants
 
 - An administrator's OIDC identity alone never supplies privileges; the server authorizes current roles from a live session. The frontend keeps CSRF proof only in process memory; the admin logout button invokes the server logout route and does not silently claim success.
