@@ -36,7 +36,8 @@ import org.madalasa.madalasa.ui.viewmodel.ParentUiState
 fun ChildSelectionScreen(
     uiState: ParentUiState,
     onChildSelected: (String) -> Unit,
-    onPairNewChild: () -> Unit
+    onPairNewChild: () -> Unit,
+    syntheticPreview: Boolean = false
 ) {
     var generatedCode by remember { mutableStateOf<String?>(null) }
 
@@ -58,6 +59,13 @@ fun ChildSelectionScreen(
             color = ThemeCTokens.MutedText
         )
         Spacer(modifier = Modifier.height(16.dp))
+        if (syntheticPreview) {
+            Text("SYNTHETIC DEVELOPMENT PREVIEW · NO LIVE CHILD MONITORING",
+                color = ThemeCTokens.Vermilion,
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
         LazyColumn(
             modifier = Modifier.weight(1f),
