@@ -178,7 +178,7 @@
     {
       "id": "v2:0023",
       "path": "backend/persistence/migrations/0023_free_first_108_child_admission.sql",
-      "sha256": "001498b2d0a901a8bbfd3e38d1b22584bf6a4dc3124ea92044b3989516baaab6",
+      "sha256": "1546311dbcf0cb0161403f2309a0ce3f80760b877962bcf752dba3363a224231",
       "published": false
     }
   ]
