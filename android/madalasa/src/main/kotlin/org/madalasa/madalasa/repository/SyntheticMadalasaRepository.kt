@@ -31,7 +31,7 @@ class SyntheticMadalasaRepository(
     // remain authoritative; this is NOT a substitute for checking them on the server.
     private fun selectedChildAllowed(id: String): Boolean =
         _children.value.any { child ->
-            child.id == id && child.freeServiceState != "WAITLISTED" &&
+            child.id == id && child.freeServiceState == "ADMITTED" &&
                 _profile.value?.familyIds?.contains(child.familyId) == true
         }
 
@@ -89,7 +89,7 @@ class SyntheticMadalasaRepository(
             !selectedChildAllowed(_selectedChildId.value!!)) {
             clearSelectedChild()
         }
-        val firstAdmitted=_children.value.firstOrNull { it.freeServiceState != "WAITLISTED" }
+        val firstAdmitted=_children.value.firstOrNull { it.freeServiceState == "ADMITTED" }
         if (_selectedChildId.value == null && firstAdmitted != null) {
             return selectChild(firstAdmitted.id)
         }
