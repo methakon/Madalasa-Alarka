@@ -43,7 +43,7 @@ GRANT SELECT ON ap_m1.free_child_admissions TO ap_m1_api;
 -- Owners must be able to review a newly created queued profile before
 -- consent/guardian-grant approval; other guardians retain per-child RLS.
 CREATE POLICY free_queue_owner_child_profile ON ap_m1.children
- FOR SELECT TO ap_m1_api USING(ap_m1.free_child_family_owner(family_id));
+ FOR SELECT TO ap_m1_api USING(ap_m1.free_child_family_owner(family_id) AND NOT ap_m1.has_consent(id,'CORE'));
 
 -- Backfill preexisting synthetic child profiles deterministically.
 -- Historical child state is never rewritten, and deleted children occupy no slot.
@@ -153,6 +153,21 @@ END $fn$;
 ALTER FUNCTION ap_m1.free_child_admission_status(uuid) OWNER TO ap_db_executor;
 REVOKE ALL ON FUNCTION ap_m1.free_child_admission_status(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION ap_m1.free_child_admission_status(uuid) TO ap_m1_api;
+
+-- Existing guardian grants and owner sign-in do not imply a service
+-- slot. All service scopes are denied for WAITLISTED/RELEASED children even
+-- when synthetic fixtures contain old paid entitlements or consent records.
+-- Management and status/deletion scopes remain accessible for privacy rights.
+CREATE OR REPLACE FUNCTION ap_m1.has_child_scope_v2(child uuid,wanted text) RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
+ SELECT ap_m1._adult_has_scope(child,ap_m1.ctx_principal(),wanted)
+ AND (wanted IN ('VIEW_CHILD_PROFILE','MANAGE_CHILD_GRANTS','MANAGE_CONSENT')
+      OR ap_m1.child_free_admitted(child))
+$fn$;
+-- Preserve existing SECURITY DEFINER owner, but document exact execution ACLs:
+ALTER FUNCTION ap_m1.has_child_scope_v2(uuid,text) OWNER TO ap_m1_auth;
+REVOKE ALL ON FUNCTION ap_m1.has_child_scope_v2(uuid,text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION ap_m1.has_child_scope_v2(uuid,text) TO ap_m1_api,ap_db_executor,ap_m1_auth;
 
 -- Gate service operations at the storage layer so alternate HTTP handlers
 -- cannot bypass the 108-slot cap. Guardian signup, status, consent and
