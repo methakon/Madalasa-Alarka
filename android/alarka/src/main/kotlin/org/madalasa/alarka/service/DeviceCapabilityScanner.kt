@@ -6,7 +6,13 @@ data class DeviceCapabilityReport(
     val hasBleHardware: Boolean,
     val hasCameraHardware: Boolean,
     val hasMicrophoneHardware: Boolean,
-    val permissionsGranted: List<String>
+    val permissionsGranted: List<String>,
+    /** Declared permissions are fixed at build time; grants are dynamic. */
+    val permissionsDeclared: List<String> = emptyList(),
+    val hasNetworkLocationHardware: Boolean = false,
+    val systemLocationEnabled: Boolean = false,
+    val notificationsEnabled: Boolean = false,
+    val locationForegroundServiceDeclared: Boolean = false
 )
 
 interface DeviceCapabilityScanner {
