@@ -9,6 +9,8 @@ Planning baseline: 20 phases and 262 atomic acceptance tasks; implementation che
 - [QR pairing and one-active-Alarka-device-per-child design, audit, replacement gates](QR_PAIRING_SINGLE_DEVICE_2026-11-03.md)
 
 - [Android 10–16 free release dynamic permissions and deployment-readiness gates](ANDROID_10_TO_16_FREE_RELEASE_COMPATIBILITY_2026-11-03.md)
+
+- [Pingo comparison, optional sensors/GNSS/NavIC/battery and safe SOS fallbacks](PINGO_COMPARISON_OPTIONAL_DEVICE_HARDWARE_2026-11-04.md)
 - [Child erasure/export request API contract supplement (2026-11-03)](NON_PAYMENT_PRIVACY_API_CONTRACT_2026-11-03.md)
 - [Local development roadmap](LOCAL_AGENT_DEVELOPMENT_ROADMAP_2026-10-28.md)
 - [Machine-readable task dependency graph](LOCAL_TASK_GRAPH_2026-10-28.json)
