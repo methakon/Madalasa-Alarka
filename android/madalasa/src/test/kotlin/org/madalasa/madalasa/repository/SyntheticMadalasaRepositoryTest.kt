@@ -35,6 +35,7 @@ class SyntheticMadalasaRepositoryTest {
 
     @Test
     fun testGeneratePairingCode() = runTest {
+        assertTrue(repository.refreshProfile().isSuccess)
         val codeResult = repository.generatePairingCode("00000000-0000-0000-0000-0000000000c1")
         assertTrue("Pairing code generation should succeed", codeResult.isSuccess)
         val code = codeResult.getOrThrow()
