@@ -119,8 +119,13 @@ fun MadalasaNavHost(
                         navController.navigate(Screen.Shell.route)
                     }
                 },
+                onRegisterChild = { familyLabel,childAlias,onResult ->
+                    viewModel.registerChild(familyLabel,childAlias,onResult)
+                },
                 onPairNewChild = {
-                    val currentId = uiState.selectedChildId ?: uiState.children.firstOrNull()?.id ?: ""
+                    val currentId = uiState.selectedChildId
+                        ?: uiState.children.firstOrNull { it.freeServiceState != "WAITLISTED" }?.id
+                        ?: ""
                     if (currentId.isNotEmpty()) {
                         viewModel.generatePairingCode(currentId) {}
                     }
