@@ -60,7 +60,7 @@ The detailed engineering checkpoints, edge-case acceptance matrix and customer-f
 | Free location | `backend/src/free_location_reads.h`, `main.cc` | New latest and history routes, explicit six-hour SQL bounds; HTTP+real-device acceptance outstanding |
 | Free release latch | `backend/src/release_profile.h`, `main.cc` | `MA_RELEASE_PROFILE=FREE_ONLY` default; billing and 48h trial paths not registered; production switch needs separately approved evidence |
 | Parent UI | `android/madalasa/...` on `parent` branch | Signup, waitlist row and no pairing/selection for queued children; backed by HTTPS API only when configured |
-| Child app | `android/alarka/...` on `child` branch | Synthetic-only enrollment in debug; production enrollment still fails closed; **not real-child release ready** |
+| Child app | `android/alarka/...` on `child` branch | Debug-only synthetic enrollment retained; child work branch now includes an opt-in HTTPS/AndroidKeyStore P-256 challenge/proof adapter requiring a configured API origin, short-lived encrypted credentials, production 10-character parent codes, and a separate activation policy. Actual foreground monitoring/location collection, credential renewal, cross-device E2E, Play/legal approvals and device tests are still outstanding; **not real-child release ready** |
 | Figma | Existing source file, new page `FREE FIRST • 108 Child Slots • 2026-11` | Editable frames: 01 signup, 02 queued, 03 admitted, 04 premium disabled |
 | Admin | PR #29 and original admin designs | Role/security progress; queue operator reporting and safe support workflow outstanding |
 
