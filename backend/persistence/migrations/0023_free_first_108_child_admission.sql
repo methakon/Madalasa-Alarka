@@ -24,14 +24,26 @@ CREATE POLICY admission_worker_rw ON ap_m1.free_child_admissions
  FOR ALL TO ap_db_executor USING(true) WITH CHECK(true);
 CREATE POLICY admission_owner_read ON ap_m1.free_child_admissions
  FOR SELECT TO ap_m1_api
- USING(ap_m1.family_owner(family_id) OR ap_m1.has_child_scope_v2(child_id,'VIEW_CHILD_PROFILE'));
+ USING(ap_m1.free_child_family_owner(family_id) OR ap_m1.has_child_scope_v2(child_id,'VIEW_CHILD_PROFILE'));
 GRANT SELECT,INSERT,UPDATE ON ap_m1.free_child_admissions TO ap_db_executor;
 GRANT SELECT ON ap_m1.free_child_admissions TO ap_m1_api;
+
+-- Active owner status requires verified principal, not URL family or login text.
+CREATE FUNCTION ap_m1.free_child_family_owner(p_family uuid) RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public AS $fn$
+ SELECT EXISTS(
+  SELECT 1 FROM ap_m1.guardian_memberships m JOIN ap_m1.families f ON f.id=m.family_id
+  WHERE m.family_id=p_family AND m.principal_id=ap_m1.ctx_principal()
+    AND m.membership_role='OWNER' AND m.revoked_at IS NULL AND f.state='ACTIVE')
+$fn$;
+ALTER FUNCTION ap_m1.free_child_family_owner(uuid) OWNER TO ap_m1_auth;
+REVOKE ALL ON FUNCTION ap_m1.free_child_family_owner(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION ap_m1.free_child_family_owner(uuid) TO ap_m1_api,ap_db_executor;
 
 -- Owners must be able to review a newly created queued profile before
 -- consent/guardian-grant approval; other guardians retain per-child RLS.
 CREATE POLICY free_queue_owner_child_profile ON ap_m1.children
- FOR SELECT TO ap_m1_api USING(ap_m1.family_owner(family_id));
+ FOR SELECT TO ap_m1_api USING(ap_m1.free_child_family_owner(family_id));
 
 -- Backfill preexisting synthetic child profiles deterministically.
 -- Historical child state is never rewritten, and deleted children occupy no slot.
@@ -123,7 +135,7 @@ LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=pg_catalog,ap_m1,public
 DECLARE v ap_m1.free_child_admissions%ROWTYPE;
 BEGIN
  SELECT * INTO v FROM ap_m1.free_child_admissions WHERE child_id=p_child;
- IF NOT FOUND OR NOT (ap_m1.family_owner(v.family_id)
+ IF NOT FOUND OR NOT (ap_m1.free_child_family_owner(v.family_id)
           OR ap_m1.has_child_scope_v2(p_child,'VIEW_CHILD_PROFILE')) THEN
    RETURN;
  END IF;
