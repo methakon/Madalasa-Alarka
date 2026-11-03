@@ -61,6 +61,9 @@ class ChildViewModel(
         )
     }
 
+    /** Local evidence only; server must still approve this device and child. */
+    fun hasVerifiedParentPairing(): Boolean = container.hasVerifiedParentPairing()
+
     fun acknowledgeDisclosure() {
         _uiState.value = _uiState.value.copy(disclosureAcknowledged = true)
     }
