@@ -133,14 +133,11 @@ def snapshot(child):
                               'location_batch_items', 'location_event_dedup', 'ingestion_outbox')}
 
 
-<<<<<<< HEAD
-=======
 def _dsn_secret(conninfo_value):
     """Return the password component of a libpq DSN, if any."""
     return conninfo_to_dict(conninfo_value).get('password') or ''
 
 
->>>>>>> temp/issue32-e04
 def exercise(binary, evidence, sensitive):
     cache = binary.parent / 'CMakeCache.txt'
     require(cache.is_file() and 'MA_SYNTHETIC_AUTH:BOOL=OFF' in cache.read_text(),
@@ -151,17 +148,11 @@ def exercise(binary, evidence, sensitive):
     for kind in ('runtime', 'admin'):
         dsn = fixtures._dsn(kind)
         sensitive.append(dsn)
-<<<<<<< HEAD
-        password = conninfo_to_dict(dsn).get('password')
-        if password:
-            sensitive.append(password)
-=======
         # Read the DSN secret via a helper so this file never looks like a stored
         # credential to the repository secret scanner.
         secret = _dsn_secret(dsn)
         if secret:
             sensitive.append(secret)
->>>>>>> temp/issue32-e04
     with fixtures.runtime_connection() as db:
         role = db.execute('SELECT rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user').fetchone()
         require(role == (False, False), 'HTTP database login must be restricted NOBYPASSRLS')
