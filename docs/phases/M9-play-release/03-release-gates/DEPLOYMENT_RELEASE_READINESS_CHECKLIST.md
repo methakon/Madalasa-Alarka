@@ -2,11 +2,21 @@
 
 > **Document control:** M9 / 03-release-gates · Proposed owner: Engineering lead (not assigned) · Registry: DOCUMENTED_REVIEW_PENDING; approval not recorded. [Master register](../../../MASTER_DOCUMENT_CONTROL_REGISTER.md).
 
+## Current onboarding evidence — 2026-11-03
+
+- [x] **BillDesk application submitted:** owner provided successful-submission text from the official onboarding portal, including a numeric Application ID held privately (not committed to GitHub).
+- [ ] **BillDesk KYC and approval:** Video KYC completion, provider acceptance, merchant activation and payout/tax setup have **not** been confirmed. The next action is to request status at `onboarding@billdesk.com`, including the private Application ID in the subject.
+- [ ] **Unpublished Play listing question:** obtain BillDesk clarification whether a Play Console/internal-testing link is acceptable before the Play Store listing becomes public.
+- [x] **Google Play publisher identity:** separate prior owner-confirmed completion; this does not certify BillDesk or merchant readiness.
+- [ ] **Real-child/commercial release:** still **NO-GO** on independent product/platform/legal/technical gates.
+
+[Current BillDesk status tracker](BILLDESK_APPLICATION_SUBMISSION_TRACKER_2026-11-03.md). Any 2026-10-30/earlier pending-identity or PR9-only engineering statements below are *historical*, not the current GitHub build status. Portal submission alone is not KYC approval.
+
 **Current state, 2026-10-30:** real-child and commercial release **NO-GO**. PR9 has a runnable, CI-tested narrow Drogon backend and fresh PostgreSQL16 M1 tests; it is unmerged and real ParentOIDC validation is absent. Android remains source scaffolding only. No production deployment or Play approval is evidenced. [Detailed M1 review](../../M1-secure-platform-foundation/02-development-process/M1_STACK_PR9_REVIEW_2026-10-30.md) and [test evidence queue](../../M8-operational-readiness/03-quality-and-evidence/TEST_STRATEGY_UNIT_INTEGRATION_LOAD_SECURITY.md) distinguish verified slices from remaining work. Google Payments verification does not prevent documentation/testing progress.
 
 ## Ownership and publisher setup
 - [x] Owner-declared publisher/controller decision recorded: **SWARNA SEKHAR DHAR**, individual, India; same legal individual as Google Play publisher. This records a decision, not verified identity or counsel approval; no registered company is claimed.
-- [ ] Google Payments identity verification **PENDING**; merchant setup **PENDING**; public support contact **PENDING CONFIRMATION**; legal review **PENDING**. Any legally/platform-required address/tax/IP/license disclosures need separate owner/counsel evidence, not invented values.
+- [ ] Google Payments/merchant **activation NOT VERIFIED** despite separately confirmed BillDesk application submission; provider decision and Video KYC completion **PENDING EVIDENCE**; public support contact **PENDING CONFIRMATION**; legal review **PENDING**. Any legally/platform-required address/tax/IP/license disclosures need separate owner/counsel evidence, not invented values.
 - [ ] GitHub About description/topics, private vuln report channel, enforced CODEOWNERS review and branch protections set in GitHub UI.
 - [ ] Named, funded security response lead/backups, Grievance Officer and confidential support contact.
 - [ ] Staff responsibility roster and release/incident authorization matrix verified.

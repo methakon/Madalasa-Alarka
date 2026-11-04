@@ -3,6 +3,7 @@ package org.madalasa.madalasa.repository
 import kotlinx.coroutines.flow.StateFlow
 import org.madalasa.madalasa.api.ChildSummaryResponse
 import org.madalasa.madalasa.api.ParentProfileResponse
+import org.madalasa.madalasa.api.PairedChildDevice
 import org.madalasa.madalasa.domain.VerifiedLocationState
 
 /**
@@ -19,4 +20,8 @@ interface MadalasaRepository {
     suspend fun refreshChildren(): Result<Unit>
     suspend fun selectChild(childId: String): Result<Unit>
     suspend fun generatePairingCode(childId: String): Result<String>
+    suspend fun getPairedDevice(childId: String): Result<PairedChildDevice?> =
+        Result.failure(IllegalStateException("Device lookup unavailable"))
+    suspend fun registerChild(familyLabel: String, alias: String): Result<ChildSummaryResponse> =
+        Result.failure(IllegalStateException("Child signup unavailable"))
 }

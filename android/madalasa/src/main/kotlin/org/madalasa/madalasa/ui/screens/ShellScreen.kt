@@ -44,7 +44,8 @@ enum class ShellTab(val label: String) {
 fun ShellScreen(
     uiState: ParentUiState,
     onNavigateToChildSelection: () -> Unit,
-    onNavigateToPrivacy: () -> Unit
+    onNavigateToPrivacy: () -> Unit,
+    syntheticPreview: Boolean = false
 ) {
     var selectedTab by remember { mutableStateOf(ShellTab.MAP) }
 
@@ -90,6 +91,13 @@ fun ShellScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+            if (syntheticPreview) {
+                Text("SYNTHETIC DEVELOPMENT PREVIEW · NO LIVE CHILD MONITORING",
+                    color = ThemeCTokens.Vermilion,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
 
             when (selectedTab) {
                 ShellTab.MAP -> MapPlaceholderContent(uiState)
@@ -116,16 +124,19 @@ private fun MapPlaceholderContent(uiState: ParentUiState) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             val loc = uiState.selectedChildLocation
-            if (loc != null) {
+            if (loc != null && loc.latitudeE6 != null && loc.longitudeE6 != null &&
+                loc.freshness != org.madalasa.madalasa.domain.Freshness.UNAVAILABLE &&
+                loc.freshness != org.madalasa.madalasa.domain.Freshness.UNKNOWN) {
                 Text(
                     text = "Freshness: ${loc.freshness}",
                     color = ThemeCTokens.Teal,
                     fontWeight = FontWeight.SemiBold
                 )
-                Text(text = "Coordinates: ${(loc.latitudeE6 ?: 0) / 1e6}, ${(loc.longitudeE6 ?: 0) / 1e6}")
-                Text(text = "Accuracy: ${loc.accuracyMeters ?: 0f} meters")
+                Text(text = "Coordinates: ${loc.latitudeE6 / 1e6}, ${loc.longitudeE6 / 1e6}")
+                Text(text = loc.accuracyMeters?.let { "Accuracy: $it meters" }
+                    ?: "Accuracy not available")
             } else {
-                Text(text = "No location telemetry reported yet (Synthetic Seam)")
+                Text(text = "Location unavailable or not yet observed. No coordinates are inferred.")
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text(

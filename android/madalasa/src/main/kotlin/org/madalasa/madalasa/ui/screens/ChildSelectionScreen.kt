@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,9 +37,17 @@ import org.madalasa.madalasa.ui.viewmodel.ParentUiState
 fun ChildSelectionScreen(
     uiState: ParentUiState,
     onChildSelected: (String) -> Unit,
-    onPairNewChild: () -> Unit
+    onPairNewChild: (onCode: (String) -> Unit, onError: (String) -> Unit) -> Unit,
+    onViewPairedDevice: (onStatus: (String) -> Unit) -> Unit = {},
+    onRefreshServiceStatus: () -> Unit = {},
+    onRegisterChild: (familyLabel: String, childAlias: String, onResult: (String) -> Unit) -> Unit = { _, _, _ -> },
+    syntheticPreview: Boolean = false
 ) {
     var generatedCode by remember { mutableStateOf<String?>(null) }
+    var familyLabel by remember { mutableStateOf("") }
+    var childAlias by remember { mutableStateOf("") }
+    var registrationMessage by remember { mutableStateOf("") }
+    val availableChildren=uiState.children.filter { it.freeServiceState == "ADMITTED" }
 
     Column(
         modifier = Modifier
@@ -58,6 +67,13 @@ fun ChildSelectionScreen(
             color = ThemeCTokens.MutedText
         )
         Spacer(modifier = Modifier.height(16.dp))
+        if (syntheticPreview) {
+            Text("SYNTHETIC DEVELOPMENT PREVIEW · NO LIVE CHILD MONITORING",
+                color = ThemeCTokens.Vermilion,
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -67,7 +83,9 @@ fun ChildSelectionScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onChildSelected(child.id) },
+                        .clickable(enabled = child.freeServiceState == "ADMITTED") {
+                            onChildSelected(child.id)
+                        },
                     colors = CardDefaults.cardColors(
                         containerColor = if (child.id == uiState.selectedChildId)
                             ThemeCTokens.PaleWarmSurface
@@ -95,6 +113,29 @@ fun ChildSelectionScreen(
                                 color = ThemeCTokens.MutedText,
                                 fontSize = 12.sp
                             )
+                            if (child.freeServiceState == "WAITLISTED") {
+                                Text(
+                                    text = "Service queue" +
+                                        (child.queuePosition?.let { " · Position $it" } ?: ""),
+                                    color = ThemeCTokens.Vermilion,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    text = "Your child is in the service queue. We'll allocate a slot as soon as one becomes available. Free services have not started.",
+                                    color = ThemeCTokens.MutedText,
+                                    fontSize = 12.sp
+                                )
+                            } else if (child.freeServiceState == "ADMITTED") {
+                                Text("Free slot allocated · Consent and device setup required",
+                                    color = ThemeCTokens.Teal,fontSize=12.sp)
+                            } else {
+                                Text(
+                                    "Service status not verified. Refresh before proceeding.",
+                                    color = ThemeCTokens.Vermilion,
+                                    fontSize = 12.sp
+                                )
+                            }
                         }
                         if (child.id == uiState.selectedChildId) {
                             Text(
@@ -111,12 +152,76 @@ fun ChildSelectionScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Text("Register a child",fontWeight=FontWeight.Bold,color=ThemeCTokens.DeepIndigo)
+        if (uiState.profile?.familyIds.isNullOrEmpty()) {
+            OutlinedTextField(
+                value=familyLabel,onValueChange={ familyLabel=it.take(100) },
+                label={ Text("Family name") },singleLine=true,
+                modifier=Modifier.fillMaxWidth()
+            )
+        }
+        OutlinedTextField(
+            value=childAlias,onValueChange={ childAlias=it.take(80) },
+            label={ Text("Child nickname") },singleLine=true,
+            modifier=Modifier.fillMaxWidth()
+        )
         Button(
-            onClick = onPairNewChild,
+            onClick={
+                registrationMessage="Submitting registration…"
+                onRegisterChild(familyLabel.trim(),childAlias.trim()) {
+                    registrationMessage=it
+                }
+            },
+            enabled=childAlias.isNotBlank() &&
+                (!uiState.profile?.familyIds.isNullOrEmpty() || familyLabel.isNotBlank()),
+            modifier=Modifier.fillMaxWidth()
+        ) {
+            Text("Complete child registration")
+        }
+        if (registrationMessage.isNotBlank()) {
+            Text(registrationMessage,color=ThemeCTokens.MutedText,fontSize=12.sp)
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        if (uiState.children.any { it.freeServiceState != "ADMITTED" }) {
+            Button(onClick = onRefreshServiceStatus, modifier = Modifier.fillMaxWidth()) {
+                Text("Refresh service queue status")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Button(
+            onClick = {
+                generatedCode = null
+                registrationMessage = ""
+                onPairNewChild(
+                    { code -> generatedCode = code },
+                    { message -> registrationMessage = message }
+                )
+            },
+            enabled=availableChildren.isNotEmpty(),
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = ThemeCTokens.DeepIndigo)
         ) {
             Text("+ Pair New Companion Device", color = ThemeCTokens.Parchment)
+        }
+        if (availableChildren.isNotEmpty()) {
+            Button(
+                onClick = { onViewPairedDevice { registrationMessage = it } },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("View paired child device")
+            }
+        }
+        if (generatedCode != null) {
+            Text(
+                "Parent-issued pairing code: ${generatedCode}",
+                fontWeight = FontWeight.Bold,
+                color = ThemeCTokens.DeepIndigo
+            )
+            Text(
+                "Enter this one-time code in Alarka on the child's phone. It expires shortly. Pairing alone does not start monitoring.",
+                color = ThemeCTokens.MutedText,
+                fontSize = 12.sp
+            )
         }
     }
 }

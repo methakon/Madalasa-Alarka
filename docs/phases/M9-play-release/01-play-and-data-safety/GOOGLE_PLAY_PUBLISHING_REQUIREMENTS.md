@@ -4,6 +4,14 @@
 
 > **Product names:** **Madalasa** (parent app), **Alarka** (child app). Desired repository name **Madalasa-Alarka** is **completed GitHub repository rename**. Use the verified new repository URL for all current documentation and integrations. [Naming rationale](../../M0-foundation-and-approvals/02-market-and-feasibility/BRAND_NAME_MADALASA_ALARKA_AND_MYTHOLOGY_CONCEPT.md).
 
+## X-01 BillDesk onboarding update — 2026-11-03
+
+The owner supplied a BillDesk Connect confirmation that the **application was successfully submitted**, with a numeric Application ID assigned for correspondence. BillDesk directs application-status enquiries to **onboarding@billdesk.com**, with that ID in the **subject line**. Keep the number and official receipt **private**, never in public docs, Figma, source or logs. A `BD`-prefixed Partner ID is an alternative identifier, not required in addition to the application ID.
+
+**Current gates:** Play publisher identity = owner-confirmed complete; BillDesk submission = owner-confirmed complete, **provider review response pending**; Video KYC completion = **unverified**; Google Payments merchant/payout/tax and Play billing product eligibility = **unverified**. Continue engineering without payment onboarding as a development blocker. Actual paid purchases and public release require relevant separate approvals. Request BillDesk clarification for the currently unpublished Play Store listing URL rather than assuming the portal submission resolves it.
+
+See [BillDesk application submission and verification tracker](../03-release-gates/BILLDESK_APPLICATION_SUBMISSION_TRACKER_2026-11-03.md). Historical 2026-10-31 status text below remains historical; this update is authoritative for X-01B.
+
 ## 2026-10-31 X-02 reviewer readiness — current primary Play policy
 
 [Canonical X-02 Families/location/monitoring decision path](X02_FAMILIES_LOCATION_AND_MONITORING_POLICY_REVIEW_2026-10-31.md) documents Google Families *solely-child-targeting precise-location exclusion*, monitoring disclosure and `isMonitoringTool` **without a Families waiver**, plus **separately required** background-location review (one declared core feature, actual device build, consent, privacy HTML URL, video and reviewer access). **G01 remains OPEN awaiting product-specific human Play review in the existing owner support case; G04 remains NOT SUBMITTED/NOT APPROVED.** Development/research with synthetic users is not blocked by awaiting a response. Do not introduce unapproved child GPS/media permissions into released Alarka.

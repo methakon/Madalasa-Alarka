@@ -4,6 +4,12 @@
 
 > **Current app names:** **Madalasa** (guardian/parent), **Alarka** (child companion). GitHub repository [Madalasa-Alarka](https://github.com/methakon/Madalasa-Alarka), renamed 2026-10-26. [Source story and naming contract](../02-market-and-feasibility/BRAND_NAME_MADALASA_ALARKA_AND_MYTHOLOGY_CONCEPT.md).
 
+## Current X-01 state — 2026-11-03
+
+**Google Play publisher identity:** previously owner-confirmed complete. **BillDesk:** owner has now supplied an application portal confirmation of successful submission; the numeric application reference stays private and is used in email subjects to `onboarding@billdesk.com`. **Video KYC, BillDesk decision, merchant payout/tax activation:** still unverified. **India child-data compliance and actual Play release:** independently open. This does not require the engineering team to stop local build or testing.
+
+See [current BillDesk submission tracker](../../M9-play-release/03-release-gates/BILLDESK_APPLICATION_SUBMISSION_TRACKER_2026-11-03.md). The dated 2026-10-30 statements below are retained for history rather than current identity/payment status.
+
 **Current status — 2026-10-30:** Owner-declared publisher is **Individual SWARNA SEKHAR DHAR, India**, the same individual intended for the legal and Google Play publisher identity. This is a declaration, not verified account evidence or legal approval. **Payments identity pending; merchant setup pending; public support confirmation pending; legal review pending.** No company, GST registration, public address or email is inferred. Real child-data release remains **OFF / NO-GO**.
 
 **Decision version:** 2026-10-26, reconciled 2026-10-30. Hosting preferences below are deployment scenarios, not prerequisites for environment-agnostic local development. Final production region, tenancy and bandwidth economics are reserved for deployment; nothing here authorizes provisioning. The [current legal-source review](INDIA_DPDP_CHILD_PRIVACY_AND_CROSS_BORDER_GATE.md#current-source-grounded-review--2026-10-30) distinguishes enacted law, commenced provisions, guidance and questions for counsel.

@@ -55,17 +55,58 @@ class ParentViewModel(
         }
     }
 
-    fun selectChild(childId: String) {
+    fun selectChild(childId: String, onAuthorized: () -> Unit = {}) {
         viewModelScope.launch {
-            repository.selectChild(childId)
+            // Do not navigate or present a child screen if the network/RLS
+            // re-check failed (including a revoked or expired child grant).
+            if (repository.selectChild(childId).isSuccess) onAuthorized()
         }
     }
 
-    fun generatePairingCode(childId: String, onGenerated: (String) -> Unit) {
+    fun registerChild(familyLabel: String, alias: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            repository.registerChild(familyLabel,alias).fold(
+                onSuccess = { child ->
+                    onResult(if(child.freeServiceState=="WAITLISTED")
+                        "Signup complete. You are in the service queue" +
+                            (child.queuePosition?.let { " (position $it)" } ?: "") +
+                            ". Your child's free services will begin when a slot becomes available."
+                    else "Child profile created. A free slot is allocated; finish authority, consent and device setup.")
+                },
+                onFailure = { e -> onResult(e.message ?: "Registration could not be confirmed") }
+            )
+        }
+    }
+
+    fun checkPairedDevice(childId: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            repository.getPairedDevice(childId).fold(
+                onSuccess = { device ->
+                    onResult(if (device == null)
+                        "No active paired device for this child."
+                    else "Paired Alarka: ${device.manufacturer} ${device.model}" +
+                        (device.androidApi?.let { " · Android API $it" } ?: "") +
+                        " · App ${device.appVersion} · ${device.pairingMethod}" +
+                        (device.pairedAt?.let { " · Paired $it" } ?: ""))
+                },
+                onFailure = { error ->
+                    onResult(error.message ?: "Verified child device information is unavailable")
+                }
+            )
+        }
+    }
+
+    fun generatePairingCode(
+        childId: String,
+        onGenerated: (String) -> Unit,
+        onFailure: (String) -> Unit = {}
+    ) {
         viewModelScope.launch {
             val result = repository.generatePairingCode(childId)
             if (result.isSuccess) {
                 onGenerated(result.getOrThrow())
+            } else {
+                onFailure(result.exceptionOrNull()?.message ?: "Pairing code was not issued")
             }
         }
     }
