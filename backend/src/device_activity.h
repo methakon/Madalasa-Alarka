@@ -251,7 +251,9 @@ inline drogon::Task<drogon::HttpResponsePtr> ingest_location_batch(
     receipt["duplicate_count"] = res.at(0)["duplicate_count"].as<int>();
     receipt["rejected_count"] = 0;
     receipt["processing"] = "QUEUED";
-    receipt["durable_stage"] = "INBOX_COMMITTED";
+    // Existing SQL commits observations, dedup and the reconstruction outbox.
+    // QUEUED describes derived work, not an inbox-only implementation.
+    receipt["durable_stage"] = "RAW_OBSERVATIONS_COMMITTED";
 
     auto resp = drogon::HttpResponse::newHttpJsonResponse(receipt);
     resp->setStatusCode(drogon::k202Accepted);

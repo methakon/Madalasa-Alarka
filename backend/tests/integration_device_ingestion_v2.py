@@ -178,7 +178,7 @@ def exercise(binary, evidence, sensitive):
             if status == 202:
                 require(payload == dict(batch_id=body['batch_id'], accepted_count=accepted,
                                         duplicate_count=duplicate, rejected_count=0,
-                                        processing='QUEUED', durable_stage='INBOX_COMMITTED'),
+                                        processing='QUEUED', durable_stage='RAW_OBSERVATIONS_COMMITTED'),
                         label + ': receipt JSON mismatch')
                 require(after['location_observations'] == before['location_observations'] + accepted,
                         label + ': durable GPS count mismatch')
