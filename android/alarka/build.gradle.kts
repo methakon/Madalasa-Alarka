@@ -29,7 +29,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            resValue("bool", "alarka_location_lab_enabled",
+                (providers.gradleProperty("alarkaLocationLab").orNull == "true").toString())
+        }
         release {
+            resValue("bool", "alarka_location_lab_enabled", "false")
             isMinifyEnabled = false
         }
     }

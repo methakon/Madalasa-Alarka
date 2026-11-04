@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
+import java.net.URI
 import javax.net.ssl.HttpsURLConnection
 
 /** Server observations and actual Android permission grants remain distinct. */
@@ -35,7 +36,9 @@ class HttpsChildPrivacyGateway(
     private val credentialProvider: () -> String?
 ) : ChildPrivacyGateway {
     init {
-        require(origin.startsWith("https://") && !origin.contains('?') && !origin.contains('#')) {
+        val uri = URI(origin)
+        require(uri.scheme == "https" && !uri.host.isNullOrBlank() && uri.rawUserInfo == null &&
+            uri.rawQuery == null && uri.rawFragment == null && uri.rawPath.orEmpty() in listOf("", "/")) {
             "Device privacy API origin must use HTTPS"
         }
     }
@@ -53,6 +56,7 @@ class HttpsChildPrivacyGateway(
                     .openConnection() as HttpsURLConnection
                 try {
                     connection.requestMethod = "GET"
+                    connection.instanceFollowRedirects = false
                     connection.connectTimeout = 8_000
                     connection.readTimeout = 8_000
                     connection.useCaches = false
@@ -61,7 +65,17 @@ class HttpsChildPrivacyGateway(
                     val status = connection.responseCode
                     if (status == 401 || status == 404) error("Device enrollment or consent status unavailable")
                     if (status != 200) error("Privacy service unavailable (HTTP $status)")
-                    val body = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
+                    require(connection.contentType.orEmpty().contains("application/json", true))
+                    val text = StringBuilder()
+                    connection.inputStream.bufferedReader().use { reader ->
+                        val chunk = CharArray(1024)
+                        while (true) {
+                            val n = reader.read(chunk); if (n < 0) break
+                            require(text.length + n <= 16384)
+                            text.append(chunk, 0, n)
+                        }
+                    }
+                    val body = JSONObject(text.toString())
                     ServerConsentStatus(
                         coreConsent = body.getBoolean("core_consent"),
                         locationConsent = body.getBoolean("location_consent"),
