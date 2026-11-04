@@ -32,6 +32,7 @@ class ErasureDependencyOrderTests(unittest.TestCase):
                 'INSERT INTO ap_m1.admin_accounts(id,principal_id,verified_email) VALUES(%s,%s,%s)',
                 (account, principal, str(account) + '@synthetic.example.invalid'))
         self.rows = {}
+        self.extra_holds = []
         for child, family in [('child_a', 'family_a'), ('sibling_a', 'family_a'), ('child_b', 'family_b')]:
             self.rows[child] = self.seed_case_bundle(self.f[child], self.f[family])
         self.admin.execute(
@@ -47,6 +48,8 @@ class ErasureDependencyOrderTests(unittest.TestCase):
     def cleanup_blockers(self):
         # Negative fixtures must not poison later full-ledger restore sweeps.
         self.admin.rollback()
+        for hold in self.extra_holds:
+            self.admin.execute('DELETE FROM ap_m1.retention_holds WHERE id=%s', (hold,))
         self.admin.execute('DELETE FROM ap_m1.retention_holds WHERE subject_ref=%s', (self.rows['child_a'][1],))
         self.admin.execute('DELETE FROM ap_m1.compliance_export_bundles WHERE requested_by_admin=%s AND child_id IS NULL', (self.accounts[0],))
         self.admin.commit()
@@ -197,3 +200,103 @@ class ErasureDependencyOrderTests(unittest.TestCase):
                 with runtime.transaction():
                     self.request(runtime, uuid4())
         self.assert_no_request_certificate()
+
+    def seed_inventory_subject_hold(self, category):
+        if category == 'location_ingest_batches':
+            subject = uuid4()
+            self.admin.execute(
+                "INSERT INTO ap_m1.location_ingest_batches(id,child_id,device_id,payload_digest,item_count,state,membership_complete) "
+                "VALUES(%s,%s,%s,%s,1,'PROCESSED',true)",
+                (subject, self.f['child_a'], self.f['device_a'], b'x' * 32))
+        else:
+            request = self.admin.execute(
+                "INSERT INTO ap_m1.media_command_requests(child_id,device_id,adult_id,kind) "
+                "VALUES(%s,%s,%s,'IMAGE') RETURNING id",
+                (self.f['child_a'], self.f['device_a'], self.f['a'])).fetchone()[0]
+            subject = self.admin.execute(
+                "INSERT INTO ap_m1.media_sessions(request_id,child_id,authorized_adult_id,exit_reason) "
+                "VALUES(%s,%s,%s,'OS_REJECTED') RETURNING id",
+                (request, self.f['child_a'], self.f['a'])).fetchone()[0]
+        hold = self.admin.execute(
+            "INSERT INTO ap_m1.retention_holds(category,subject_ref,legal_reference,created_at,review_by) "
+            "VALUES(%s,%s,'SYNTHETIC_ONLY',now()-interval '2 hours',now()-interval '1 hour') RETURNING id",
+            (category, subject)).fetchone()[0]
+        self.extra_holds.append(hold)
+        self.admin.commit()
+        return subject
+
+    def assert_inventory_hold_blocks_request(self, category):
+        subject = self.seed_inventory_subject_hold(category)
+        with fixtures.runtime_connection() as runtime:
+            fixtures.as_parent(runtime, self.f['a'], self.f['family_a'])
+            with self.assertRaises(psycopg.errors.ObjectNotInPrerequisiteState):
+                with runtime.transaction():
+                    self.request(runtime, uuid4())
+        self.assert_no_request_certificate()
+        self.assertIsNotNone(self.admin.execute(
+            'SELECT id FROM ap_m1.' + category + ' WHERE id=%s', (subject,)).fetchone())
+
+    def assert_inventory_hold_blocks_restore(self, category):
+        self.seed_inventory_subject_hold(category)
+        restore = self.prepare_restore()
+        with self.assertRaises(psycopg.errors.ObjectNotInPrerequisiteState):
+            self.suppress(restore)
+        self.assertFalse(self.admin.execute(
+            'SELECT ap_m1.restore_can_open(%s)', (restore,)).fetchone()[0])
+        self.assertEqual(self.admin.execute(
+            'SELECT count(*) FROM ap_m1.restore_suppression_receipts WHERE restore_id=%s',
+            (restore,)).fetchone()[0], 0)
+
+    def test_batch_id_hold_blocks_request(self):
+        self.assert_inventory_hold_blocks_request('location_ingest_batches')
+
+    def test_batch_id_hold_blocks_restore(self):
+        self.assert_inventory_hold_blocks_restore('location_ingest_batches')
+
+    def test_media_session_id_hold_blocks_request(self):
+        self.assert_inventory_hold_blocks_request('media_sessions')
+
+    def test_media_session_id_hold_blocks_restore(self):
+        self.assert_inventory_hold_blocks_restore('media_sessions')
+
+    def test_hold_guard_covers_every_existing_inventory_relation(self):
+        missing = self.admin.execute("""SELECT i.table_name
+            FROM ap_m1.erasure_store_inventory i
+            WHERE to_regclass('ap_m1.'||i.table_name) IS NOT NULL
+            AND NOT EXISTS(SELECT 1 FROM pg_trigger t
+                WHERE t.tgrelid=to_regclass('ap_m1.'||i.table_name)
+                AND t.tgname='refuse_held_inventory_delete' AND t.tgenabled='O')""").fetchall()
+        self.assertEqual(missing, [])
+
+    def test_repeatable_read_cannot_miss_newly_committed_hold(self):
+        subject = self.seed_inventory_subject_hold('location_ingest_batches')
+        self.admin.execute('DELETE FROM ap_m1.retention_holds WHERE id=%s', (self.extra_holds[-1],))
+        self.admin.commit()
+        with fixtures.admin_connection() as stale:
+            stale.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ')
+            stale.execute('SELECT count(*) FROM ap_m1.retention_holds').fetchone()
+            # A distinct connection commits the hold after the delete transaction
+            # fixed its snapshot, but before it acquires the hold-table lock.
+            hold = self.admin.execute(
+                "INSERT INTO ap_m1.retention_holds(category,subject_ref,legal_reference,review_by) "
+                "VALUES('location_ingest_batches',%s,'SYNTHETIC_ONLY',now()+interval '1 hour') RETURNING id",
+                (subject,)).fetchone()[0]
+            self.extra_holds.append(hold)
+            self.admin.commit()
+            stale.execute('SET LOCAL ROLE ap_db_executor')
+            with self.assertRaises(psycopg.errors.ObjectNotInPrerequisiteState):
+                with stale.transaction():
+                    stale.execute('DELETE FROM ap_m1.location_ingest_batches WHERE id=%s', (subject,))
+            stale.rollback()
+        self.assertIsNotNone(self.admin.execute(
+            'SELECT id FROM ap_m1.location_ingest_batches WHERE id=%s', (subject,)).fetchone())
+
+    def test_released_batch_hold_does_not_prevent_authorized_erasure(self):
+        self.seed_inventory_subject_hold('location_ingest_batches')
+        self.admin.execute('UPDATE ap_m1.retention_holds SET released_at=clock_timestamp() WHERE id=%s',
+                           (self.extra_holds[-1],))
+        self.admin.commit()
+        with fixtures.runtime_connection() as runtime:
+            fixtures.as_parent(runtime, self.f['a'], self.f['family_a'])
+            self.request(runtime, uuid4())
+        self.assert_target_purged()
