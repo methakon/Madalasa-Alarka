@@ -1,0 +1,47 @@
+# Template for x402-endpoint. Install as /etc/systemd/system/madalasa-api.service
+# Runtime account, binary and environment files must be provisioned separately.
+[Unit]
+Description=Madalasa–Alarka Free V1 Drogon API (deployment candidate)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=180
+StartLimitBurst=4
+
+[Service]
+Type=simple
+User=madalasa-api
+Group=madalasa-api
+WorkingDirectory=/opt/madalasa/backend
+EnvironmentFile=/etc/madalasa/api.env
+ExecStart=/opt/madalasa/backend/ma_backend
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+AmbientCapabilities=
+MemoryAccounting=true
+MemoryHigh=180M
+MemoryMax=240M
+TasksMax=80
+LimitNOFILE=4096
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=madalasa-api
+# No bind to privileged ports, no access to mail data, nginx config or DB superuser.
+# Backend listens only 127.0.0.1:8080; nginx is the only public entrypoint.
+# Never add MA_SYNTHETIC_AUTH or production child-data enablement here.
+
+[Install]
+WantedBy=multi-user.target
