@@ -66,6 +66,8 @@ Source review found explicitly held batch/session IDs outside 0028's limited hol
 
 Parent and child implementation still sits on `dev`/workstream branches only. Reviewer clearance is source-level: no HTTPS authorization end-to-end, no device matrix, no Android 10–16 runtime acceptance and no physical Keystore enrollment executed.
 
+**PR #31 merged** (`child` → `dev`) at head `ca8b9c8e9837be3553383073e0095c2cd434ce5f`, merge commit `9d24f723ed9241791378a6064dde76a9ef4adf03`, after a targeted review cleared both blockers and a follow-up removed the last latent destructive shape: `forFixArrival` now derives its verdict from the consent snapshot (unknown pauses, a recorded denial revokes, staleness alone only pauses, a waitlisted child never collects). Cumulative `dev` replay after #31: **367 tests OK, 10 skipped**.
+
 ### Open blocker found by the new end-to-end pairing harness — 2026-11-05
 
 A disposable-DB production-build harness (`MA_SYNTHETIC_AUTH=OFF`, separate runtime/issuer logins) now exercises the real parent→child pairing path. Two backend defects surfaced and one is fixed:
