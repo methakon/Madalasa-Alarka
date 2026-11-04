@@ -19,7 +19,8 @@ data class ParentUiState(
     val selectedChildId: String? = null,
     val selectedChildLocation: VerifiedLocationState? = null,
     val isLoading: Boolean = false,
-    val pairingCode: String? = null
+    val pairingCode: String? = null,
+    val history: org.madalasa.madalasa.repository.HistoryReadState = org.madalasa.madalasa.repository.HistoryReadState()
 )
 
 class ParentViewModel(
@@ -30,13 +31,20 @@ class ParentViewModel(
         repository.profile,
         repository.children,
         repository.selectedChildId,
-        repository.selectedChildLocation
-    ) { profile, children, selectedChildId, location ->
+        repository.selectedChildLocation,
+        repository.history
+    ) { profile, children, selectedChildId, location, history ->
+        val allowed = selectedChildId != null && children.any {
+            it.id == selectedChildId && it.freeServiceState == "ADMITTED" &&
+                profile?.familyIds?.contains(it.familyId) == true
+        }
         ParentUiState(
             profile = profile,
             children = children,
-            selectedChildId = selectedChildId,
-            selectedChildLocation = location,
+            selectedChildId = selectedChildId.takeIf { allowed },
+            selectedChildLocation = location?.takeIf { allowed && it.childId == selectedChildId },
+            history = history.takeIf { allowed && (it.data == null || it.data.childId == selectedChildId) }
+                ?: org.madalasa.madalasa.repository.HistoryReadState(),
             isLoading = false
         )
     }.stateIn(
@@ -45,27 +53,81 @@ class ParentViewModel(
         initialValue = ParentUiState(isLoading = true)
     )
 
-    init {
-        loadData()
-    }
+    private var refreshJob: kotlinx.coroutines.Job? = null
+
+    init { loadData() }
 
     fun loadData() {
-        viewModelScope.launch {
-            repository.refreshProfile()
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch {
+            val selected = repository.selectedChildId.value
+            if (repository.refreshProfile().isSuccess && selected != null &&
+                repository.selectedChildId.value == selected) {
+                repository.selectChild(selected)
+                if (repository.selectedChildId.value == selected) repository.refreshHistory()
+            }
         }
     }
 
-    fun selectChild(childId: String) {
+    fun clearVisibleData() {
+        refreshJob?.cancel()
+        repository.clearVisibleData()
+    }
+
+    fun chooseChild(childId: String) { repository.chooseChild(childId) }
+
+    fun selectChild(childId: String, onAuthorized: () -> Unit = {}) {
         viewModelScope.launch {
-            repository.selectChild(childId)
+            // Do not navigate or present a child screen if the network/RLS
+            // re-check failed (including a revoked or expired child grant).
+            if (repository.selectChild(childId).isSuccess) onAuthorized()
         }
     }
 
-    fun generatePairingCode(childId: String, onGenerated: (String) -> Unit) {
+    fun registerChild(familyLabel: String, alias: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            repository.registerChild(familyLabel,alias).fold(
+                onSuccess = { child ->
+                    onResult(if(child.freeServiceState=="WAITLISTED")
+                        "Signup complete. You are in the service queue" +
+                            (child.queuePosition?.let { " (position $it)" } ?: "") +
+                            ". Your child's free services will begin when a slot becomes available."
+                    else "Child profile created. A free slot is allocated; finish authority, consent and device setup.")
+                },
+                onFailure = { e -> onResult(e.message ?: "Registration could not be confirmed") }
+            )
+        }
+    }
+
+    fun checkPairedDevice(childId: String, onResult: (String) -> Unit) {
+        viewModelScope.launch {
+            repository.getPairedDevice(childId).fold(
+                onSuccess = { device ->
+                    onResult(if (device == null)
+                        "No active paired device for this child."
+                    else "Paired Alarka: ${device.manufacturer} ${device.model}" +
+                        (device.androidApi?.let { " · Android API $it" } ?: "") +
+                        " · App ${device.appVersion} · ${device.pairingMethod}" +
+                        (device.pairedAt?.let { " · Paired $it" } ?: ""))
+                },
+                onFailure = { error ->
+                    onResult(error.message ?: "Verified child device information is unavailable")
+                }
+            )
+        }
+    }
+
+    fun generatePairingCode(
+        childId: String,
+        onGenerated: (String) -> Unit,
+        onFailure: (String) -> Unit = {}
+    ) {
         viewModelScope.launch {
             val result = repository.generatePairingCode(childId)
             if (result.isSuccess) {
                 onGenerated(result.getOrThrow())
+            } else {
+                onFailure(result.exceptionOrNull()?.message ?: "Pairing code was not issued")
             }
         }
     }

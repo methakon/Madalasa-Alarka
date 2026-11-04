@@ -5,12 +5,12 @@ import org.madalasa.madalasa.ui.figma.P02Screen
 
 /**
  * Keep the existing local development demo reachable without misrepresenting
- * it as a verified Google/OIDC session. The actual parent identity integration
- * remains blocked until Android Credential Manager and backend exchange are wired.
+ * it as a verified Google/OIDC session. The verified flow is a separate
+ * Credential Manager handoff. Synthetic preview is deliberately optional.
  */
 @Composable
 fun AuthenticationScreen(
-    onAuthenticated: () -> Unit,
+    onAuthenticated: (() -> Unit)? = null,
     onBackToWelcome: (() -> Unit)? = null,
     onExploreAccountSetup: (() -> Unit)? = null,
     onGoogleAccountHandoff: (() -> Unit)? = null

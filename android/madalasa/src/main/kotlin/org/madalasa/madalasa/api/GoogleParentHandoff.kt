@@ -76,6 +76,10 @@ class ParentSessionMemory {
     @Synchronized fun currentToken(): String? =
         session?.takeIf { it.validAt(Instant.now()) }?.bearer
 
+    /** Only an accepted, unexpired server-issued session may supply this actor ID. */
+    @Synchronized fun currentActorId(): String? =
+        session?.takeIf { it.validAt(Instant.now()) }?.actorId
+
     @Synchronized fun clear() { session = null }
 }
 
