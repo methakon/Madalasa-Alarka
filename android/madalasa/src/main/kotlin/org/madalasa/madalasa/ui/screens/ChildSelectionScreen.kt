@@ -40,6 +40,7 @@ fun ChildSelectionScreen(
     onPairNewChild: (onCode: (String) -> Unit, onError: (String) -> Unit) -> Unit,
     onViewPairedDevice: (onStatus: (String) -> Unit) -> Unit = {},
     onRefreshServiceStatus: () -> Unit = {},
+    onExplorePremiumPlans: () -> Unit = {},
     onRegisterChild: (familyLabel: String, childAlias: String, onResult: (String) -> Unit) -> Unit = { _, _, _ -> },
     syntheticPreview: Boolean = false
 ) {
@@ -151,6 +152,12 @@ fun ChildSelectionScreen(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onExplorePremiumPlans, modifier = Modifier.fillMaxWidth()) {
+            Text("Explore future premium plans · ₹99 / ₹999")
+        }
+        Text("Preview only: Pay now shows Coming Soon. The free queue cannot be bypassed.",
+            color = ThemeCTokens.MutedText, fontSize = 12.sp)
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text("Register a child",fontWeight=FontWeight.Bold,color=ThemeCTokens.DeepIndigo)
         if (uiState.profile?.familyIds.isNullOrEmpty()) {
