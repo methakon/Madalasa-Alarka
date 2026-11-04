@@ -1,0 +1,30 @@
+# Public API hostname (no child-data service until separate legal, Play and lab gates pass).
+# Replace API_FQDN CERT_FILE KEY_FILE. No plaintext public API.
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name API_FQDN;
+    ssl_certificate CERT_FILE;
+    ssl_certificate_key KEY_FILE;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    server_tokens off;
+    client_max_body_size 640k; # API location batch <= 512 KiB; endpoint validates.
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy no-referrer always;
+    location ^~ /v1/admin/ { return 404; } # admin only on dedicated same-origin HTTPS vhost
+    location = /healthz { proxy_pass http://127.0.0.1:8080; proxy_set_header Host $host; }
+    location /v1/ {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 15s;
+        proxy_send_timeout 15s;
+        proxy_buffering off;
+        add_header Cache-Control no-store always;
+    }
+    location / { return 404; }
+}
