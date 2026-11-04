@@ -13,6 +13,7 @@ User=madalasa-api
 Group=madalasa-api
 WorkingDirectory=/opt/madalasa/backend
 EnvironmentFile=/etc/madalasa/api.env
+ExecStartPre=/usr/local/libexec/madalasa/validate-env.sh /etc/madalasa/api.env
 ExecStart=/opt/madalasa/backend/ma_backend
 Restart=on-failure
 RestartSec=10
