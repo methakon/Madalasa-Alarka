@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import org.madalasa.madalasa.ui.figma.P01Screen
 import org.madalasa.madalasa.ui.figma.P03Screen
 import org.madalasa.madalasa.ui.figma.P04Screen
+import org.madalasa.madalasa.ui.figma.P18Screen
 import org.madalasa.madalasa.ui.screens.AuthenticationScreen
 import org.madalasa.madalasa.ui.screens.ChildSelectionScreen
 import org.madalasa.madalasa.ui.screens.OnboardingScreen
@@ -123,6 +124,7 @@ fun MadalasaNavHost(
                     viewModel.registerChild(familyLabel,childAlias,onResult)
                 },
                 onRefreshServiceStatus = { viewModel.loadData() },
+                onExplorePremiumPlans = { navController.navigate("premium-preview") },
                 onViewPairedDevice = { onResult ->
                     val currentId = uiState.selectedChildId
                         ?: uiState.children.firstOrNull { it.freeServiceState == "ADMITTED" }?.id
@@ -151,9 +153,15 @@ fun MadalasaNavHost(
                 },
                 onNavigateToPrivacy = {
                     navController.navigate(ParentPrivacyPage.OVERVIEW.route)
-                }
+                },
+                onExplorePremiumPlans = { navController.navigate("premium-preview") }
             )
         }
+        // Preview-only premium catalog: reachable without child admission and never bills.
+        composable("premium-preview") {
+            P18Screen()
+        }
+
         // Four new parent privacy destinations, grouped under Settings.
         // No route grants access or fetches child data without server proof.
         ParentPrivacyPage.entries.forEach { page ->
