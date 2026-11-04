@@ -1,5 +1,27 @@
 # Branching, Versioning, CI and Release Process
 
+## 2026-11-04 — Issue #32 PR #34 scope-drift hold (documentation-first directive)
+
+**Current owner instruction:** update canonical discussion, blocker and branch documentation on `main` **before** allowing additional branch or merge operations. This entry records a process hold, not permission to merge or create new temporary branches.
+
+**GitHub verification, 2026-11-04:** [PR #34](https://github.com/methakon/Madalasa-Alarka/pull/34) remains **open/unmerged**, targets `dev`, and tracks the mutable `api` head at `7b25d5b85451d089afd09e4524cf06d53b4dfbf8` (at inspection). Though its title and originally recorded test evidence describe E-01 migration `0025` only, its actual diff against `dev` contains **14 commits / 24 files**, including migrations `0025`–`0029`, ingestion, erasure, guardian tests and a synthetic load harness. PR description's 309-test run belongs to an earlier candidate; do not transfer that result to the expanded head.
+
+**HOLD: do not merge PR #34 as currently scoped.** First preserve each commit and its unique content; determine whether to separate by safely replacing the PR head, closing/recreating the PR, or retargeting without rewriting shared history. No force-push, destructive reset, arbitrary cherry-pick duplication, migration checksum edits or deletion of another worker's changes. Verify the exact resulting PR diff, migration dependencies, current `main` and `dev` SHAs, CI and all skips before review. Do not mark E-01 closed solely because the additive policy and detector tests passed.
+
+**Temporary-branch exception under discussion, not yet exercised:** proposed `temp/issue32-e01`, `temp/issue32-e03`, `temp/issue32-e04`, `temp/issue32-guardian` for independently reviewable isolation. **Do not create them until the owner expressly authorizes the exception**, recording scope/reason. If authorized, obey the existing `temp/<task-slug>` naming rule; create from current `main`; synchronize with `main` and `dev`; submit separate `temp → dev` PRs; retest cumulative `dev`; promote only through reviewed `dev → main`; delete each temporary branch only after its unique work is verified on `main`. Keep the five permanent branches intact. If the exception is not approved, restore focused PR review sequencing within the normal branch policy without force pushes.
+
+**Required package boundaries:** E-01 RLS posture; E-03 GPS receipt/dedup with durable inbox ADR still open; E-04 erasure dependencies with backup/restore still open; B-09/B-18 grant/revocation hardening with authority/TTL policy still open. The 108-client database-only synthetic benchmark is **not** an HTTP, VM, physical-device or battery capacity certification.
+
+**No implementation work or branch merge is authorized by this documentation change.** Source-of-truth release gates, Android 10–16 tests and legal/Play/BillDesk approvals remain separate.
+
+## 2026-11-04 owner authorization — Issue #32 scoped temporary branches
+
+**Owner explicitly authorized implementation after the documentation-first checkpoint.** Scope: `temp/issue32-e01` for E-01, `temp/issue32-e03` for E-03, `temp/issue32-e04` for E-04, and `temp/issue32-guardian` for B-09/B-18. This is a limited exception to the permanent-branch-only rule, **not** approval to merge unreviewed code, bypass CI, process real child data or release the app.
+
+**Live verification:** Previous oversized [PR #34](https://github.com/methakon/Madalasa-Alarka/pull/34) is closed without merge. Scoped replacement PRs exist: [#35 E-01](https://github.com/methakon/Madalasa-Alarka/pull/35), [#36 E-03](https://github.com/methakon/Madalasa-Alarka/pull/36), [#37 E-04](https://github.com/methakon/Madalasa-Alarka/pull/37), [#38 guardian](https://github.com/methakon/Madalasa-Alarka/pull/38). These are **stacked** despite each targeting `dev`; compare adjacent heads to verify isolated diff, and merge strictly in the order 35 → 36 → 37 → 38 only after review and passing exact-head CI. Do not conflate a cumulative `dev` comparison with each PR's focused change. Retain unique `api` code and pending load-harness work; do not drop or claim those have merged.
+
+**Review and CI qualification:** At the authorization inspection the focused stack had no recorded PR reviews. #35–#37 reported successful workflow runs; #38 had failed `local-checks` owing to unresolved conflict markers and a secret-scanner trigger in `backend/tests/integration_device_ingestion_v2.py`. Correction committed to `temp/issue32-guardian` as `72a9f19e`, restoring the already-good E-04 version and deleting only the conflict-created differences. **#38 requires new exact-head CI before merger; fixes do not themselves count as successful tests.** Keep branch governance, review, SQL/HTTP negative tests, source comparison and downstream `dev → main` gate intact. Delete temporary branches only after accepted `main` verification.
+
 ## ACTIVE OWNER-APPROVED BRANCH POLICY — 2026-10-31 (READ FIRST)
 
 **This section is authoritative and supersedes all older feature/direct-to-main branch suggestions below and elsewhere in the repository.** Older consolidation tables are historical evidence only. GitHub rulesets are a separate administrator action; writing this policy and adding CI does not by itself protect refs from direct pushes.

@@ -1,5 +1,8 @@
 # Release Readiness & Owner Decision Gate — M0/M1 → Android Pilot
 
+> **FREE-FIRST DECISION (2026-11-03):** Free-only parent/child Play launch is now the proposed first production stage, with 108 child slots and a server-enforced FIFO service queue. Parental signup remains available after capacity fills, but queued children cannot start services. Paid SKU, trial and premium functions remain preserved in code and disabled. See [free-first release roadmap](../../../roadmap/FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md). **BillDesk approval is not a precondition for a free-only non-transactional listing, but all Google Play, child-data legal, OS permissions, security and operational gates still apply; no live release approved.**
+
+
 > **Document control:** M9 / 03-release-gates · Proposed owner: Engineering lead (not assigned) · Registry: DOCUMENTED_REVIEW_PENDING; approval not recorded. [Master register](../../../MASTER_DOCUMENT_CONTROL_REGISTER.md).
 
 ## Current onboarding evidence — 2026-11-03
