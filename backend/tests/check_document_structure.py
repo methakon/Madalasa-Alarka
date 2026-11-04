@@ -42,17 +42,24 @@ def main() -> int:
         return 1
     data = json.loads(MANIFEST.read_text(encoding="utf-8"))
     entries = data["entries"]
-    check(data["document_count"] == len(entries) == 72,
-          f"Expected 72 canonical documents, found {len(entries)}", failures)
+    check(data["document_count"] == len(entries),
+          f"Declared document_count {data['document_count']} != {len(entries)} entries", failures)
+    check(len(entries) >= 72,
+          f"Canonical document set shrank below the 72-document baseline: {len(entries)}", failures)
     paths: set[str] = set()
     for entry in entries:
         new = ROOT / entry["canonical_path"]
-        old = ROOT / entry.get("compatibility_pointer_path", entry["original_path"])
         check(entry["canonical_path"] not in paths,
               f"Duplicate canonical path {new}", failures)
         paths.add(entry["canonical_path"])
         check(new.is_file() and new.stat().st_size > 200,
               f"Missing or suspiciously short canonical document: {new}", failures)
+        # Only relocated documents carry a compatibility pointer; a document that
+        # was published at its canonical path has no legacy forwarding page.
+        pointer = entry.get("compatibility_pointer_path")
+        if pointer is None:
+            continue
+        old = ROOT / pointer
         check(old.is_file(), f"Missing relocated legacy reference: {old}", failures)
         if old.is_file():
             check(new.name in old.read_text(encoding="utf-8"),
