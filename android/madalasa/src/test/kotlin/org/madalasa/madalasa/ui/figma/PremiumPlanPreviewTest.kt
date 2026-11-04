@@ -96,4 +96,25 @@ class PremiumPlanPreviewTest {
             }
         }
     }
+    @Test
+    fun upgradePreviewIsReachableFromRealParentNavigation() {
+        val nav = File("src/main/kotlin/org/madalasa/madalasa/ui/navigation/MadalasaNavHost.kt").readText()
+        val shell = File("src/main/kotlin/org/madalasa/madalasa/ui/screens/ShellScreen.kt").readText()
+        val childSelect = File("src/main/kotlin/org/madalasa/madalasa/ui/screens/ChildSelectionScreen.kt").readText()
+        assertTrue("The free-release preview needs an actual destination", nav.contains("composable(\"premium-preview\")"))
+        assertTrue("The parent shell must expose plan preview", shell.contains("onExplorePremiumPlans"))
+        assertTrue("Waitlisted families need the same preview entry", childSelect.contains("onExplorePremiumPlans"))
+        assertTrue("The entry must not require an admitted child", nav.contains("onExplorePremiumPlans = { navController.navigate(\"premium-preview\") }"))
+    }
+
+    @Test
+    fun comingSoonComposeStateIsObservableAndDismissible() {
+        val ui = File("src/main/kotlin/org/madalasa/madalasa/ui/figma/PremiumPlanPreviewScreen.kt").readText()
+        assertTrue("Compose must observe changes to dialog visibility", ui.contains("var dialogVisible by remember { mutableStateOf(false) }"))
+        assertTrue("Pay now must show the dialog", ui.contains("dialogVisible = true"))
+        assertTrue("Dismiss must hide the dialog", ui.contains("dialogVisible = false"))
+        assertFalse("A mutable plain state object inside mutableStateOf does not trigger recomposition",
+            ui.contains("var state by remember { mutableStateOf(PremiumPlanPreviewState()) }"))
+    }
+
 }
