@@ -219,6 +219,36 @@ synthetic engineering. Existing exact-child authority and consent requirements r
 - **X-01 / X-02 / X-03:** unchanged external/evidence states. Draft submission
   packs and due-diligence notes do not establish provider, Play or legal approval.
 
+#### Issue #32 PR isolation — owner authorization 2026-11-04
+
+The owner authorized temporary branches `temp/issue32-e01`, `-e03`, `-e04` and `-guardian`
+solely to isolate already implemented security/API packages for independent review, under the
+documented `main`+`dev` synchronization and `temp → dev → main` process, with no force pushes,
+no migration rewrites and no deletion of unique work.
+
+PR #34 (`api` head `7b25d5b`) carried `0025`–`0029` plus the FF-07 load harness under an
+E-01-only title and was **closed without merging**; its commits remain on `api`. Each package
+now has its own head, all rebased to a byte-identical tree of the locally tested commit:
+
+| Package | Branch | Head | PR | State not closed |
+|---|---|---|---|---|
+| E-01 | `temp/issue32-e01` | `65068a0` | #35 | cross-tenant HTTP, worker/cache/stream authorization, privilege-boundary acceptance |
+| E-03 | `temp/issue32-e03` | `657ec13` | #36 | durable inbox ADR still unmet (synchronous raw commit + receipt) |
+| E-04 | `temp/issue32-e04` | `526d593` | #37 | deletion propagation beyond this database, backup/restore tests |
+| B-09/B-18 | `temp/issue32-guardian` | `72a9f19` | #38 | guardian powers and TTLs remain owner decisions |
+
+Merge order is E-01 → E-03 → E-04 → B-09/B-18; each later branch contains its predecessors, so
+its focused diff is the range from the previous head. Local verification on each exact head tree,
+each from a fresh container: `reset && migrate && test` → 309 / 337 / 345 / 360 tests, all
+`OK (skipped=10)`, same 10 pre-existing skips in every run.
+
+Also on this date: `main` `d5c7933` fixed the documentation structure checker, which crashed on a
+null `compatibility_pointer_path` and compared `document_count` to a hard-coded 72 — newly
+published drafts (DOC-073..075) were never relocated and legitimately have no compatibility
+pointer. `dev` `ddbd78d` merges that fix. The free-first plan preview is implemented on `parent`
+`a2dfd74` (PR #30): list prices ₹99/month and ₹999/year per paid child, "Pay now" opens Coming
+Soon only, no billing client, order API, coupon, trial or entitlement path exists.
+
 #### B-06 / FF-04 Android review — 2026-11-04 (no code change)
 
 Review only, against live `child` source (`9692d673…`; the local `origin/child`
