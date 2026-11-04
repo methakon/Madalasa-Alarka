@@ -136,6 +136,17 @@ Source on `api` **not merged to dev**. [Status/evidence](../../M1-secure-platfor
 
 ### Issue #32 engineering checkpoint — 2026-11-04
 
+**Latest executed checkpoint:** [source, commands, results and residual gates](../../../../evidence/local/issue32/ENGINEERING_CHECKPOINT_2026-11-04.md).
+Focused E-01 [PR #34](https://github.com/methakon/Madalasa-Alarka/pull/34) is open;
+its isolated candidate passed 309 database tests (10 skipped). Queued E-03/E-04
+source through 0028 passed 345 tests (10 skipped), and the production-build GPS
+HTTP harness passed 11/11 checks with a real synthetic DeviceBearer and restricted
+runtime login. E-04's bundle/case FK failure was reproduced before the correction;
+eight deletion/restore regressions passed afterwards. Later source is published
+at recovery tag `issue32-tested-packages-checkpoint-456ca1e`, not accepted into
+dev/main. These results supersede the earlier 320-test checkpoint below, **not**
+the remaining E-01/E-03/E-04 acceptance requirements or any external gate.
+
 Status: **PARTIAL; no E-item closed and no release authorized.** Work follows
 [Issue #32](https://github.com/methakon/Madalasa-Alarka/issues/32), starting with
 E-01, E-03, E-04, B-09 and B-18. Payment activation and Play decisions do not block
