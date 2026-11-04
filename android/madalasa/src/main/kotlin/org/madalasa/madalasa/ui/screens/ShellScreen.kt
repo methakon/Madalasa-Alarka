@@ -45,6 +45,7 @@ fun ShellScreen(
     uiState: ParentUiState,
     onNavigateToChildSelection: () -> Unit,
     onNavigateToPrivacy: () -> Unit,
+    onExplorePremiumPlans: () -> Unit = {},
     syntheticPreview: Boolean = false
 ) {
     var selectedTab by remember { mutableStateOf(ShellTab.MAP) }
@@ -103,7 +104,7 @@ fun ShellScreen(
                 ShellTab.MAP -> MapPlaceholderContent(uiState)
                 ShellTab.HISTORY -> HistoryPlaceholderContent()
                 ShellTab.PLACES -> PlacesPlaceholderContent()
-                ShellTab.SETTINGS -> SettingsPlaceholderContent(uiState, onNavigateToChildSelection, onNavigateToPrivacy)
+                ShellTab.SETTINGS -> SettingsPlaceholderContent(uiState, onNavigateToChildSelection, onNavigateToPrivacy, onExplorePremiumPlans)
             }
         }
     }
@@ -187,7 +188,7 @@ private fun PlacesPlaceholderContent() {
 }
 
 @Composable
-private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: () -> Unit, onOpenPrivacy: () -> Unit) {
+private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: () -> Unit, onOpenPrivacy: () -> Unit, onExplorePremiumPlans: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = ThemeCTokens.PaleWarmSurface),
@@ -212,6 +213,10 @@ private fun SettingsPlaceholderContent(uiState: ParentUiState, onSelectChild: ()
                 onClick = onOpenPrivacy,
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
             ) { Text("Privacy & data") }
+            OutlinedButton(
+                onClick = onExplorePremiumPlans,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
+            ) { Text("Explore premium plans · ₹99 / ₹999") }
             OutlinedButton(
                 onClick = onSelectChild,
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
