@@ -8,6 +8,28 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-04 Issue #32 engineering checkpoint and owner decisions still needed
+
+**Owner directive:** update the discussed canonical documents first; no new feature-branch creation, PR merge or production activation is implied by this documentation step. See [branch/PR scope hold](../../M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md#2026-11-04--issue-32-pr-34-scope-drift-hold-documentation-first-directive).
+
+**Live inspected PR:** [#34](https://github.com/methakon/Madalasa-Alarka/pull/34) is open/unmerged and mergeable-at-GitHub, but **NOT CLEARED TO MERGE**: the named E-01 PR now includes additional E-03, E-04, B-09/B-18, and synthetic load-test work in its mutable `api` head `7b25d5b` (14 commits, 24 files). The PR description's 309-test E-01 checkpoint is **not** exact-head cumulative acceptance. Separate scope, retain all unique content, rerun exact-head and cumulative `dev` checks, and obtain independent security review before merging.
+
+| Blocker | 2026-11-04 evidence checkpoint | Open acceptance/decision |
+| --- | --- | --- |
+| E-01 RLS | Migration 0025, posture test; 309-test earlier PR candidate, 10 skipped (Hermes report) | **PARTIAL.** Default-deny false policies do not constitute perpetual privilege guard. Review cross-tenant HTTP, workers, caches, streams and runtime role boundaries |
+| E-03 GPS idempotence | 0026–0027, device activity/auth, reported production HTTP 11/11 and 58 targeted tests | **PARTIAL.** Durable transactional inbox ADR not implemented; protect receipt semantics and commit boundary; separate PR/evidence |
+| E-04 erasure/backup | 0028 dependency-order fix; reported 8/8 tests | **PARTIAL.** External archives, Android-local copies, backup restore/re-deletion and recovery ledger proof absent |
+| B-09/B-18 guardian | 0029 and reported 15/15, 360 full tests (10 skipped) | **PARTIAL.** Owner has not decided inviter/revoker powers, primary/delegated authority, exact invite/grant/session TTLs or overlapping-grant replacement. No new semantics silently chosen |
+| B-06 SOS/media | Child encrypted queue hardening, reported 108 JVM tests | **PARTIAL.** End-to-end SOS lifecycle, media permission legality, OS rejection, delivery vs human acknowledgement and physical validation remain open |
+| FF-04/FF-07 Android | Capability scaffolding and JVM tests | **NOT READY / PARTIAL.** No production GPS collector/durable encrypted outbox/real-device pairing and GPS acceptance; 96-case matrix NOT RUN |
+| B-07 per-category retention | [DOC-075 proposal](../../../roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md) | **PROPOSAL ONLY.** Every duration, holds and backup bound require owner and relevant law review; leave expiry arming OFF. Six-hour free history is read visibility, **not retention** |
+| 108 active child cap | 108 synthetic DB clients, 324/324 operations, ~38.9 batches/s, DB p50 ~200 ms, ~99.2% one core (worker report) | **SYNTHETIC MEASURED ONLY.** No HTTP, target VM or Android battery/real-device benchmark; do not claim proven production capacity |
+| X-01B/X-01C, X-02 G01/G04, X-03 | Submission/due-diligence packs only | **EXTERNAL / OPEN.** BillDesk activation, Play determinations and substantive child-data lawfulness unresolved; no approval invented |
+
+**Previously approved presentation change (separate from payment activation):** Free-first Madalasa displays full **₹99/month / ₹999/year per paid child** regular plan preview, never coupon-adjusted ₹50/₹500 price in public plan listing. Tapping **Pay now** opens the [Coming Soon Figma dialog](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=186-41), **without** any order, BillDesk, Play Billing, trial, coupon application or entitlement mutation. See [canonical preview contract](../../../roadmap/FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md); `FREE_ONLY` remains server-enforced.
+
+**Pending owner decisions, deliberately not adopted:** B-07 duration by category; B-09/B-18 invite/revoke permissions and token lifetimes; B-06 manual SOS versus sensor-assisted alert release scope and camera/mic restrictions; short-lived branch exception; physical devices/target VM availability. No production-capacity, regulatory or payment approval is asserted.
+
 ## 2026-11-03 X-01B — BillDesk portal submission confirmed; review still pending
 
 **Owner-provided BillDesk Connect portal confirmation:** the application was **successfully submitted**; a numeric **Application ID** was issued for future correspondence and must appear in the email subject when writing to **onboarding@billdesk.com**. The Application ID is retained privately, **not entered into the public repository**. No `BD`-prefixed Partner ID is necessary when the correct Application ID is available.
@@ -173,6 +195,16 @@ synthetic engineering. Existing exact-child authority and consent requirements r
   defects, then passed after corrections. Raw local logs remain private under
   `.local-db/issue32-reviewed-*.log`; hosted CI and focused PR acceptance remain
   separate gates.
+- **B-09 / B-18:** hardened on `api` commit `7b25d5b` (`v2:0029`), review pending:
+  duplicate invite scopes are refused before a token exists, acceptance reads the
+  clock *after* the invite row lock, consent withdrawal advances grant
+  revision/epoch and revokes capabilities in ingestion lock order, dead/revoked
+  sessions stop occupying viewer capacity, and revocation-only triggers drop
+  stored viewer leases when grant/authority/consent/session state changes.
+  15 new regressions; full suite **360 tests OK (10 skipped)**. No replay bypass
+  was found in the existing row-locked single-use acceptance, so none is claimed.
+  Guardian-management powers, disputed TTLs and overlapping-grant replacement
+  remain owner decisions.
 - **E-04 / B-09 / B-18:** still open. Review existing deletion/recovery and
   guardian-authority implementation before changes; do not invent disputed TTLs
   or a legal guardian verifier. **B-07** category durations remain undecided;
@@ -186,6 +218,36 @@ synthetic engineering. Existing exact-child authority and consent requirements r
   or target-VM proof; those are NOT_RUN and the 108 figure remains a policy cap.
 - **X-01 / X-02 / X-03:** unchanged external/evidence states. Draft submission
   packs and due-diligence notes do not establish provider, Play or legal approval.
+
+#### Issue #32 PR isolation — owner authorization 2026-11-04
+
+The owner authorized temporary branches `temp/issue32-e01`, `-e03`, `-e04` and `-guardian`
+solely to isolate already implemented security/API packages for independent review, under the
+documented `main`+`dev` synchronization and `temp → dev → main` process, with no force pushes,
+no migration rewrites and no deletion of unique work.
+
+PR #34 (`api` head `7b25d5b`) carried `0025`–`0029` plus the FF-07 load harness under an
+E-01-only title and was **closed without merging**; its commits remain on `api`. Each package
+now has its own head, all rebased to a byte-identical tree of the locally tested commit:
+
+| Package | Branch | Head | PR | State not closed |
+|---|---|---|---|---|
+| E-01 | `temp/issue32-e01` | `65068a0` | #35 | cross-tenant HTTP, worker/cache/stream authorization, privilege-boundary acceptance |
+| E-03 | `temp/issue32-e03` | `657ec13` | #36 | durable inbox ADR still unmet (synchronous raw commit + receipt) |
+| E-04 | `temp/issue32-e04` | `526d593` | #37 | deletion propagation beyond this database, backup/restore tests |
+| B-09/B-18 | `temp/issue32-guardian` | `72a9f19` | #38 | guardian powers and TTLs remain owner decisions |
+
+Merge order is E-01 → E-03 → E-04 → B-09/B-18; each later branch contains its predecessors, so
+its focused diff is the range from the previous head. Local verification on each exact head tree,
+each from a fresh container: `reset && migrate && test` → 309 / 337 / 345 / 360 tests, all
+`OK (skipped=10)`, same 10 pre-existing skips in every run.
+
+Also on this date: `main` `d5c7933` fixed the documentation structure checker, which crashed on a
+null `compatibility_pointer_path` and compared `document_count` to a hard-coded 72 — newly
+published drafts (DOC-073..075) were never relocated and legitimately have no compatibility
+pointer. `dev` `ddbd78d` merges that fix. The free-first plan preview is implemented on `parent`
+`a2dfd74` (PR #30): list prices ₹99/month and ₹999/year per paid child, "Pay now" opens Coming
+Soon only, no billing client, order API, coupon, trial or entitlement path exists.
 
 #### B-06 / FF-04 Android review — 2026-11-04 (no code change)
 
@@ -212,9 +274,15 @@ instrumented execution was performed.
 - **Public manifest remains INTERNET-only** with no production location service;
   the debug foreground-service scaffold is a noncollecting QA harness that must
   not be reused unchanged as monitoring.
+- **Queue corrections implemented** on `child` commit `053ee8b`: `lease()` replaces
+  the destructive `flush()` (records survive a failed upload), `acknowledge(n)`
+  removes only server-accepted entries, and expiry scans the whole buffer before
+  sending. `:alarka:testDebugUnitTest` = **108 tests, 0 failures**. The change
+  currently rides in the open child PR #31 alongside its disclosure/pairing work;
+  it is unrelated to that PR's topic and should be reviewed as its own slice.
 - Next safe slice: sensor-free, capture-OFF B-06 SOS state reducer with negative
-  JVM tests, plus the queue ACK/expiry corrections. Neither closes FF-04, which
-  still requires real GNSS collection, durable encrypted outbox, device/OS
+  JVM tests. Neither slice closes FF-04, which still requires real GNSS collection,
+  durable encrypted outbox (the queue remains in-memory XOR/Base64), device/OS
   matrix execution and Play/legal clearance.
 
 ## X-02 Google Play G01/G04 review progress — 2026-10-31

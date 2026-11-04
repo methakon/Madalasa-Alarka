@@ -2,6 +2,12 @@
 
 **Decision:** Supersedes the 2026-11-03 instruction to hide all upgrade/plan previews. The free-first release remains no-charge; only catalog preview and simulated checkout-entry UI are enabled. This amendment does not authorize billing.
 
+## 2026-11-04 implementation checkpoint (Issue #32 / #33)
+
+This UI decision is **approved for design and parent-app implementation**, not payment authorization. Hermes' Issue #32 report concerns backend/security work; it is **not** evidence that the Android parent flow has been built or user-tested. Update the `parent` workstream independently, following `parent → dev → main`, with snapshot, interaction and forged-request negative tests. The `api` branch/PR #34 is under scope-drift hold; that hold must not be bypassed to rush preview UI.
+
+The free-first premium-preview design supersedes earlier Figma wording that removed all upgrade entry points. It does **not** supersede server-enforced `FREE_ONLY`, Play/merchant approval requirements, or the 108-admitted-child queue. Owner approval of a display price is distinct from approval of taxes or real payment settlement.
+
 ## Parent UX contract
 1. Madalasa visibly offers Upgrade / Explore plans to free users, including waitlisted families, without implying paid priority.
 2. Present regular list prices, not discounted or coupon-applied prices: **₹99 per month per paid child** and **₹999 per year per paid child**. Future indicative prices are subject to final approved catalog, tax and Play confirmation; no current purchase offer is implied. Prepaid/manual top-up; no automatic renewal.
