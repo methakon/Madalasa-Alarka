@@ -177,8 +177,13 @@ synthetic engineering. Existing exact-child authority and consent requirements r
   guardian-authority implementation before changes; do not invent disputed TTLs
   or a legal guardian verifier. **B-07** category durations remain undecided;
   proposed retention matrices are not approval to enable expiry.
-- **FF-07 / 108 capacity:** **NOT VALIDATED**. No 108-device benchmark, physical
-  battery study or device/OS release acceptance is claimed by these tests.
+- **FF-07 / 108 capacity:** **MEASURED SYNTHETIC ONLY, NOT VALIDATED.** A reproducible
+  direct-SQL harness ([load measurement](../../../../evidence/local/issue32/LOAD_MEASUREMENT_2026-11-04.md))
+  ran 108 simulated clients against a deliberately capped 1 vCPU / 512 MiB instance:
+  324/324 attempts succeeded at 38.9 batches/s, DB p50 200 ms, saturated at 99.2 % of
+  one core, with pool queueing (8 connections) the dominant delay. That is synthetic
+  ingest headroom, **not** device capacity, HTTP edge, worker drain, Android battery
+  or target-VM proof; those are NOT_RUN and the 108 figure remains a policy cap.
 - **X-01 / X-02 / X-03:** unchanged external/evidence states. Draft submission
   packs and due-diligence notes do not establish provider, Play or legal approval.
 
