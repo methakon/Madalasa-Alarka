@@ -204,6 +204,12 @@
       "path": "backend/persistence/migrations/0027_device_credential_transaction_context.sql",
       "sha256": "af6b5ab853483568c81f945e1ad3f863864bf56ed876a7931c07176b23647ef6",
       "published": false
+    },
+    {
+      "id": "v2:0028",
+      "path": "backend/persistence/migrations/0028_child_erasure_dependency_order.sql",
+      "sha256": "0224989ed4ee25edba400762039fc350b217f1136a8e20e70433e2a267b4cbeb",
+      "published": false
     }
   ]
 }
