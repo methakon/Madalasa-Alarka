@@ -58,6 +58,14 @@ Source review found explicitly held batch/session IDs outside 0028's limited hol
 
 ## Remaining gates
 
+### 2026-11-05 — parent PR #30 merged to `dev`; child fix pushed
+
+- **PR #30 merged** (`parent` → `dev`) at head `80369579cf0be5afa5e85bd14ecb80610fa8a4dd`, merge commit `e761977eb22d4eed806ed042ab1e492f3f95305a`. Its earlier defects (late location responses restoring a revoked or superseded child, navigation silently defaulting to the first admitted child, premium detail benefits not rendered) are fixed and were cleared by an independent source review: generation plus actor/authority/child rechecks, explicit-child-only pairing and device actions, real `/location/history` six-hour contract with `has_more` treated as a limit rather than proof of more rows.
+- **Cumulative `dev` replay after #30** — `reset && init && migrate && test` on `e761977`: **367 tests OK, 10 skipped**. The probe HTTP suite needs a built probe binary (`MA_PROBE_BINARY`); a rebuild inside that worktree was not possible because its vendored SDK prefix lacks SQLite3/c-ares, so the already-built probe from the sibling checkout was used and the gap is recorded here rather than papered over.
+- **Child PR #31 fix pushed** at `fd672b6e36ad6a916d40851330fada05db1773f9`: definitive consent denial (401/403/404/410) is now a typed error that durably halts the queue and clears the credential, while 429/5xx/malformed/transport failures and an unavailable GPS provider pause and keep the encrypted queue. `:alarka:testDebugUnitTest` **126 tests, 0 failures**; `:alarka:testReleaseUnitTest` **109 tests, 0 failures**. Debug APKs rebuilt at that head — default-off `7532e3ed…`, lab opt-in `5b8d3281…`. Instrumented tests compiled only; **NOT_RUN** on any device; both application APKs still have no configured HTTPS origin.
+
+Parent and child implementation still sits on `dev`/workstream branches only. Reviewer clearance is source-level: no HTTPS authorization end-to-end, no device matrix, no Android 10–16 runtime acceptance and no physical Keystore enrollment executed.
+
 ### Open blocker found by the new end-to-end pairing harness — 2026-11-05
 
 A disposable-DB production-build harness (`MA_SYNTHETIC_AUTH=OFF`, separate runtime/issuer logins) now exercises the real parent→child pairing path. Two backend defects surfaced and one is fixed:
