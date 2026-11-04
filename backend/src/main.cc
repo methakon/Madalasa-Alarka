@@ -213,7 +213,9 @@ int main() {
         try {
           const auto res = co_await db->execSqlCoro(
               "SELECT (to_regclass('ap_m1.devices') IS NOT NULL "
-              "AND to_regclass('ap_m1.guardian_memberships') IS NOT NULL) AS ready");
+              "AND to_regclass('ap_m1.guardian_memberships') IS NOT NULL "
+              "AND to_regclass('ap_m1.admin_accounts') IS NOT NULL "
+              "AND to_regprocedure('ap_m1.ingest_location_batch_receipt(uuid,uuid,jsonb)') IS NOT NULL) AS ready");
           if (!res.empty() && !res.at(0)["ready"].isNull() && res.at(0)["ready"].as<bool>()) {
             body["status"] = "ready";
             co_return HttpResponse::newHttpJsonResponse(body);
