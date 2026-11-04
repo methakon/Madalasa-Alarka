@@ -10,6 +10,8 @@ interface MadalasaApiClient {
     suspend fun getMe(): Result<ParentProfileResponse>
     suspend fun getChildren(familyId: String): Result<List<ChildSummaryResponse>>
     suspend fun getChildLocation(childId: String): Result<VerifiedLocationState>
+    suspend fun getChildHistory(childId: String): Result<FreeChildHistory> =
+        Result.failure(IllegalStateException("History service unavailable"))
     suspend fun createPairingCode(childId: String): Result<PairingCodeResponse>
     suspend fun getPairedChildDevice(childId: String): Result<PairedChildDevice?> =
         Result.failure(IllegalStateException("Paired-device status unavailable"))

@@ -1,6 +1,9 @@
 package org.madalasa.madalasa.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,6 +40,7 @@ import org.madalasa.madalasa.ui.viewmodel.ParentUiState
 fun ChildSelectionScreen(
     uiState: ParentUiState,
     onChildSelected: (String) -> Unit,
+    onOpenLocation: () -> Unit = {},
     onPairNewChild: (onCode: (String) -> Unit, onError: (String) -> Unit) -> Unit,
     onViewPairedDevice: (onStatus: (String) -> Unit) -> Unit = {},
     onRefreshServiceStatus: () -> Unit = {},
@@ -48,12 +52,19 @@ fun ChildSelectionScreen(
     var familyLabel by remember { mutableStateOf("") }
     var childAlias by remember { mutableStateOf("") }
     var registrationMessage by remember { mutableStateOf("") }
-    val availableChildren=uiState.children.filter { it.freeServiceState == "ADMITTED" }
+    val selectedChild = uiState.children.singleOrNull {
+        it.id == uiState.selectedChildId && it.freeServiceState == "ADMITTED"
+    }
+    androidx.compose.runtime.LaunchedEffect(uiState.selectedChildId, uiState.children) {
+        generatedCode = null
+        registrationMessage = ""
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(ThemeCTokens.Parchment)
+            .verticalScroll(rememberScrollState())
             .padding(20.dp)
     ) {
         Text(
@@ -85,7 +96,7 @@ fun ChildSelectionScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         LazyColumn(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.heightIn(max = 280.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(uiState.children) { child ->
@@ -148,7 +159,7 @@ fun ChildSelectionScreen(
                         }
                         if (child.id == uiState.selectedChildId) {
                             Text(
-                                text = "Active",
+                                text = "Selected",
                                 color = ThemeCTokens.Teal,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 13.sp
@@ -205,18 +216,22 @@ fun ChildSelectionScreen(
                     { message -> registrationMessage = message }
                 )
             },
-            enabled=availableChildren.isNotEmpty(),
+            enabled=selectedChild != null,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = ThemeCTokens.DeepIndigo)
         ) {
-            Text("+ Pair New Companion Device", color = ThemeCTokens.Parchment)
+            Text(selectedChild?.let { "Pair device for ${it.alias}" }
+                ?: "Select a child before pairing", color = ThemeCTokens.Parchment)
         }
-        if (availableChildren.isNotEmpty()) {
+        if (selectedChild != null) {
+            Button(onClick = onOpenLocation, modifier = Modifier.fillMaxWidth()) {
+                Text("Open location for ${selectedChild.alias}")
+            }
             Button(
                 onClick = { onViewPairedDevice { registrationMessage = it } },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("View paired child device")
+                Text("View paired device for ${selectedChild.alias}")
             }
         }
         if (generatedCode != null) {

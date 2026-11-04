@@ -19,7 +19,8 @@ data class ParentUiState(
     val selectedChildId: String? = null,
     val selectedChildLocation: VerifiedLocationState? = null,
     val isLoading: Boolean = false,
-    val pairingCode: String? = null
+    val pairingCode: String? = null,
+    val history: org.madalasa.madalasa.repository.HistoryReadState = org.madalasa.madalasa.repository.HistoryReadState()
 )
 
 class ParentViewModel(
@@ -30,13 +31,20 @@ class ParentViewModel(
         repository.profile,
         repository.children,
         repository.selectedChildId,
-        repository.selectedChildLocation
-    ) { profile, children, selectedChildId, location ->
+        repository.selectedChildLocation,
+        repository.history
+    ) { profile, children, selectedChildId, location, history ->
+        val allowed = selectedChildId != null && children.any {
+            it.id == selectedChildId && it.freeServiceState == "ADMITTED" &&
+                profile?.familyIds?.contains(it.familyId) == true
+        }
         ParentUiState(
             profile = profile,
             children = children,
-            selectedChildId = selectedChildId,
-            selectedChildLocation = location,
+            selectedChildId = selectedChildId.takeIf { allowed },
+            selectedChildLocation = location?.takeIf { allowed && it.childId == selectedChildId },
+            history = history.takeIf { allowed && (it.data == null || it.data.childId == selectedChildId) }
+                ?: org.madalasa.madalasa.repository.HistoryReadState(),
             isLoading = false
         )
     }.stateIn(
@@ -45,15 +53,28 @@ class ParentViewModel(
         initialValue = ParentUiState(isLoading = true)
     )
 
-    init {
-        loadData()
-    }
+    private var refreshJob: kotlinx.coroutines.Job? = null
+
+    init { loadData() }
 
     fun loadData() {
-        viewModelScope.launch {
-            repository.refreshProfile()
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch {
+            val selected = repository.selectedChildId.value
+            if (repository.refreshProfile().isSuccess && selected != null &&
+                repository.selectedChildId.value == selected) {
+                repository.selectChild(selected)
+                if (repository.selectedChildId.value == selected) repository.refreshHistory()
+            }
         }
     }
+
+    fun clearVisibleData() {
+        refreshJob?.cancel()
+        repository.clearVisibleData()
+    }
+
+    fun chooseChild(childId: String) { repository.chooseChild(childId) }
 
     fun selectChild(childId: String, onAuthorized: () -> Unit = {}) {
         viewModelScope.launch {

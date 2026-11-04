@@ -29,6 +29,7 @@ class HttpsMadalasaApiClientTest {
         assertTrue(client.getMe().isFailure)
         assertTrue(client.getChildren(child).isFailure)
         assertTrue(client.getChildLocation(child).isFailure)
+        assertTrue(client.getChildHistory(child).isFailure)
         assertTrue(client.createPairingCode(child).isFailure)
     }
 

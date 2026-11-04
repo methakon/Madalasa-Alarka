@@ -84,6 +84,7 @@ class HttpsMadalasaApiClient(
                     payload.append(buffer, 0, n)
                 }
             }
+            if (bearer() != token) throw SecurityException("Parent session changed during request")
             return JSONObject(payload.toString())
         } finally {
             conn.disconnect()
@@ -154,6 +155,14 @@ class HttpsMadalasaApiClient(
                     // Do not infer freshness from device clock or API success.
                     freshness = if (point == null) Freshness.UNAVAILABLE else Freshness.LAST_KNOWN
                 )
+            }
+        }
+
+    override suspend fun getChildHistory(childId: String): Result<FreeChildHistory> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val child = exactId(childId)
+                parseFreeHistory(child, request("/v1/children/" + child + "/location/history"))
             }
         }
 

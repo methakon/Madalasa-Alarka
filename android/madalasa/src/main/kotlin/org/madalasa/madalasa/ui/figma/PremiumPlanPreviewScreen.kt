@@ -82,6 +82,10 @@ fun PremiumPlanPreviewScreen(modifier: Modifier = Modifier) {
                     }
                     Text(plan.summary, color = muted)
                     Text(plan.contingentNote, color = muted)
+                    if (selected) {
+                        Text("Preview details · ${plan.cadence}", color = darkTeal)
+                        plan.benefits.forEach { benefit -> Text("• $benefit", color = darkTeal) }
+                    }
                     Text(
                         if (selected) "Selected" else "Preview details",
                         color = teal,
@@ -138,7 +142,7 @@ fun ComingSoonOverlay(onDismiss: () -> Unit) {
         },
         title = {
             Text(
-                "Something wonderful is on its way",
+                "Coming Soon",
                 fontSize = 23.sp,
                 fontWeight = FontWeight.Bold,
                 color = deepTeal,

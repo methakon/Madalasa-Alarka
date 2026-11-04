@@ -42,6 +42,18 @@ fun MadalasaNavHost(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner, viewModel) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            when (event) {
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> viewModel.loadData()
+                androidx.lifecycle.Lifecycle.Event.ON_STOP -> viewModel.clearVisibleData()
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
     val syntheticPreviewEnabled =
         context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 &&
             googleConfiguration.normalizedOrigin() == null
@@ -114,11 +126,11 @@ fun MadalasaNavHost(
                 uiState = uiState,
                 syntheticPreview = syntheticPreviewEnabled,
                 onChildSelected = { childId ->
-                    // Navigate only after this specific child has passed a
-                    // fresh authenticated, server-scoped repository read.
-                    viewModel.selectChild(childId) {
-                        navController.navigate(Screen.Shell.route)
-                    }
+                    viewModel.chooseChild(childId)
+                },
+                onOpenLocation = {
+                    navController.navigate(Screen.Shell.route)
+                    viewModel.loadData()
                 },
                 onRegisterChild = { familyLabel,childAlias,onResult ->
                     viewModel.registerChild(familyLabel,childAlias,onResult)
@@ -127,15 +139,12 @@ fun MadalasaNavHost(
                 onExplorePremiumPlans = { navController.navigate("premium-preview") },
                 onViewPairedDevice = { onResult ->
                     val currentId = uiState.selectedChildId
-                        ?: uiState.children.firstOrNull { it.freeServiceState == "ADMITTED" }?.id
                     if (currentId == null) onResult("No admitted child profile available")
                     else viewModel.checkPairedDevice(currentId, onResult)
                 },
                 onPairNewChild = { onCode, onError ->
                     val currentId = uiState.selectedChildId
-                        ?: uiState.children.firstOrNull { it.freeServiceState == "ADMITTED" }?.id
-                        ?: ""
-                    if (currentId.isNotEmpty()) {
+                    if (currentId != null) {
                         viewModel.generatePairingCode(currentId, onCode, onError)
                     } else {
                         onError("No admitted child profile is available for pairing")
@@ -148,6 +157,7 @@ fun MadalasaNavHost(
             ShellScreen(
                 uiState = uiState,
                 syntheticPreview = !googleConfiguration.isConfigured(),
+                onRefresh = { viewModel.loadData() },
                 onNavigateToChildSelection = {
                     navController.navigate(Screen.ChildSelection.route)
                 },

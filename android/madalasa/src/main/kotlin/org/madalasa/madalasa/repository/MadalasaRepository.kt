@@ -14,10 +14,14 @@ interface MadalasaRepository {
     val profile: StateFlow<ParentProfileResponse?>
     val children: StateFlow<List<ChildSummaryResponse>>
     val selectedChildId: StateFlow<String?>
+    val history: StateFlow<HistoryReadState>
+    suspend fun refreshHistory(): Result<Unit>
     val selectedChildLocation: StateFlow<VerifiedLocationState?>
 
     suspend fun refreshProfile(): Result<Unit>
     suspend fun refreshChildren(): Result<Unit>
+    fun clearVisibleData()
+    fun chooseChild(childId: String): Result<Unit>
     suspend fun selectChild(childId: String): Result<Unit>
     suspend fun generatePairingCode(childId: String): Result<String>
     suspend fun getPairedDevice(childId: String): Result<PairedChildDevice?> =

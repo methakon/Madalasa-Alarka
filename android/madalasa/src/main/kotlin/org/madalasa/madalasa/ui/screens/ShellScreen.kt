@@ -1,6 +1,10 @@
 package org.madalasa.madalasa.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import java.time.Instant
+import java.time.Duration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,6 +50,7 @@ fun ShellScreen(
     onNavigateToChildSelection: () -> Unit,
     onNavigateToPrivacy: () -> Unit,
     onExplorePremiumPlans: () -> Unit = {},
+    onRefresh: () -> Unit = {},
     syntheticPreview: Boolean = false
 ) {
     var selectedTab by remember { mutableStateOf(ShellTab.MAP) }
@@ -76,6 +81,7 @@ fun ShellScreen(
                 .fillMaxSize()
                 .background(ThemeCTokens.Parchment)
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
             Row(
@@ -100,9 +106,13 @@ fun ShellScreen(
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
+            val child = uiState.children.singleOrNull { it.id == uiState.selectedChildId }
+            Text(child?.let { "Selected child: ${it.alias}" } ?: "No authorized child selected")
+            OutlinedButton(onClick = onRefresh) { Text("Refresh authorization and observations") }
+            OutlinedButton(onClick = onNavigateToChildSelection) { Text("Choose child") }
             when (selectedTab) {
                 ShellTab.MAP -> MapPlaceholderContent(uiState)
-                ShellTab.HISTORY -> HistoryPlaceholderContent()
+                ShellTab.HISTORY -> HistoryContent(uiState)
                 ShellTab.PLACES -> PlacesPlaceholderContent()
                 ShellTab.SETTINGS -> SettingsPlaceholderContent(uiState, onNavigateToChildSelection, onNavigateToPrivacy, onExplorePremiumPlans)
             }
@@ -124,7 +134,8 @@ private fun MapPlaceholderContent(uiState: ParentUiState) {
                 color = ThemeCTokens.Ink
             )
             Spacer(modifier = Modifier.height(8.dp))
-            val loc = uiState.selectedChildLocation
+            Text("Map unavailable: no map provider is configured. Verified observations are shown below.")
+            val loc = uiState.selectedChildLocation?.takeIf { it.childId == uiState.selectedChildId }
             if (loc != null && loc.latitudeE6 != null && loc.longitudeE6 != null &&
                 loc.freshness != org.madalasa.madalasa.domain.Freshness.UNAVAILABLE &&
                 loc.freshness != org.madalasa.madalasa.domain.Freshness.UNKNOWN) {
@@ -133,7 +144,7 @@ private fun MapPlaceholderContent(uiState: ParentUiState) {
                     color = ThemeCTokens.Teal,
                     fontWeight = FontWeight.SemiBold
                 )
-                Text(text = "Coordinates: ${loc.latitudeE6 / 1e6}, ${loc.longitudeE6 / 1e6}")
+                ObservationDetails(loc)
                 Text(text = loc.accuracyMeters?.let { "Accuracy: $it meters" }
                     ?: "Accuracy not available")
             } else {
@@ -150,21 +161,46 @@ private fun MapPlaceholderContent(uiState: ParentUiState) {
 }
 
 @Composable
-private fun HistoryPlaceholderContent() {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = ThemeCTokens.PaleWarmSurface),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Route History (Synthetic)", fontWeight = FontWeight.Bold, color = ThemeCTokens.Ink)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Free-plan policy permits at most the past 6 hours of authorized history. Actual available observations, legal retention and paid entitlements require server verification.",
-                color = ThemeCTokens.Ink,
-                fontSize = 13.sp
-            )
+private fun HistoryContent(uiState: ParentUiState) {
+    Column(verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(12.dp)) {
+        Text("Location history · past six hours", fontWeight = FontWeight.Bold)
+        val data = uiState.history.data?.takeIf { it.childId == uiState.selectedChildId }
+        Text(uiState.history.status)
+        if (data != null) {
+            if (data.items.isEmpty()) Text("No observations returned in the server's six-hour window.")
+            if (data.hasMore) Text("Partial result: server returned its newest 200 observations. Older rows may be omitted; pagination is not available.")
+            data.items.forEach { observation ->
+                ObservationDetails(observation)
+            }
+        } else {
+            Text("History is unknown or unavailable, not proof that the child stayed in one place.")
         }
+        Text("Visible history is not a storage-retention promise. Times depend on the reporting device and server clocks.", fontSize = 12.sp)
+    }
+}
+
+@Composable
+private fun ObservationDetails(loc: org.madalasa.madalasa.domain.VerifiedLocationState) {
+    var now by remember { mutableStateOf(System.currentTimeMillis()) }
+    androidx.compose.runtime.LaunchedEffect(loc) {
+        while (true) {
+            now = System.currentTimeMillis()
+            kotlinx.coroutines.delay(60_000)
+        }
+    }
+    val observed = loc.observedAtEpochMs
+    val age = observed?.let { Duration.between(Instant.ofEpochMilli(it), Instant.ofEpochMilli(now)) }
+    Column {
+        Text("Observed: ${observed?.let { Instant.ofEpochMilli(it).toString() } ?: "Unknown"}")
+        Text("Received: ${loc.ingestedAtEpochMs?.let { Instant.ofEpochMilli(it).toString() } ?: "Unknown"}")
+        Text(if (age == null || age.isNegative) "Age unknown · clock may differ"
+            else "Observation age: ${age.toMinutes()} minutes · last known, not live")
+        // Also age cached observations out while the app stays open. Never extend the server's window.
+        if (age != null && !age.isNegative && age <= Duration.ofHours(6) &&
+            loc.latitudeE6 != null && loc.longitudeE6 != null) {
+            Text("Coordinates: ${loc.latitudeE6 / 1e6}, ${loc.longitudeE6 / 1e6}")
+            Text(loc.accuracyMeters?.let { "Accuracy: $it meters" } ?: "Accuracy unknown")
+        } else Text("Coordinates hidden: timestamp unknown, clock mismatch, or older than six hours. Refresh.")
     }
 }
 
@@ -179,7 +215,7 @@ private fun PlacesPlaceholderContent() {
             Text(text = "Places & Geofences (Synthetic)", fontWeight = FontWeight.Bold, color = ThemeCTokens.Ink)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Configured boundaries: Home (Synthetic), School (Synthetic). Geofence entry/exit alerts are processed asynchronously.",
+                text = "Places are unavailable. No configured boundaries or geofence alerts have been verified.",
                 color = ThemeCTokens.Ink,
                 fontSize = 13.sp
             )
