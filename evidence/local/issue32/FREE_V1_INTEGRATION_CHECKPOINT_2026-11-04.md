@@ -58,6 +58,17 @@ Source review found explicitly held batch/session IDs outside 0028's limited hol
 
 ## Remaining gates
 
+### Open blocker found by the new end-to-end pairing harness — 2026-11-05
+
+A disposable-DB production-build harness (`MA_SYNTHETIC_AUTH=OFF`, separate runtime/issuer logins) now exercises the real parent→child pairing path. Two backend defects surfaced and one is fixed:
+
+- **Fixed in `api` `ea88712` (`v2:0030`):** `POST /v1/children/{id}/pairing-codes` inserted into `pairing_codes` directly, but the V2 policy intentionally leaves the runtime role SELECT-only, so every genuine issue attempt returned `403` / SQLSTATE `42501`. Identification now goes through an executor-owned definer that revalidates trusted parent session, exact `PAIR_DEVICE` scope and free admission *after* the child lock, keeping the runtime table grant read-only. Enrollment moved to the separate issuer login with narrow expiry/profile grants.
+- **Open:** `POST /v1/enrollment/{id}/proof` rejects a correct P-256 signature with `401 nonce does not match challenge`. The issued nonce has been verified to hash exactly to the persisted `enrollment_challenges.nonce_sha256`, so the mismatch is inside the backend comparison or bytea handling, not the harness. No production claim is made for enrollment until this is traced; the harness stops at 10 of its checks.
+
+Harness progress at this checkpoint: wrong-child pairing and latest-location denial, waitlisted denial, expired-code rejection, exact ten-character code issuance, idempotency replay refusal, code redemption and redeemed-code replay refusal all PASS. Enrollment proof, bearer-bound ingest, guardian read-back and revocation remain NOT_VERIFIED.
+
+## Remaining gates
+
 Parent #30 security review found asynchronous stale selection and implicit first-child pairing defects; corrections are in progress. Child #31 lab collector/encrypted outbox is implemented at `6551bb60ab07a0b93fb9f1f8d1422517b0c66b8d`, independent review pending. Child application artifact hashes were independently read back: default-off `8428380cb2688461b80b4bef8cd7d088b4948a89fd3ecfed1da7e76c645dae1e`, lab-opt-in `2fbd0a2ecf974b01e2d8e3f5a26fdcde13541dc4ed6ee4f7d9b769c8cd5208cb`. Both deliberately have no configured HTTPS origin and cannot collect; source/build is not real-device acceptance.
 
 Real-device matrix, HTTPS parent-to-child end-to-end pairing, physical Keystore execution, notification/permission/battery acceptance: NOT_RUN. No request for physical-device or VPS help yet. Main has documentation only; implementation promotion still requires cumulative dev verification and reviewed dev→main PR. No retention durations activated; SOS/media/payment release gates unchanged; 108-client prior benchmark remains synthetic DB-only evidence.
