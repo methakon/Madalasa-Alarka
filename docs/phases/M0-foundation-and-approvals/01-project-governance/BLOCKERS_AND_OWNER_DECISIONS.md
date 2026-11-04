@@ -173,6 +173,16 @@ synthetic engineering. Existing exact-child authority and consent requirements r
   defects, then passed after corrections. Raw local logs remain private under
   `.local-db/issue32-reviewed-*.log`; hosted CI and focused PR acceptance remain
   separate gates.
+- **B-09 / B-18:** hardened on `api` commit `7b25d5b` (`v2:0029`), review pending:
+  duplicate invite scopes are refused before a token exists, acceptance reads the
+  clock *after* the invite row lock, consent withdrawal advances grant
+  revision/epoch and revokes capabilities in ingestion lock order, dead/revoked
+  sessions stop occupying viewer capacity, and revocation-only triggers drop
+  stored viewer leases when grant/authority/consent/session state changes.
+  15 new regressions; full suite **360 tests OK (10 skipped)**. No replay bypass
+  was found in the existing row-locked single-use acceptance, so none is claimed.
+  Guardian-management powers, disputed TTLs and overlapping-grant replacement
+  remain owner decisions.
 - **E-04 / B-09 / B-18:** still open. Review existing deletion/recovery and
   guardian-authority implementation before changes; do not invent disputed TTLs
   or a legal guardian verifier. **B-07** category durations remain undecided;
