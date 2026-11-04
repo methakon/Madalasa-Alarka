@@ -69,7 +69,7 @@ class LabLocationTransport(origin: String) {
             val receipt = JSONObject(text.toString())
             return LabCollectionPolicy.isReceipt(record.id, receipt.getString("batch_id"),
                 receipt.getString("durable_stage"), receipt.getInt("accepted_count"),
-                receipt.getInt("rejected_count"))
+                receipt.getInt("rejected_count"), receipt.getInt("duplicate_count"))
         } finally { connection.disconnect() }
     }
 }

@@ -18,6 +18,12 @@ class LabCollectionPolicyTest {
             assertFalse(LabCollectionPolicy.allowed(true, true, true, true, true, true, blocked))
         }
     }
+    @Test fun currentServerRawCommitAndLostReceiptRetryAreAcknowledged() {
+        assertTrue(LabCollectionPolicy.isReceipt("a", "a", "RAW_OBSERVATIONS_COMMITTED", 1, 0, 0))
+        assertTrue(LabCollectionPolicy.isReceipt("a", "a", "RAW_OBSERVATIONS_COMMITTED", 0, 0, 1))
+        assertFalse(LabCollectionPolicy.isReceipt("a", "a", "RAW_OBSERVATIONS_COMMITTED", 1, 0, 1))
+        assertFalse(LabCollectionPolicy.isReceipt("a", "a", "RAW_OBSERVATIONS_COMMITTED", 2, 0, -1))
+    }
     @Test fun onlyMatchingCommittedSingleRecordReceiptCanAcknowledge() {
         assertTrue(LabCollectionPolicy.isReceipt("a", "a", "INBOX_COMMITTED", 1, 0))
         assertFalse(LabCollectionPolicy.isReceipt("a", "b", "INBOX_COMMITTED", 1, 0))

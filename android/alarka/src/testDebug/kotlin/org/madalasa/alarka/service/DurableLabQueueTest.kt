@@ -55,6 +55,17 @@ class DurableLabQueueTest {
         assertEquals(1, queue.lease().size)
     }
 
+    @Test fun freshNoncesAndCapacityNeverDropUnacknowledgedRecords() {
+        val disk = Disk(); val queue = DurableLabQueue(disk, cipher(), "a")
+        queue.enqueue("a", "fixture"); val first = disk.bytes!!.copyOfRange(0, 12)
+        queue.acknowledge(LabQueueRecord("not-leased", "fixture"))
+        assertFalse(first.contentEquals(disk.bytes!!.copyOfRange(0, 12)))
+        for (i in 1 until 1000) queue.enqueue("event-$i", "fixture")
+        assertThrows(IllegalStateException::class.java) { queue.enqueue("overflow", "fixture") }
+        assertEquals(1000, queue.lease().size)
+        assertEquals("a", queue.lease().first().id)
+    }
+
     @Test fun restartRestoresCiphertextWithoutPlaintext() {
         val disk = Disk(); val cipher = cipher()
         DurableLabQueue(disk, cipher, "device-a").enqueue("event-a", "synthetic-coordinate")

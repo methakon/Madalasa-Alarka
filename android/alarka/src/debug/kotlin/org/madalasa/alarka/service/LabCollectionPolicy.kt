@@ -15,6 +15,8 @@ object LabCollectionPolicy {
             platformAndLegalLocationGateApproved = debug && buildOptIn && userOptIn
         ))
 
-    fun isReceipt(expected: String, actual: String, stage: String, accepted: Int, rejected: Int) =
-        expected == actual && stage == "INBOX_COMMITTED" && accepted == 1 && rejected == 0
+    fun isReceipt(expected: String, actual: String, stage: String, accepted: Int, rejected: Int,
+        duplicates: Int = 0) = expected == actual &&
+        stage in setOf("INBOX_COMMITTED", "RAW_OBSERVATIONS_COMMITTED") &&
+        accepted in 0..1 && duplicates in 0..1 && accepted + duplicates == 1 && rejected == 0
 }

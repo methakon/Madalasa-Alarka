@@ -24,5 +24,8 @@ class LabWiringTest {
         assertTrue(service.contains("BATTERY_PROPERTY_CAPACITY"))
         assertTrue(service.contains("transport.health("))
         assertFalse(service.contains("SecureLocalQueue("))
+        val storage = File("src/debug/kotlin/org/madalasa/alarka/service/AndroidLabQueue.kt").readText()
+        // AtomicFile.finishWrite can log rename errors without throwing.
+        assertTrue(storage.contains("read()?.contentEquals(bytes) == true"))
     }
 }

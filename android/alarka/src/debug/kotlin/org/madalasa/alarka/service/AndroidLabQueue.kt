@@ -45,6 +45,9 @@ object AndroidLabQueue {
                     output.write(bytes)
                     output.fd.sync()
                     atomic.finishWrite(output)
+                    // finishWrite may log a rename/sync failure instead of throwing.
+                    // Never advance in-memory ACK state without the exact disk snapshot.
+                    check(read()?.contentEquals(bytes) == true) { "Lab queue commit not verified" }
                 } catch (error: Exception) {
                     atomic.failWrite(output)
                     throw error
