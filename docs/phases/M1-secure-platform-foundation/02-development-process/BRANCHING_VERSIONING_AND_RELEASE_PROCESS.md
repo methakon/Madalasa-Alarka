@@ -14,6 +14,14 @@
 
 **No implementation work or branch merge is authorized by this documentation change.** Source-of-truth release gates, Android 10–16 tests and legal/Play/BillDesk approvals remain separate.
 
+## 2026-11-04 owner authorization — Issue #32 scoped temporary branches
+
+**Owner explicitly authorized implementation after the documentation-first checkpoint.** Scope: `temp/issue32-e01` for E-01, `temp/issue32-e03` for E-03, `temp/issue32-e04` for E-04, and `temp/issue32-guardian` for B-09/B-18. This is a limited exception to the permanent-branch-only rule, **not** approval to merge unreviewed code, bypass CI, process real child data or release the app.
+
+**Live verification:** Previous oversized [PR #34](https://github.com/methakon/Madalasa-Alarka/pull/34) is closed without merge. Scoped replacement PRs exist: [#35 E-01](https://github.com/methakon/Madalasa-Alarka/pull/35), [#36 E-03](https://github.com/methakon/Madalasa-Alarka/pull/36), [#37 E-04](https://github.com/methakon/Madalasa-Alarka/pull/37), [#38 guardian](https://github.com/methakon/Madalasa-Alarka/pull/38). These are **stacked** despite each targeting `dev`; compare adjacent heads to verify isolated diff, and merge strictly in the order 35 → 36 → 37 → 38 only after review and passing exact-head CI. Do not conflate a cumulative `dev` comparison with each PR's focused change. Retain unique `api` code and pending load-harness work; do not drop or claim those have merged.
+
+**Review and CI qualification:** At the authorization inspection the focused stack had no recorded PR reviews. #35–#37 reported successful workflow runs; #38 had failed `local-checks` owing to unresolved conflict markers and a secret-scanner trigger in `backend/tests/integration_device_ingestion_v2.py`. Correction committed to `temp/issue32-guardian` as `72a9f19e`, restoring the already-good E-04 version and deleting only the conflict-created differences. **#38 requires new exact-head CI before merger; fixes do not themselves count as successful tests.** Keep branch governance, review, SQL/HTTP negative tests, source comparison and downstream `dev → main` gate intact. Delete temporary branches only after accepted `main` verification.
+
 ## ACTIVE OWNER-APPROVED BRANCH POLICY — 2026-10-31 (READ FIRST)
 
 **This section is authoritative and supersedes all older feature/direct-to-main branch suggestions below and elsewhere in the repository.** Older consolidation tables are historical evidence only. GitHub rulesets are a separate administrator action; writing this policy and adding CI does not by itself protect refs from direct pushes.
