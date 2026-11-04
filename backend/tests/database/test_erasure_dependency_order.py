@@ -268,6 +268,29 @@ class ErasureDependencyOrderTests(unittest.TestCase):
                 AND t.tgname='refuse_held_inventory_delete' AND t.tgenabled='O')""").fetchall()
         self.assertEqual(missing, [])
 
+    def test_repeatable_read_cannot_miss_newly_committed_hold(self):
+        subject = self.seed_inventory_subject_hold('location_ingest_batches')
+        self.admin.execute('DELETE FROM ap_m1.retention_holds WHERE id=%s', (self.extra_holds[-1],))
+        self.admin.commit()
+        with fixtures.admin_connection() as stale:
+            stale.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ')
+            stale.execute('SELECT count(*) FROM ap_m1.retention_holds').fetchone()
+            # A distinct connection commits the hold after the delete transaction
+            # fixed its snapshot, but before it acquires the hold-table lock.
+            hold = self.admin.execute(
+                "INSERT INTO ap_m1.retention_holds(category,subject_ref,legal_reference,review_by) "
+                "VALUES('location_ingest_batches',%s,'SYNTHETIC_ONLY',now()+interval '1 hour') RETURNING id",
+                (subject,)).fetchone()[0]
+            self.extra_holds.append(hold)
+            self.admin.commit()
+            stale.execute('SET LOCAL ROLE ap_db_executor')
+            with self.assertRaises(psycopg.errors.ObjectNotInPrerequisiteState):
+                with stale.transaction():
+                    stale.execute('DELETE FROM ap_m1.location_ingest_batches WHERE id=%s', (subject,))
+            stale.rollback()
+        self.assertIsNotNone(self.admin.execute(
+            'SELECT id FROM ap_m1.location_ingest_batches WHERE id=%s', (subject,)).fetchone())
+
     def test_released_batch_hold_does_not_prevent_authorized_erasure(self):
         self.seed_inventory_subject_hold('location_ingest_batches')
         self.admin.execute('UPDATE ap_m1.retention_holds SET released_at=clock_timestamp() WHERE id=%s',

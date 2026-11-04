@@ -218,6 +218,12 @@
       "path": "backend/persistence/migrations/compat/v2_0028_retention_hold_guard.sql",
       "sha256": "3e0a93b6bba0843431dfade9c68ea5fb6b4bd7abdf4cf660439cfb8ad7cf0243",
       "published": false
+    },
+    {
+      "id": "compat:v2_0028_hold_snapshot_guard",
+      "path": "backend/persistence/migrations/compat/v2_0028_hold_snapshot_guard.sql",
+      "sha256": "c890439d55b96463d754299a2d61ec60cffc4add0bee2873b7fe686a40230866",
+      "published": false
     }
   ]
 }
