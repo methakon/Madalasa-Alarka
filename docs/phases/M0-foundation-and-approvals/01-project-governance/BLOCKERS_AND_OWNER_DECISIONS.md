@@ -212,9 +212,15 @@ instrumented execution was performed.
 - **Public manifest remains INTERNET-only** with no production location service;
   the debug foreground-service scaffold is a noncollecting QA harness that must
   not be reused unchanged as monitoring.
+- **Queue corrections implemented** on `child` commit `053ee8b`: `lease()` replaces
+  the destructive `flush()` (records survive a failed upload), `acknowledge(n)`
+  removes only server-accepted entries, and expiry scans the whole buffer before
+  sending. `:alarka:testDebugUnitTest` = **108 tests, 0 failures**. The change
+  currently rides in the open child PR #31 alongside its disclosure/pairing work;
+  it is unrelated to that PR's topic and should be reviewed as its own slice.
 - Next safe slice: sensor-free, capture-OFF B-06 SOS state reducer with negative
-  JVM tests, plus the queue ACK/expiry corrections. Neither closes FF-04, which
-  still requires real GNSS collection, durable encrypted outbox, device/OS
+  JVM tests. Neither slice closes FF-04, which still requires real GNSS collection,
+  durable encrypted outbox (the queue remains in-memory XOR/Base64), device/OS
   matrix execution and Play/legal clearance.
 
 ## X-02 Google Play G01/G04 review progress — 2026-10-31
