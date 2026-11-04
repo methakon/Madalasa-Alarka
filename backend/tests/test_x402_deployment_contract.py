@@ -41,7 +41,7 @@ class X402DeploymentContract(unittest.TestCase):
         smoke = read("deploy/x402/api/smoke.sh")
         self.assertIn("monitoring_approval_inferred", smoke)
         self.assertIn("paid_checkout_enabled", smoke)
-        self.assertIn("does not certify", smoke.lower() if "does not certify" in smoke.lower() else "does not certify") if False else None
+        self.assertIn("not proof of postgresql", smoke.lower())
 
 if __name__ == "__main__":
     unittest.main()
