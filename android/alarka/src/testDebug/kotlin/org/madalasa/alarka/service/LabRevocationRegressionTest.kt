@@ -40,6 +40,11 @@ class LabRevocationRegressionTest {
     private fun gateway() = HttpsChildPrivacyGateway("https://example.invalid",
         { "00000000-0000-0000-0000-000000000001" }, { "synthetic-bearer" })
 
+    private fun snapshot(core: Boolean = true, location: Boolean = true, admitted: Boolean = true,
+                         authorized: Boolean = true, deleted: Boolean = false) = ServerConsentStatus(
+        coreConsent = core, locationConsent = location, usageConsent = false, mediaConsent = false,
+        childDeleted = deleted, collectionAuthorized = authorized, childServiceAdmitted = admitted)
+
     @Test fun definitiveConsentHttpDenialsAreTypedNotGeneric() = runTest {
         for (status in listOf(401, 403, 404, 410)) {
             response = status
@@ -86,8 +91,7 @@ class LabRevocationRegressionTest {
         assertEquals(LabStop.REVOKE, LabStopPolicy.forOsState(false, true, true, providerEnabled = true))
         assertEquals(LabStop.REVOKE, LabStopPolicy.forOsState(true, false, true, providerEnabled = true))
         assertEquals(LabStop.REVOKE, LabStopPolicy.forOsState(true, true, false, providerEnabled = true))
-        assertEquals(LabStop.REVOKE, LabStopPolicy.forServerVerdict(false))
-        assertEquals(LabStop.CONTINUE, LabStopPolicy.forServerVerdict(true))
+
     }
 
     @Test fun serviceRoutesThroughStopPolicyRatherThanBlanketRevocation() {
@@ -111,10 +115,16 @@ class LabRevocationRegressionTest {
     @Test fun staleConsentOnFixArrivalPausesAndKeepsPendingRecords() {
         // A slow upload or a stalled health check can outlive the 15 s consent snapshot even
         // though authority is intact; that must not unpair the device or delete queued fixes.
-        assertEquals(LabStop.PAUSE, LabStopPolicy.forFixArrival(authorized = true, consentFresh = false))
-        assertEquals(LabStop.CONTINUE, LabStopPolicy.forFixArrival(authorized = true, consentFresh = true))
-        assertEquals(LabStop.REVOKE, LabStopPolicy.forFixArrival(authorized = false, consentFresh = true))
-        assertEquals(LabStop.REVOKE, LabStopPolicy.forFixArrival(authorized = false, consentFresh = false))
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forFixArrival(snapshot(), consentFresh = false))
+        assertEquals(LabStop.CONTINUE, LabStopPolicy.forFixArrival(snapshot(), consentFresh = true))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forFixArrival(snapshot(core = false), consentFresh = true))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forFixArrival(snapshot(core = false), consentFresh = false))
+        // A waitlisted child must not collect even with a fresh snapshot.
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forFixArrival(
+            snapshot(admitted = false, authorized = false), consentFresh = true))
+        // A missing snapshot is unknown, not denial: it must pause even when "fresh" by clock.
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forFixArrival(null, consentFresh = true))
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forFixArrival(null, consentFresh = false))
 
         val disk = Disk(); val cipher = cipher()
         DurableLabQueue(disk, cipher, "device-a").enqueue("pending", "fixture")
@@ -123,16 +133,15 @@ class LabRevocationRegressionTest {
     }
 
     @Test fun onlyWithdrawnConsentOrDeletionRevokesFromASnapshot() {
-        fun status(core: Boolean, location: Boolean, admitted: Boolean,
-                   authorized: Boolean, deleted: Boolean) = ServerConsentStatus(
-            coreConsent = core, locationConsent = location, usageConsent = false, mediaConsent = false,
-            childDeleted = deleted, collectionAuthorized = authorized, childServiceAdmitted = admitted)
-        assertEquals(LabStop.CONTINUE, LabStopPolicy.forConsentSnapshot(status(true, true, true, true, false)))
+        assertEquals(LabStop.CONTINUE, LabStopPolicy.forConsentSnapshot(snapshot()))
         // Waitlisted child: stop collecting, keep the encrypted queue and local enrollment.
-        assertEquals(LabStop.PAUSE, LabStopPolicy.forConsentSnapshot(status(true, true, false, false, false)))
-        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(status(false, true, true, false, false)))
-        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(status(true, false, true, false, false)))
-        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(status(true, true, true, true, true)))
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forConsentSnapshot(
+            snapshot(admitted = false, authorized = false)))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(
+            snapshot(core = false, authorized = false)))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(
+            snapshot(location = false, authorized = false)))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(snapshot(deleted = true)))
         // No snapshot yet is unknown, not denial.
         assertEquals(LabStop.PAUSE, LabStopPolicy.forConsentSnapshot(null))
     }

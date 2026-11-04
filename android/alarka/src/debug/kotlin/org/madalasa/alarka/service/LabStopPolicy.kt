@@ -26,8 +26,6 @@ object LabStopPolicy {
         else -> LabStop.PAUSE
     }
 
-    fun forServerVerdict(authorized: Boolean): LabStop = if (authorized) LabStop.CONTINUE else LabStop.REVOKE
-
     /**
      * A missing snapshot, a waitlisted child or an absent admission flag is not proof that
      * authority was taken away. Only withdrawal of consent, deletion or an explicit
@@ -48,10 +46,12 @@ object LabStopPolicy {
      * Treating staleness as revocation would unpair and delete pending records during a slow
      * upload or a stalled health check.
      */
-    fun forFixArrival(authorized: Boolean, consentFresh: Boolean): LabStop = when {
-        !authorized -> LabStop.REVOKE
-        !consentFresh -> LabStop.PAUSE
-        else -> LabStop.CONTINUE
+    fun forFixArrival(status: ServerConsentStatus?, consentFresh: Boolean): LabStop {
+        // A verdict already recorded in the snapshot keeps its meaning however old it is;
+        // staleness on its own may only pause.
+        val verdict = forConsentSnapshot(status)
+        if (verdict != LabStop.CONTINUE) return verdict
+        return if (consentFresh) LabStop.CONTINUE else LabStop.PAUSE
     }
 
     /**

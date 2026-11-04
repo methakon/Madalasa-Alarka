@@ -172,7 +172,7 @@ class LabLocationService : Service(), LocationListener {
         if (osStop() != LabStop.CONTINUE) { finishLab(osStop() == LabStop.REVOKE); return }
         // Stale consent is a refresh gap: pause and keep the queue, never destroy the enrollment.
         val stop = LabStopPolicy.forFixArrival(
-            eligible(consent), SystemClock.elapsedRealtime() - consentCheckedAt <= 15_000)
+            consent, SystemClock.elapsedRealtime() - consentCheckedAt <= 15_000)
         if (stop != LabStop.CONTINUE) { finishLab(stop == LabStop.REVOKE); return }
         if (!location.hasAccuracy() || !location.accuracy.isFinite() || location.accuracy !in 0f..100_000f ||
             !location.latitude.isFinite() || location.latitude !in -90.0..90.0 ||
