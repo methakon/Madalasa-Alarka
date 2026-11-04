@@ -164,11 +164,12 @@ inline drogon::Task<drogon::HttpResponsePtr> issue_pairing_code(
     const Sha256 code_hash = sha256_bytes(raw_code);
     const std::string code_hex = to_pg_bytea(code_hash);
 
+    // V2 runtime cannot INSERT pairing rows. The definer derives identity and
+    // family, locks the child and revalidates scope/admission before issuance.
     auto ins_res = co_await trans->execSqlCoro(
-        "INSERT INTO ap_m1.pairing_codes(family_id, child_id, code_sha256, expires_at, issued_by) "
-        "VALUES($1::uuid, $2::uuid, $3::bytea, clock_timestamp() + make_interval(secs => $5::integer), $4::uuid) "
-        "RETURNING to_char(expires_at AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS expires_iso",
-        family_id, *normalized_child, code_hex, principal, requested_ttl);
+        "SELECT to_char(ap_m1.issue_device_pairing_code($1::uuid, $2::bytea, $3::integer) "
+        "AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS expires_iso",
+        *normalized_child, code_hex, requested_ttl);
 
     const std::string expires_iso = ins_res.at(0)["expires_iso"].as<std::string>();
 
