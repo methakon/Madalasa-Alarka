@@ -71,6 +71,14 @@ add_executable(test_device_endpoints tests/cpp/test_device_endpoints.cc)
 target_link_libraries(test_device_endpoints PRIVATE ma_core OpenSSL::Crypto)
 add_test(NAME device_endpoints COMMAND test_device_endpoints)
 
+add_executable(billing_catalog_test tests/cpp/billing_catalog_test.cc)
+target_link_libraries(billing_catalog_test PRIVATE ma_core ma_oidc)
+add_test(NAME billing_catalog COMMAND billing_catalog_test)
+
+add_executable(trial_policy_test tests/cpp/trial_policy_test.cc)
+target_link_libraries(trial_policy_test PRIVATE ma_core ma_oidc)
+add_test(NAME trial_policy_handler COMMAND trial_policy_test)
+
 add_executable(test_children_read tests/cpp/test_children_read.cc)
 target_link_libraries(test_children_read PRIVATE ma_core ma_oidc)
 add_test(NAME children_read_negative COMMAND test_children_read)
@@ -122,3 +130,11 @@ if(MA_LOCAL_DB_READ_PROBE)
   target_link_libraries(database_config_test PRIVATE ma_local_database)
   add_test(NAME database_config COMMAND database_config_test)
 endif()
+
+# Phase 15: pure erasure state/fence tests (no database or credentials required).
+add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
+add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
+
+# Free-first release must default to no payment or trial.
+add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
+add_test(NAME free_release_profile COMMAND test_free_release_profile)

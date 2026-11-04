@@ -25,7 +25,13 @@
 #include "http_support.h"
 #include "pairing.h"
 #include "parent_session.h"
+#include "billing_catalog.h"
+#include "billing_trial.h"
 #include "privacy_endpoints.h"
+#include "privacy_request_endpoints.h"
+#include "release_profile.h"
+#include "free_location_reads.h"
+#include "child_device_pairing_status.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -119,6 +125,23 @@ int main() {
     std::cerr << "invalid database limit configuration" << std::endl;
     return 78;
   }
+  // Payment and 48h trial must stay inaccessible in the free-first release.
+  const auto release_profile=ma::parse_release_profile(std::getenv("MA_RELEASE_PROFILE"));
+  if(!release_profile) {
+    std::cerr << "invalid MA_RELEASE_PROFILE: expected FREE_ONLY or PAID_VERIFIED" << std::endl;
+    return 78;
+  }
+  if(*release_profile==ma::ReleaseProfile::PaidVerified &&
+      !ma::paid_release_authorized(*release_profile,
+        std::getenv("MA_OWNER_PAID_RELEASE_APPROVAL"),
+        std::getenv("MA_BILLDESK_APPROVAL"),
+        std::getenv("MA_PLAY_BILLING_APPROVAL"))) {
+    std::cerr << "paid release blocked pending owner, provider and Play approval" << std::endl;
+    return 78;
+  }
+  const auto release_caps=*release_profile==ma::ReleaseProfile::FreeOnly
+      ? ma::free_release_capabilities() : ma::paid_release_capabilities();
+
   // Parent authentication mode: V2 opaque sessions unless the frozen M1 schema
   // is selected explicitly. Unknown values never fall back to a weaker mode.
   const auto parent_mode = ma::parse_parent_auth_mode(std::getenv("MA_PARENT_AUTH_MODE"));
@@ -167,6 +190,26 @@ int main() {
         cb(HttpResponse::newHttpJsonResponse(j));
       },
       {Get});
+
+  app().registerHandler(
+      "/v1/release/capabilities",
+      [release_caps](const HttpRequestPtr&,
+                     std::function<void(const HttpResponsePtr&)>&& cb) {
+        Json::Value body(Json::objectValue);
+        body["release_profile"]=release_caps.paidEnabled?"PAID_VERIFIED":"FREE_ONLY";
+        body["plan"]="FREE";
+        body["free_location_tracking"]=true; // design entitlement; Android consent still required
+        body["free_history_hours"]=release_caps.freeHistoryHours;
+        body["moving_location_minutes_min"]=release_caps.movingLocationMinutesMin;
+        body["moving_location_minutes_max"]=release_caps.movingLocationMinutesMax;
+        body["paid_checkout_enabled"]=release_caps.paidEnabled;
+        body["trial_enabled"]=release_caps.trialEnabled;
+        body["premium_media_enabled"]=release_caps.premiumMediaEnabled;
+        body["monitoring_approval_inferred"]=false;
+        body["max_admitted_children"]=108;
+        auto resp=HttpResponse::newHttpJsonResponse(body);
+        ma::add_no_store(resp);cb(resp);
+      },{Get});
 
   // Database: connection settings come from the environment; the role MUST be ap_m1_api (NOBYPASSRLS).
   if (const char* db = std::getenv("MA_PG_DB")) {
@@ -304,6 +347,45 @@ int main() {
       },
       {Get});
 
+  // Routes remain in source, but are not registered in free-only deployments.
+  if(release_caps.paidEnabled) {
+  // L10-005: product catalog; prices are never quoted until Play metadata is verified.
+  app().registerHandler(
+      "/v1/billing/catalog",
+      [parent](HttpRequestPtr req) -> Task<HttpResponsePtr> {
+        co_return co_await ma::billing_catalog(std::move(req), parent);
+      }, {Get});
+
+  // L10-002: server-side 48h family trial (policy enforced in SQL).
+  app().registerHandler(
+      "/v1/families/{familyId}/trial/eligibility",
+      [parent](HttpRequestPtr req, std::string familyId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::family_trial(std::move(req), std::move(familyId), parent, false);
+      }, {Get});
+  app().registerHandler(
+      "/v1/families/{familyId}/trial/start",
+      [parent](HttpRequestPtr req, std::string familyId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::family_trial(std::move(req), std::move(familyId), parent, true);
+      }, {Post});
+
+  }
+
+  app().registerHandler(
+      "/v1/children/{childId}/paired-device",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::child_pairing_status(std::move(req),std::move(childId),parent);
+      },{Get});
+  app().registerHandler(
+      "/v1/children/{childId}/location/latest",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::free_location_read(std::move(req),std::move(childId),parent,false);
+      },{Get});
+  app().registerHandler(
+      "/v1/children/{childId}/location/history",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::free_location_read(std::move(req),std::move(childId),parent,true);
+      },{Get});
+
   // Existing master OpenAPI: child-scoped privacy operations, server-enforced.
   app().registerHandler(
       "/v1/children/{childId}/guardian-grants",
@@ -323,6 +405,28 @@ int main() {
         co_return co_await ma::delete_child_privacy_grant(std::move(req), std::move(childId),
                                                            std::move(grantId), parent);
       }, {Delete});
+  // Phase 15: SQL-authorized erasure/export jobs with truthful pending status.
+  app().registerHandler(
+      "/v1/children/{childId}/erasure-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,true,true);
+      }, {Post});
+  app().registerHandler(
+      "/v1/children/{childId}/erasure-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,true,false);
+      }, {Get});
+  app().registerHandler(
+      "/v1/children/{childId}/export-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,false,true);
+      }, {Post});
+  app().registerHandler(
+      "/v1/children/{childId}/export-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,false,false);
+      }, {Get});
+
   app().registerHandler(
       "/v1/devices/{deviceId}/consent-status",
       [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
