@@ -8,6 +8,28 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-04 Issue #32 engineering checkpoint and owner decisions still needed
+
+**Owner directive:** update the discussed canonical documents first; no new feature-branch creation, PR merge or production activation is implied by this documentation step. See [branch/PR scope hold](../../M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md#2026-11-04--issue-32-pr-34-scope-drift-hold-documentation-first-directive).
+
+**Live inspected PR:** [#34](https://github.com/methakon/Madalasa-Alarka/pull/34) is open/unmerged and mergeable-at-GitHub, but **NOT CLEARED TO MERGE**: the named E-01 PR now includes additional E-03, E-04, B-09/B-18, and synthetic load-test work in its mutable `api` head `7b25d5b` (14 commits, 24 files). The PR description's 309-test E-01 checkpoint is **not** exact-head cumulative acceptance. Separate scope, retain all unique content, rerun exact-head and cumulative `dev` checks, and obtain independent security review before merging.
+
+| Blocker | 2026-11-04 evidence checkpoint | Open acceptance/decision |
+| --- | --- | --- |
+| E-01 RLS | Migration 0025, posture test; 309-test earlier PR candidate, 10 skipped (Hermes report) | **PARTIAL.** Default-deny false policies do not constitute perpetual privilege guard. Review cross-tenant HTTP, workers, caches, streams and runtime role boundaries |
+| E-03 GPS idempotence | 0026–0027, device activity/auth, reported production HTTP 11/11 and 58 targeted tests | **PARTIAL.** Durable transactional inbox ADR not implemented; protect receipt semantics and commit boundary; separate PR/evidence |
+| E-04 erasure/backup | 0028 dependency-order fix; reported 8/8 tests | **PARTIAL.** External archives, Android-local copies, backup restore/re-deletion and recovery ledger proof absent |
+| B-09/B-18 guardian | 0029 and reported 15/15, 360 full tests (10 skipped) | **PARTIAL.** Owner has not decided inviter/revoker powers, primary/delegated authority, exact invite/grant/session TTLs or overlapping-grant replacement. No new semantics silently chosen |
+| B-06 SOS/media | Child encrypted queue hardening, reported 108 JVM tests | **PARTIAL.** End-to-end SOS lifecycle, media permission legality, OS rejection, delivery vs human acknowledgement and physical validation remain open |
+| FF-04/FF-07 Android | Capability scaffolding and JVM tests | **NOT READY / PARTIAL.** No production GPS collector/durable encrypted outbox/real-device pairing and GPS acceptance; 96-case matrix NOT RUN |
+| B-07 per-category retention | [DOC-075 proposal](../../../roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md) | **PROPOSAL ONLY.** Every duration, holds and backup bound require owner and relevant law review; leave expiry arming OFF. Six-hour free history is read visibility, **not retention** |
+| 108 active child cap | 108 synthetic DB clients, 324/324 operations, ~38.9 batches/s, DB p50 ~200 ms, ~99.2% one core (worker report) | **SYNTHETIC MEASURED ONLY.** No HTTP, target VM or Android battery/real-device benchmark; do not claim proven production capacity |
+| X-01B/X-01C, X-02 G01/G04, X-03 | Submission/due-diligence packs only | **EXTERNAL / OPEN.** BillDesk activation, Play determinations and substantive child-data lawfulness unresolved; no approval invented |
+
+**Previously approved presentation change (separate from payment activation):** Free-first Madalasa displays full **₹99/month / ₹999/year per paid child** regular plan preview, never coupon-adjusted ₹50/₹500 price in public plan listing. Tapping **Pay now** opens the [Coming Soon Figma dialog](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=186-41), **without** any order, BillDesk, Play Billing, trial, coupon application or entitlement mutation. See [canonical preview contract](../../../roadmap/FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md); `FREE_ONLY` remains server-enforced.
+
+**Pending owner decisions, deliberately not adopted:** B-07 duration by category; B-09/B-18 invite/revoke permissions and token lifetimes; B-06 manual SOS versus sensor-assisted alert release scope and camera/mic restrictions; short-lived branch exception; physical devices/target VM availability. No production-capacity, regulatory or payment approval is asserted.
+
 ## 2026-11-03 X-01B — BillDesk portal submission confirmed; review still pending
 
 **Owner-provided BillDesk Connect portal confirmation:** the application was **successfully submitted**; a numeric **Application ID** was issued for future correspondence and must appear in the email subject when writing to **onboarding@billdesk.com**. The Application ID is retained privately, **not entered into the public repository**. No `BD`-prefixed Partner ID is necessary when the correct Application ID is available.
