@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-10-27",
   "source_commit": "b3cddfc45ddb1c99bb545ddc5a7828fe534fe772",
-  "document_count": 72,
+  "document_count": 75,
   "description": "Canonical texts remain in phase/category folders; former docs-root forwarding pages consolidated into legacy-root-links. Original GitHub root URLs no longer resolve directly.",
   "unchanged_locations": [
     "docs/openapi-m1.yaml",
@@ -945,6 +945,45 @@
       "owner_assignment": "UNASSIGNED",
       "approver_signature": "NOT_RECORDED",
       "compatibility_pointer_path": "docs/legacy-root-links/ERASER_HLD_LLD_DIAGRAM_INDEX.md"
+    },
+    {
+      "registry_id": "DOC-073",
+      "phase": "M9",
+      "category": "01-play-and-data-safety",
+      "original_path": "docs/phases/M9-play-release/01-play-and-data-safety/X02_PLAY_G01_G04_SUBMISSION_EVIDENCE_PACK_2026-11-04.md",
+      "canonical_path": "docs/phases/M9-play-release/01-play-and-data-safety/X02_PLAY_G01_G04_SUBMISSION_EVIDENCE_PACK_2026-11-04.md",
+      "source_blob_sha": "1aae8132b22d163709841d10b11388e461a0995a",
+      "proposed_owner_role": "Release owner",
+      "review_status": "DRAFT_REVIEW_PENDING",
+      "owner_assignment": "UNASSIGNED",
+      "approver_signature": "NOT_RECORDED",
+      "compatibility_pointer_path": null
+    },
+    {
+      "registry_id": "DOC-074",
+      "phase": "M0",
+      "category": "03-legal-and-privacy",
+      "original_path": "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/X03_DPDP_DUE_DILIGENCE_REGISTER_2026-11-04.md",
+      "canonical_path": "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/X03_DPDP_DUE_DILIGENCE_REGISTER_2026-11-04.md",
+      "source_blob_sha": "74768401f5c717c477220c41eb82e629927d43a6",
+      "proposed_owner_role": "Project owner",
+      "review_status": "DUE_DILIGENCE_IN_PROGRESS",
+      "owner_assignment": "UNASSIGNED",
+      "approver_signature": "NOT_RECORDED",
+      "compatibility_pointer_path": null
+    },
+    {
+      "registry_id": "DOC-075",
+      "phase": "roadmap",
+      "category": "roadmap",
+      "original_path": "docs/roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md",
+      "canonical_path": "docs/roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md",
+      "source_blob_sha": "d22679f443273111c06141f7518b138c36c65167",
+      "proposed_owner_role": "Project owner",
+      "review_status": "PROPOSAL_ONLY",
+      "owner_assignment": "UNASSIGNED",
+      "approver_signature": "NOT_RECORDED",
+      "compatibility_pointer_path": null
     }
   ],
   "phase_dirs": {

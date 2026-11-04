@@ -5,7 +5,7 @@
     "docs/MASTER_DOCUMENT_CONTROL_REGISTER.md",
     "docs/DOCUMENT_RELOCATION_MANIFEST.json"
   ],
-  "document_count": 72,
+  "document_count": 75,
   "approval_rule": "Mirror recorded states only; never infer approval from existence or passing checks.",
   "documents": [
     {
@@ -1011,6 +1011,48 @@
       "status": "DOCUMENTED_REVIEW_PENDING",
       "category": "01-architecture-and-visual-indexes",
       "legacy_path": "docs/ERASER_HLD_LLD_DIAGRAM_INDEX.md",
+      "owner_assignment": "UNASSIGNED",
+      "approval_evidence": "NOT_RECORDED",
+      "content_approval_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK",
+      "implementation_evidence_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK"
+    },
+    {
+      "document_id": "DOC-073",
+      "phase": "M9",
+      "human_category": "play and data safety",
+      "canonical_path": "docs/phases/M9-play-release/01-play-and-data-safety/X02_PLAY_G01_G04_SUBMISSION_EVIDENCE_PACK_2026-11-04.md",
+      "proposed_owner_role": "Release owner (unassigned)",
+      "status": "DRAFT_REVIEW_PENDING",
+      "category": "01-play-and-data-safety",
+      "legacy_path": "docs/phases/M9-play-release/01-play-and-data-safety/X02_PLAY_G01_G04_SUBMISSION_EVIDENCE_PACK_2026-11-04.md",
+      "owner_assignment": "UNASSIGNED",
+      "approval_evidence": "NOT_RECORDED",
+      "content_approval_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK",
+      "implementation_evidence_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK"
+    },
+    {
+      "document_id": "DOC-074",
+      "phase": "M0",
+      "human_category": "legal and privacy",
+      "canonical_path": "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/X03_DPDP_DUE_DILIGENCE_REGISTER_2026-11-04.md",
+      "proposed_owner_role": "Project owner (unassigned)",
+      "status": "DUE_DILIGENCE_IN_PROGRESS",
+      "category": "03-legal-and-privacy",
+      "legacy_path": "docs/phases/M0-foundation-and-approvals/03-legal-and-privacy/X03_DPDP_DUE_DILIGENCE_REGISTER_2026-11-04.md",
+      "owner_assignment": "UNASSIGNED",
+      "approval_evidence": "NOT_RECORDED",
+      "content_approval_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK",
+      "implementation_evidence_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK"
+    },
+    {
+      "document_id": "DOC-075",
+      "phase": "roadmap",
+      "human_category": "retention",
+      "canonical_path": "docs/roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md",
+      "proposed_owner_role": "Project owner (unassigned)",
+      "status": "PROPOSAL_ONLY",
+      "category": "roadmap",
+      "legacy_path": "docs/roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md",
       "owner_assignment": "UNASSIGNED",
       "approval_evidence": "NOT_RECORDED",
       "content_approval_status": "NOT_CERTIFIED_BY_DOCUMENTATION_CHECK",
