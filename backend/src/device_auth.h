@@ -17,6 +17,8 @@ struct DevicePrincipal {
   std::string device_id;
   std::string family_id;
   std::string child_id;
+  // Bearer-equivalent proof; never log. Synthetic headers cannot create it.
+  std::optional<Sha256> credential_sha256{};
 };
 
 inline std::optional<std::string> extract_bearer_token(const drogon::HttpRequestPtr& req) {
@@ -64,10 +66,27 @@ inline drogon::Task<std::optional<DevicePrincipal>> authenticate_device(drogon::
     co_return DevicePrincipal{
         res.at(0)["device_id"].as<std::string>(),
         res.at(0)["family_id"].as<std::string>(),
-        res.at(0)["child_id"].as<std::string>()};
+        res.at(0)["child_id"].as<std::string>(), token_hash};
   } catch (...) {
     co_return std::nullopt;
   }
+}
+
+// Bind on the SAME transaction that writes. The preliminary lookup is not
+// authorization for a later transaction; SQL revalidates on every ctx_* use.
+inline drogon::Task<bool> bind_device_transaction(
+    const std::shared_ptr<drogon::orm::Transaction>& tx,
+    const DevicePrincipal& principal) {
+  if (!principal.credential_sha256) co_return false;
+  co_await tx->execSqlCoro(
+      "SELECT set_config('ap.session_token','',true),"
+      "set_config('ap.device_credential_sha256',$1,true)",
+      to_pg_bytea(*principal.credential_sha256).substr(2));
+  auto context = co_await tx->execSqlCoro(
+      "SELECT ap_m1.ctx_device()::text AS device_id, ap_m1.ctx_principal() AS principal_id");
+  co_return !context.empty() && !context.at(0)["device_id"].isNull() &&
+      context.at(0)["principal_id"].isNull() &&
+      context.at(0)["device_id"].as<std::string>() == principal.device_id;
 }
 
 }  // namespace ma
