@@ -396,6 +396,7 @@ def load_migration_manifest(verify=True):
         if verify and digest is not None and (not path.is_file() or sha256(path) != digest):
             raise ValueError('Migration checksum drift: ' + identity)
     expected = {'common:0001', 'compat:m1_pre_v2_0016', 'compat:m1_pre_v2_0017'} | {'m1:%04d' % n for n in range(2, 7)} | {'v2:%04d' % n for n in range(2, 29)}
+    expected.add('compat:v2_0028_retention_hold_guard')
     if ids != expected:
         raise ValueError('Incomplete or unknown manifest identities')
     return entries
@@ -431,6 +432,7 @@ def migration_plan(entries, lineage='v2', through=None, applied=()):
         # that relation never existed. It is additive, never historical replay.
         ids += ['compat:m1_pre_v2_0017']
         ids += ['v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022', 'v2:0023', 'v2:0024', 'v2:0025', 'v2:0026', 'v2:0027', 'v2:0028']
+        ids += ['compat:v2_0028_retention_hold_guard']
     if through:
         target = through if ':' in through else ('common:0001' if through == '0001' else lineage + ':' + through)
         if target not in ids:
@@ -486,6 +488,8 @@ def validate_migration_history(entries, legacy_rows, lineage_rows, schema_has_ob
             raise ValueError('Out-of-order compatibility bridge')
         if m1 and 'v2:0016' in applied and not bridge:
             raise ValueError('M1 upgrade missing compatibility bridge')
+        if 'compat:v2_0028_retention_hold_guard' in applied and 'v2:0028' not in applied:
+            raise ValueError('Hold guard requires the published 0028 inventory')
     return applied
 
 
