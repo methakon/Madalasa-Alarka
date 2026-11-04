@@ -4,6 +4,10 @@
 
 The detailed engineering checkpoints, edge-case acceptance matrix and customer-facing alternate copy are recorded in [the 108-child implementation supplement](FREE_FIRST_108_CHILD_RELEASE_ROADMAP_2026-11-03.md). This page remains the release-sequencing source of truth.
 
+## 2026-11-04 superseding parent-only plan-preview decision
+
+**Narrow change to the 2026-11-03 free-only UI restriction:** Parent Madalasa now **shows** Upgrade/Explore plans, regular full listed price **₹99/month** and **₹999/year** *per paid child*, plan detail and **Pay now → Coming Soon** modal. These are future plan previews, **not purchases or final payable price quotes**; do not display already-applied founding coupons. No checkout, order/payment token, BillDesk, Play Billing, coupon engine, prepaid entitlement grant or premium trial may run while `FREE_ONLY` is active. The Alarka companion remains free and has no billing SDK. Waitlisted families cannot buy or bypass the 108-slot queue. Existing historic sections stating plan previews are hidden are **superseded only on that presentation point**; all backend and release gates still apply. Full contract: [FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md](FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md).
+
 ## Child app is fully free; activation is parent-pairing-dependent
 
 > **Optional hardware and Pingo comparison (2026-11-04):** The child implementation now scans available accelerometer, gyroscope, proximity, ambient light, GPS/network provider, battery, camera/microphone hardware and more without collecting sensor samples. Missing hardware disables only that optional module; GNSS NavIC support stays unknown until an approved satellite observation. Camera/microphone remain disabled, and their dangerous permissions are not requested in the public free manifest. Pingo's public Play listing is a useful architectural example, **not** proof of our eligibility. See [Pingo / optional hardware specification](PINGO_COMPARISON_OPTIONAL_DEVICE_HARDWARE_2026-11-04.md) and [editable Figma hardware screens](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=179-3).
