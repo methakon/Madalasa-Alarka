@@ -30,7 +30,7 @@ class ParentScreenRegressionTest {
     val composeRule = createComposeRule()
 
     private val children = listOf(
-        ChildSummaryResponse("00000000-0000-0000-0000-0000000000c1", "fam", "Alarka (Synthetic Child 1)"),
+        ChildSummaryResponse("00000000-0000-0000-0000-0000000000c1", "fam", "Alarka (Synthetic Child 1)", "ADMITTED"),
         ChildSummaryResponse("00000000-0000-0000-0000-0000000000c2", "fam", "Alarka (Synthetic Child 2)")
     )
 
@@ -41,7 +41,7 @@ class ParentScreenRegressionTest {
                 ChildSelectionScreen(
                     uiState = ParentUiState(children = children, selectedChildId = children.first().id),
                     onChildSelected = {},
-                    onPairNewChild = {}
+                    onPairNewChild = { _, _ -> }
                 )
             }
         }
@@ -51,13 +51,13 @@ class ParentScreenRegressionTest {
         composeRule.onNodeWithText(
             "Each child operates under independent parental authority and scope."
         ).assertIsDisplayed()
-        composeRule.onNodeWithText("+ Pair New Companion Device").assertIsDisplayed()
+        composeRule.onNodeWithText("Pair device for Alarka (Synthetic Child 1)").assertExists()
 
         // Exactly the provided children are rendered (no injected/sibling rows).
         composeRule.onNodeWithText("Alarka (Synthetic Child 1)").assertIsDisplayed()
         composeRule.onNodeWithText("Alarka (Synthetic Child 2)").assertIsDisplayed()
 
         // The selected child shows a single "Active" marker.
-        assertEquals(1, composeRule.onAllNodesWithText("Active").fetchSemanticsNodes().size)
+        assertEquals(1, composeRule.onAllNodesWithText("Selected").fetchSemanticsNodes().size)
     }
 }
