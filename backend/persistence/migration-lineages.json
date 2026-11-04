@@ -210,6 +210,12 @@
       "path": "backend/persistence/migrations/0028_child_erasure_dependency_order.sql",
       "sha256": "0224989ed4ee25edba400762039fc350b217f1136a8e20e70433e2a267b4cbeb",
       "published": false
+    },
+    {
+      "id": "v2:0029",
+      "path": "backend/persistence/migrations/0029_guardian_revocation_and_invite_validation.sql",
+      "sha256": "5fa823fcf371a032f273823847cbf5fea25523ee9c1af216a01ee1d62543d347",
+      "published": false
     }
   ]
 }
