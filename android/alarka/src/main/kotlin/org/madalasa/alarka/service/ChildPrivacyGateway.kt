@@ -19,6 +19,9 @@ data class ServerConsentStatus(
     val childServiceAdmitted: Boolean = false
 )
 
+/** Definitive server denial of this enrollment: revoke locally, never retry later. */
+class ChildAuthorizationDenied : Exception("Device authorization denied")
+
 interface ChildPrivacyGateway {
     suspend fun readConsentStatus(): Result<ServerConsentStatus>
 }
@@ -63,7 +66,7 @@ class HttpsChildPrivacyGateway(
                     connection.setRequestProperty("Authorization", "Bearer $bearer")
                     connection.setRequestProperty("Accept", "application/json")
                     val status = connection.responseCode
-                    if (status == 401 || status == 404) error("Device enrollment or consent status unavailable")
+                    if (status in listOf(401, 403, 404, 410)) throw ChildAuthorizationDenied()
                     if (status != 200) error("Privacy service unavailable (HTTP $status)")
                     require(connection.contentType.orEmpty().contains("application/json", true))
                     val text = StringBuilder()

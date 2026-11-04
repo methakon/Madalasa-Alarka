@@ -37,14 +37,18 @@ class LabLocationService : Service(), LocationListener {
     private var stopped = false
     private val permissionListener = AppOpsManager.OnOpChangedListener { _, changedPackage ->
         if (changedPackage == packageName) Handler(Looper.getMainLooper()).post {
-            if (!osReady()) finishLab(revoke = true)
+            if (osStop() == LabStop.REVOKE) finishLab(revoke = true)
         }
     }
     private val handler = Handler(Looper.getMainLooper())
     private val permissionWatch = object : Runnable {
         override fun run() {
-            if (started && !stopped && (!osReady() || sessions.currentSession()?.deviceId != device))
-                finishLab(true)
+            if (started && !stopped) when (osStop()) {
+                LabStop.REVOKE -> finishLab(true)
+                // Provider switched off pauses; the durable queue and local session stay.
+                LabStop.PAUSE -> finishLab(false)
+                LabStop.CONTINUE -> Unit
+            }
             if (!stopped) handler.postDelayed(this, 1000)
         }
     }
@@ -72,11 +76,15 @@ class LabLocationService : Service(), LocationListener {
                 NotificationManager.IMPORTANCE_NONE
     }
     private fun osReady() = locationGranted() && notificationReady() && locations.isLocationEnabled
+    /** Authority loss revokes; an unavailable provider only pauses. */
+    private fun osStop() = LabStopPolicy.forOsState(
+        locationGranted(), notificationReady(), sessions.currentSession()?.deviceId == device && device != null,
+        locations.isLocationEnabled)
     private fun eligible(status: ServerConsentStatus?) = LabCollectionPolicy.allowed(
         applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0,
         resources.getBoolean(R.bool.alarka_location_lab_enabled), optedIn,
         sessions.currentSession()?.deviceId == device && device != null,
-        locationGranted() && locations.isLocationEnabled, notificationReady(), status)
+        locationGranted(), notificationReady(), status)
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == STOP) { finishLab(false); return START_NOT_STICKY }
@@ -111,14 +119,20 @@ class LabLocationService : Service(), LocationListener {
                     { sessions.currentSession()?.credential })
                 // No fix subscription until fresh server authorization was obtained.
                 while (isActive && !stopped) {
-                    if (!osReady() || sessions.currentSession()?.deviceId != device) {
-                        finishLab(true); break
+                    if (osStop() != LabStop.CONTINUE) {
+                        finishLab(osStop() == LabStop.REVOKE); break
                     }
                     val result = privacy.readConsentStatus()
-                    if (result.isFailure) { finishLab(false); break } // unknown/offline != permission
+                    if (result.isFailure) {
+                        // Only a definitive denial revokes; offline/5xx/malformed pauses.
+                        val stop = LabStopPolicy.forConsentFailure(result.exceptionOrNull())
+                        finishLab(stop == LabStop.REVOKE); break
+                    }
                     consent = result.getOrThrow()
                     consentCheckedAt = SystemClock.elapsedRealtime()
-                    if (!eligible(consent)) { finishLab(true); break }
+                    if (LabStopPolicy.forServerVerdict(eligible(consent)) == LabStop.REVOKE) {
+                        finishLab(true); break
+                    }
                     if (!subscribed) subscribe()
                     val battery = getSystemService(BatteryManager::class.java)
                     val level = battery.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
@@ -154,8 +168,9 @@ class LabLocationService : Service(), LocationListener {
     }
     override fun onLocationChanged(location: Location) {
         if (stopped) return
-        if (!osReady() || !eligible(consent) || SystemClock.elapsedRealtime() - consentCheckedAt > 15_000) {
-            finishLab(!osReady()); return
+        if (osStop() != LabStop.CONTINUE) { finishLab(osStop() == LabStop.REVOKE); return }
+        if (!eligible(consent) || SystemClock.elapsedRealtime() - consentCheckedAt > 15_000) {
+            finishLab(true); return
         }
         if (!location.hasAccuracy() || !location.accuracy.isFinite() || location.accuracy !in 0f..100_000f ||
             !location.latitude.isFinite() || location.latitude !in -90.0..90.0 ||
@@ -177,6 +192,7 @@ class LabLocationService : Service(), LocationListener {
             queue!!.enqueue(id, event.toString())
         } catch (_: Exception) { finishLab(false) }
     }
+    // GPS switched off is availability, not authority: pause without unpairing.
     override fun onProviderDisabled(provider: String) { finishLab(false) }
     override fun onProviderEnabled(provider: String) = Unit
     @Deprecated("Platform callback")
