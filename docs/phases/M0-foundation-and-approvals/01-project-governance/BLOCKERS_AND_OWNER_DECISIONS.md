@@ -187,6 +187,36 @@ synthetic engineering. Existing exact-child authority and consent requirements r
 - **X-01 / X-02 / X-03:** unchanged external/evidence states. Draft submission
   packs and due-diligence notes do not establish provider, Play or legal approval.
 
+#### B-06 / FF-04 Android review — 2026-11-04 (no code change)
+
+Review only, against live `child` source (`9692d673…`; the local `origin/child`
+ref `490b190…` was stale, so files were read by explicit ref). **B-06 PARTIAL,
+FF-04 NOT_READY.** An 8-API-level × 11-module matrix with 96 planned cases exists
+as a review draft; **every case is NOT_RUN** — no emulator, device, JUnit or
+instrumented execution was performed.
+
+- **Implemented:** HTTPS/Keystore code-pairing adapter, live permission
+  preflight with user-tap OS dialogs, read-only hardware/battery inventory,
+  parent-scoped pairing/latest-location adapters.
+- **Not implemented end-to-end:** QR-first handshake and scanner, production GPS
+  collector, durable encrypted ACK-safe outbox, SOS transport/state lifecycle,
+  optional capture and parent SOS alarm. Figma screens and synthetic state
+  services are not runtime evidence.
+- **Concrete queue defects** in the synthetic `SecureLocalQueue`
+  (`android/alarka/.../service/SecureLocalQueue.kt`): `flush():82-86` removes
+  records *before* durable acknowledgement, so a transport failure loses them;
+  `evictExpired():70-75` inspects only the head and assumes timestamp order;
+  `flush()` performs no expiry check, so an idle reconnect can replay expired
+  data; storage is in-memory ArrayDeque with fixed XOR/Base64, not production
+  encryption or durability.
+- **Public manifest remains INTERNET-only** with no production location service;
+  the debug foreground-service scaffold is a noncollecting QA harness that must
+  not be reused unchanged as monitoring.
+- Next safe slice: sensor-free, capture-OFF B-06 SOS state reducer with negative
+  JVM tests, plus the queue ACK/expiry corrections. Neither closes FF-04, which
+  still requires real GNSS collection, durable encrypted outbox, device/OS
+  matrix execution and Play/legal clearance.
+
 ## X-02 Google Play G01/G04 review progress — 2026-10-31
 
 **Official-policy desktop review documented:** [X-02 product-specific Families/monitoring/background-location pack](../../M9-play-release/01-play-and-data-safety/X02_FAMILIES_LOCATION_AND_MONITORING_POLICY_REVIEW_2026-10-31.md). **G01 OPEN** pending human outcome in owner-created support case; Play Console AI answer **not approval**; do not change existing ticket or send duplicate inquiries. **G04 NOT SUBMITTED and NOT APPROVED** until G01 resolution and real AAB/disclosure/short video/reviewer evidence. Both are external release gates; synthetic C++/Android/API implementation and review preparation continue. No paid paperwork can substitute for Play decision.
