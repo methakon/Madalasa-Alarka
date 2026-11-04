@@ -130,9 +130,10 @@ class LabLocationService : Service(), LocationListener {
                     }
                     consent = result.getOrThrow()
                     consentCheckedAt = SystemClock.elapsedRealtime()
-                    if (LabStopPolicy.forServerVerdict(eligible(consent)) == LabStop.REVOKE) {
-                        finishLab(true); break
-                    }
+                    // Not admitted (for example waitlisted) stops collection but keeps the
+                    // enrollment; only withdrawn consent or deletion is destructive.
+                    val verdict = LabStopPolicy.forConsentSnapshot(consent)
+                    if (verdict != LabStop.CONTINUE) { finishLab(verdict == LabStop.REVOKE); break }
                     if (!subscribed) subscribe()
                     val battery = getSystemService(BatteryManager::class.java)
                     val level = battery.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
@@ -169,9 +170,10 @@ class LabLocationService : Service(), LocationListener {
     override fun onLocationChanged(location: Location) {
         if (stopped) return
         if (osStop() != LabStop.CONTINUE) { finishLab(osStop() == LabStop.REVOKE); return }
-        if (!eligible(consent) || SystemClock.elapsedRealtime() - consentCheckedAt > 15_000) {
-            finishLab(true); return
-        }
+        // Stale consent is a refresh gap: pause and keep the queue, never destroy the enrollment.
+        val stop = LabStopPolicy.forFixArrival(
+            eligible(consent), SystemClock.elapsedRealtime() - consentCheckedAt <= 15_000)
+        if (stop != LabStop.CONTINUE) { finishLab(stop == LabStop.REVOKE); return }
         if (!location.hasAccuracy() || !location.accuracy.isFinite() || location.accuracy !in 0f..100_000f ||
             !location.latitude.isFinite() || location.latitude !in -90.0..90.0 ||
             !location.longitude.isFinite() || location.longitude !in -180.0..180.0 ||

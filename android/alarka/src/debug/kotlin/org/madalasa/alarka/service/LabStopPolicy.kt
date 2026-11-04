@@ -29,6 +29,32 @@ object LabStopPolicy {
     fun forServerVerdict(authorized: Boolean): LabStop = if (authorized) LabStop.CONTINUE else LabStop.REVOKE
 
     /**
+     * A missing snapshot, a waitlisted child or an absent admission flag is not proof that
+     * authority was taken away. Only withdrawal of consent, deletion or an explicit
+     * non-collection verdict may destroy the enrollment and its queued records.
+     */
+    fun forConsentSnapshot(status: ServerConsentStatus?): LabStop = when {
+        status == null -> LabStop.PAUSE
+        status.childDeleted -> LabStop.REVOKE
+        !status.coreConsent || !status.locationConsent -> LabStop.REVOKE
+        !status.childServiceAdmitted -> LabStop.PAUSE
+        !status.collectionAuthorized -> LabStop.REVOKE
+        else -> LabStop.CONTINUE
+    }
+
+    /**
+     * A fix arriving while the consent snapshot is stale is a refresh gap, not proof of denial.
+     * Pausing keeps the encrypted queue; only a verdict that actually failed eligibility revokes.
+     * Treating staleness as revocation would unpair and delete pending records during a slow
+     * upload or a stalled health check.
+     */
+    fun forFixArrival(authorized: Boolean, consentFresh: Boolean): LabStop = when {
+        !authorized -> LabStop.REVOKE
+        !consentFresh -> LabStop.PAUSE
+        else -> LabStop.CONTINUE
+    }
+
+    /**
      * Permission, notification-visibility and enrollment identity are authority to collect and
      * must fail closed. A switched-off location provider is an availability condition only.
      */

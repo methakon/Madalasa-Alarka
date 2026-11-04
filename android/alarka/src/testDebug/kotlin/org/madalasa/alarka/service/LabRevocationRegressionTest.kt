@@ -93,13 +93,47 @@ class LabRevocationRegressionTest {
     @Test fun serviceRoutesThroughStopPolicyRatherThanBlanketRevocation() {
         val service = File("src/debug/kotlin/org/madalasa/alarka/service/LabLocationService.kt").readText()
         assertTrue(service.contains("LabStopPolicy.forConsentFailure("))
-        assertTrue(service.contains("LabStopPolicy.forServerVerdict("))
+        assertTrue(service.contains("LabStopPolicy.forConsentSnapshot("))
         assertTrue(service.contains("LabStopPolicy.forOsState("))
+        assertTrue(service.contains("LabStopPolicy.forFixArrival("))
+        // A waitlisted or unknown admission stops collection without destroying the enrollment.
+        assertTrue(service.contains("if (verdict != LabStop.CONTINUE) { finishLab(verdict == LabStop.REVOKE); break }"))
+        // A stale consent snapshot on fix arrival is a refresh gap, never a revocation.
+        assertFalse(service.contains("consentCheckedAt > 15_000) {\n            finishLab(true)"))
         // GPS switched off must not clear the local session or halt the durable queue.
         assertTrue(service.contains("onProviderDisabled(provider: String) { finishLab(false) }"))
         assertFalse(service.contains("if (!osReady() || !eligible(consent)"))
         val gateway = File("src/main/kotlin/org/madalasa/alarka/service/ChildPrivacyGateway.kt").readText()
         assertTrue(gateway.contains("throw ChildAuthorizationDenied()"))
         assertTrue(gateway.contains("listOf(401, 403, 404, 410)"))
+    }
+
+    @Test fun staleConsentOnFixArrivalPausesAndKeepsPendingRecords() {
+        // A slow upload or a stalled health check can outlive the 15 s consent snapshot even
+        // though authority is intact; that must not unpair the device or delete queued fixes.
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forFixArrival(authorized = true, consentFresh = false))
+        assertEquals(LabStop.CONTINUE, LabStopPolicy.forFixArrival(authorized = true, consentFresh = true))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forFixArrival(authorized = false, consentFresh = true))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forFixArrival(authorized = false, consentFresh = false))
+
+        val disk = Disk(); val cipher = cipher()
+        DurableLabQueue(disk, cipher, "device-a").enqueue("pending", "fixture")
+        // PAUSE performs neither halt() nor session clear, so a restart still leases the record.
+        assertEquals(listOf("pending"), DurableLabQueue(disk, cipher, "device-a").lease().map { it.id })
+    }
+
+    @Test fun onlyWithdrawnConsentOrDeletionRevokesFromASnapshot() {
+        fun status(core: Boolean, location: Boolean, admitted: Boolean,
+                   authorized: Boolean, deleted: Boolean) = ServerConsentStatus(
+            coreConsent = core, locationConsent = location, usageConsent = false, mediaConsent = false,
+            childDeleted = deleted, collectionAuthorized = authorized, childServiceAdmitted = admitted)
+        assertEquals(LabStop.CONTINUE, LabStopPolicy.forConsentSnapshot(status(true, true, true, true, false)))
+        // Waitlisted child: stop collecting, keep the encrypted queue and local enrollment.
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forConsentSnapshot(status(true, true, false, false, false)))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(status(false, true, true, false, false)))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(status(true, false, true, false, false)))
+        assertEquals(LabStop.REVOKE, LabStopPolicy.forConsentSnapshot(status(true, true, true, true, true)))
+        // No snapshot yet is unknown, not denial.
+        assertEquals(LabStop.PAUSE, LabStopPolicy.forConsentSnapshot(null))
     }
 }
