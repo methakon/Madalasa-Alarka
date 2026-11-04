@@ -8,6 +8,14 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-05 x402-endpoint Free V1 deployment decision (infrastructure only)
+
+**Owner selected an interim small Ubuntu x86_64 VM** for Free V1 Drogon API and React admin deployment: 2 vCPU, 954 MiB RAM, 1 GiB swap, 45 GB root, with pre-existing nginx/dovecot/opensmtpd. This **supersedes the historical Oracle Chicago A1 architecture solely as the immediate staging target**, not the long-term scaling model. The memory budget is constrained; no 108-child HTTP capacity, database co-location safety, public TLS, service availability or deploy success is certified by host specifications. Preserve all current mail services/ports.
+
+**Implementation source prepared, NOT DEPLOYED:** on `api`, loopback systemd service, startup FREE_ONLY/identity/database validation, `GET /readyz` database/schema gate, resource preflight and HTTP smoke; on `admin-web`, separate HTTPS Nginx API/admin vhost templates, static production build, atomic deploy/rollback and tests. [Canonical x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md) and [Issue #39](https://github.com/methakon/Madalasa-Alarka/issues/39). Workstream implementation must flow through reviewed `dev → main`; runtime status remains `NOT RUN` for actual VM until an authorized operator executes deployment and submits evidence.
+
+**Gates unchanged:** G01/G04 Google Play, Indian child-data feature legality, B-07 per-category retention and backup/deletion, actual Android 10–16 permission/physical tests, guardian authority/TTL and SOS/media restrictions. Two HTTPS domains, DB topology/SSL and authorized SSH operator action are outstanding. Public child GPS/usage/media collection and payment processing remain OFF, while approved adult-device private lab testing may proceed under the documented controls.
+
 ## 2026-11-04 Issue #32 engineering checkpoint and owner decisions still needed
 
 **Owner directive:** update the discussed canonical documents first; no new feature-branch creation, PR merge or production activation is implied by this documentation step. See [branch/PR scope hold](../../M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md#2026-11-04--issue-32-pr-34-scope-drift-hold-documentation-first-directive).
