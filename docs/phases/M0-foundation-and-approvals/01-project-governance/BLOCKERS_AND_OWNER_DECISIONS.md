@@ -134,6 +134,89 @@ Source on `api` **not merged to dev**. [Status/evidence](../../M1-secure-platfor
 | **E-13** | Medium | Play Billing and optional Drive/provider integrations | Sandbox payment and OAuth revocation results | Integrations |
 | **E-14** | High | End-to-end FR-to-test traceability and CI evidence | All release-scope requirements traceable to passing tests | QA/architect |
 
+### Issue #32 engineering checkpoint — 2026-11-04
+
+**Latest executed checkpoint:** [source, commands, results and residual gates](../../../../evidence/local/issue32/ENGINEERING_CHECKPOINT_2026-11-04.md).
+Focused E-01 [PR #34](https://github.com/methakon/Madalasa-Alarka/pull/34) is open;
+its isolated candidate passed 309 database tests (10 skipped). Queued E-03/E-04
+source through 0028 passed 345 tests (10 skipped), and the production-build GPS
+HTTP harness passed 11/11 checks with a real synthetic DeviceBearer and restricted
+runtime login. E-04's bundle/case FK failure was reproduced before the correction;
+eight deletion/restore regressions passed afterwards. Later source is published
+at recovery tag `issue32-tested-packages-checkpoint-456ca1e`, not accepted into
+dev/main. These results supersede the earlier 320-test checkpoint below, **not**
+the remaining E-01/E-03/E-04 acceptance requirements or any external gate.
+
+Status: **PARTIAL; no E-item closed and no release authorized.** Work follows
+[Issue #32](https://github.com/methakon/Madalasa-Alarka/issues/32), starting with
+E-01, E-03, E-04, B-09 and B-18. Payment activation and Play decisions do not block
+synthetic engineering. Existing exact-child authority and consent requirements remain.
+
+- **E-01:** `api` checkpoint `a371979dba0fc7e382ebe44a98ee8463e5a987ac`
+  adds `v2:0025`, explicit deny intent for tables without policies, catalog
+  inspection and a role-boundary assertion including privileged membership and
+  runtime administrative attributes. These are acceptance/inspection controls:
+  a permissive false policy does not strengthen the existing no-policy default
+  denial and does not prevent future privileged DBA changes. No whole-system
+  authorization/security clearance is claimed.
+- **E-03:** receipt/concurrency changes are under implementation. Review exposed
+  a separate production integration gap: the device HTTP handler sets
+  `ap.device_id`, while V2 device context requires verified credentials/session
+  context. A successful SQL test using synthetic sessions does not prove this
+  HTTP path works. Implementing and negative-testing that boundary is executable
+  engineering, **not** an external approval dependency.
+- **Executed local evidence:** fresh synthetic PostgreSQL replay plus 41 targeted
+  database/planner tests passed. The revised full database suite ran **320 tests,
+  OK (10 skipped)** in 128.501 seconds. This ran on uncommitted E-03 source with
+  the E-01 checkpoint; it is not evidence for later HTTP changes or an accepted
+  PR. Review regressions first reproduced role-detector and duplicate-accounting
+  defects, then passed after corrections. Raw local logs remain private under
+  `.local-db/issue32-reviewed-*.log`; hosted CI and focused PR acceptance remain
+  separate gates.
+- **E-04 / B-09 / B-18:** still open. Review existing deletion/recovery and
+  guardian-authority implementation before changes; do not invent disputed TTLs
+  or a legal guardian verifier. **B-07** category durations remain undecided;
+  proposed retention matrices are not approval to enable expiry.
+- **FF-07 / 108 capacity:** **MEASURED SYNTHETIC ONLY, NOT VALIDATED.** A reproducible
+  direct-SQL harness ([load measurement](../../../../evidence/local/issue32/LOAD_MEASUREMENT_2026-11-04.md))
+  ran 108 simulated clients against a deliberately capped 1 vCPU / 512 MiB instance:
+  324/324 attempts succeeded at 38.9 batches/s, DB p50 200 ms, saturated at 99.2 % of
+  one core, with pool queueing (8 connections) the dominant delay. That is synthetic
+  ingest headroom, **not** device capacity, HTTP edge, worker drain, Android battery
+  or target-VM proof; those are NOT_RUN and the 108 figure remains a policy cap.
+- **X-01 / X-02 / X-03:** unchanged external/evidence states. Draft submission
+  packs and due-diligence notes do not establish provider, Play or legal approval.
+
+#### B-06 / FF-04 Android review — 2026-11-04 (no code change)
+
+Review only, against live `child` source (`9692d673…`; the local `origin/child`
+ref `490b190…` was stale, so files were read by explicit ref). **B-06 PARTIAL,
+FF-04 NOT_READY.** An 8-API-level × 11-module matrix with 96 planned cases exists
+as a review draft; **every case is NOT_RUN** — no emulator, device, JUnit or
+instrumented execution was performed.
+
+- **Implemented:** HTTPS/Keystore code-pairing adapter, live permission
+  preflight with user-tap OS dialogs, read-only hardware/battery inventory,
+  parent-scoped pairing/latest-location adapters.
+- **Not implemented end-to-end:** QR-first handshake and scanner, production GPS
+  collector, durable encrypted ACK-safe outbox, SOS transport/state lifecycle,
+  optional capture and parent SOS alarm. Figma screens and synthetic state
+  services are not runtime evidence.
+- **Concrete queue defects** in the synthetic `SecureLocalQueue`
+  (`android/alarka/.../service/SecureLocalQueue.kt`): `flush():82-86` removes
+  records *before* durable acknowledgement, so a transport failure loses them;
+  `evictExpired():70-75` inspects only the head and assumes timestamp order;
+  `flush()` performs no expiry check, so an idle reconnect can replay expired
+  data; storage is in-memory ArrayDeque with fixed XOR/Base64, not production
+  encryption or durability.
+- **Public manifest remains INTERNET-only** with no production location service;
+  the debug foreground-service scaffold is a noncollecting QA harness that must
+  not be reused unchanged as monitoring.
+- Next safe slice: sensor-free, capture-OFF B-06 SOS state reducer with negative
+  JVM tests, plus the queue ACK/expiry corrections. Neither closes FF-04, which
+  still requires real GNSS collection, durable encrypted outbox, device/OS
+  matrix execution and Play/legal clearance.
+
 ## X-02 Google Play G01/G04 review progress — 2026-10-31
 
 **Official-policy desktop review documented:** [X-02 product-specific Families/monitoring/background-location pack](../../M9-play-release/01-play-and-data-safety/X02_FAMILIES_LOCATION_AND_MONITORING_POLICY_REVIEW_2026-10-31.md). **G01 OPEN** pending human outcome in owner-created support case; Play Console AI answer **not approval**; do not change existing ticket or send duplicate inquiries. **G04 NOT SUBMITTED and NOT APPROVED** until G01 resolution and real AAB/disclosure/short video/reviewer evidence. Both are external release gates; synthetic C++/Android/API implementation and review preparation continue. No paid paperwork can substitute for Play decision.

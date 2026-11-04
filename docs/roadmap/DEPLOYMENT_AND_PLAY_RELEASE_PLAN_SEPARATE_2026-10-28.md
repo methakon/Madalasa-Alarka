@@ -1,5 +1,8 @@
 # Separate Deployment, Google Play, and Operations Readiness Plan
 
+> **2026-11-03 FREE-FIRST SUPERSESSION:** [Free-first 108-child release / waitlist plan](FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md) adds a free-only Play release stage ahead of BillDesk/paid activation. All payment code remains preserved but disabled by default, the first 108 child profiles are assigned service slots, later signups are WAITLISTED. This is a release plan, not a Play authorization.
+
+
 **Created:** 2026-10-28. **Status:** PLANNING ONLY. **NO deployment, upload, signup or Google Play action has been performed.** This document is deliberately SEPARATE from [the 262-task LOCAL DEVELOPMENT ROADMAP](LOCAL_AGENT_DEVELOPMENT_ROADMAP_2026-10-28.md). Local coding agents are prohibited from independently completing release/financial/identity/legal steps.
 
 ## 0. Owner-reported Play account status and privacy

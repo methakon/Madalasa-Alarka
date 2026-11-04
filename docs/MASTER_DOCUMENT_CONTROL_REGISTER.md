@@ -78,6 +78,9 @@
 | DOC-070 | P3 | media and administrator research | [MEDIA_ACTIVITY_AUDIT_LOGGING_AND_REPORTING_2026.md](phases/P3-deferred-research/01-media-and-administrator-research/MEDIA_ACTIVITY_AUDIT_LOGGING_AND_REPORTING_2026.md) | Product + security/privacy | DEFERRED_RESEARCH_DESIGN |
 | DOC-071 | P3 | media and administrator research | [ADMIN_PANEL_SPECIFICATION_2026.md](phases/P3-deferred-research/01-media-and-administrator-research/ADMIN_PANEL_SPECIFICATION_2026.md) | Product + security/privacy | DEFERRED_RESEARCH_DESIGN |
 | DOC-072 | CROSS | architecture and visual indexes | [ERASER_HLD_LLD_DIAGRAM_INDEX.md](phases/cross-milestone-references/01-architecture-and-visual-indexes/ERASER_HLD_LLD_DIAGRAM_INDEX.md) | Engineering lead | DOCUMENTED_REVIEW_PENDING |
+| DOC-073 | M9 | play and data safety | [X02_PLAY_G01_G04_SUBMISSION_EVIDENCE_PACK_2026-11-04.md](phases/M9-play-release/01-play-and-data-safety/X02_PLAY_G01_G04_SUBMISSION_EVIDENCE_PACK_2026-11-04.md) | Release owner (unassigned) | DRAFT_REVIEW_PENDING |
+| DOC-074 | M0 | legal and privacy | [X03_DPDP_DUE_DILIGENCE_REGISTER_2026-11-04.md](phases/M0-foundation-and-approvals/03-legal-and-privacy/X03_DPDP_DUE_DILIGENCE_REGISTER_2026-11-04.md) | Project owner (unassigned) | DUE_DILIGENCE_IN_PROGRESS |
+| DOC-075 | roadmap | retention | [B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md](roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md) | Project owner (unassigned) | PROPOSAL_ONLY |
 
 ## Controlled supporting artifacts (not part of the 72 relocations)
 
