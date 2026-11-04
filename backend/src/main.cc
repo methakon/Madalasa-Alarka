@@ -191,6 +191,42 @@ int main() {
       },
       {Get});
 
+  // Readiness is separate from liveness: a missing/unusable database must never
+  // be considered ready for guardian, enrollment, deletion or admin operations.
+  // Expose only behind local operational checks; nginx must not proxy /readyz.
+  app().registerHandler(
+      "/readyz",
+      [](HttpRequestPtr) -> Task<HttpResponsePtr> {
+        Json::Value body(Json::objectValue);
+        body["status"] = "not_ready";
+        if (!app().hasDbClient(ma::kDbClientName)) {
+          auto resp = HttpResponse::newHttpJsonResponse(body);
+          resp->setStatusCode(k503ServiceUnavailable);
+          co_return resp;
+        }
+        auto db = app().getDbClient(ma::kDbClientName);
+        if (!db) {
+          auto resp = HttpResponse::newHttpJsonResponse(body);
+          resp->setStatusCode(k503ServiceUnavailable);
+          co_return resp;
+        }
+        try {
+          const auto res = co_await db->execSqlCoro(
+              "SELECT (to_regclass('ap_m1.devices') IS NOT NULL "
+              "AND to_regclass('ap_m1.guardian_memberships') IS NOT NULL) AS ready");
+          if (!res.empty() && !res.at(0)["ready"].isNull() && res.at(0)["ready"].as<bool>()) {
+            body["status"] = "ready";
+            co_return HttpResponse::newHttpJsonResponse(body);
+          }
+        } catch (const std::exception&) {
+          // No database details, SQL or credentials in readiness response.
+        }
+        auto resp = HttpResponse::newHttpJsonResponse(body);
+        resp->setStatusCode(k503ServiceUnavailable);
+        co_return resp;
+      },
+      {Get});
+
   app().registerHandler(
       "/v1/release/capabilities",
       [release_caps](const HttpRequestPtr&,
