@@ -17,7 +17,16 @@ interface MadalasaApiClient {
         Result.failure(IllegalStateException("Paired-device status unavailable"))
     suspend fun createFamily(label: String): Result<String> = Result.failure(IllegalStateException("Family creation unavailable"))
     suspend fun createChild(familyId: String, alias: String): Result<ChildSummaryResponse> = Result.failure(IllegalStateException("Child registration unavailable"))
+    suspend fun getChildSignals(childId: String): Result<List<ChildSignalSummary>> = Result.success(emptyList())
+    suspend fun acknowledgeChildSignal(childId: String, eventId: String): Result<Boolean> = Result.failure(IllegalStateException("Signal service unavailable"))
 }
+
+data class ChildSignalSummary(
+    val eventId: String,
+    val kind: String,
+    val observedAt: String,
+    val acknowledged: Boolean
+)
 
 data class ParentProfileResponse(
     val adultId: String,
