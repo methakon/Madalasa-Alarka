@@ -1,11 +1,12 @@
 # Public API hostname (no child-data service until separate legal, Play and lab gates pass).
-# Replace API_FQDN CERT_FILE KEY_FILE. No plaintext public API.
+# Proposed API hostname: api.madalasa.berhampore.in; requires an additional DNS A record.
+# TLS cert must exist before enabling. No plaintext public API.
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name API_FQDN;
-    ssl_certificate CERT_FILE;
-    ssl_certificate_key KEY_FILE;
+    server_name api.madalasa.berhampore.in;
+    ssl_certificate /etc/letsencrypt/live/api.madalasa.berhampore.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.madalasa.berhampore.in/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     server_tokens off;
     client_max_body_size 640k; # API location batch <= 512 KiB; endpoint validates.
