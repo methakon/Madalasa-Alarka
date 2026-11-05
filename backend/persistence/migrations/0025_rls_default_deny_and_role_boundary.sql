@@ -48,18 +48,47 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, ap_m1 AS $fn$
 $fn$;
 
 -- Service-role boundary: BYPASSRLS may exist only on NOLOGIN definer bridges, and
--- no login role may hold SUPERUSER or BYPASSRLS (except the local bootstrap owner).
+-- application runtime and login roles must remain unprivileged (no SUPERUSER, BYPASSRLS,
+-- CREATEROLE, CREATEDB, REPLICATION, or privileged memberships/SET ROLE).
 CREATE FUNCTION ap_m1.assert_role_boundary()
 RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER
 SET search_path = pg_catalog, ap_m1 AS $fn$
 BEGIN
+  -- 1. Application login roles must remain unprivileged and cannot hold privileged memberships
   IF EXISTS (
-    SELECT 1 FROM pg_roles
-    WHERE rolcanlogin AND rolname <> 'postgres' AND (rolsuper OR rolbypassrls)
+    SELECT 1 FROM pg_auth_members am
+    JOIN pg_roles m ON m.oid = am.member
+    JOIN pg_roles r ON r.oid = am.roleid
+    WHERE m.rolcanlogin AND (am.inherit_option OR am.set_option)
+      AND r.rolname IN ('ap_m1_api','ap_auth_issuer','ap_billing_verifier',
+                       'ap_privacy_worker','ap_service_worker',
+                       'madalasa_dev','madalasa_auth','madalasa_billing')
+      AND (m.rolsuper OR m.rolbypassrls OR m.rolcreaterole OR m.rolcreatedb OR m.rolreplication
+           OR EXISTS (
+             SELECT 1 FROM pg_auth_members am2
+             JOIN pg_roles priv ON priv.oid = am2.roleid
+             WHERE am2.member = m.oid AND (am2.inherit_option OR am2.set_option)
+               AND (priv.rolsuper OR priv.rolbypassrls OR priv.rolcreaterole OR priv.rolcreatedb
+                    OR priv.rolreplication OR priv.rolname IN ('ap_m1_owner','ap_db_executor','ap_m1_auth'))
+           ))
   ) THEN
-    RAISE EXCEPTION 'RLS boundary violation: a login role holds SUPERUSER or BYPASSRLS'
+    RAISE EXCEPTION 'RLS boundary violation: application login role holds administrative privileges or privileged membership'
       USING ERRCODE = '42501';
   END IF;
+
+  -- 2. Explicit application login roles must remain unprivileged even if unassigned
+  IF EXISTS (
+    SELECT 1 FROM pg_roles
+    WHERE rolname IN ('ap_m1_api_user','ap_auth_issuer_user','ap_billing_user',
+                     'ap_privacy_user','ap_worker_user',
+                     'madalasa_dev','madalasa_auth','madalasa_billing')
+      AND (rolsuper OR rolbypassrls OR rolcreaterole OR rolcreatedb OR rolreplication)
+  ) THEN
+    RAISE EXCEPTION 'RLS boundary violation: application login role holds administrative privileges'
+      USING ERRCODE = '42501';
+  END IF;
+
+  -- 3. Definer bridges: must remain NOLOGIN and maintain BYPASSRLS
   IF EXISTS (
     SELECT 1 FROM pg_roles
     WHERE rolname IN ('ap_db_executor','ap_m1_auth') AND (rolcanlogin OR NOT rolbypassrls)
@@ -67,6 +96,17 @@ BEGIN
     RAISE EXCEPTION 'RLS boundary violation: a definer bridge role is now login-capable or lost BYPASSRLS'
       USING ERRCODE = '42501';
   END IF;
+
+  -- 4. Schema owner: must remain NOLOGIN, NOSUPERUSER, NOBYPASSRLS
+  IF EXISTS (
+    SELECT 1 FROM pg_roles
+    WHERE rolname = 'ap_m1_owner' AND (rolcanlogin OR rolsuper OR rolbypassrls)
+  ) THEN
+    RAISE EXCEPTION 'RLS boundary violation: ap_m1_owner is login-capable or holds SUPERUSER/BYPASSRLS'
+      USING ERRCODE = '42501';
+  END IF;
+
+  -- 5. Runtime group roles: must remain unprivileged and cannot assume definer or owner roles
   IF EXISTS (
     SELECT 1 FROM pg_roles r
     WHERE r.rolname IN ('ap_m1_api','ap_auth_issuer','ap_billing_verifier',
@@ -78,7 +118,7 @@ BEGIN
              WHERE (privileged.rolsuper OR privileged.rolbypassrls
                     OR privileged.rolcreaterole OR privileged.rolcreatedb
                     OR privileged.rolreplication OR privileged.rolname='ap_m1_owner')
-               AND pg_has_role(r.oid, privileged.oid, 'MEMBER')))
+                AND pg_has_role(r.oid, privileged.oid, 'MEMBER')))
   ) THEN
     RAISE EXCEPTION 'RLS boundary violation: runtime role can assume privileged authority'
       USING ERRCODE = '42501';

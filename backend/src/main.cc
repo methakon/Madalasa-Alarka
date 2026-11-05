@@ -2,11 +2,13 @@
 // Business routes are added against docs/openapi-m1.yaml in later changes. SYNTHETIC DATA ONLY.
 #include <cstdlib>
 #include <iostream>
+#include <unistd.h>
 
 #include <drogon/drogon.h>
 
 #include "auth.h"
 #include "db_support.h"
+#include "pg_tls_policy.h"
 #include "device_activity.h"
 #include "device_credentials.h"
 #include "enrollment.h"
@@ -32,6 +34,7 @@
 #include "release_profile.h"
 #include "free_location_reads.h"
 #include "child_device_pairing_status.h"
+#include "safety_signal_endpoints.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -299,6 +302,34 @@ int main() {
     cfg.databaseName = db;
     cfg.username = env("MA_PG_USER", "ap_m1_api");
     cfg.password = env("MA_PG_PASSWORD", "");
+
+    const bool is_loopback = ma::pg_host_is_loopback(cfg.host);
+    if (!is_loopback) {
+      // Remote PostgreSQL (such as managed Neon) requires certificate/hostname-validated TLS.
+      const char* sslmode = std::getenv("PGSSLMODE");
+      // Only verify-full validates both certificate chain and the configured
+      // DB hostname. "require" encrypts without hostname verification; verify-ca
+      // validates the CA but not the hostname. Fail closed on unknown values too.
+      if (sslmode && !ma::remote_pg_sslmode_allowed(sslmode)) {
+        std::cerr << "Remote PostgreSQL requires PGSSLMODE=verify-full" << std::endl;
+        return 78;
+      }
+      if (!sslmode || *sslmode == '\0') {
+        if (setenv("PGSSLMODE", "verify-full", 1) != 0) {
+          std::cerr << "Cannot enforce remote PostgreSQL TLS verification" << std::endl;
+          return 78;
+        }
+      }
+      if (!std::getenv("PGSSLROOTCERT")) {
+        const char* ca_paths[] = {"/etc/ssl/certs/ca-certificates.crt", "/etc/pki/tls/certs/ca-bundle.crt"};
+        for (const char* p : ca_paths) {
+          if (access(p, R_OK) == 0) {
+            setenv("PGSSLROOTCERT", p, 1);
+            break;
+          }
+        }
+      }
+    }
     cfg.connectionNumber = ma::db_limits().connections;
     cfg.name = ma::kDbClientName;
     cfg.isFast = false;
@@ -600,6 +631,35 @@ int main() {
       "/v1/devices/{deviceId}/locations:batch",
       [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
         co_return co_await ma::ingest_location_batch(std::move(req), std::move(deviceId));
+      },
+      {Post});
+
+  // Manual SOS and child safety signals (Phase-09 / Issue #42 P1).
+  app().registerHandler(
+      "/v1/devices/{deviceId}/signals",
+      [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::record_child_signal(std::move(req), std::move(deviceId));
+      },
+      {Post});
+
+  app().registerHandler(
+      "/v1/devices/{deviceId}/signals/{eventId}/status",
+      [](HttpRequestPtr req, std::string deviceId, std::string eventId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::get_child_signal_status(std::move(req), std::move(deviceId), std::move(eventId));
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/children/{childId}/signals",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::list_child_signals(std::move(req), std::move(childId), parent);
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/children/{childId}/signals/{eventId}/ack",
+      [parent](HttpRequestPtr req, std::string childId, std::string eventId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::acknowledge_child_signal(std::move(req), std::move(childId), std::move(eventId), parent);
       },
       {Post});
 
