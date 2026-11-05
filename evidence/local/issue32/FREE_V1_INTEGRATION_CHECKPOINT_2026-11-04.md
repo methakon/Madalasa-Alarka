@@ -79,6 +79,8 @@ Current harness: **21/21 PASS**, including code issuance/redemption, genuine P-2
 
 [Draft PR #40](https://github.com/methakon/Madalasa-Alarka/pull/40) explicitly includes pairing/read fixes, synthetic load tools and x402 packaging, not E-01 alone. Its first exact-head CI (`32d0447`, run `41964135037`) passed the then-current 19-check harness. Review held merging for an unsafe privileged fixture generator and incomplete issuer readiness. Fixture guards now require explicit disposable authorization, private input, exact loopback/test-role/container identity and prior synthetic opt-in; the generator no longer enables authority. **17/17 load/fixture tests PASS** at `31378de`; updated-head CI and independent correction review remain pending. No deployment occurred.
 
+**PR #40 merged** (`api` → `dev`) at head `a6e02902e848d22ed81bf29ffc8e02d016f3787c`, merge commit `4bafa5badbd11811e2e66f6175d14251fadbc827`. A further review catch bound fixture and load preflight to the exact DSN loopback address *and* published port (both IPv4/IPv6 cross-family mismatches refused through the real CLI path; 18/18 load tests). Exact-head CI fully green. **Cumulative `dev` replay on a fresh checkout-owned tmpfs PostgreSQL 16 instance: 367 tests OK, 10 skipped** (probe binary reused from the sibling api checkout, disclosed). Pairing harness **21/21 PASS**; CTest **25/25 PASS**.
+
 **Open inherited engineering gap:** V2 credential renewal still uses the runtime pool and directly reads restricted challenge expiry. The binary correction alone does not repair that route. Separate issuer routing, a narrow expiry interface and real renewal/old-bearer rejection/new-bearer ingest acceptance remain required; runtime permissions must not be widened.
 
 ## Remaining gates

@@ -8,6 +8,14 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-05 infrastructure ruling — x402 database co-location rejected
+
+**Owner accepted the live read-only VM preflight NO-GO.** x402 `161.33.146.238` (954 MiB RAM, 57 MiB swap at idle, running OpenSMTPD/Dovecot/Nginx plus OS/security agents) is **not approved** to host PostgreSQL 16/PostGIS together with mail and Free V1 API/admin. No database was installed, no cloud resource provisioned and no existing service modified. The older optional localhost PostgreSQL setup and its 32 MiB shared_buffers tuning are now **non-executable for this VM** until explicit future reconsideration after resize.
+
+**New infrastructure blocker X402-DB-01 (OPEN / resource decision):** choose and approve a separate PostgreSQL host, or resize x402 to ≥2 GiB (4 GiB preferred) followed by an independent feasibility check. GCP Always Free VM cannot proceed with the observed eight closed billing accounts; no billing activation was authorized. Any off-host DB requires authenticated TLS/private network, 5432 restricted to API host, separate least-privileged roles, backup and isolated restore evidence. Protect mail continuity and do not pretend two DB connections certify capacity. See [x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md#2026-11-05-live-ssh-preflight--postgresql-co-location-no-go-owner-accepted).
+
+**Permitted to continue independently:** compile and review Drogon/API and static admin assets, configure genuine TLS hostnames and Nginx after existing-vhost inspection, harden local process/readiness and prepare DB TLS implementation without provisioning. **Do not enable child-device external ingestion** before security/retention/Play/legal and real-device gates clear.
+
 ## 2026-11-05 x402-endpoint Free V1 deployment decision (infrastructure only)
 
 **Owner selected an interim small Ubuntu x86_64 VM** for Free V1 Drogon API and React admin deployment: 2 vCPU, 954 MiB RAM, 1 GiB swap, 45 GB root, with pre-existing nginx/dovecot/opensmtpd. This **supersedes the historical Oracle Chicago A1 architecture solely as the immediate staging target**, not the long-term scaling model. The memory budget is constrained; no 108-child HTTP capacity, database co-location safety, public TLS, service availability or deploy success is certified by host specifications. Preserve all current mail services/ports.
