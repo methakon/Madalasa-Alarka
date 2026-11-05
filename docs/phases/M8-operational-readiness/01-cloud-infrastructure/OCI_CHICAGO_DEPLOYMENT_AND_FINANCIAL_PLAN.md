@@ -1,5 +1,8 @@
 # Madalasa–Alarka — Oracle Cloud Chicago Deployment, Capacity and Financial Plan
 
+> **2026-11-05 Free V1 deployment target change:** The owner selected existing Ubuntu 24.04 `x402-endpoint` (2 vCPU x86_64, 954 MiB RAM, 45 GB disk; SSH/Nginx/mail already running) as the **interim API/admin deployment candidate**. Follow [X402 Free-first API/Admin Runbook](X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md) and [Issue #39](https://github.com/methakon/Madalasa-Alarka/issues/39). The Chicago ARM64/A1 architecture below is **retained historical/scale-out planning, not instructions for the current Free V1 VM**. This switch does not approve child tracking, live deployment, remote DB without TLS, or measured 108-child capacity. Current VM operation is NOT independently verified and mail continuity is mandatory.
+
+
 > **Document control:** M8 / 01-cloud-infrastructure · Proposed owner: Engineering lead (not assigned) · Registry: DOCUMENTED_REVIEW_PENDING; approval not recorded. [Master register](../../../MASTER_DOCUMENT_CONTROL_REGISTER.md).
 
 > **Current app names:** **Madalasa** (guardian/parent), **Alarka** (child companion). GitHub repository [Madalasa-Alarka](https://github.com/methakon/Madalasa-Alarka), renamed 2026-10-26. [Source story and naming contract](../../M0-foundation-and-approvals/02-market-and-feasibility/BRAND_NAME_MADALASA_ALARKA_AND_MYTHOLOGY_CONCEPT.md).
