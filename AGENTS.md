@@ -1,5 +1,9 @@
 # AGENTS.md — Madalasa–Alarka
 
+## 2026-11-05 Free V1 x402 API/admin deployment target
+The owner selected **x402-endpoint** (Ubuntu 24.04 x86_64, 2 vCPU, **954 MiB RAM**, existing nginx/dovecot/opensmtpd) as the **temporary free-release API and admin staging host**, superseding Chicago/A1 as the immediate VM destination. Follow the [x402 runbook](docs/phases/M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md) and [Issue #39](https://github.com/methakon/Madalasa-Alarka/issues/39). Deployment code lives on `api` and `admin-web` and must pass review via `dev → main`; no SSH access, public TLS or production child data is implied. **Preserve existing mail services and ports, keep Drogon on 127.0.0.1:8080, PostgreSQL off the public interface, and use FREE_ONLY.** Tiny RAM requires measured database/co-location review; do not run heavyweight builds on the VM or declare 108-device capacity.
+
+
 This file is the **entrypoint for coding agents**. Work on local/development infrastructure; primarily test with owner-operated physical Android devices using real GPS/network and actual dev APIs, while preserving Android disclosures, permissions and secure handling. Do not use real minors' personal data without applicable authorization or deploy to production. Use non-personal fixtures when deterministic negative/security tests require them. No separate written self-consent paperwork is needed for the owner's own devices; another adult must know and agree to testing. See `docs/roadmap/PRE_RELEASE_VERSIONING_AND_CHILD_DATA_REVIEW_POLICY_2026-11-02.md`.
 
 ## 2026-11-04 DOCUMENTATION-FIRST ISSUE #32 HOLD (READ BEFORE PR WORK)
