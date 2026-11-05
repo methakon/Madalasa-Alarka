@@ -1,5 +1,7 @@
 package org.madalasa.madalasa.ui.navigation
 
+import android.content.pm.ApplicationInfo
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import org.madalasa.madalasa.ui.figma.P01Screen
 import org.madalasa.madalasa.ui.figma.P03Screen
 import org.madalasa.madalasa.ui.figma.P04Screen
+import org.madalasa.madalasa.ui.figma.P18Screen
 import org.madalasa.madalasa.ui.screens.AuthenticationScreen
 import org.madalasa.madalasa.ui.screens.ChildSelectionScreen
 import org.madalasa.madalasa.ui.screens.OnboardingScreen
@@ -38,6 +41,22 @@ fun MadalasaNavHost(
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner, viewModel) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            when (event) {
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> viewModel.loadData()
+                androidx.lifecycle.Lifecycle.Event.ON_STOP -> viewModel.clearVisibleData()
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+    val syntheticPreviewEnabled =
+        context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 &&
+            googleConfiguration.normalizedOrigin() == null
 
     NavHost(
         navController = navController,
@@ -60,12 +79,14 @@ fun MadalasaNavHost(
 
         composable(Screen.Authentication.route) {
             AuthenticationScreen(
-                onAuthenticated = {
+                onAuthenticated = if (!syntheticPreviewEnabled) null else ({
+                    // Synthetic preview is never reachable from configured
+                    // OIDC/backend environments or a non-debuggable release.
                     viewModel.loadData()
                     navController.navigate(Screen.ChildSelection.route) {
                         popUpTo(Screen.Onboarding.route) { inclusive = true }
                     }
-                },
+                }),
                 onBackToWelcome = {
                     navController.popBackStack()
                 },
@@ -86,7 +107,16 @@ fun MadalasaNavHost(
             P04Screen(
                 configuration = googleConfiguration,
                 onNewAttempt = { parentSessionMemory.clear() },
-                onVerifiedSession = { parentSessionMemory.accept(it) },
+                onVerifiedSession = { verified ->
+                    val accepted = parentSessionMemory.accept(verified)
+                    if (accepted) {
+                        viewModel.loadData()
+                        navController.navigate(Screen.ChildSelection.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    }
+                    accepted
+                },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -94,14 +124,30 @@ fun MadalasaNavHost(
         composable(Screen.ChildSelection.route) {
             ChildSelectionScreen(
                 uiState = uiState,
+                syntheticPreview = syntheticPreviewEnabled,
                 onChildSelected = { childId ->
-                    viewModel.selectChild(childId)
-                    navController.navigate(Screen.Shell.route)
+                    viewModel.chooseChild(childId)
                 },
-                onPairNewChild = {
-                    val currentId = uiState.selectedChildId ?: uiState.children.firstOrNull()?.id ?: ""
-                    if (currentId.isNotEmpty()) {
-                        viewModel.generatePairingCode(currentId) {}
+                onOpenLocation = {
+                    navController.navigate(Screen.Shell.route)
+                    viewModel.loadData()
+                },
+                onRegisterChild = { familyLabel,childAlias,onResult ->
+                    viewModel.registerChild(familyLabel,childAlias,onResult)
+                },
+                onRefreshServiceStatus = { viewModel.loadData() },
+                onExplorePremiumPlans = { navController.navigate("premium-preview") },
+                onViewPairedDevice = { onResult ->
+                    val currentId = uiState.selectedChildId
+                    if (currentId == null) onResult("No admitted child profile available")
+                    else viewModel.checkPairedDevice(currentId, onResult)
+                },
+                onPairNewChild = { onCode, onError ->
+                    val currentId = uiState.selectedChildId
+                    if (currentId != null) {
+                        viewModel.generatePairingCode(currentId, onCode, onError)
+                    } else {
+                        onError("No admitted child profile is available for pairing")
                     }
                 }
             )
@@ -110,14 +156,22 @@ fun MadalasaNavHost(
         composable(Screen.Shell.route) {
             ShellScreen(
                 uiState = uiState,
+                syntheticPreview = !googleConfiguration.isConfigured(),
+                onRefresh = { viewModel.loadData() },
                 onNavigateToChildSelection = {
                     navController.navigate(Screen.ChildSelection.route)
                 },
                 onNavigateToPrivacy = {
                     navController.navigate(ParentPrivacyPage.OVERVIEW.route)
-                }
+                },
+                onExplorePremiumPlans = { navController.navigate("premium-preview") }
             )
         }
+        // Preview-only premium catalog: reachable without child admission and never bills.
+        composable("premium-preview") {
+            P18Screen()
+        }
+
         // Four new parent privacy destinations, grouped under Settings.
         // No route grants access or fetches child data without server proof.
         ParentPrivacyPage.entries.forEach { page ->
@@ -171,6 +225,28 @@ fun MadalasaNavHost(
                                     apiStatus = e.message ?: "Privacy API unavailable"
                                 }
                             )
+                        }
+                        ParentPrivacyPage.REQUESTS -> {
+                            apiStatus = "Loading authenticated privacy request status"
+                            val erasures = privacyGateway.erasureRequests(selectedChildId)
+                            val exports = privacyGateway.exportRequests(selectedChildId)
+                            if (erasures.isSuccess && exports.isSuccess) {
+                                val jobs = erasures.getOrThrow() + exports.getOrThrow()
+                                rows = if (jobs.isEmpty()) listOf(
+                                    ParentPrivacyRow("No privacy requests",
+                                        "No verified deletion or export request was returned for this child.")
+                                ) else jobs.map { job ->
+                                    ParentPrivacyRow(
+                                        "${job.kind} · ${job.state}",
+                                        "Request ${job.requestId.take(8)}… · ${job.requestedAt.ifBlank { "Time unavailable" }}"
+                                    )
+                                }
+                                apiStatus = "SERVER VERIFIED · request status only; deletion not assumed complete"
+                            } else {
+                                rows = null
+                                apiStatus = erasures.exceptionOrNull()?.message
+                                    ?: exports.exceptionOrNull()?.message ?: "Privacy service unavailable"
+                            }
                         }
                         else -> apiStatus = "Backend entitlement/requests API not yet connected"
                     }

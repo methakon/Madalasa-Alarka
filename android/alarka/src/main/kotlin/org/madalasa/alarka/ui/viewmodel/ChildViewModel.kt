@@ -7,20 +7,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.madalasa.alarka.di.ChildAppContainer
+import org.madalasa.alarka.service.ChildPairingPolicy
 import org.madalasa.alarka.service.CapabilitySyncReconciler
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.alarka.service.EnrollmentResult
+import org.madalasa.alarka.service.SyntheticAlarkaEnrollmentService
 
 data class ChildUiState(
     val disclosureAcknowledged: Boolean = false,
     val pairingCode: String = "",
-    val suggestedCode: String = "482-901",
+    val suggestedCode: String = "",
     val isEnrolling: Boolean = false,
     val enrollmentResult: EnrollmentResult? = null,
     val capabilityReport: DeviceCapabilityReport? = null,
     val lastRevokedPermissions: List<String> = emptyList(),
     val uploadsHalted: Boolean = false,
-    val connectivityStatus: String = "Standby (Synthetic)",
+    val connectivityStatus: String = "Not paired · No monitoring",
     val errorMessage: String? = null
 )
 
@@ -39,7 +41,7 @@ class ChildViewModel(
         val report = container.capabilityScanner.getCapabilityReport()
         _uiState.value = _uiState.value.copy(
             capabilityReport = report,
-            suggestedCode = "482-901"
+            suggestedCode = if (container.enrollmentService is SyntheticAlarkaEnrollmentService) "482-901" else ""
         )
     }
 
@@ -59,6 +61,9 @@ class ChildViewModel(
         )
     }
 
+    /** Local evidence only; server must still approve this device and child. */
+    fun hasVerifiedParentPairing(): Boolean = container.hasVerifiedParentPairing()
+
     fun acknowledgeDisclosure() {
         _uiState.value = _uiState.value.copy(disclosureAcknowledged = true)
     }
@@ -71,16 +76,39 @@ class ChildViewModel(
     }
 
     fun submitPairing() {
-        val code = _uiState.value.pairingCode.ifBlank { _uiState.value.suggestedCode }
+        if (_uiState.value.isEnrolling) return
+        val validated = ChildPairingPolicy.validate(
+            _uiState.value.disclosureAcknowledged, _uiState.value.pairingCode,
+            syntheticPreview = container.enrollmentService is SyntheticAlarkaEnrollmentService
+        )
+        if (validated.isFailure) {
+            _uiState.value = _uiState.value.copy(
+                isEnrolling = false,
+                errorMessage = validated.exceptionOrNull()?.message ?: "Pairing not permitted"
+            )
+            return
+        }
+        val code = validated.getOrThrow()
         _uiState.value = _uiState.value.copy(isEnrolling = true, errorMessage = null)
         viewModelScope.launch {
             val result = container.enrollmentService.completeEnrollment(code)
             result.onSuccess { enrollment ->
-                _uiState.value = _uiState.value.copy(
-                    isEnrolling = false,
-                    enrollmentResult = enrollment,
-                    connectivityStatus = "Connected to Guardian (Synthetic)"
-                )
+                if (enrollment.success) {
+                    _uiState.value = _uiState.value.copy(
+                        isEnrolling = false,
+                        enrollmentResult = enrollment,
+                        connectivityStatus = if (container.enrollmentService is SyntheticAlarkaEnrollmentService)
+                            "Synthetic pairing preview · no live guardian connection"
+                        else "Device paired · Monitoring not yet authorized"
+                    )
+                } else {
+                    _uiState.value = _uiState.value.copy(
+                        isEnrolling = false,
+                        enrollmentResult = null,
+                        connectivityStatus = "Not enrolled",
+                        errorMessage = enrollment.errorMessage ?: "Device enrollment not accepted"
+                    )
+                }
             }.onFailure { error ->
                 _uiState.value = _uiState.value.copy(
                     isEnrolling = false,
@@ -92,13 +120,22 @@ class ChildViewModel(
 
     fun resetPairing() {
         viewModelScope.launch {
-            container.enrollmentService.unpairDevice()
-            _uiState.value = _uiState.value.copy(
-                enrollmentResult = null,
-                pairingCode = "",
-                connectivityStatus = "Standby (Synthetic)",
-                errorMessage = null
-            )
+            val outcome = container.enrollmentService.unpairDevice()
+            if (outcome.getOrNull() == true) {
+                _uiState.value = _uiState.value.copy(
+                    enrollmentResult = null,
+                    pairingCode = "",
+                    disclosureAcknowledged = false,
+                    connectivityStatus = "Disconnected locally · Guardian must revoke device in Madalasa",
+                    errorMessage = null
+                )
+            } else {
+                // Server/device refusal is not a confirmed unpair operation.
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = outcome.exceptionOrNull()?.message
+                        ?: "Device unpairing not verified"
+                )
+            }
         }
     }
 }
