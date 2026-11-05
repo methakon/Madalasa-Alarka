@@ -8,6 +8,18 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-05 owner Free V1 priorities, USB-device availability and feature exclusion
+
+**Owner decision recorded — scope DECIDED, acceptance not implied.** The two required Android phones are already attached to the Hermes execution workstation in USB-debugging mode; worker is to discover and test them via `adb devices -l`, not request another pair. Presence is not an authorization state, physical test result or all-Android-versions coverage. Do not disclose serial numbers in documentation. Tests require no real minors.
+
+**Priority P0:** FINISH the existing Madalasa premium price-preview UX: ₹99/month / ₹999/year per paid child, *Pay now → Coming Soon*, no charge, no purchase/trial/coupon/billing SDK/provider activation, and cannot bypass admission slots. Test on attached hardware with full accessibility and negative backend assertions. **No payment processing authorized in Free V1.**
+
+**Priority P1:** finish MANUAL, visibly user-initiated SOS with server acceptance/notification/human-acknowledgement distinctions and real end-to-end phone testing. A backend receipt must not be mislabeled as a guardian acknowledgment. All safety/permission/revocation and offline handling remain required.
+
+**Free V1 OUT OF SCOPE:** remote camera, microphone, video, screen viewing/capture, and automatic sensor-assisted incident/fall SOS. Retain only future design/R&D, with corresponding runtime capture permissions and service pathways default OFF; no stealth mode. This removes media as a *Free V1 feature delivery* dependency, **not** as a future legal/OS policy requirement.
+
+**Other Free V1 product direction approved in principle**; the owner's message did **not specify numeric B-07 storage/backup retention, exact B-09/B-18 guardian grant/invitation/session TTLs, or inviter/revoker policy**, and cannot count as an external Google Play/DPDP clearance. Keep those exact-value items OPEN until a documented concrete selection; default-deny/no real-child collection where required. Existing Google Play publisher identity completed; BillDesk remains unrelated to Coming Soon-only mode. Source of truth: [implementation handoff](../../../roadmap/FREE_FIRST_IMPLEMENTATION_AND_REAL_DEVICE_HANDOFF_2026-11-04.md) and [premium preview](../../../roadmap/FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md).
+
 ## 2026-11-05 infrastructure ruling — x402 database co-location rejected
 
 **Owner accepted the live read-only VM preflight NO-GO.** x402 `161.33.146.238` (954 MiB RAM, 57 MiB swap at idle, running OpenSMTPD/Dovecot/Nginx plus OS/security agents) is **not approved** to host PostgreSQL 16/PostGIS together with mail and Free V1 API/admin. No database was installed, no cloud resource provisioned and no existing service modified. The older optional localhost PostgreSQL setup and its 32 MiB shared_buffers tuning are now **non-executable for this VM** until explicit future reconsideration after resize.
