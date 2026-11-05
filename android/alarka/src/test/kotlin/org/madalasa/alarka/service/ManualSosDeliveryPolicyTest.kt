@@ -45,7 +45,11 @@ class ManualSosDeliveryPolicyTest {
         assertEquals(queued, apply(queued, ManualSosEvidence.NOTIFICATION_DELIVERED, true))
         assertEquals(queued, apply(queued, ManualSosEvidence.GUARDIAN_ACKNOWLEDGED, true))
         val accepted = apply(queued, ManualSosEvidence.SERVER_ACCEPTED, true)
-        assertEquals(accepted, apply(accepted, ManualSosEvidence.GUARDIAN_ACKNOWLEDGED, true))
+        // Guardian can explicitly acknowledge through in-app polling before
+        // notification-provider delivery confirmation arrives.
+        val earlyAck = apply(accepted, ManualSosEvidence.GUARDIAN_ACKNOWLEDGED, true)
+        assertTrue(earlyAck.guardianHasAcknowledged)
+        assertEquals(earlyAck, apply(earlyAck, ManualSosEvidence.NOTIFICATION_DELIVERED, true))
         assertEquals(accepted, apply(accepted, ManualSosEvidence.NOTIFICATION_DELIVERED))
     }
 
