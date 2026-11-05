@@ -1,6 +1,20 @@
 # X402 Free-First API + Admin deployment — implementation runbook
 **Record:** X402-DEPLOY-001 · **Date:** 2026-11-05 · **Stage:** deployment candidate / controlled adult-device lab, **NOT public child-monitoring approval**.
 
+## 2026-11-05 LIVE SSH PREFLIGHT — POSTGRESQL CO-LOCATION NO-GO (owner accepted)
+
+**Decision: do not install PostgreSQL/PostGIS on x402-endpoint.** A worker performed read-only SSH inspection and reported 954 MiB RAM, ~540 MiB available, 57 MiB swap already used at idle, 40 GB free disk, healthy mail services (OpenSMTPD ~61 MiB, Dovecot ~16 MiB, Nginx ~11 MiB). Oracle Cloud Agent ~86 MiB, journald ~53 MiB, fail2ban ~48 MiB, fwupd ~43 MiB and snapd ~25 MiB were observed. No PostgreSQL server installed and no 5432/443/8080 listener. Minimal PostgreSQL 16 + PostGIS estimated ~85–105 MiB additional idle memory **without peak-query/autovacuum/mail-spike headroom**. Measurements and risk estimate were supplied by the worker; independent operator rerun and evidence preservation remain required.
+
+**Approved disposition: NO-GO / INSUFFICIENT_RESOURCES.** Do not override this decision by tuning shared_buffers, setting two connections, increasing swap, disabling mail, disabling security/Oracle agents or accepting bounded-lab risk. Previous optional `deploy/x402/api/postgresql-lowmem.conf.example` is **obsolete for this host; reference only, NEVER apply to x402**. Existing installation instructions for local PostgreSQL are superseded by this explicit refusal. Do not bind, install, start or migrate a database here. Existing Nginx, SMTP, IMAP, firewall and mail configuration are outside this project's change scope.
+
+**Revised topology:** x402 remains a candidate API + static admin edge on loopback Drogon `127.0.0.1:8080` (API memory itself must still be measured); PostgreSQL 16/PostGIS must run on a **separate approved VM or managed database**, or x402 must be resized to **at least 2 GiB (preferably 4 GiB)** and re-benchmarked before reopening the co-location decision. No provider has been selected or provisioned. All eight reviewed GCP billing accounts were reported closed; GCP Always Free Compute Engine therefore remains blocked until an open billing account is authorized. Never silently provision on GCP or OCI without cost/placement approval.
+
+**Off-host DB security implementation blocker:** current Drogon DB connector settings do **not** evidence verified TLS transport to remote PostgreSQL. Before configuring remote `MA_PG_HOST`, implement and test encrypted authenticated DB transport with server certificate validation (or a reviewed authenticated private tunnel), a default-deny DB firewall bound only to the API host, least-privilege runtime and issuer roles, backups and isolated restore. No public port 5432. Recheck systemd sandbox's network families and service start, then measure API RSS/swap/mail continuity separately from DB testing.
+
+**Evidence source (worker-local, not attached here):** `/home/swarna-sekhar-dhar/projects/mypola/gcp-postgres-free-01/X402_POSTGRES_COLOCATION_PREFLIGHT.md`. Worker should add a redacted, non-secret and repeatable evidence summary through normal documentation governance. Do not claim this private path is a committed repository artifact.
+
+**No public deployment or real-minor collection is authorized by this decision.**
+
 ## 2026-11-05 owner hostname selection
 
 **Owner supplied:** `madalasa.berhampore.in`. This is the **admin-panel hostname** `https://madalasa.berhampore.in`, and the separate **proposed** API hostname is `https://api.madalasa.berhampore.in`. Both should resolve to the VM public IPv4 `161.33.146.238` only after DNS changes are confirmed. An existing DNS record or Nginx virtual host may already own the first hostname: **inspect and preserve current content before changing it**. No DNS, TLS certificate, or VM state was changed by recording this decision.
