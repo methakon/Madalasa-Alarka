@@ -12,9 +12,40 @@ from pathlib import Path
 from uuid import UUID, uuid5
 
 import psycopg
+from psycopg.conninfo import conninfo_to_dict
+import load as load_guard
 
 ROOT = Path(__file__).resolve().parents[3]
 NAMESPACE = UUID('6f1d7d64-1f2c-5a4a-8a49-3d0c9a6f0e51')
+
+
+def guarded_target(path, allow_disposable):
+    """Validate every privileged destination before opening any connection."""
+    if not allow_disposable:
+        raise ValueError('Explicit --allow-disposable-db required')
+    if any(key.startswith('PG') for key in os.environ):
+        raise ValueError('Ambient libpq configuration refused')
+    cfg = load_guard.read_private(path)['test']
+    targets = {}
+    for kind, user in (('admin', 'postgres'), ('runtime', 'madalasa_dev'),
+                       ('migration', 'madalasa_migrator')):
+        target = conninfo_to_dict(cfg[kind])
+        # Apply the same strict loopback/test-database/key allowlist to the
+        # privileged login; only its explicitly required role differs.
+        if target.get('user') != user or not target.get('password'):
+            raise ValueError('Explicit synthetic role and password required')
+        load_guard.validate_target(dict(target, user='madalasa_dev'))
+        targets[kind] = target
+    endpoint = lambda target: tuple(target[k] for k in ('host', 'port', 'dbname'))
+    if any(endpoint(target) != endpoint(targets['admin']) for target in targets.values()):
+        raise ValueError('All fixture roles must use the same guarded target')
+    load_guard.inspect_container(cfg['container'], targets['admin']['port'])
+    return cfg
+
+
+def require_synthetic_opt_in(con):
+    if con.execute('SELECT enabled FROM ap_m1.local_test_settings WHERE singleton=true').fetchone() != (True,):
+        raise ValueError('Synthetic authority must already be explicitly enabled; fixture will not enable it')
 
 
 def main() -> int:
@@ -22,21 +53,21 @@ def main() -> int:
     ap.add_argument('--devices', type=int, default=108)
     ap.add_argument('--output', type=Path, required=True)
     ap.add_argument('--connection', type=Path, default=ROOT / '.local-db/connection.json')
+    ap.add_argument('--allow-disposable-db', action='store_true')
     args = ap.parse_args()
     if not 1 <= args.devices <= 108:
         raise SystemExit('refusing more than 108 synthetic devices')
     if args.output.exists():
         raise SystemExit('refusing to overwrite an existing fixture file')
-    cfg = json.loads(args.connection.read_text())['test']
+    cfg = guarded_target(args.connection, args.allow_disposable_db)
     runtime_dsn, proof_dsn = cfg['runtime'], cfg['migration']
 
     family = uuid5(NAMESPACE, 'family')
     guardian = uuid5(NAMESPACE, 'guardian')
     devices = []
-    with psycopg.connect(cfg['admin']) as con:
-        # Explicit synthetic opt-in required by the LOCAL_TEST_APPROVED path.
-        con.execute('INSERT INTO ap_m1.local_test_settings(singleton,enabled) VALUES(true,true) '
-                    'ON CONFLICT(singleton) DO UPDATE SET enabled=true')
+    with psycopg.connect(cfg['admin'], connect_timeout=5, passfile='/dev/null',
+                         options='-c statement_timeout=5000 -c lock_timeout=1000') as con:
+        require_synthetic_opt_in(con)
         con.execute("INSERT INTO ap_m1.parent_principals(id,oidc_issuer,oidc_subject) "
                     "VALUES(%s,'https://synthetic.invalid',%s) ON CONFLICT DO NOTHING",
                     (guardian, 'ff07-' + str(family)))

@@ -10,8 +10,9 @@ There are no SQLite substitutes or populated example measurements.
 From the repository root:
 
 ```sh
-.venv/bin/python .local-db/issue32-queued-load/load.py
-.venv/bin/python .local-db/issue32-queued-load/load.py check-source
+.venv/bin/python backend/tests/load/load.py
+.venv/bin/python backend/tests/load/load.py check-source
+.venv/bin/python -m unittest discover -s backend/tests/load
 ```
 
 Default invocation runs stdlib unittest only; importing `load.py` does not import
@@ -21,7 +22,23 @@ only reads published manifest/source checksums. Missing/unpublished/drifting
 also pass the repository's current full manifest/history validator with the chain
 APPLIED; merely adding SQL files is insufficient.
 
-## Parent-owned fixture preparation (not implemented here)
+## Parent-owned fixture preparation
+
+`backend/tests/load/make_fixture.py` creates append-only synthetic fixtures only
+with `--allow-disposable-db`. Before connecting, it validates owner-only input,
+explicit loopback/test database/role identities, matching endpoints and a running
+checkout-owned container; ambient PG* configuration is refused. Synthetic authority
+must already be explicitly enabled by the coordinator: this tool never enables it.
+
+```sh
+.venv/bin/python backend/tests/load/make_fixture.py --allow-disposable-db \
+  --connection .local-db/connection.json --devices 108 \
+  --output .local-db/issue32-queued-load/fixture.private.json
+```
+
+Run capacity fixtures on their dedicated synthetic target, not before unrelated
+functional suites: filling the global admission cap intentionally waitlists later
+fixtures. Do not interpret that contamination as an authorization regression.
 
 Do **not** run init, fresh, reset, restore, seed_core, DROP, TRUNCATE, migrations,
 erasure cleanup or fixture deletion to use this harness. Parent owns additive
@@ -75,7 +92,7 @@ Only after parent validates the published 0025..0027 chain, prepares the private
 fixture non-destructively, and explicitly authorizes append-only synthetic load:
 
 ```sh
-.venv/bin/python .local-db/issue32-queued-load/load.py run \
+.venv/bin/python backend/tests/load/load.py run \
   --fixture .local-db/issue32-queued-load/fixture.private.json \
   --container madalasa-pr11-test-postgres \
   --confirm SYNTHETIC_APPEND_ONLY \
