@@ -147,9 +147,9 @@ fun AccountInfoScreen(
                             "NOTIFICATION_DELIVERED",
                             "Simulated delivery only. No guardian phone contacted."
                         )
-                        ManualSosStage.GUARDIAN_SIMULATED ACK -> Triple(
+                        ManualSosStage.GUARDIAN_ACKNOWLEDGED -> Triple(
                             Color(0xFF2E7D32),
-                            "GUARDIAN_SIMULATED ACK",
+                            "GUARDIAN_ACKNOWLEDGED (DEMO)",
                             "Simulated acknowledgment only. No guardian confirmed anything."
                         )
                         ManualSosStage.DELIVERY_FAILED -> Triple(
@@ -181,7 +181,7 @@ fun AccountInfoScreen(
                                     color = stageColor
                                 )
                                 Text(
-                                    text = if (sosState.guardianHasAcknowledged) "SIMULATED ACK" else "UNSIMULATED ACK",
+                                    text = if (sosState.guardianHasAcknowledged) "SIMULATED ACK" else "NO REAL ACK",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = if (sosState.guardianHasAcknowledged) Color(0xFF2E7D32) else Color.Gray
