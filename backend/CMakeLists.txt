@@ -52,6 +52,10 @@ add_test(NAME m1_route_registration
 add_test(NAME swagger_ui_local_security
          COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_swagger_dev.py)
 
+add_executable(test_pg_tls_policy tests/cpp/test_pg_tls_policy.cc)
+target_include_directories(test_pg_tls_policy PRIVATE src)
+add_test(NAME pg_tls_policy COMMAND test_pg_tls_policy)
+
 add_executable(test_core tests/cpp/test_core.cc)
 target_link_libraries(test_core PRIVATE ma_core)
 add_test(NAME core COMMAND test_core)
