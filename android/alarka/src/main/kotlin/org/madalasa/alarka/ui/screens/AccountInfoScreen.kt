@@ -41,6 +41,7 @@ import org.madalasa.uicommon.ThemeCColors
 fun AccountInfoScreen(
     enrollmentResult: EnrollmentResult?,
     sosState: ManualSosState? = null,
+    sosDemoEnabled: Boolean = false,
     isOfflineMode: Boolean = false,
     onTriggerSos: () -> Unit = {},
     onRetrySos: () -> Unit = {},
@@ -68,7 +69,7 @@ fun AccountInfoScreen(
         )
 
         // This is a local-only animation, NOT an emergency alert. Hide from release.
-        if (isDebugPreview) Card(
+        if (isDebugPreview && sosDemoEnabled) Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
                 containerColor = ThemeCColors.Surface
