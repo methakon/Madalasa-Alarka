@@ -2,6 +2,16 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-05 P0 USB hardware acceptance — Hermes report, review pending integration
+
+**Owner-device validation reported PASS on two physical phones:** Panasonic ELUGA I7 EE (Android 9/API 28, arm64, 720×1440, ~2 GiB) and Xiaomi Mi A3 (Android 11/API 30, arm64, 720×1560, ~6 GiB). New `parent` PR [#43](https://github.com/methakon/Madalasa-Alarka/pull/43) lowers `madalasa` and `ui-common` minimum SDK from API 29 to API 28, a **functional platform-support expansion** requiring Android 9 platform/security review, not merely a test workaround. It must preserve Android 10–16 compatibility and all platform-dependent permission guards.
+
+**Hermes-reported P0 checks:** actual tap path via Settings and WAITLISTED child selection, monthly/yearly ₹99/₹999 catalog preview, Pay now → Coming Soon dialog, both dismissal buttons, 320dp layout, 200% font; 88/88 parent JVM unit tests passing; debug APK SHA-256 `7ad0d8f16db09714a624b3c184c110906605a603621f10fed9f9e7ad899ab5ac`. GitHub PR head `f54c229575e6262f46c1772fed2a40070b3defe0`; GitHub checks were passing at the recorded inspection. Raw redacted screenshots are reported at worker-local `evidence/physical_devices/`; not independently downloaded or visually audited here. **TalkBack semantics, broader Android device matrix and actual on-device network traces still require evidence**; static absence of BillingClient is not a complete proof of all backend billing negatives.
+
+**Backend PR #41:** revised `api` head `593a1af984e41bde703c1ef44babf87a6d15a916` passes exact-head CI. Hermes reports CTest 26/26, PostgreSQL 368 passing/10 skipped, Neon TLS `verify-full` and negative TLS modes. However `api` currently diverges from `dev`: reconcile without discarding either side before merge; previous checks do not cover a new merge commit.
+
+**Next P1:** manual SOS only, after P0 integration; no remote media capture or automatic fall/sensor SOS in Free V1. Test actual alert delivery and separate human acknowledgment, offline queue, expired/revoked pairing on owner phones. Android 9 parent testing does not imply Android 9 child-app support.
+
 ## 2026-11-05 OWNER RELEASE SCOPE AND AVAILABLE HARDWARE — SUPERCEDES OLDER TASK PRIORITIES
 
 **Device availability:** the owner states the required two Android phones are **already connected to the Hermes workstation using USB debugging**. Do not ask the owner to source phones again. Worker independently runs `adb devices -l`, resolves any unauthorized/offline state without claiming it passed, records OS versions and hardware capabilities, targets every installation by exact device serial and sanitizes evidence. The assistant has not accessed these USB devices.
