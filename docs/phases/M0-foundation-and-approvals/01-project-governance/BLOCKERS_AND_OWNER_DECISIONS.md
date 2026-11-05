@@ -8,6 +8,34 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-05 owner Free V1 priorities, USB-device availability and feature exclusion
+
+**Owner decision recorded — scope DECIDED, acceptance not implied.** The two required Android phones are already attached to the Hermes execution workstation in USB-debugging mode; worker is to discover and test them via `adb devices -l`, not request another pair. Presence is not an authorization state, physical test result or all-Android-versions coverage. Do not disclose serial numbers in documentation. Tests require no real minors.
+
+**Priority P0:** FINISH the existing Madalasa premium price-preview UX: ₹99/month / ₹999/year per paid child, *Pay now → Coming Soon*, no charge, no purchase/trial/coupon/billing SDK/provider activation, and cannot bypass admission slots. Test on attached hardware with full accessibility and negative backend assertions. **No payment processing authorized in Free V1.**
+
+**Priority P1:** finish MANUAL, visibly user-initiated SOS with server acceptance/notification/human-acknowledgement distinctions and real end-to-end phone testing. A backend receipt must not be mislabeled as a guardian acknowledgment. All safety/permission/revocation and offline handling remain required.
+
+**Free V1 OUT OF SCOPE:** remote camera, microphone, video, screen viewing/capture, and automatic sensor-assisted incident/fall SOS. Retain only future design/R&D, with corresponding runtime capture permissions and service pathways default OFF; no stealth mode. This removes media as a *Free V1 feature delivery* dependency, **not** as a future legal/OS policy requirement.
+
+**Other Free V1 product direction approved in principle**; the owner's message did **not specify numeric B-07 storage/backup retention, exact B-09/B-18 guardian grant/invitation/session TTLs, or inviter/revoker policy**, and cannot count as an external Google Play/DPDP clearance. Keep those exact-value items OPEN until a documented concrete selection; default-deny/no real-child collection where required. Existing Google Play publisher identity completed; BillDesk remains unrelated to Coming Soon-only mode. Source of truth: [implementation handoff](../../../roadmap/FREE_FIRST_IMPLEMENTATION_AND_REAL_DEVICE_HANDOFF_2026-11-04.md) and [premium preview](../../../roadmap/FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md).
+
+## 2026-11-05 infrastructure ruling — x402 database co-location rejected
+
+**Owner accepted the live read-only VM preflight NO-GO.** x402 `161.33.146.238` (954 MiB RAM, 57 MiB swap at idle, running OpenSMTPD/Dovecot/Nginx plus OS/security agents) is **not approved** to host PostgreSQL 16/PostGIS together with mail and Free V1 API/admin. No database was installed, no cloud resource provisioned and no existing service modified. The older optional localhost PostgreSQL setup and its 32 MiB shared_buffers tuning are now **non-executable for this VM** until explicit future reconsideration after resize.
+
+**New infrastructure blocker X402-DB-01 (OPEN / resource decision):** choose and approve a separate PostgreSQL host, or resize x402 to ≥2 GiB (4 GiB preferred) followed by an independent feasibility check. GCP Always Free VM cannot proceed with the observed eight closed billing accounts; no billing activation was authorized. Any off-host DB requires authenticated TLS/private network, 5432 restricted to API host, separate least-privileged roles, backup and isolated restore evidence. Protect mail continuity and do not pretend two DB connections certify capacity. See [x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md#2026-11-05-live-ssh-preflight--postgresql-co-location-no-go-owner-accepted).
+
+**Permitted to continue independently:** compile and review Drogon/API and static admin assets, configure genuine TLS hostnames and Nginx after existing-vhost inspection, harden local process/readiness and prepare DB TLS implementation without provisioning. **Do not enable child-device external ingestion** before security/retention/Play/legal and real-device gates clear.
+
+## 2026-11-05 x402-endpoint Free V1 deployment decision (infrastructure only)
+
+**Owner selected an interim small Ubuntu x86_64 VM** for Free V1 Drogon API and React admin deployment: 2 vCPU, 954 MiB RAM, 1 GiB swap, 45 GB root, with pre-existing nginx/dovecot/opensmtpd. This **supersedes the historical Oracle Chicago A1 architecture solely as the immediate staging target**, not the long-term scaling model. The memory budget is constrained; no 108-child HTTP capacity, database co-location safety, public TLS, service availability or deploy success is certified by host specifications. Preserve all current mail services/ports.
+
+**Implementation source prepared, NOT DEPLOYED:** on `api`, loopback systemd service, startup FREE_ONLY/identity/database validation, `GET /readyz` database/schema gate, resource preflight and HTTP smoke; on `admin-web`, separate HTTPS Nginx API/admin vhost templates, static production build, atomic deploy/rollback and tests. [Canonical x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md) and [Issue #39](https://github.com/methakon/Madalasa-Alarka/issues/39). Workstream implementation must flow through reviewed `dev → main`; runtime status remains `NOT RUN` for actual VM until an authorized operator executes deployment and submits evidence.
+
+**Gates unchanged:** G01/G04 Google Play, Indian child-data feature legality, B-07 per-category retention and backup/deletion, actual Android 10–16 permission/physical tests, guardian authority/TTL and SOS/media restrictions. Two HTTPS domains, DB topology/SSL and authorized SSH operator action are outstanding. Public child GPS/usage/media collection and payment processing remain OFF, while approved adult-device private lab testing may proceed under the documented controls.
+
 ## 2026-11-04 Issue #32 engineering checkpoint and owner decisions still needed
 
 **Owner directive:** update the discussed canonical documents first; no new feature-branch creation, PR merge or production activation is implied by this documentation step. See [branch/PR scope hold](../../M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md#2026-11-04--issue-32-pr-34-scope-drift-hold-documentation-first-directive).
