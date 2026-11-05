@@ -41,7 +41,7 @@ def guarded_target(path, allow_disposable):
             raise ValueError('Explicit synthetic role and password required')
         load_guard.validate_target(dict(target, user='madalasa_dev'))
         targets[kind] = target
-        cfg[kind] = make_conninfo(**target)
+        cfg[kind] = make_conninfo(**{key: str(value) for key, value in target.items()})
     endpoint = lambda target: tuple(target[k] for k in ('host', 'port', 'dbname'))
     if any(endpoint(target) != endpoint(targets['admin']) for target in targets.values()):
         raise ValueError('All fixture roles must use the same guarded target')
