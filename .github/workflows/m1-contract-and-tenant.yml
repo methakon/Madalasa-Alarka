@@ -288,3 +288,5 @@ jobs:
         run: |
           python3 backend/tests/integration_freev1_pairing_enrollment.py build-pairing/ma_backend \
             --allow-disposable-db --evidence "$RUNNER_TEMP/pairing-http-evidence.json"
+      - name: Synthetic load and privileged fixture refusal regressions
+        run: python3 -m unittest discover -s backend/tests/load -v
