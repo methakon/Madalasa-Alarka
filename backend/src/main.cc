@@ -8,6 +8,7 @@
 
 #include "auth.h"
 #include "db_support.h"
+#include "pg_tls_policy.h"
 #include "device_activity.h"
 #include "device_credentials.h"
 #include "enrollment.h"
@@ -301,14 +302,14 @@ int main() {
     cfg.username = env("MA_PG_USER", "ap_m1_api");
     cfg.password = env("MA_PG_PASSWORD", "");
 
-    const bool is_loopback = (cfg.host == "127.0.0.1" || cfg.host == "localhost" || cfg.host == "::1");
+    const bool is_loopback = ma::pg_host_is_loopback(cfg.host);
     if (!is_loopback) {
       // Remote PostgreSQL (such as managed Neon) requires certificate/hostname-validated TLS.
       const char* sslmode = std::getenv("PGSSLMODE");
       // Only verify-full validates both certificate chain and the configured
       // DB hostname. "require" encrypts without hostname verification; verify-ca
       // validates the CA but not the hostname. Fail closed on unknown values too.
-      if (sslmode && *sslmode && std::string(sslmode) != "verify-full") {
+      if (sslmode && !ma::remote_pg_sslmode_allowed(sslmode)) {
         std::cerr << "Remote PostgreSQL requires PGSSLMODE=verify-full" << std::endl;
         return 78;
       }
