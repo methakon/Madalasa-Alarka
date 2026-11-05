@@ -256,8 +256,10 @@ inline drogon::Task<drogon::HttpResponsePtr> complete_enrollment_proof(
       }
 
       device_id = res.at(0)["device_id"].as<std::string>();
-      stored_nonce_hash_raw = pg_bytea_to_bytes(res.at(0)["nonce_sha256"].as<std::string>());
-      spki_raw = pg_bytea_to_bytes(res.at(0)["spki_public_key"].as<std::string>());
+      // Drogon's bytea fields are already binary. Never infer encoding from
+      // the bytes: a legitimate raw value may itself begin with "\\x".
+      stored_nonce_hash_raw = res.at(0)["nonce_sha256"].as<std::string>();
+      spki_raw = res.at(0)["spki_public_key"].as<std::string>();
 
       if (!(co_await commit(std::move(trans1)))) {
         co_return error_response("SERVICE_UNAVAILABLE", "database commit unavailable; retry request", rid, true);

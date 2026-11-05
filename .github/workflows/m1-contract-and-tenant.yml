@@ -280,3 +280,11 @@ jobs:
         run: python3 backend/tests/integration_parent_session_v2.py build-it/ma_backend
       - name: Admin back-office session, CSRF and RBAC HTTP end-to-end
         run: python3 backend/tests/integration_admin_v2.py build-it/ma_backend
+      - name: Build production-auth variant for real pairing proof
+        run: |
+          cmake -S backend -B build-pairing -DCMAKE_PREFIX_PATH=$HOME/ma-deps -DCMAKE_BUILD_RPATH=$HOME/ma-deps/lib -DMA_SYNTHETIC_AUTH=OFF
+          cmake --build build-pairing -j2 --target ma_backend
+      - name: Pairing code, P-256 enrollment, bearer ingestion and guardian read-back
+        run: |
+          python3 backend/tests/integration_freev1_pairing_enrollment.py build-pairing/ma_backend \
+            --allow-disposable-db --evidence "$RUNNER_TEMP/pairing-http-evidence.json"
