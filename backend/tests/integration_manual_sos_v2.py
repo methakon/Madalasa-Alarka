@@ -13,6 +13,7 @@ Verifies:
 9. Zero credential/token leakage in server logs
 """
 import contextlib
+from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import os
@@ -180,7 +181,7 @@ def main():
         with server(binary, db_cfg) as (base_url, _):
             # 1. Negative device unauthenticated
             ev_id = str(uuid4())
-            t_now = "2026-11-05T15:00:00Z"
+            t_now = (datetime.now(timezone.utc) - timedelta(seconds=5)).isoformat()
             st, body, _ = http_call(base_url, 'POST', f'/v1/devices/{device_id}/signals',
                                     body={'event_id': ev_id, 'kind': 'SOS', 'observed_at': t_now})
             expect(st == 401, 'unauthenticated device signal rejected with 401')
