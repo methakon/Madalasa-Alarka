@@ -80,8 +80,13 @@ object ManualSosDeliveryPolicy {
                     current.stage == ManualSosStage.SERVER_ACCEPTED)
                     current.copy(stage = ManualSosStage.NOTIFICATION_DELIVERED) else current
             ManualSosEvidence.GUARDIAN_ACKNOWLEDGED ->
+                // A confirmed guardian action can precede push-provider delivery
+                // telemetry (e.g. the guardian saw an in-app alert). Do not
+                // require NOTIFICATION_DELIVERED as a prerequisite, but never
+                // accept a local send or an unverified claim as human ACK.
                 if (verifiedServerReceipt &&
-                    current.stage == ManualSosStage.NOTIFICATION_DELIVERED)
+                    (current.stage == ManualSosStage.SERVER_ACCEPTED ||
+                     current.stage == ManualSosStage.NOTIFICATION_DELIVERED))
                     current.copy(stage = ManualSosStage.GUARDIAN_ACKNOWLEDGED) else current
             ManualSosEvidence.AUTHORIZATION_REVOKED -> current // handled above
         }
