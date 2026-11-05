@@ -11,6 +11,7 @@
 #include "db_support.h"
 #include "http_support.h"
 #include "idempotency_key.h"
+#include "parent_session.h"
 #include "validation.h"
 
 namespace ma {
@@ -100,10 +101,10 @@ inline drogon::Task<drogon::HttpResponsePtr> redeem_enrollment(drogon::HttpReque
     co_return error_response("VALIDATION_FAILED", "invalid EC P-256 SPKI public key", rid);
   }
 
-  if (!app().hasDbClient(kDbClientName)) {
+  if (!app().hasDbClient(kAuthDbClientName)) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
-  auto db = app().getDbClient(kDbClientName);
+  auto db = app().getDbClient(kAuthDbClientName);
   if (!db) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
@@ -145,7 +146,7 @@ inline drogon::Task<drogon::HttpResponsePtr> redeem_enrollment(drogon::HttpReque
 
     auto time_res = co_await trans->execSqlCoro(
         "SELECT to_char(expires_at AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS expires_iso "
-        "FROM ap_m1.enrollment_challenges WHERE id = $1::uuid", enrollment_id);
+        "FROM ap_m1.read_enrollment_challenge_expiry($1::uuid) AS expires_at", enrollment_id);
 
     const std::string expires_iso = time_res.empty() ? "" : time_res.at(0)["expires_iso"].as<std::string>();
 
@@ -223,10 +224,10 @@ inline drogon::Task<drogon::HttpResponsePtr> complete_enrollment_proof(
     co_return error_response("UNAUTHENTICATED", "invalid signature encoding", rid);
   }
 
-  if (!app().hasDbClient(kDbClientName)) {
+  if (!app().hasDbClient(kAuthDbClientName)) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
-  auto db = app().getDbClient(kDbClientName);
+  auto db = app().getDbClient(kAuthDbClientName);
   if (!db) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
@@ -255,8 +256,10 @@ inline drogon::Task<drogon::HttpResponsePtr> complete_enrollment_proof(
       }
 
       device_id = res.at(0)["device_id"].as<std::string>();
-      stored_nonce_hash_raw = pg_bytea_to_bytes(res.at(0)["nonce_sha256"].as<std::string>());
-      spki_raw = pg_bytea_to_bytes(res.at(0)["spki_public_key"].as<std::string>());
+      // Drogon's bytea fields are already binary. Never infer encoding from
+      // the bytes: a legitimate raw value may itself begin with "\\x".
+      stored_nonce_hash_raw = res.at(0)["nonce_sha256"].as<std::string>();
+      spki_raw = res.at(0)["spki_public_key"].as<std::string>();
 
       if (!(co_await commit(std::move(trans1)))) {
         co_return error_response("SERVICE_UNAVAILABLE", "database commit unavailable; retry request", rid, true);
