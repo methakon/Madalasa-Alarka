@@ -146,7 +146,10 @@ class ChildViewModel(
         }
     }
 
+    fun isSyntheticSosPreview(): Boolean = container.enrollmentService is SyntheticAlarkaEnrollmentService
+
     fun triggerManualSos() {
+        if (!isSyntheticSosPreview()) return // No mock receipts on real HTTPS enrollment.
         val eventId = "sos-${UUID.randomUUID()}"
         var state = ManualSosState(eventId = eventId, stage = ManualSosStage.LOCAL_QUEUED)
         _uiState.value = _uiState.value.copy(sosState = state, errorMessage = null)
@@ -172,6 +175,7 @@ class ChildViewModel(
     }
 
     fun retryOfflineSos() {
+        if (!isSyntheticSosPreview()) return
         val current = _uiState.value.sosState ?: return
         viewModelScope.launch {
             var state = ManualSosDeliveryPolicy.apply(current, current.eventId, ManualSosEvidence.RETRY_ATTEMPT)
@@ -186,6 +190,7 @@ class ChildViewModel(
     }
 
     fun acknowledgeSosFromGuardian() {
+        if (!isSyntheticSosPreview()) return
         val current = _uiState.value.sosState ?: return
         viewModelScope.launch {
             val state = ManualSosDeliveryPolicy.apply(current, current.eventId, ManualSosEvidence.GUARDIAN_ACKNOWLEDGED, verifiedServerReceipt = true)
@@ -194,6 +199,7 @@ class ChildViewModel(
     }
 
     fun toggleOfflineSimulation() {
+        if (!isSyntheticSosPreview()) return
         _uiState.value = _uiState.value.copy(isOfflineMode = !_uiState.value.isOfflineMode)
     }
 
