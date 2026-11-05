@@ -223,8 +223,11 @@ def exercise(binary, evidence, sensitive, provider):
                               android_api=35)
             # Existing guarded startup clears ambient MA_* and explicitly uses
             # v2_session / FREE_ONLY, restricted runtime, no synthetic auth headers.
+            with ingestion.server(binary, runtime, evidence, sensitive) as url:
+                request('readiness_without_issuer', 'GET', '/readyz', 503, unchanged=True)
             with ingestion.server(binary, runtime, evidence, sensitive,
                                   auth=ingestion.conninfo_to_dict(fixtures._dsn('auth'))) as url:
+                request('readiness_restricted_runtime_and_issuer', 'GET', '/readyz', 200, unchanged=True)
                 request('wrong_child_pairing', 'POST', f"/v1/children/{f['child_b']}/pairing-codes",
                         404, {'requested_ttl_seconds': 300}, guardian, code='NOT_FOUND',
                         key=str(uuid4()), unchanged=True)
