@@ -5,6 +5,13 @@
 
 **Created:** 2026-10-28. **Status:** PLANNING ONLY. **NO deployment, upload, signup or Google Play action has been performed.** This document is deliberately SEPARATE from [the 262-task LOCAL DEVELOPMENT ROADMAP](LOCAL_AGENT_DEVELOPMENT_ROADMAP_2026-10-28.md). Local coding agents are prohibited from independently completing release/financial/identity/legal steps.
 
+## 2026-11-05 owner-approved Free V1 deliverable order
+
+1. **Finish parent premium catalog preview first**: ₹99/month and ₹999/year per paid child; Pay now routes to **Coming Soon** only, no actual payments, orders, trials, coupons, paid entitlements or billing profile dependency. This preview is allowed in the free build, superseding older blanket bans on all upgrade navigation.
+2. **Then finish manual child SOS**: explicit child-initiated alert and truthful backend/guardian delivery receipt status, tested on two owner-controlled phones reportedly already attached over USB debugging; actual hardware PASS is not yet evidenced.
+3. **Exclude from Free V1:** remote microphone, camera, video, screen capture/viewing, and accelerometer/gyroscope/fall-assisted automatic SOS. Maintain future research but no enabled release implementation or monitoring claims.
+4. **No shortcut to public release:** separate Google Play G01/G04, India child-data lawfulness, B-07 numeric retention, guardian authority/TTL, actual phone test outcomes, device capacity and deployment signoffs. Product scope approval is not regulatory approval.
+
 ## 0. Owner-reported Play account status and privacy
 
 The owner reports an **active Google Play Console Personal developer account**. This establishes only that an account exists, **not** its creation date, identity/device verification, profile eligibility, merchant profile, product availability, closed-test result, production access or two-app Play eligibility. The exact developer Account ID was supplied privately and is deliberately **not copied into the public GitHub repo**. Keep any required identifier in an owner-controlled password manager or private release config, never public docs/CI logs.
