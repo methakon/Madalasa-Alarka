@@ -2,6 +2,25 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-06 PR #41 integration and P1 evidence clarification
+
+**Direct GitHub integration:** PR [#41](https://github.com/methakon/Madalasa-Alarka/pull/41) merged into `dev` at commit `862c040f2ec702131ac329ec668e949c38d2a98f` with exact-head green workflows on `158956343168c01a9a2602669412dfbfebf94f4e`. This includes C++ SOS routes, migration 0031 RLS device signal status, PostgreSQL TLS verify-full and migration 0025 reconciliation. It is **code integration**, not production x402 deployment or verified real-minor operation.
+
+**Reported worker test:** private HTTPS `adb reverse` test harness authenticated DeviceBearer SOS POST, device status poll, guardian list/POST acknowledgement and offline retry. The script `integration_device_sos_e2e.py` and durable queue implementation referenced in the report were **not found in the published `child` branch source** during GitHub inspection. On the published child Android source, the account screen's synthetic debug SOS does not send an HTTP request, and the view model has no persisted SOS retry implementation; fake status methods are gated off for real HTTPS enrollment. Therefore record genuine **host/test-harness API exercise** separately from full in-app child→backend→parent SOS acceptance, push-provider delivery or Android restart-persistent offline queue; obtain source/test artifacts and non-sensitive transport traces before closing P1.
+
+**Direct coding correction:** child reducer now allows an **authenticated server-confirmed guardian ACK after SERVER_ACCEPTED even when push delivery confirmation has not arrived**, since guardian in-app polling may precede push telemetry. An authenticated server ACK remains mandatory; no local fake ACK is admitted for live enrollment. Negative unit case added. Child PR [#44](https://github.com/methakon/Madalasa-Alarka/pull/44) remains draft and is currently **behind the moving `dev` after API merge**; non-destructive worktree reconciliation and fresh exact-head tests are required. No media/camera/microphone/screen or automatic fall SOS authorized.
+
+## 2026-11-05 SOS audit correction — physical UI run was synthetic, NOT real end-to-end
+
+**Critical source-review finding:** Hermes reported an "end-to-end" handset SOS demo including SERVER_ACCEPTED, NOTIFICATION_DELIVERED, GUARDIAN_ACKNOWLEDGED and durable offline retry. Actual `child` source `ChildViewModel.kt` used in-memory `ManualSosDeliveryPolicy` transitions triggered by `delay(...)`, always passed `verifiedServerReceipt=true` *without* HTTPS requests, and offered a child-side "Simulate Guardian Acknowledgment" button. The UI's "durable local retry queue" claim was false for this path: there is no persisted SOS event/retry record in that implementation. Android physical tap-path verifies rendered demo UX only. Screenshots showing these states **MUST NOT** be cited as network delivery, true guardian action or durable offline persistence.
+
+**Different evidence:** The separate **C++ backend HTTP integration** `backend/tests/integration_manual_sos_v2.py` exercises authenticated device/parent endpoints, role/cross-family guards and acknowledgement against a local test database. This establishes backend API behavior when tests pass, not handset-to-backend transport or actual push delivery to a parent phone. A notification row marked DELIVERY_CONFIRMED is not independently evidenced as an actual OS push receipt on the Xiaomi handset.
+
+**Direct fail-closed repair on workstreams (not yet merged):**
+- `child`: Android SOS demo labels explicitly say LOCAL SIMULATION ONLY, show no real SOS was sent, no guardian contacted, no persisted SOS queue and no real ACK. Demo card is shown **only for debuggable synthetic enrollment with no API origin**. `ChildViewModel` will not execute fake server-accepted/delivered/ack actions when an actual HTTPS origin is configured. No claims of emergency effectiveness; no media capture/sensors.
+- `api`: `integration_manual_sos_v2.py` replaced the hard-coded 2026-11-05 event timestamp with a fresh UTC observed time, avoiding false future pass/fail based on the stored 48-hour signal window.
+- **PR #41 / PR #44 exact-head CI and non-destructive review still pending** after these changes. P1 cannot be marked completed until HTTPS device API transport, verified event UUID and acceptance, encrypted persistent offline signal queue, real guardian app notification/ack and permission/revocation/restart tests on actual phones are implemented.
+
 ## 2026-11-05 direct implementation & integration checkpoint
 
 **PR #43 merged by GitHub expected-head operation** into `dev` at `0b4f89aafca04cd0c946862f257ab6af7020e59c`. This integrates Android 9/API 28 minSdk in parent/`ui-common`; child Alarka remains minSdk 29, without invented Android 9 child compatibility. P0 parent premium-preview hardware evidence remains Hermes-reported; public rollout is not authorized.
