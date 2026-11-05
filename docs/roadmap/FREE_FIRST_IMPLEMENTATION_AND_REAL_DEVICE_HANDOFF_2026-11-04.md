@@ -2,6 +2,14 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-05 direct implementation & integration checkpoint
+
+**PR #43 merged by GitHub expected-head operation** into `dev` at `0b4f89aafca04cd0c946862f257ab6af7020e59c`. This integrates Android 9/API 28 minSdk in parent/`ui-common`; child Alarka remains minSdk 29, without invented Android 9 child compatibility. P0 parent premium-preview hardware evidence remains Hermes-reported; public rollout is not authorized.
+
+**Manual SOS P1 code begun directly** on permanent `child` branch: `android/alarka/src/main/kotlin/org/madalasa/alarka/service/ManualSosDeliveryPolicy.kt` and `android/alarka/src/test/kotlin/org/madalasa/alarka/service/ManualSosDeliveryPolicyTest.kt`. This is a **pure model, not a live alert transport or UI**. It distinguishes local queued, sending, server-accepted, notification-delivered, guardian acknowledged, transient failure, terminal explicit revocation; blocks mismatched event receipts, unauthenticated forward progress and fabricated human acknowledgement. No media permissions, camera/microphone or automatic sensor detection added. Unit/Android build verification remains required in a clean Android worktree. Proceed with a scoped child→dev PR after canonical sync and exact-head CI, then implement child manual trigger, authenticated backend endpoint, server receipt, guardian notification and human acknowledgement using the model, with offline secure queue and physical device tests. Real-child release OFF.
+
+**PR #41 held for branch reconciliation**, despite passing CI at `593a1af984e41bde703c1ef44babf87a6d15a916`. It is no longer mergeable against the moving `dev`; force merge or discard of conflicting changes is forbidden. Only clean local worktree merge with current main/dev, review and new-head tests can close it.
+
 ## 2026-11-05 P0 USB hardware acceptance — Hermes report, review pending integration
 
 **Owner-device validation reported PASS on two physical phones:** Panasonic ELUGA I7 EE (Android 9/API 28, arm64, 720×1440, ~2 GiB) and Xiaomi Mi A3 (Android 11/API 30, arm64, 720×1560, ~6 GiB). New `parent` PR [#43](https://github.com/methakon/Madalasa-Alarka/pull/43) lowers `madalasa` and `ui-common` minimum SDK from API 29 to API 28, a **functional platform-support expansion** requiring Android 9 platform/security review, not merely a test workaround. It must preserve Android 10–16 compatibility and all platform-dependent permission guards.
