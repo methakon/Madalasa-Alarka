@@ -305,12 +305,18 @@ int main() {
     if (!is_loopback) {
       // Remote PostgreSQL (such as managed Neon) requires certificate/hostname-validated TLS.
       const char* sslmode = std::getenv("PGSSLMODE");
-      if (sslmode && (std::string(sslmode) == "disable" || std::string(sslmode) == "allow" || std::string(sslmode) == "prefer")) {
-        std::cerr << "Remote PostgreSQL requires TLS verification; insecure PGSSLMODE=" << sslmode << " rejected" << std::endl;
+      // Only verify-full validates both certificate chain and the configured
+      // DB hostname. "require" encrypts without hostname verification; verify-ca
+      // validates the CA but not the hostname. Fail closed on unknown values too.
+      if (sslmode && *sslmode && std::string(sslmode) != "verify-full") {
+        std::cerr << "Remote PostgreSQL requires PGSSLMODE=verify-full" << std::endl;
         return 78;
       }
       if (!sslmode || *sslmode == '\0') {
-        setenv("PGSSLMODE", "verify-full", 1);
+        if (setenv("PGSSLMODE", "verify-full", 1) != 0) {
+          std::cerr << "Cannot enforce remote PostgreSQL TLS verification" << std::endl;
+          return 78;
+        }
       }
       if (!std::getenv("PGSSLROOTCERT")) {
         const char* ca_paths[] = {"/etc/ssl/certs/ca-certificates.crt", "/etc/pki/tls/certs/ca-bundle.crt"};
