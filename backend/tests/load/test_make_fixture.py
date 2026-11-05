@@ -66,6 +66,17 @@ class FixtureGuardTests(unittest.TestCase):
         self.assertEqual(connection.execute.call_count, 1)
         self.assertTrue(connection.execute.call_args.args[0].startswith('SELECT'))
 
+    def test_repository_application_label_is_removed_from_validated_dsns(self):
+        config = self.config()
+        for kind in ('admin', 'runtime', 'migration'):
+            config['test'][kind] += ' application_name=madalasa-local'
+        with patch.object(fixture.load_guard, 'inspect_container'), \
+                patch.object(fixture.psycopg, 'connect') as connect:
+            checked = self.invoke(config)
+            for kind in ('admin', 'runtime', 'migration'):
+                self.assertNotIn('application_name', fixture.conninfo_to_dict(checked[kind]))
+            connect.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()

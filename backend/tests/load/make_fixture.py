@@ -12,7 +12,7 @@ from pathlib import Path
 from uuid import UUID, uuid5
 
 import psycopg
-from psycopg.conninfo import conninfo_to_dict
+from psycopg.conninfo import conninfo_to_dict, make_conninfo
 import load as load_guard
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -25,17 +25,23 @@ def guarded_target(path, allow_disposable):
         raise ValueError('Explicit --allow-disposable-db required')
     if any(key.startswith('PG') for key in os.environ):
         raise ValueError('Ambient libpq configuration refused')
-    cfg = load_guard.read_private(path)['test']
+    cfg = dict(load_guard.read_private(path)['test'])
     targets = {}
     for kind, user in (('admin', 'postgres'), ('runtime', 'madalasa_dev'),
                        ('migration', 'madalasa_migrator')):
         target = conninfo_to_dict(cfg[kind])
+        # The repository's connection writer adds this fixed, non-routing label.
+        # Strip only that known value; never silently discard arbitrary options.
+        if 'application_name' in target:
+            if target.pop('application_name') != 'madalasa-local':
+                raise ValueError('Unknown connection application label')
         # Apply the same strict loopback/test-database/key allowlist to the
         # privileged login; only its explicitly required role differs.
         if target.get('user') != user or not target.get('password'):
             raise ValueError('Explicit synthetic role and password required')
         load_guard.validate_target(dict(target, user='madalasa_dev'))
         targets[kind] = target
+        cfg[kind] = make_conninfo(**target)
     endpoint = lambda target: tuple(target[k] for k in ('host', 'port', 'dbname'))
     if any(endpoint(target) != endpoint(targets['admin']) for target in targets.values()):
         raise ValueError('All fixture roles must use the same guarded target')
