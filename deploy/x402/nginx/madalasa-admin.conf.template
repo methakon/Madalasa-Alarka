@@ -1,12 +1,13 @@
 # Dedicated admin HTTPS vhost; do not expose until DNS, certificate and real admin OIDC are configured.
-# Replace ADMIN_FQDN, CERT_FILE, KEY_FILE and WEB_ROOT; run nginx -t before reload.
+# Selected hostname: madalasa.berhampore.in. TLS cert must exist before enabling.
+# Confirm the existing nginx vhost does not already own this name before installing.
 # Install as a new /etc/nginx/sites-available/ file, leaving mail and existing vhosts intact.
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name ADMIN_FQDN;
-    ssl_certificate CERT_FILE;
-    ssl_certificate_key KEY_FILE;
+    server_name madalasa.berhampore.in;
+    ssl_certificate /etc/letsencrypt/live/madalasa.berhampore.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/madalasa.berhampore.in/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     server_tokens off;
     client_max_body_size 64k;
@@ -15,7 +16,7 @@ server {
     add_header X-Frame-Options DENY always;
     add_header Cache-Control no-store always;
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://accounts.google.com; frame-src https://accounts.google.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self' https://accounts.google.com; object-src 'none';" always;
-    root WEB_ROOT;
+    root /srv/madalasa/admin/current;
     index index.html;
 
     location ^~ /v1/admin/ {
