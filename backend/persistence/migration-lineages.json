@@ -237,6 +237,12 @@
       "path": "backend/persistence/migrations/0030_guarded_device_pairing_code_issuer.sql",
       "sha256": "84ff8e004a1cafaef4ab76e7f3753f5ee754af984534f6851d718293408c443b",
       "published": false
+    },
+    {
+      "id": "v2:0031",
+      "path": "backend/persistence/migrations/0031_child_signal_device_status.sql",
+      "sha256": "9146dbf34ebab96b0ebded838700d0f6c1f14f4ac1f29209abaf4a0790fa8cd2",
+      "published": false
     }
   ]
 }

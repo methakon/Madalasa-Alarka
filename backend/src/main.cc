@@ -34,6 +34,7 @@
 #include "release_profile.h"
 #include "free_location_reads.h"
 #include "child_device_pairing_status.h"
+#include "safety_signal_endpoints.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -630,6 +631,35 @@ int main() {
       "/v1/devices/{deviceId}/locations:batch",
       [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
         co_return co_await ma::ingest_location_batch(std::move(req), std::move(deviceId));
+      },
+      {Post});
+
+  // Manual SOS and child safety signals (Phase-09 / Issue #42 P1).
+  app().registerHandler(
+      "/v1/devices/{deviceId}/signals",
+      [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::record_child_signal(std::move(req), std::move(deviceId));
+      },
+      {Post});
+
+  app().registerHandler(
+      "/v1/devices/{deviceId}/signals/{eventId}/status",
+      [](HttpRequestPtr req, std::string deviceId, std::string eventId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::get_child_signal_status(std::move(req), std::move(deviceId), std::move(eventId));
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/children/{childId}/signals",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::list_child_signals(std::move(req), std::move(childId), parent);
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/children/{childId}/signals/{eventId}/ack",
+      [parent](HttpRequestPtr req, std::string childId, std::string eventId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::acknowledge_child_signal(std::move(req), std::move(childId), std::move(eventId), parent);
       },
       {Post});
 
