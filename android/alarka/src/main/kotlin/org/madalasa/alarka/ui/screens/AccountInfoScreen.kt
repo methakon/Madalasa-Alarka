@@ -26,6 +26,7 @@ import android.content.pm.ApplicationInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -225,6 +226,141 @@ fun AccountInfoScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text("Reset SOS State")
+                        }
+                    }
+                }
+            }
+        }
+
+        // Genuine Authenticated Emergency SOS Card (when real API is configured)
+        if (!sosDemoEnabled) Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = ThemeCColors.Surface
+            ),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Manual Emergency SOS",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = ThemeCColors.Critical
+                )
+
+                Text(
+                    text = "Authenticated safety contact to your verified guardian. SOS events are encrypted and retained in secure outbox until acknowledged.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = ThemeCColors.Ink.copy(alpha = 0.8f)
+                )
+
+                if (sosState == null) {
+                    Button(
+                        onClick = onTriggerSos,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = ThemeCColors.Critical,
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            text = "TRIGGER EMERGENCY SOS",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
+                } else {
+                    val (stageColor, stageTitle, stageDesc) = when (sosState.stage) {
+                        ManualSosStage.LOCAL_QUEUED -> Triple(
+                            Color(0xFFE65100),
+                            "QUEUED IN SECURE OUTBOX",
+                            "Event created locally; encrypted in device Keystore outbox."
+                        )
+                        ManualSosStage.SENDING -> Triple(
+                            ThemeCColors.Indigo,
+                            "SENDING TO BACKEND",
+                            "Connecting to verified parent API over HTTPS..."
+                        )
+                        ManualSosStage.SERVER_ACCEPTED -> Triple(
+                            ThemeCColors.Teal,
+                            "SERVER ACCEPTED (WAITING FOR GUARDIAN)",
+                            "Backend confirmed receipt with verified event ID. Waiting for guardian acknowledgement."
+                        )
+                        ManualSosStage.NOTIFICATION_DELIVERED -> Triple(
+                            ThemeCColors.Indigo,
+                            "NOTIFICATION DELIVERED TO GUARDIAN PHONE",
+                            "Push delivery confirmed to guardian device. Waiting for guardian acknowledgement."
+                        )
+                        ManualSosStage.GUARDIAN_ACKNOWLEDGED -> Triple(
+                            Color(0xFF2E7D32),
+                            "GUARDIAN ACKNOWLEDGED",
+                            "Guardian has confirmed your safety alert. Outbox cleared."
+                        )
+                        ManualSosStage.DELIVERY_FAILED -> Triple(
+                            ThemeCColors.Critical,
+                            "DELIVERY FAILED (STORED IN OUTBOX)",
+                            "Network unavailable or backend unreachable. Event retained securely in outbox."
+                        )
+                        ManualSosStage.AUTHORIZATION_REVOKED -> Triple(
+                            Color.Gray,
+                            "AUTHORIZATION REVOKED",
+                            "Device credentials expired or guardian revoked pairing."
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(stageColor.copy(alpha = 0.12f))
+                            .padding(12.dp)
+                    ) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(
+                                text = stageTitle,
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = stageColor
+                            )
+                            Text(
+                                text = stageDesc,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = ThemeCColors.Ink
+                            )
+                            Text(
+                                text = "Event ID: ${sosState.eventId.take(8)}...",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = ThemeCColors.Ink.copy(alpha = 0.6f)
+                            )
+                        }
+                    }
+
+                    if (sosState.stage == ManualSosStage.DELIVERY_FAILED ||
+                        sosState.stage == ManualSosStage.LOCAL_QUEUED) {
+                        Button(
+                            onClick = onRetrySos,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = ThemeCColors.Critical,
+                                contentColor = Color.White
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("RETRY SEND NOW")
+                        }
+                    }
+
+                    if (sosState.guardianHasAcknowledged || sosState.stage == ManualSosStage.DELIVERY_FAILED) {
+                        OutlinedButton(
+                            onClick = onResetSos,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Clear SOS State")
                         }
                     }
                 }

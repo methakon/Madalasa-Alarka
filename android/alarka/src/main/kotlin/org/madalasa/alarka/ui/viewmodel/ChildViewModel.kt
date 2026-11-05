@@ -42,6 +42,11 @@ class ChildViewModel(
 
     init {
         loadInitialState()
+        viewModelScope.launch {
+            container.sosService.sosState.collect { state ->
+                _uiState.value = _uiState.value.copy(sosState = state)
+            }
+        }
     }
 
     private fun loadInitialState() {
@@ -146,55 +151,30 @@ class ChildViewModel(
         }
     }
 
-    fun isSyntheticSosPreview(): Boolean = container.enrollmentService is SyntheticAlarkaEnrollmentService
+    fun isSyntheticSosPreview(): Boolean = container.sosService.isSynthetic
 
     fun triggerManualSos() {
-        if (!isSyntheticSosPreview()) return // No mock receipts on real HTTPS enrollment.
-        val eventId = "sos-${UUID.randomUUID()}"
-        var state = ManualSosState(eventId = eventId, stage = ManualSosStage.LOCAL_QUEUED)
-        _uiState.value = _uiState.value.copy(sosState = state, errorMessage = null)
-
         viewModelScope.launch {
-            state = ManualSosDeliveryPolicy.apply(state, eventId, ManualSosEvidence.RETRY_ATTEMPT)
-            _uiState.value = _uiState.value.copy(sosState = state)
-
-            if (_uiState.value.isOfflineMode) {
-                kotlinx.coroutines.delay(400)
-                state = ManualSosDeliveryPolicy.apply(state, eventId, ManualSosEvidence.TRANSIENT_FAILURE)
-                _uiState.value = _uiState.value.copy(sosState = state)
-            } else {
-                kotlinx.coroutines.delay(500)
-                state = ManualSosDeliveryPolicy.apply(state, eventId, ManualSosEvidence.SERVER_ACCEPTED, verifiedServerReceipt = true)
-                _uiState.value = _uiState.value.copy(sosState = state)
-
-                kotlinx.coroutines.delay(600)
-                state = ManualSosDeliveryPolicy.apply(state, eventId, ManualSosEvidence.NOTIFICATION_DELIVERED, verifiedServerReceipt = true)
-                _uiState.value = _uiState.value.copy(sosState = state)
+            val result = container.sosService.triggerSos()
+            result.onFailure { error ->
+                _uiState.value = _uiState.value.copy(errorMessage = error.message)
             }
         }
     }
 
     fun retryOfflineSos() {
-        if (!isSyntheticSosPreview()) return
-        val current = _uiState.value.sosState ?: return
         viewModelScope.launch {
-            var state = ManualSosDeliveryPolicy.apply(current, current.eventId, ManualSosEvidence.RETRY_ATTEMPT)
-            _uiState.value = _uiState.value.copy(sosState = state)
-            kotlinx.coroutines.delay(500)
-            state = ManualSosDeliveryPolicy.apply(state, current.eventId, ManualSosEvidence.SERVER_ACCEPTED, verifiedServerReceipt = true)
-            _uiState.value = _uiState.value.copy(sosState = state)
-            kotlinx.coroutines.delay(600)
-            state = ManualSosDeliveryPolicy.apply(state, current.eventId, ManualSosEvidence.NOTIFICATION_DELIVERED, verifiedServerReceipt = true)
-            _uiState.value = _uiState.value.copy(sosState = state)
+            val result = container.sosService.retryPendingSos()
+            result.onFailure { error ->
+                _uiState.value = _uiState.value.copy(errorMessage = error.message)
+            }
         }
     }
 
     fun acknowledgeSosFromGuardian() {
         if (!isSyntheticSosPreview()) return
-        val current = _uiState.value.sosState ?: return
         viewModelScope.launch {
-            val state = ManualSosDeliveryPolicy.apply(current, current.eventId, ManualSosEvidence.GUARDIAN_ACKNOWLEDGED, verifiedServerReceipt = true)
-            _uiState.value = _uiState.value.copy(sosState = state)
+            container.sosService.acknowledgeSimulatedSos()
         }
     }
 
@@ -204,6 +184,6 @@ class ChildViewModel(
     }
 
     fun resetSos() {
-        _uiState.value = _uiState.value.copy(sosState = null)
+        container.sosService.resetSos()
     }
 }
