@@ -2,6 +2,7 @@
 // Business routes are added against docs/openapi-m1.yaml in later changes. SYNTHETIC DATA ONLY.
 #include <cstdlib>
 #include <iostream>
+#include <unistd.h>
 
 #include <drogon/drogon.h>
 
@@ -299,6 +300,28 @@ int main() {
     cfg.databaseName = db;
     cfg.username = env("MA_PG_USER", "ap_m1_api");
     cfg.password = env("MA_PG_PASSWORD", "");
+
+    const bool is_loopback = (cfg.host == "127.0.0.1" || cfg.host == "localhost" || cfg.host == "::1");
+    if (!is_loopback) {
+      // Remote PostgreSQL (such as managed Neon) requires certificate/hostname-validated TLS.
+      const char* sslmode = std::getenv("PGSSLMODE");
+      if (sslmode && (std::string(sslmode) == "disable" || std::string(sslmode) == "allow" || std::string(sslmode) == "prefer")) {
+        std::cerr << "Remote PostgreSQL requires TLS verification; insecure PGSSLMODE=" << sslmode << " rejected" << std::endl;
+        return 78;
+      }
+      if (!sslmode || *sslmode == '\0') {
+        setenv("PGSSLMODE", "verify-full", 1);
+      }
+      if (!std::getenv("PGSSLROOTCERT")) {
+        const char* ca_paths[] = {"/etc/ssl/certs/ca-certificates.crt", "/etc/pki/tls/certs/ca-bundle.crt"};
+        for (const char* p : ca_paths) {
+          if (access(p, R_OK) == 0) {
+            setenv("PGSSLROOTCERT", p, 1);
+            break;
+          }
+        }
+      }
+    }
     cfg.connectionNumber = ma::db_limits().connections;
     cfg.name = ma::kDbClientName;
     cfg.isFast = false;

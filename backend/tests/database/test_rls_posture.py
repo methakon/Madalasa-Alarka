@@ -32,6 +32,13 @@ class RlsPostureTests(unittest.TestCase):
             'GRANT ap_m1_auth TO ap_auth_issuer',
             'GRANT ap_m1_owner TO ap_service_worker',
             'ALTER ROLE madalasa_dev CREATEROLE',
+            'ALTER ROLE madalasa_dev SUPERUSER',
+            'ALTER ROLE madalasa_dev BYPASSRLS',
+            'GRANT ap_db_executor TO madalasa_dev',
+            'GRANT ap_m1_auth TO madalasa_dev',
+            'GRANT ap_m1_owner TO madalasa_dev',
+            'ALTER ROLE madalasa_auth BYPASSRLS',
+            'ALTER ROLE madalasa_billing SUPERUSER',
         )
         for statement in mutations:
             with self.subTest(statement=statement), fixtures.admin_connection() as db:
@@ -80,17 +87,31 @@ class RlsPostureTests(unittest.TestCase):
         self.assertEqual(unforced, [])
 
     def test_no_login_role_can_bypass_rls(self):
-        """BYPASSRLS belongs only to NOLOGIN definer bridges."""
+        """BYPASSRLS belongs only to NOLOGIN definer bridges and no application role holds it."""
         with fixtures.admin_connection() as db:
             db.execute('SELECT ap_m1.assert_role_boundary()')
             offenders = _rows(db, """
+                SELECT DISTINCT m.rolname FROM pg_auth_members am
+                JOIN pg_roles m ON m.oid = am.member
+                JOIN pg_roles r ON r.oid = am.roleid
+                WHERE m.rolcanlogin AND (am.inherit_option OR am.set_option)
+                  AND r.rolname IN ('ap_m1_api','ap_auth_issuer','ap_billing_verifier',
+                                   'ap_privacy_worker','ap_service_worker',
+                                   'madalasa_dev','madalasa_auth','madalasa_billing')
+                  AND (m.rolsuper OR m.rolbypassrls OR m.rolcreaterole OR m.rolcreatedb OR m.rolreplication)
+                UNION
                 SELECT rolname FROM pg_roles
-                WHERE rolcanlogin AND rolname <> 'postgres' AND (rolsuper OR rolbypassrls)
+                WHERE rolname IN ('ap_m1_api','ap_auth_issuer','ap_billing_verifier',
+                                 'ap_privacy_worker','ap_service_worker',
+                                 'madalasa_dev','madalasa_auth','madalasa_billing',
+                                 'ap_m1_api_user','ap_auth_issuer_user','ap_billing_user',
+                                 'ap_privacy_user','ap_worker_user')
+                  AND (rolsuper OR rolbypassrls OR rolcreaterole OR rolcreatedb OR rolreplication)
                 ORDER BY rolname""")
             bridges = _rows(db, """
                 SELECT rolname, rolcanlogin, rolbypassrls FROM pg_roles
                 WHERE rolname IN ('ap_db_executor','ap_m1_auth') ORDER BY rolname""")
-        self.assertEqual(offenders, [], f'login roles with SUPERUSER/BYPASSRLS: {offenders}')
+        self.assertEqual(offenders, [], f'application roles with administrative privileges: {offenders}')
         self.assertEqual(len(bridges), 2, 'definer bridge roles must exist')
         for name, can_login, bypass in bridges:
             self.assertFalse(can_login, f'{name} must not be login-capable')

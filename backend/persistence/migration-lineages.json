@@ -190,7 +190,10 @@
     {
       "id": "v2:0025",
       "path": "backend/persistence/migrations/0025_rls_default_deny_and_role_boundary.sql",
-      "sha256": "5afa0263c57998218946dcb46b1cfb5808e76712c54d33ee932b08652e422954",
+      "sha256": "40b3cf1da6bd52073b01bf6dbbf769a3bce018a7e6fcebb7e838b842661526d2",
+      "accepted_sha256": [
+        "5afa0263c57998218946dcb46b1cfb5808e76712c54d33ee932b08652e422954"
+      ],
       "published": false
     },
     {

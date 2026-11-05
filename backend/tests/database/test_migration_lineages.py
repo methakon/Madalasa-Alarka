@@ -114,6 +114,25 @@ class MigrationLineages(unittest.TestCase):
             with self.assertRaises(ValueError):
                 manage.validate_migration_history(self.entries(), [rows[0], tuple(bad)], [])
 
+    def test_accepted_sha256_preserves_historical_applied_checksum(self):
+        entries = self.entries()
+        v25 = next(e for e in entries if e['id'] == 'v2:0025')
+        self.assertIn('accepted_sha256', v25)
+        old_sha = v25['accepted_sha256'][0]
+        base_ids = ['common:0001'] + ['v2:%04d' % n for n in range(2, 25)]
+        base_ledger = self.ledger_rows(base_ids)
+        expected = set(base_ids) | {'v2:0025'}
+        # Ledger recorded with previous checksum must be accepted
+        ledger = base_ledger + [('v2:0025', Path(v25['path']).name, old_sha, 'APPLIED')]
+        self.assertEqual(manage.validate_migration_history(entries, [], ledger), expected)
+        # Ledger recorded with new pinned checksum must also be accepted
+        ledger_new = base_ledger + [('v2:0025', Path(v25['path']).name, v25['sha256'], 'APPLIED')]
+        self.assertEqual(manage.validate_migration_history(entries, [], ledger_new), expected)
+        # Unaccepted drifting checksum must be rejected
+        ledger_bad = base_ledger + [('v2:0025', Path(v25['path']).name, 'e' * 64, 'APPLIED')]
+        with self.assertRaisesRegex(ValueError, 'Unknown or drifting migration history'):
+            manage.validate_migration_history(entries, [], ledger_bad)
+
     def test_m1_upgrade_order_and_downgrade_block(self):
         applied = manage.validate_migration_history(self.entries(), self.rows(['common:0001','m1:0002','m1:0003','m1:0004']), [])
         plan = [e['id'] for e in manage.migration_plan(self.entries(), applied=applied)]
