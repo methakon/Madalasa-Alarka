@@ -44,3 +44,18 @@ class SyntheticAlarkaEnrollmentService : AlarkaEnrollmentService {
         return Result.success(true)
     }
 }
+
+/**
+ * Production default until a Keystore-bound device proof and authenticated
+ * backend enrollment have passed independent OS and guardian-authorization QA.
+ * Never returns a success-shaped synthetic device enrollment in release builds.
+ */
+class UnavailableAlarkaEnrollmentService : AlarkaEnrollmentService {
+    private fun <T> unavailable(): Result<T> =
+        Result.failure(IllegalStateException(
+            "Real device enrollment is unavailable until secure pairing is configured"
+        ))
+    override suspend fun generatePairingChallenge(): Result<String> = unavailable()
+    override suspend fun completeEnrollment(pairingCode: String): Result<EnrollmentResult> = unavailable()
+    override suspend fun unpairDevice(): Result<Boolean> = unavailable()
+}

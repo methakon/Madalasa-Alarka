@@ -82,7 +82,7 @@ inline drogon::Task<drogon::HttpResponsePtr> request_credential_challenge(
       co_return error_response("NOT_FOUND", "device not found or not active", rid);
     }
 
-    const std::string spki_raw = pg_bytea_to_bytes(pk_res.at(0)["spki_public_key"].as<std::string>());
+    const std::string spki_raw = pk_res.at(0)["spki_public_key"].as<std::string>();
     const std::string expected_fp = compute_key_fingerprint(spki_raw);
     if (expected_fp != fp_b64url) {
       rollback_quietly(trans);
@@ -217,8 +217,9 @@ inline drogon::Task<drogon::HttpResponsePtr> renew_device_credential(
         co_return error_response("UNAUTHENTICATED", "renewal challenge not found, expired or already spent", rid);
       }
 
-      stored_nonce_hash_raw = pg_bytea_to_bytes(res.at(0)["nonce_sha256"].as<std::string>());
-      spki_raw = pg_bytea_to_bytes(res.at(0)["spki_public_key"].as<std::string>());
+      // The PostgreSQL driver already returns raw bytea, including embedded NULs.
+      stored_nonce_hash_raw = res.at(0)["nonce_sha256"].as<std::string>();
+      spki_raw = res.at(0)["spki_public_key"].as<std::string>();
 
       if (!(co_await commit(std::move(trans1)))) {
         co_return error_response("SERVICE_UNAVAILABLE", "database commit unavailable; retry request", rid, true);

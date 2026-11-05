@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
+import java.net.URI
 import javax.net.ssl.HttpsURLConnection
 
 /** Server observations and actual Android permission grants remain distinct. */
@@ -13,8 +14,13 @@ data class ServerConsentStatus(
     val usageConsent: Boolean,
     val mediaConsent: Boolean,
     val childDeleted: Boolean,
-    val collectionAuthorized: Boolean
+    val collectionAuthorized: Boolean,
+    /** Exact child's free-service admission, returned by the trusted server. */
+    val childServiceAdmitted: Boolean = false
 )
+
+/** Definitive server denial of this enrollment: revoke locally, never retry later. */
+class ChildAuthorizationDenied : Exception("Device authorization denied")
 
 interface ChildPrivacyGateway {
     suspend fun readConsentStatus(): Result<ServerConsentStatus>
@@ -33,7 +39,9 @@ class HttpsChildPrivacyGateway(
     private val credentialProvider: () -> String?
 ) : ChildPrivacyGateway {
     init {
-        require(origin.startsWith("https://") && !origin.contains('?') && !origin.contains('#')) {
+        val uri = URI(origin)
+        require(uri.scheme == "https" && !uri.host.isNullOrBlank() && uri.rawUserInfo == null &&
+            uri.rawQuery == null && uri.rawFragment == null && uri.rawPath.orEmpty() in listOf("", "/")) {
             "Device privacy API origin must use HTTPS"
         }
     }
@@ -51,22 +59,34 @@ class HttpsChildPrivacyGateway(
                     .openConnection() as HttpsURLConnection
                 try {
                     connection.requestMethod = "GET"
+                    connection.instanceFollowRedirects = false
                     connection.connectTimeout = 8_000
                     connection.readTimeout = 8_000
                     connection.useCaches = false
                     connection.setRequestProperty("Authorization", "Bearer $bearer")
                     connection.setRequestProperty("Accept", "application/json")
                     val status = connection.responseCode
-                    if (status == 401 || status == 404) error("Device enrollment or consent status unavailable")
+                    if (status in listOf(401, 403, 404, 410)) throw ChildAuthorizationDenied()
                     if (status != 200) error("Privacy service unavailable (HTTP $status)")
-                    val body = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
+                    require(connection.contentType.orEmpty().contains("application/json", true))
+                    val text = StringBuilder()
+                    connection.inputStream.bufferedReader().use { reader ->
+                        val chunk = CharArray(1024)
+                        while (true) {
+                            val n = reader.read(chunk); if (n < 0) break
+                            require(text.length + n <= 16384)
+                            text.append(chunk, 0, n)
+                        }
+                    }
+                    val body = JSONObject(text.toString())
                     ServerConsentStatus(
                         coreConsent = body.getBoolean("core_consent"),
                         locationConsent = body.getBoolean("location_consent"),
                         usageConsent = body.getBoolean("usage_consent"),
                         mediaConsent = body.getBoolean("media_consent"),
                         childDeleted = body.getBoolean("deleted"),
-                        collectionAuthorized = body.getBoolean("collection_authorized")
+                        collectionAuthorized = body.getBoolean("collection_authorized"),
+                        childServiceAdmitted = body.optBoolean("child_service_admitted", false)
                     )
                 } finally {
                     connection.disconnect()

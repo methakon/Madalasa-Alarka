@@ -34,6 +34,12 @@ if(MA_SYNTHETIC_AUTH)
   target_compile_definitions(ma_backend PRIVATE MA_SYNTHETIC_AUTH=1)
 endif()
 
+# x402 free-first deploy contract: loopback listener, FREE_ONLY, DB-aware readiness.
+# Static source tests; never a substitute for live VM/TLS/DB checks.
+add_test(NAME x402_deployment_contract
+         COMMAND python3 -m unittest backend.tests.test_x402_deployment_contract -v)
+set_tests_properties(x402_deployment_contract PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
 # Frozen 14-operation OpenAPI surface must match real route registration.
 # Static coverage alone cannot prove handlers are integrated or authorized.
 add_test(NAME privacy_route_contract

@@ -19,6 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.madalasa.alarka.service.AndroidLocationSetupPlan
+import org.madalasa.alarka.service.LocationSetupAction
+import org.madalasa.alarka.service.AlarkaSensor
+import org.madalasa.alarka.service.OptionalHardwareModulePolicy
+import org.madalasa.alarka.service.ModuleReadiness
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.uicommon.APButton
 import org.madalasa.uicommon.APTopBar
@@ -31,6 +36,14 @@ fun PermissionsScreen(
     onRefresh: () -> Unit,
     onViewCapabilityGuide: () -> Unit,
     onViewPrivacy: () -> Unit,
+    permissionPlan: AndroidLocationSetupPlan? = null,
+    pairedForOptionalModules: Boolean = false,
+    onRequestForegroundLocation: () -> Unit = {},
+    onRequestBackgroundLocation: () -> Unit = {},
+    onRequestNotifications: () -> Unit = {},
+    onOpenLocationSettings: () -> Unit = {},
+    onOpenAppSettings: () -> Unit = {},
+    onOpenNotificationSettings: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -85,6 +98,95 @@ fun PermissionsScreen(
 
         Card(
             modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = ThemeCColors.Surface)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text("Optional hardware inventory",style=MaterialTheme.typography.titleMedium)
+                Text(
+                    "Missing hardware disables only that optional function. " +
+                        "The diagnostic does not read motion samples, sound, video or location.",
+                    style=MaterialTheme.typography.bodySmall
+                )
+                val sensors = listOf(
+                    "Accelerometer" to AlarkaSensor.ACCELEROMETER,
+                    "Gyroscope" to AlarkaSensor.GYROSCOPE,
+                    "Proximity" to AlarkaSensor.PROXIMITY,
+                    "Ambient light" to AlarkaSensor.AMBIENT_LIGHT,
+                    "Linear acceleration" to AlarkaSensor.LINEAR_ACCELERATION,
+                    "Gravity" to AlarkaSensor.GRAVITY,
+                    "Rotation vector" to AlarkaSensor.ROTATION_VECTOR,
+                    "Magnetic / compass" to AlarkaSensor.MAGNETOMETER,
+                    "Barometer" to AlarkaSensor.BAROMETER,
+                    "Step detector" to AlarkaSensor.STEP_DETECTOR,
+                    "Step counter" to AlarkaSensor.STEP_COUNTER,
+                    "Significant motion" to AlarkaSensor.SIGNIFICANT_MOTION
+                )
+                sensors.forEach { (label,key) ->
+                    CapabilityRow(label,when {
+                        report == null -> "Unknown"
+                        report.hardware.sensorPresent(key) -> "Available"
+                        else -> "Not present"
+                    })
+                }
+                CapabilityRow("GPS hardware", if(report?.hasGpsHardware==true) "Detected" else
+                    if(report==null) "Unknown" else "Not present")
+                CapabilityRow("Network location", if(report?.hasNetworkLocationHardware==true) "Detected" else
+                    if(report==null) "Unknown" else "Not present")
+                CapabilityRow("GPS provider enabled",
+                    report?.hardware?.gpsProviderEnabled?.let { if(it) "Yes" else "No" } ?: "Unknown")
+                CapabilityRow("Network provider enabled",
+                    report?.hardware?.networkProviderEnabled?.let { if(it) "Yes" else "No" } ?: "Unknown")
+                CapabilityRow("GNSS constellations",
+                    report?.hardware?.gnssObservation?.name?.replace('_',' ') ?: "Unknown")
+                Text(
+                    "GPS / Galileo / GLONASS / BeiDou / QZSS / NavIC (IRNSS) cannot be " +
+                        "certified from a hardware flag. Satellite observations require " +
+                        "separate permission and approved, visible GNSS use.",
+                    style=MaterialTheme.typography.bodySmall
+                )
+                CapabilityRow("Battery",
+                    report?.hardware?.batteryPercentage?.let { "$it%" }
+                        ?: if(report?.hardware?.batteryPresent==false) "No battery" else "Unknown")
+                CapabilityRow("Charging",report?.hardware?.batteryCharging?.let {
+                    if(it) "Yes" else "No"
+                } ?: "Unknown")
+                CapabilityRow("Power saving",report?.hardware?.powerSaving?.let {
+                    if(it) "Enabled" else "Off"
+                } ?: "Unknown")
+                if(report!=null) {
+                    Text("Module readiness (no monitoring started)",
+                        style=MaterialTheme.typography.titleSmall)
+                    OptionalHardwareModulePolicy.evaluate(
+                        report, paired=pairedForOptionalModules
+                    ).forEach { decision ->
+                        CapabilityRow(
+                            decision.module.name.replace('_',' '),
+                            when(decision.readiness) {
+                                ModuleReadiness.HARDWARE_MISSING -> "Unavailable"
+                                ModuleReadiness.PERMISSION_NOT_DECLARED -> "Not in this build"
+                                ModuleReadiness.PERMISSION_REQUIRED -> "Permission needed"
+                                ModuleReadiness.AWAITING_PARENT_PAIRING -> "Pairing required"
+                                ModuleReadiness.DISABLED_BY_RELEASE_POLICY -> "Feature disabled"
+                                ModuleReadiness.AVAILABLE_FOR_APPROVED_SETUP -> "Setup eligible"
+                                ModuleReadiness.HARDWARE_DIAGNOSTIC_ONLY -> "Local status only"
+                            }
+                        )
+                    }
+                }
+                Text(
+                    "Motion-only fall detection is not reliable enough to declare an " +
+                        "emergency. Manual SOS remains independent of these sensors; " +
+                        "SOS reporting still needs verified service authorization.",
+                    style=MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
                 containerColor = ThemeCColors.Surface
             )
@@ -123,6 +225,67 @@ fun PermissionsScreen(
                     status = "Strictly Prohibited",
                     color = ThemeCColors.Leaf
                 )
+            }
+        }
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = ThemeCColors.Surface)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text("Android 10–16 compatibility result",
+                    style = MaterialTheme.typography.titleMedium)
+                Text(
+                    permissionPlan?.action?.name?.replace('_', ' ') ?: "Not evaluated",
+                    color = ThemeCColors.Indigo
+                )
+                Text(
+                    permissionPlan?.explanation
+                        ?: "Refresh local status and verify parent authorization.",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    "Monitoring does not start from this screen. A valid parent pairing, " +
+                        "admitted child slot, lawful consent, Android grants and a visible " +
+                        "ongoing notification are separately required.",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                when (permissionPlan?.action) {
+                    LocationSetupAction.REQUEST_FOREGROUND_LOCATION ->
+                        OutlinedButton(
+                            onClick = onRequestForegroundLocation,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Request location while using the app") }
+                    LocationSetupAction.REQUEST_BACKGROUND_LOCATION_ANDROID_10 ->
+                        OutlinedButton(
+                            onClick = onRequestBackgroundLocation,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Request background location separately") }
+                    LocationSetupAction.OPEN_BACKGROUND_LOCATION_SETTINGS ->
+                        OutlinedButton(
+                            onClick = onOpenAppSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Review Android app settings") }
+                    LocationSetupAction.REQUEST_NOTIFICATION_PERMISSION ->
+                        OutlinedButton(
+                            onClick = onRequestNotifications,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Request monitoring notification permission") }
+                    LocationSetupAction.ENABLE_SYSTEM_LOCATION ->
+                        OutlinedButton(
+                            onClick = onOpenLocationSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Open Android location settings") }
+                    LocationSetupAction.OPEN_NOTIFICATION_SETTINGS ->
+                        OutlinedButton(
+                            onClick = onOpenNotificationSettings,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text("Open Android notification settings") }
+                    else -> Unit
+                }
             }
         }
 

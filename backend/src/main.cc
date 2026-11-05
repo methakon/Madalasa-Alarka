@@ -191,6 +191,85 @@ int main() {
       },
       {Get});
 
+  // Readiness is separate from liveness: a missing/unusable database must never
+  // be considered ready for guardian, enrollment, deletion or admin operations.
+  // Expose only behind local operational checks; nginx must not proxy /readyz.
+  app().registerHandler(
+      "/readyz",
+      [](HttpRequestPtr) -> Task<HttpResponsePtr> {
+        Json::Value body(Json::objectValue);
+        body["status"] = "not_ready";
+        if (!app().hasDbClient(ma::kDbClientName) ||
+            !app().hasDbClient(ma::kAuthDbClientName)) {
+          auto resp = HttpResponse::newHttpJsonResponse(body);
+          resp->setStatusCode(k503ServiceUnavailable);
+          co_return resp;
+        }
+        auto db = app().getDbClient(ma::kDbClientName);
+        auto issuer = app().getDbClient(ma::kAuthDbClientName);
+        if (!db || !issuer) {
+          auto resp = HttpResponse::newHttpJsonResponse(body);
+          resp->setStatusCode(k503ServiceUnavailable);
+          co_return resp;
+        }
+        try {
+          // Read-only catalog probes on the actual handler logins: do not mint a
+          // session, consume a challenge, bypass RLS or require migration-owner access.
+          // Exact signatures come from the handlers and migrations 0020..0024/0030;
+          // no unrelated migration-version floor is needed for this readiness gate.
+          const auto res = co_await db->execSqlCoro(
+              "SELECT session_user::text AS login, ("
+              "NOT rolsuper AND NOT rolbypassrls "
+              "AND pg_has_role(session_user,'ap_m1_api','MEMBER') "
+              "AND NOT pg_has_role(session_user,'ap_auth_issuer','MEMBER') "
+              "AND has_schema_privilege(current_user,'ap_m1','USAGE') "
+              "AND to_regclass('ap_m1.devices') IS NOT NULL "
+              "AND to_regclass('ap_m1.guardian_memberships') IS NOT NULL "
+              "AND to_regclass('ap_m1.admin_accounts') IS NOT NULL "
+              "AND (SELECT bool_and(COALESCE(has_function_privilege(current_user,"
+              "to_regprocedure(signature),'EXECUTE'),false)) FROM (VALUES "
+              "('ap_m1.ingest_location_batch_receipt(uuid,uuid,jsonb)'),"
+              "('ap_m1.issue_device_pairing_code(uuid,bytea,integer)')"
+              ") AS required(signature))) AS ready "
+              "FROM pg_catalog.pg_roles WHERE rolname=current_user");
+          const auto auth = co_await issuer->execSqlCoro(
+              "SELECT session_user::text AS login, ("
+              "NOT rolsuper AND NOT rolbypassrls "
+              "AND pg_has_role(session_user,'ap_auth_issuer','MEMBER') "
+              "AND NOT pg_has_role(session_user,'ap_m1_api','MEMBER') "
+              "AND has_schema_privilege(current_user,'ap_m1','USAGE') "
+              "AND (SELECT bool_and(COALESCE(has_function_privilege(current_user,"
+              "to_regprocedure(signature),'EXECUTE'),false)) FROM (VALUES "
+              "('ap_m1.exchange_parent_oidc_session(text,text,bytea,integer)'),"
+              "('ap_m1.issue_admin_login_challenge()'),"
+              "('ap_m1.exchange_admin_oidc_session(text,text,text,text,text,integer)'),"
+              "('ap_m1.redeem_pairing_code(bytea,bytea,bytea,integer)'),"
+              "('ap_m1.read_enrollment_challenge_expiry(uuid)'),"
+              "('ap_m1.store_pending_device_profile(uuid,text,text,integer,text,text)'),"
+              "('ap_m1.consume_enrollment_challenge(uuid)'),"
+              "('ap_m1.activate_enrolled_device(uuid,bytea,integer)')"
+              ") AS required(signature))) AS ready "
+              "FROM pg_catalog.pg_roles WHERE rolname=current_user");
+          const bool runtime_ready = res.size() == 1 && !res.at(0)["ready"].isNull() &&
+                                     res.at(0)["ready"].as<bool>();
+          const bool issuer_ready = auth.size() == 1 && !auth.at(0)["ready"].isNull() &&
+                                    auth.at(0)["ready"].as<bool>() &&
+                                    !res.empty() && !res.at(0)["login"].isNull() &&
+                                    !auth.at(0)["login"].isNull() &&
+                                    res.at(0)["login"].as<std::string>() != auth.at(0)["login"].as<std::string>();
+          if (runtime_ready && issuer_ready) {
+            body["status"] = "ready";
+            co_return HttpResponse::newHttpJsonResponse(body);
+          }
+        } catch (const std::exception&) {
+          // No database details, SQL or credentials in readiness response.
+        }
+        auto resp = HttpResponse::newHttpJsonResponse(body);
+        resp->setStatusCode(k503ServiceUnavailable);
+        co_return resp;
+      },
+      {Get});
+
   app().registerHandler(
       "/v1/release/capabilities",
       [release_caps](const HttpRequestPtr&,
