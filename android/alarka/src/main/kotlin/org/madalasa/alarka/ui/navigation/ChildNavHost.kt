@@ -268,6 +268,7 @@ fun ChildNavHost(
                 AccountInfoScreen(
                     enrollmentResult = uiState.enrollmentResult,
                     sosState = uiState.sosState,
+                    sosDemoEnabled = viewModel.isSyntheticSosPreview(),
                     isOfflineMode = uiState.isOfflineMode,
                     onTriggerSos = { viewModel.triggerManualSos() },
                     onRetrySos = { viewModel.retryOfflineSos() },
