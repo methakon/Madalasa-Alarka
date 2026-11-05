@@ -2,6 +2,18 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-05 OWNER RELEASE SCOPE AND AVAILABLE HARDWARE — SUPERCEDES OLDER TASK PRIORITIES
+
+**Device availability:** the owner states the required two Android phones are **already connected to the Hermes workstation using USB debugging**. Do not ask the owner to source phones again. Worker independently runs `adb devices -l`, resolves any unauthorized/offline state without claiming it passed, records OS versions and hardware capabilities, targets every installation by exact device serial and sanitizes evidence. The assistant has not accessed these USB devices.
+
+**Priority 1 — FINISH premium plan preview:** integrate/physically validate the already implemented Madalasa ₹99/month and ₹999/year previews with **Pay now → Coming Soon**, both dismissals, WAITLISTED entry and zero billing/trial/paid-entitlement side effects; the payment feature itself remains **not implemented/disabled**. No payment sandbox prerequisite for this UI milestone.
+
+**Priority 2 — manual SOS:** implement/finish reliable visible, user-initiated SOS and parent-alert receipt flow using owner-controlled phones, fake identities and isolated test backend. Show accurate queued/sent/server-accepted/delivered/human-acknowledged states without implying delivery or rescue before it actually happens. Test offline, reconnect, notification permissions, expired/revoked pairing and prevention of false success. This does not mean a real child emergency system is ready before legal/Play/physical acceptance.
+
+**Excluded from Free V1 and deferred:** remote microphone/camera capture, remote photo/video, screen viewing/recording, passive/hidden monitoring and automatic accelerometer/gyroscope/proximity/fall-triggered SOS. Do not ship recording permissions, background capture flows or media endpoints enabled in Free V1. Keep future designs and capability detection documentation, but no capture UI or active endpoints in this release. No free-versus-paid media promises beyond a clearly future feature preview.
+
+**Other product decisions:** owner approved the non-media Free V1 direction as a development scope, not proof of tested/legal authorization. **B-07 individual data/backup retention durations are not specified by this statement and remain pending exact value and legal basis; do not arm automatic retention or collect real-minor GPS.** Guardian invitation/revocation authority and TTL remain unresolved unless already explicitly selected elsewhere; do not invent numbers. G01/G04 Play determination and feature-specific DPDP legality, verified backend/phone tests, publication and guardian permissions remain independent gates.
+
 ## Implemented and verified in this iteration
 - [PR #35](https://github.com/methakon/Madalasa-Alarka/pull/35) E-01 focused RLS slice merged into `dev` as `42cd4744537498e48541aa906dc5ba467a86284e` after source/diff review and green CI. E-01 remains PARTIAL pending cross-tenant HTTP/worker/cache validation.
 - Parent `parent` branch adds actual premium-preview route and visible Settings/Child Selection upgrade entry, even for WAITLISTED families. Plan list values remain ₹99/month and ₹999/year, with no coupon price.

@@ -5,6 +5,10 @@
 **Prepared:** 2026-11-04 · Branch under inspection: `api` (read-only) · Canonical sources read from `origin/main`.
 **No tracked file was modified and no commit was made.**
 
+## 2026-11-05 owner scope approval — no implied retention-period approval
+
+The owner approved progressing Free V1 non-media features, finishing Coming Soon premium preview first and manual SOS second, and excluding remote audio/camera/screen and automatic sensor-assisted SOS from Free V1. **This is not approval of the proposed 14/30-day raw GPS, 90-day derived, 12-month SOS or 30/35-day backup values, or category purge scheduling.** B-07 remains a decision/technical gate until explicit numeric values, legal basis, backup bounds and verified deletion are accepted. Keep raw GPS ingest default-off for real minors. The six-hour free display window remains a read limit, never a retention rule.
+
 ## 0. The one constraint that invalidates most casual readings
 
 > **The six-hour free-tier window is a query-access predicate, NOT a storage retention period.**

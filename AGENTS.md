@@ -1,5 +1,13 @@
 # AGENTS.md — Madalasa–Alarka
 
+## 2026-11-05 OWNER FREE V1 TASK ORDER AND CONNECTED PHONES
+
+**DO FIRST:** finish and physically test parent Madalasa plan-preview UI (₹99/month; ₹999/year per paid child; Pay now → Coming Soon; **NO real payment, trial or entitlement**). Reuse merged parent PR #30; do not build payment gateway. **SECOND:** manual visible child SOS → authenticated backend acceptance → guardian notification/acknowledgement with honest separate statuses; run on owner-controlled phones. **DEFER FROM FREE V1:** all remote mic/camera/video/screen capture and sensor-assisted automatic SOS; do not request additional media permissions for the Free V1 build or imply these features are available. Other non-media features remain subject to their independent acceptance gates.
+
+**USB hardware already present according to the owner:** two Android phones are attached to the Hermes workstation with USB debugging enabled. Hermes must discover with `adb devices -l` and check authorization/status; do not ask owner to obtain devices, assume an authorized session, or claim real-device tests already passed. Use exact `adb -s SERIAL` targets, no concurrent Gradle builds in one checkout, capture quiesced SHA-256 build evidence, and redact serials, coordinates and tokens. No tool access to those USB phones exists inside this ChatGPT runtime.
+
+**Approvals limited to product scope:** this does NOT select missing B-07 numeric retention periods, B-09/B-18 exact guardian authority/token TTL values, legal child-data processing entitlement, Play review approval, or live monitoring enablement. Preserve default-off gates and protect test subjects.
+
 ## 2026-11-05 OVERRIDING X402 POSTGRESQL RESOURCE GATE — NO-GO
 
 Read-only live SSH preflight found x402's **954 MiB RAM and idle swap use insufficient for safe PostgreSQL/PostGIS alongside mail**. The project owner accepted the worker's **NO-GO**: **DO NOT INSTALL OR START POSTGRESQL ON X402**, even for bounded lab testing; do not degrade Nginx/OpenSMTPD/Dovecot or disable security/Oracle services to make space. The former optional `deploy/x402/api/postgresql-lowmem.conf.example` is forbidden for this host. x402 remains API/admin deployment candidate ONLY, pending separate DB host approval and independently tested verified TLS/private-network access. A ≥2 GiB resize requires new approval and memory replay. GCP's billing accounts were reported closed; no new cloud provisioning or billing activation was authorized. See [runbook decision](docs/phases/M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md#2026-11-05-live-ssh-preflight--postgresql-co-location-no-go-owner-accepted).

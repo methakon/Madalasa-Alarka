@@ -1,6 +1,12 @@
 # Madalasa–Alarka — Free-first release with 108 admitted children
 **Owner direction:** 2026-11-03 · **Status:** IMPLEMENTATION IN REVIEW; NOT published to Google Play; real-child release remains NO-GO pending independent legal/Play/operational gates.
 
+## 2026-11-05 SUPERSEDING FREE V1 OWNER SCOPE — PLAN PREVIEW AND MANUAL SOS
+
+The 2026-11-03 instruction to disable **all premium navigation** is superseded **only for visible premium catalog preview**: parent Madalasa must display ₹99/month and ₹999/year list-price previews, and Pay now must show a Coming Soon overlay with no payment/token/checkout/entitlement/trial activity. Finish real-device UX acceptance **first**. This is **not billing activation**; payment code stays disabled and existing server `FREE_ONLY` controls remain intact.
+
+Second priority is **manual, user-initiated SOS** with tested delivery/acceptance/guardian-read distinctions on the two Android phones the owner reports attached via USB debugging. Presence of connected phones is not proof of hardware acceptance. **Not part of Free V1:** remote microphone/camera/video/screen recording or viewing and automatic sensor-assisted/fall SOS; keep future designs but ship all capture/automatic detection paths disabled. Other approved development scope never overrides Google Play/DPDP legality or explicit category-retention and guardian TTL decisions. [Owner checkpoint](FREE_FIRST_IMPLEMENTATION_AND_REAL_DEVICE_HANDOFF_2026-11-04.md#2026-11-05-owner-release-scope-and-available-hardware--supercedes-older-task-priorities).
+
 ## Decision
 Launch a **free-only public build first**. Keep all previously built billing, 48-hour trial, founding-member pricing, viewer leases, add-ons and premium/media research in the repository and design system; **do not delete them**. Disable premium navigation/checkout/entitlement actions in both Android applications and the production API. BillDesk/provider verification can proceed once a lawful, approved live free app/site exists, but never treat public listing alone as merchant approval. A paid release is a later separately reviewed binary/API deployment after Google Play Billing and provider approvals.
 
