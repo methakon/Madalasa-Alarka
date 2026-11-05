@@ -118,15 +118,17 @@ def source_chain(root=ROOT):
     return entries, selected
 
 
-def validate_container(item, port):
+def validate_container(item, port, host):
     labels = item.get('Config', {}).get('Labels', {})
     owned = labels.get('com.madalasa.local-db-root') == str(ROOT)
     owned = owned or any(m.get('Source') == str(ROOT / '.local-db/pgdata')
                          and m.get('Destination') == '/var/lib/postgresql/data'
                          for m in item.get('Mounts', []))
     bindings = item.get('HostConfig', {}).get('PortBindings', {}).get('5432/tcp', [])
-    if (labels.get('com.madalasa.local-db') != 'synthetic' or not owned
+    if (host not in ('127.0.0.1', '::1')
+            or labels.get('com.madalasa.local-db') != 'synthetic' or not owned
             or not item.get('State', {}).get('Running') or not bindings
+            or not any(b.get('HostIp') == host and b.get('HostPort') == port for b in bindings)
             or any(b.get('HostIp') not in ('127.0.0.1', '::1') or b.get('HostPort') != port for b in bindings)):
         raise ValueError('Target must be a running checkout-owned synthetic loopback container')
 
@@ -135,7 +137,7 @@ def docker(args):
     return subprocess.run(['docker', *args], capture_output=True, text=True, check=True, timeout=15).stdout
 
 
-def inspect_container(name, port):
+def inspect_container(name, port, host):
     if name not in ('madalasa-local-postgres', 'madalasa-memory-test-postgres', 'madalasa-pr11-test-postgres'):
         raise ValueError('Unrecognized synthetic container')
     # Deliberately do not read Config.Env (may contain credentials): select the
@@ -146,7 +148,7 @@ def inspect_container(name, port):
             'Mounts': raw.get('Mounts'), 'Config': {'Labels': (raw.get('Config') or {}).get('Labels')},
             'HostConfig': {k: (raw.get('HostConfig') or {}).get(k)
                            for k in ('PortBindings', 'Memory', 'NanoCpus')}}
-    validate_container(item, port)
+    validate_container(item, port, host)
     return item
 
 
@@ -380,7 +382,7 @@ def run(args):
     from tools.database import manage
     for target in targets:
         manage.validate_target(target)
-    container = inspect_container(args.container, targets[0]['port'])
+    container = inspect_container(args.container, targets[0]['port'], targets[0]['host'])
     environment = preflight(f, entries, chain)
     environment.update({'checkout_sha': git('rev-parse', 'HEAD').decode().strip(),
                         'tracked_diff_sha256': hashlib.sha256(git('diff', 'HEAD', '--binary')).hexdigest(),

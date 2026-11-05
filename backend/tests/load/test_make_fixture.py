@@ -11,7 +11,7 @@ import make_fixture as fixture
 
 class FixtureGuardTests(unittest.TestCase):
     def config(self):
-        target = 'host=127.0.0.1 port=15433 dbname=madalasa_alarka_test password=synthetic-fixture'
+        target = 'host=127.0.0.1 port=15433 dbname=madalasa_alarka_test password=test-only-fixture'
         return {'test': {'admin': target + ' user=postgres',
                          'runtime': target + ' user=madalasa_dev',
                          'migration': target + ' user=madalasa_migrator',
@@ -54,7 +54,7 @@ class FixtureGuardTests(unittest.TestCase):
                 patch.object(fixture.psycopg, 'connect') as connect:
             with self.assertRaises(ValueError):
                 self.invoke(self.config())
-            inspect.assert_called_once_with('madalasa-memory-test-postgres', '15433')
+            inspect.assert_called_once_with('madalasa-memory-test-postgres', '15433', '127.0.0.1')
             connect.assert_not_called()
 
     def test_disabled_opt_in_never_writes(self):
@@ -76,6 +76,33 @@ class FixtureGuardTests(unittest.TestCase):
             for kind in ('admin', 'runtime', 'migration'):
                 self.assertNotIn('application_name', fixture.conninfo_to_dict(checked[kind]))
             connect.assert_not_called()
+
+
+    def test_main_rejects_opposite_loopback_listener_before_connect(self):
+        for target_host, published_host in (('::1', '127.0.0.1'), ('127.0.0.1', '::1')):
+            config = self.config()
+            for kind in ('admin', 'runtime', 'migration'):
+                config['test'][kind] = config['test'][kind].replace('127.0.0.1', target_host)
+            item = {'State': {'Running': True}, 'Config': {'Labels': {
+                'com.madalasa.local-db': 'synthetic',
+                'com.madalasa.local-db-root': str(fixture.ROOT)}}, 'Mounts': [],
+                'HostConfig': {'PortBindings': {'5432/tcp': [
+                    {'HostIp': published_host, 'HostPort': '15433'}]}}}
+            with self.subTest(target=target_host), \
+                    tempfile.TemporaryDirectory(dir=fixture.ROOT / '.local-db') as directory:
+                path = Path(directory) / 'connection.json'
+                path.write_text(json.dumps(config))
+                path.chmod(0o600)
+                output = Path(directory) / 'fixture.json'
+                argv = ['make_fixture.py', '--allow-disposable-db', '--devices', '1',
+                        '--connection', str(path), '--output', str(output)]
+                with patch('sys.argv', argv), \
+                        patch.object(fixture.load_guard, 'docker', return_value=json.dumps([item])), \
+                        patch.object(fixture.psycopg, 'connect') as connect:
+                    with self.assertRaises(ValueError):
+                        fixture.main()
+                    connect.assert_not_called()
+                    self.assertFalse(output.exists())
 
 
 if __name__ == '__main__':

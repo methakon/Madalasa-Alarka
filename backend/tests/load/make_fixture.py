@@ -45,7 +45,7 @@ def guarded_target(path, allow_disposable):
     endpoint = lambda target: tuple(target[k] for k in ('host', 'port', 'dbname'))
     if any(endpoint(target) != endpoint(targets['admin']) for target in targets.values()):
         raise ValueError('All fixture roles must use the same guarded target')
-    load_guard.inspect_container(cfg['container'], targets['admin']['port'])
+    load_guard.inspect_container(cfg['container'], targets['admin']['port'], targets['admin']['host'])
     return cfg
 
 

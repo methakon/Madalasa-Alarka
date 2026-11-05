@@ -68,10 +68,17 @@ class GuardTests(unittest.TestCase):
             'com.madalasa.local-db': 'synthetic', 'com.madalasa.local-db-root': str(load.ROOT)}},
             'HostConfig': {'PortBindings': {'5432/tcp': [{'HostIp': '127.0.0.1', 'HostPort': '15434'}]}},
             'Mounts': []}
-        load.validate_container(item, '15434')
+        load.validate_container(item, '15434', '127.0.0.1')
+        # The other loopback family can host an unrelated PostgreSQL instance.
+        with self.assertRaises(ValueError):
+            load.validate_container(item, '15434', '::1')
+        item['HostConfig']['PortBindings']['5432/tcp'][0]['HostIp'] = '::1'
+        load.validate_container(item, '15434', '::1')
+        with self.assertRaises(ValueError):
+            load.validate_container(item, '15434', '127.0.0.1')
         item['HostConfig']['PortBindings']['5432/tcp'][0]['HostIp'] = '0.0.0.0'
         with self.assertRaises(ValueError):
-            load.validate_container(item, '15434')
+            load.validate_container(item, '15434', '127.0.0.1')
 
     def test_events_are_generated_only_and_unique(self):
         a, b = load.events(3, 50), load.events(3, 53)
