@@ -1,6 +1,17 @@
 # X402 Free-First API + Admin deployment — implementation runbook
 **Record:** X402-DEPLOY-001 · **Date:** 2026-11-05 · **Stage:** deployment candidate / controlled adult-device lab, **NOT public child-monitoring approval**.
 
+## 2026-11-05 owner hostname selection
+
+**Owner supplied:** `madalasa.berhampore.in`. This is the **admin-panel hostname** `https://madalasa.berhampore.in`, and the separate **proposed** API hostname is `https://api.madalasa.berhampore.in`. Both should resolve to the VM public IPv4 `161.33.146.238` only after DNS changes are confirmed. An existing DNS record or Nginx virtual host may already own the first hostname: **inspect and preserve current content before changing it**. No DNS, TLS certificate, or VM state was changed by recording this decision.
+
+| DNS host | Proposed record | Purpose |
+|---|---|---|
+| `madalasa.berhampore.in` | A → `161.33.146.238` | Admin UI, same-origin `/v1/admin/*` only |
+| `api.madalasa.berhampore.in` | A → `161.33.146.238` (new subdomain, owner DNS control pending) | Parent/child free-service API, deny admin routes |
+
+API env `MA_ADMIN_ORIGIN=https://madalasa.berhampore.in`; backend remains local `127.0.0.1:8080`. Admin and API Nginx templates on `admin-web` use the hostnames and expected separate LetsEncrypt live certificate paths. **They will fail `nginx -t` until valid certificates exist.** Use a non-invasive HTTP-01 DNS/ACME procedure that keeps current port-80 websites, Nginx and mail services operational; do not assume Certbot is installed or replace existing certificates. Verify `dig +short A` for both hosts, detect public A/AAAA mismatches, check `sudo nginx -T` for duplicate `server_name`, and confirm ports 80/443 firewall rules before issuance. No automatic redirect, HSTS, or public publishing until the verified admin/auth flows pass.
+
 ## 1. Owner-provided host baseline (unverified by this assistant)
 - Host label: `x402-endpoint`; public IPv4 **161.33.146.238**, private **10.0.0.89**.
 - Ubuntu 24.04.5 LTS, Linux 6.17.0-1020-oracle, **x86_64**, KVM/AMD EPYC 7551, **2 vCPU**.
@@ -15,7 +26,7 @@
 ```text
 Parent Madalasa / Alarka adult lab     Staff browser
         |                                  |
-    HTTPS api.<domain>                HTTPS admin.<domain>
+    HTTPS api.madalasa.berhampore.in    HTTPS madalasa.berhampore.in
         |                                  |
         +-------- existing NGINX on 443 --+
                             |
@@ -30,7 +41,7 @@ Parent Madalasa / Alarka adult lab     Staff browser
        existing nginx/mail services remain undisturbed
 ```
 
-**Two DNS FQDNs required:** one API and one admin host, each with valid HTTPS TLS certificate, independent from mail subdomains. Admin client requires **exact** `MA_ADMIN_ORIGIN=https://admin.<domain>` because login and mutations enforce Origin and SameSite/secure Host-only cookies. **Do not claim a working public HTTPS endpoint using the bare IP.** The nginx templates have placeholders and intentionally cannot be installed unchanged.
+**Two DNS FQDNs required:** `api.madalasa.berhampore.in` for API and `madalasa.berhampore.in` for admin, each with valid HTTPS TLS certificate, independent from mail subdomains. Admin client requires **exact** `MA_ADMIN_ORIGIN=https://madalasa.berhampore.in` because login and mutations enforce Origin and SameSite/secure Host-only cookies. **Do not claim a working public HTTPS endpoint using the bare IP.** The nginx templates have placeholders and intentionally cannot be installed unchanged.
 
 **Memory:** systemd API `MemoryHigh=180M`, `MemoryMax=240M`, `MA_PG_CONNECTIONS=2` plus separately configured auth issuer connections. Memory limits are starting guardrails **not measurements**. Co-locating even a minimally configured PostgreSQL service on this 954 MiB VM with active mail can cause swapping/OOM; make a measured co-location decision. Prefer VM resize (at least 2–4 GiB) or separate database with verified encrypted transport before nontrivial sustained workload. **The current C++ database connector config does not establish remote PostgreSQL TLS; don't use an unencrypted off-host PostgreSQL socket.** If local Postgres is used for the controlled lab, it binds 127.0.0.1 only, with low-memory overrides as optional benchmark starting values. Never assume 108 active child capacity from synthetic DB-only tests.
 
