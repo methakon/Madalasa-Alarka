@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
+import android.content.pm.ApplicationInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +52,8 @@ fun AccountInfoScreen(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val isDebugPreview = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 
     Column(
         modifier = modifier
@@ -63,8 +67,8 @@ fun AccountInfoScreen(
             subtitle = "Child identity and emergency safety controls"
         )
 
-        // Manual SOS Card (Issue 42 / Free V1 Task 2)
-        Card(
+        // This is a local-only animation, NOT an emergency alert. Hide from release.
+        if (isDebugPreview) Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
                 containerColor = ThemeCColors.Surface
@@ -76,14 +80,14 @@ fun AccountInfoScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Emergency SOS (Manual Signal)",
+                    text = "SOS — LOCAL SIMULATION ONLY",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = ThemeCColors.Critical
                 )
 
                 Text(
-                    text = "Child-initiated manual safety signal. Device acceptance, network delivery, and human guardian acknowledgement are tracked as honest separate statuses.",
+                    text = "Development preview. No SOS is sent, no notification is delivered, no guardian is contacted, and no offline SOS is saved. Never rely on this demo in an emergency.",
                     style = MaterialTheme.typography.bodySmall,
                     color = ThemeCColors.Ink.copy(alpha = 0.8f)
                 )
@@ -94,7 +98,7 @@ fun AccountInfoScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Simulate Offline Outage",
+                        text = "Simulate Offline Outage (demo only)",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Switch(
@@ -116,7 +120,7 @@ fun AccountInfoScreen(
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            text = "TRIGGER MANUAL SOS",
+                            text = "SIMULATE SOS — NO ALERT SENT",
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
                         )
@@ -126,32 +130,32 @@ fun AccountInfoScreen(
                         ManualSosStage.LOCAL_QUEUED -> Triple(
                             Color(0xFFE65100),
                             "LOCAL_QUEUED",
-                            "Signal generated on device; waiting in local dispatch queue."
+                            "Simulated event created in memory only; no durable queue."
                         )
                         ManualSosStage.SENDING -> Triple(
                             ThemeCColors.Indigo,
                             "SENDING",
-                            "Dispatching encrypted SOS packet to Drogon VPS signaling..."
+                            "Simulating a send; no network request occurs."
                         )
                         ManualSosStage.SERVER_ACCEPTED -> Triple(
                             ThemeCColors.Teal,
                             "SERVER_ACCEPTED",
-                            "Authenticated backend accepted SOS. Outbox notification dispatched."
+                            "Simulated acceptance only. Backend not contacted."
                         )
                         ManualSosStage.NOTIFICATION_DELIVERED -> Triple(
                             ThemeCColors.Indigo,
                             "NOTIFICATION_DELIVERED",
-                            "Push notification delivered to guardian phone. Awaiting human review."
+                            "Simulated delivery only. No guardian phone contacted."
                         )
-                        ManualSosStage.GUARDIAN_ACKNOWLEDGED -> Triple(
+                        ManualSosStage.GUARDIAN_SIMULATED ACK -> Triple(
                             Color(0xFF2E7D32),
-                            "GUARDIAN_ACKNOWLEDGED",
-                            "Guardian has explicitly acknowledged! Response confirmed."
+                            "GUARDIAN_SIMULATED ACK",
+                            "Simulated acknowledgment only. No guardian confirmed anything."
                         )
                         ManualSosStage.DELIVERY_FAILED -> Triple(
                             ThemeCColors.Critical,
                             "DELIVERY_FAILED",
-                            "Transport offline. Signal safely held in durable local retry queue."
+                            "Simulated failure only. Nothing saved durably; closing app loses event."
                         )
                         ManualSosStage.AUTHORIZATION_REVOKED -> Triple(
                             Color.Gray,
@@ -172,12 +176,12 @@ fun AccountInfoScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    text = "Status: $stageText",
+                                    text = "DEMO ONLY: $stageText",
                                     fontWeight = FontWeight.Bold,
                                     color = stageColor
                                 )
                                 Text(
-                                    text = if (sosState.guardianHasAcknowledged) "ACKNOWLEDGED" else "UNACKNOWLEDGED",
+                                    text = if (sosState.guardianHasAcknowledged) "SIMULATED ACK" else "UNSIMULATED ACK",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = if (sosState.guardianHasAcknowledged) Color(0xFF2E7D32) else Color.Gray
@@ -200,7 +204,7 @@ fun AccountInfoScreen(
                             ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Retry Durable Dispatch", fontWeight = FontWeight.Bold)
+                            Text("Simulate Retry (local only)", fontWeight = FontWeight.Bold)
                         }
                     }
 
@@ -210,7 +214,7 @@ fun AccountInfoScreen(
                             onClick = onAcknowledgeSos,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Simulate Guardian Acknowledgment", color = ThemeCColors.Indigo)
+                            Text("Simulate ACK (local only)", color = ThemeCColors.Indigo)
                         }
                     }
 
