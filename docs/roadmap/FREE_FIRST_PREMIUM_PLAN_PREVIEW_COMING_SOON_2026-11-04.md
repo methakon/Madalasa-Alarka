@@ -2,6 +2,10 @@
 
 **Decision:** Supersedes the 2026-11-03 instruction to hide all upgrade/plan previews. The free-first release remains no-charge; only catalog preview and simulated checkout-entry UI are enabled. This amendment does not authorize billing.
 
+## 2026-11-05 P0 physical-device verification checkpoint
+
+Hermes reports successful Madalasa premium-preview tap-path on Panasonic ELUGA I7 EE (Android 9/API 28) and Xiaomi Mi A3 (Android 11/API 30), 88/88 JVM tests and debug APK SHA-256 `7ad0d8f16db09714a624b3c184c110906605a603621f10fed9f9e7ad899ab5ac`. [PR #43](https://github.com/methakon/Madalasa-Alarka/pull/43) implements Android 9 parent/`ui-common` minSdk 28 and has passed exact-head CI. Preview shows ₹99/₹999, month/year toggle, Pay now → Coming Soon, dismissal, 320dp and 200% font on two devices; no real payments activated. **Do not overclaim:** the screenshots are worker-local rather than independently inspected in this session, no real billing has been exercised, TalkBack acceptance not evidenced, wider Android 10–16 coverage pending, and PR #43 is not merged into `dev` yet.
+
 ## 2026-11-05 OWNER PRIORITY — FINISH THE PREMIUM PREVIEW FIRST
 
 **Approved implementation priority P0.** Finish, test and integrate the existing *Coming Soon* premium-plan preview before new SOS/media feature work. Parent PR #30 has already been merged into `dev`; do not recreate duplicate screens or re-open payment enablement. The deliverable is an accessible, phone-tested preview: plan list and monthly/yearly details at **₹99/month and ₹999/year per paid child**, navigable from Settings and WAITLISTED child entry, both buttons open/dismiss the *Coming Soon* modal, and negative tests prove **zero** purchase/order/subscription/trial/coupon/entitlement action. This is **not** approval to implement actual billing or process money.
