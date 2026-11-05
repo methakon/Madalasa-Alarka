@@ -57,6 +57,9 @@ inline drogon::Task<drogon::HttpResponsePtr> free_location_read(
 
     // Direct table scan retains RLS; the explicit WHERE prevents older
     // paid/trial rows from leaking under any feature-flag configuration.
+    // LIMIT $2::int is required: the driver binds a C++ int as a 4-byte binary
+    // int4, so an uncast LIMIT parameter (inferred bigint) fails protocol
+    // decoding with SQLSTATE 08P01 and every read answers 503.
     const std::string sql=
        "SELECT o.device_id::text AS device_id, o.event_id::text AS event_id,"
        " (extract(epoch from o.observed_at)*1000)::bigint AS observed_ms,"
@@ -65,7 +68,7 @@ inline drogon::Task<drogon::HttpResponsePtr> free_location_read(
        "FROM ap_m1.location_observations o WHERE o.child_id=$1::uuid "
        "AND o.observed_at>=statement_timestamp()-interval '6 hours' "
        "AND o.observed_at<=statement_timestamp() AND o.quality='QUALIFIED' "
-       "ORDER BY o.observed_at DESC, o.event_id DESC LIMIT $2";
+       "ORDER BY o.observed_at DESC, o.event_id DESC LIMIT $2::int";
     const int pageLimit=history ? 200 : 1;
     auto rows=co_await tx->execSqlCoro(sql,*child,pageLimit);
     Json::Value out(Json::objectValue);
