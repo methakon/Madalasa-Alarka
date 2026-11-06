@@ -1,7 +1,7 @@
 import {useCallback,useEffect,useMemo,useState,type ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Activity,BookOpen,ChevronRight,ClipboardCheck,Clock3,CreditCard,FileQuestion,Headphones,LayoutDashboard,LockKeyhole,RefreshCw,Search,ShieldCheck,ShieldAlert,Users,UserRound,ArrowRight,LogOut,AlertCircle} from 'lucide-react';
-import {request,items,may,onlyServerRoles,ApiError,type AccessState,type Role,type AdminRequest,type Faq,type Ticket,type Subscriber,type Audit,type Page} from './api';
+import {request,items,may,onlyServerRoles,setCsrfToken,clearCsrfToken,ApiError,type AccessState,type Role,type AdminRequest,type Faq,type Ticket,type Subscriber,type Audit,type Page} from './api';
 import {demoRequests,demoFaqs,demoTickets,demoSubscribers,demoAudit} from './fixtures';
 import './styles.css';
 
@@ -57,7 +57,29 @@ function App(){
  const [sessionError,setSessionError]=useState('');
  const [menuOpen,setMenuOpen]=useState(false);
  const allowed=PREVIEW||auth==='active';
- useEffect(()=>{if(PREVIEW)return;let active=true;request<AccessState>('/admin/access/me').then(s=>{if(!active)return;setAccess(s);setAuth('applicant');}).catch(e=>{if(!active)return;setAuth('signed-out');setSessionError(e instanceof ApiError&&e.status===401?'Sign in is required.':'Admin authentication backend is not yet available.');});return()=>{active=false};},[]);
+ useEffect(()=>{
+  if(PREVIEW)return;
+  let mounted=true;
+  (async()=>{
+   try{
+    const state=await request<AccessState>('/admin/access/me');
+    if(!mounted)return;
+    const verifiedRoles=state.status==='APPROVED'?onlyServerRoles(state.role_codes):[];
+    if(verifiedRoles.length){
+      // A browser reload must rotate its token; never persist CSRF or role data.
+      const proof=await request<{csrf_token:string}>('/admin/auth/csrf',{method:'POST'});
+      if(!setCsrfToken(proof.csrf_token))throw new Error('Admin CSRF bootstrap refused');
+      if(!mounted){clearCsrfToken();return;}
+      setAccess(state);setRoles(verifiedRoles);setAuth('active');
+    }else{setRoles([]);setAccess(state);setAuth('applicant');}
+   }catch(e){
+     if(!mounted)return;
+     clearCsrfToken();setRoles([]);setAuth('signed-out');
+     setSessionError(e instanceof ApiError&&e.status===401?'Sign in is required.':'Admin session could not be verified. No privileged screens are available.');
+   }
+  })();
+  return ()=>{mounted=false;};
+ },[]);
  const available=useMemo(()=>NAV.filter(x=>!x.role||may(roles,x.role)),[roles]);
  const permitted=available.some(x=>x.key===section);
  const {data,error,loading,refresh}=useAdminData(section,permitted&&allowed,PREVIEW);
@@ -71,18 +93,32 @@ function App(){
   catch(e){setActionError(e instanceof Error?e.message:'Action failed; no success assumed');}finally{setBusy(false);}
  };
  if(auth==='checking')return <NoAccess message="Checking administrator session…"/>;
- if(auth==='signed-out')return <GoogleEntry error={sessionError} onApproved={async(idToken,nonce,csrfState)=>{
+ if(auth==='signed-out')return <GoogleEntry error={sessionError} onApproved={async(idToken,nonce)=>{
    try{
-     const result=await request<{state:string;role_codes?:string[];session_expires_at:string;contact_email_verified:boolean}>('/admin/auth/google',{method:'POST',body:{id_token:idToken,nonce,csrf_state:csrfState}});
+     const result=await request<{state:string;role_codes?:string[];csrf_token?:string;session_expires_at:string;contact_email_verified:boolean}>('/admin/auth/google',{method:'POST',body:{id_token:idToken,nonce}});
+     if(!setCsrfToken(result.csrf_token))throw new Error('Server did not issue a valid CSRF token');
      const validated=await request<AccessState>('/admin/access/me');
-     const nextRoles=onlyServerRoles(result.role_codes);
+     const nextRoles=validated.status==='APPROVED'?onlyServerRoles(validated.role_codes):[];
      setAccess(validated);
-     if(result.state==='ACTIVE'&&validated.state==='APPROVED'&&nextRoles.length){
+     if(result.state==='ACTIVE'&&validated.status==='APPROVED'&&nextRoles.length){
        setRoles(nextRoles);setAuth('active');setSessionError('');
      }else{setRoles([]);setAuth('applicant');}
-   }catch(e){setSessionError(e instanceof Error?e.message:'Authentication failed');setAuth('signed-out');}
+   }catch(e){clearCsrfToken();setRoles([]);setSessionError(e instanceof Error?e.message:'Authentication failed');setAuth('signed-out');}
  }}/>
- if(auth==='applicant')return <Applicant access={access} onRefresh={()=>{void request<AccessState>('/admin/access/me').then(setAccess).catch(()=>setSessionError('Unable to refresh application status'));}} error={sessionError}/>;
+ if(auth==='applicant')return <Applicant access={access} onRefresh={()=>{
+   void (async()=>{
+     try{
+       const updated=await request<AccessState>('/admin/access/me');
+       const serverRoles=updated.status==='APPROVED'?onlyServerRoles(updated.role_codes):[];
+       if(serverRoles.length){
+         const proof=await request<{csrf_token:string}>('/admin/auth/csrf',{method:'POST'});
+         if(!setCsrfToken(proof.csrf_token))throw new Error('Session confirmation failed');
+         setRoles(serverRoles);setAuth('active');
+       }
+       setAccess(updated);setSessionError('');
+     }catch{setSessionError('Unable to verify updated application status');}
+   })();
+ }} error={sessionError}/>;
  const accessLocked=(!permitted||!allowed);
  return <div className="app-shell">
   <aside className={'sidebar '+(menuOpen?'open':'')}>
@@ -92,7 +128,12 @@ function App(){
    <div className="sidebar-foot"><LockKeyhole size={16}/><span>CHILD PRIVACY WALL ACTIVE</span></div>
   </aside>
   <main className="main">
-   <header className="topbar"><button className="menu-toggle" onClick={()=>setMenuOpen(x=>!x)} aria-label="Toggle menu">☰</button><span>Operations workspace</span><div className="top-actions"><Label>{PREVIEW?'SYNTHETIC PREVIEW':'SERVER AUTHENTICATED'}</Label><button className="icon-button" aria-label="Refresh" onClick={()=>void refresh()}><RefreshCw size={18}/></button><button className="icon-button" aria-label="Leave console" onClick={()=>{setAuth('signed-out');setRoles([]);setAccess(null);}}><LogOut size={18}/></button></div></header>
+   <header className="topbar"><button className="menu-toggle" onClick={()=>setMenuOpen(x=>!x)} aria-label="Toggle menu">☰</button><span>Operations workspace</span><div className="top-actions"><Label>{PREVIEW?'SYNTHETIC PREVIEW':'SERVER AUTHENTICATED'}</Label><button className="icon-button" aria-label="Refresh" onClick={()=>void refresh()}><RefreshCw size={18}/></button><button className="icon-button" aria-label="Leave console" onClick={()=>{if(PREVIEW){setAuth('signed-out');setRoles([]);setAccess(null);return;}
+     void request('/admin/auth/session',{method:'DELETE'}).catch(e=>{
+       setSessionError('Server logout not confirmed. Close other sessions from account security settings.');
+       setActionError(e instanceof Error?e.message:'Server logout failed');
+     }).finally(()=>{clearCsrfToken();setAuth('signed-out');setRoles([]);setAccess(null);});
+   }}><LogOut size={18}/></button></div></header>
    <div className="content"><div className="page-heading"><div><div className="breadcrumb">Administration <span>/</span> {section}</div><h1>{titles[section]}</h1><p>{subtitles[section]}</p></div><Label>{PREVIEW?'NOT LIVE':'PROTECTED'}</Label></div>
    {PREVIEW&&<div className="preview-note"><AlertCircle size={18}/> <span>Invented example accounts, tickets and subscriptions. No real records are accessed and all mutations are disabled.</span></div>}
    {error&&<div className="error-note" role="alert">{error}. No cached or fabricated live results shown.</div>}
@@ -126,42 +167,47 @@ function App(){
 function SearchField({query,setQuery,placeholder}:{query:string;setQuery:(v:string)=>void;placeholder:string}){return <div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={placeholder} aria-label={placeholder}/></div>;}
 function RequestDecision({entry,onDecision,busy,preview}:{entry:AdminRequest;onDecision:(v:object)=>void;busy:boolean;preview:boolean}){
  const [role,setRole]=useState<'FAQ_EDITOR'|'SUPPORT_AGENT'|'BILLING_VIEWER'|'USAGE_AUDITOR'>('SUPPORT_AGENT');
- const [reason,setReason]=useState('');return <div><p><strong>{entry.profile?.full_name||'Applicant'}</strong></p><p className="subtle">{entry.profile?.contact_email||'No verified contact displayed'}</p><p>Request: <code>{entry.id}</code></p><p>Status: <Label>{entry.state}</Label></p><label>Assigned role<select value={role} onChange={e=>setRole(e.target.value as typeof role)}><option>FAQ_EDITOR</option><option>SUPPORT_AGENT</option><option>BILLING_VIEWER</option><option>USAGE_AUDITOR</option></select></label><label>Reason<textarea rows={3} maxLength={500} value={reason} onChange={e=>setReason(e.target.value)}/></label><div className="button-row"><Button disabled={preview||busy||!reason.trim()||entry.state!=='PENDING_REVIEW'} onClick={()=>onDecision({decision:'APPROVE',role_codes:[role],reason,expected_revision:0})}>Approve</Button><Button kind="danger" disabled={preview||busy||!reason.trim()||entry.state!=='PENDING_REVIEW'} onClick={()=>onDecision({decision:'REJECT',role_codes:[],reason,expected_revision:0})}>Reject</Button></div><p className="fine">Requires authoritative revision, verified owner MFA and audit. In preview, no action is sent.</p></div>;
+ const [reason,setReason]=useState('');return <div><p><strong>{entry.profile?.full_name||'Applicant'}</strong></p><p className="subtle">{entry.profile?.contact_email||'No verified contact displayed'}</p><p>Request: <code>{entry.id}</code></p><p>Status: <Label>{entry.state}</Label></p><label>Assigned role<select value={role} onChange={e=>setRole(e.target.value as typeof role)}><option>FAQ_EDITOR</option><option>SUPPORT_AGENT</option><option>BILLING_VIEWER</option><option>USAGE_AUDITOR</option></select></label><label>Reason<textarea rows={3} maxLength={500} value={reason} onChange={e=>setReason(e.target.value)}/></label><div className="button-row"><Button disabled={preview||busy||!reason.trim()||!Number.isInteger(entry.revision)||entry.state!=='PENDING_REVIEW'} onClick={()=>onDecision({decision:'APPROVE',role_codes:[role],reason,expected_revision:entry.revision})}>Approve</Button><Button kind="danger" disabled={preview||busy||!reason.trim()||!Number.isInteger(entry.revision)||entry.state!=='PENDING_REVIEW'} onClick={()=>onDecision({decision:'REJECT',role_codes:[],reason,expected_revision:entry.revision})}>Reject</Button></div><p className="fine">Requires authoritative revision, verified owner MFA and audit. In preview, no action is sent.</p></div>;
 }
 function SupportReply({ticket,selected,preview,busy,act}:{ticket:Ticket|undefined;selected:string;preview:boolean;busy:boolean;act:(path:string,method:'POST'|'PUT'|'PATCH',body:unknown)=>Promise<void>}){
  const [message,setMessage]=useState('');return <Box title={ticket?'Ticket conversation · '+ticket.subject:'Ticket conversation'}>{!ticket?<Empty text="Choose a ticket to inspect authorized messages."/>:<><p>Status: <Label>{ticket.status}</Label></p><p className="fine">Ticket messages are independently restricted; never infer message text from the summary.</p><label>Reply<textarea rows={5} value={message} maxLength={5000} onChange={e=>setMessage(e.target.value)} placeholder="Write an authorized support response…"/></label><div className="button-row"><Button disabled={preview||busy||!message.trim()} onClick={()=>{void act('/admin/support/tickets/'+selected+'/reply','POST',{body:message,request_id:crypto.randomUUID()});}}>Send reply</Button></div><div className="notice"><LockKeyhole size={18}/> Child GPS, private recordings and screen captures cannot be attached by default.</div></>}</Box>;
 }
-function GoogleEntry({error,onApproved}:{error:string;onApproved:(idToken:string,nonce:string,csrfState:string)=>Promise<void>}){
+function GoogleEntry({error,onApproved}:{error:string;onApproved:(idToken:string,nonce:string)=>Promise<void>}){
  const clientId=import.meta.env.VITE_ADMIN_GOOGLE_CLIENT_ID as string|undefined;
  const [root,setRoot]=useState<HTMLDivElement|null>(null);
  const [status,setStatus]=useState('');
  useEffect(()=>{
    if(!root||!clientId)return;
-   // The backend must deliver a CSRF meta-token in the protected same-origin
-   // HTML bootstrap and independently verify OIDC issuer, audience, expiry,
-   // email_verified, nonce, subject and session authorization.
-   if(!document.querySelector('meta[name="csrf-token"]')){setStatus('Admin session bootstrap is not configured: Google login disabled.');return;}
-   const nonce=crypto.randomUUID()+crypto.randomUUID();
-   const csrfState=crypto.randomUUID()+crypto.randomUUID();
-   const script=document.createElement('script');
-   script.src='https://accounts.google.com/gsi/client';script.async=true;
-   script.onload=()=>{
-     const google=(window as Window&{google?:{accounts:{id:{initialize:(args:object)=>void;renderButton:(el:HTMLElement,opts:object)=>void}}}}).google;
-     if(!google){setStatus('Google Identity Services could not initialize.');return;}
-     google.accounts.id.initialize({client_id:clientId,nonce,auto_select:false,callback:(value:{credential?:string})=>{
-       if(value.credential)void onApproved(value.credential,nonce,csrfState);
-     }});
-     google.accounts.id.renderButton(root,{theme:'outline',size:'large',text:'continue_with',width:270});
-   };
-   script.onerror=()=>setStatus('Google Identity Services unavailable.');
-   document.head.appendChild(script);
-   return ()=>{script.remove();};
- },[root,clientId,onApproved]);
- return <main className="auth-layout"><div className="auth-card"><div className="brand-mark"><ShieldCheck/></div><p className="overline">MADALASA · ADMINISTRATION</p><h1>Welcome to the secure administration portal</h1><p>Continue with Google. Only a verified owner can approve staff and assign roles. An applicant may only access their own application status.</p><div ref={setRoot} className="google-button"/>{(!clientId||!root)&&<div className="notice"><LockKeyhole size={17}/> Google admin login is unavailable until the approved OAuth client and secure admin backend are configured.</div>}{status&&<div className="notice">{status}</div>}{error&&<div className="error-note" role="alert">{error}</div>}<p className="fine">Google sign-in alone does not grant administrative access, billing visibility or access to child data.</p></div></main>;
+   let active=true;
+   let script:HTMLScriptElement|null=null;
+   // Nonce and HttpOnly login-state cookie must originate together from the backend.
+   void (async()=>{
+     try{
+       const challenge=await request<{nonce:string;expires_at:string}>('/admin/auth/challenge',{method:'POST'});
+       if(!active)return;
+       if(!/^[a-f0-9]{64}$/.test(challenge.nonce))throw new Error('Invalid challenge issued');
+       script=document.createElement('script');
+       script.src='https://accounts.google.com/gsi/client';script.async=true;
+       script.onload=()=>{
+         if(!active)return;
+         const google=(window as Window&{google?:{accounts:{id:{initialize:(args:object)=>void;renderButton:(el:HTMLElement,opts:object)=>void}}}}).google;
+         if(!google){setStatus('Google Identity Services could not initialize.');return;}
+         google.accounts.id.initialize({client_id:clientId,nonce:challenge.nonce,auto_select:false,callback:(value:{credential?:string})=>{
+           if(active&&value.credential)void onApproved(value.credential,challenge.nonce);
+         }});
+         google.accounts.id.renderButton(root,{theme:'outline',size:'large',text:'continue_with',width:270});
+       };
+       script.onerror=()=>{if(active)setStatus('Google Identity Services unavailable.');};
+       document.head.appendChild(script);
+     }catch(e){if(active)setStatus(e instanceof Error?e.message:'Login challenge failed');}
+   })();
+   return ()=>{active=false;script?.remove();};
+ },[root,clientId]);
+ return <main className="auth-layout"><div className="auth-card"><div className="brand-mark"><ShieldCheck/></div><p className="overline">MADALASA · ADMINISTRATION</p><h1>Welcome to the secure administration portal</h1><p>Continue with Google. Only a verified owner can approve staff and assign roles. An applicant may only access their own application status.</p><div ref={setRoot} className="google-button"/>{!clientId&&<div className="notice"><LockKeyhole size={17}/> Google admin login is unavailable until the approved OAuth client and secure admin backend are configured.</div>}{status&&<div className="notice">{status}</div>}{error&&<div className="error-note" role="alert">{error}</div>}<p className="fine">Google sign-in alone does not grant administrative access, billing visibility or access to child data.</p></div></main>;
 }
 function Applicant({access,onRefresh,error}:{access:AccessState|null;onRefresh:()=>void;error:string}){
- const [fullName,setFullName]=useState(''),[email,setEmail]=useState(''),[address,setAddress]=useState(''),[gender,setGender]=useState(''),[dob,setDob]=useState('');
- const [revision]=useState(0),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[problem,setProblem]=useState('');
+ const [fullName,setFullName]=useState(''),[email,setEmail]=useState('');
+ const revision=access?.profile_revision??0;const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[problem,setProblem]=useState('');
  const [challenge,setChallenge]=useState(''),[code,setCode]=useState('');
  const act=async(path:string,method:'PUT'|'POST',body:unknown)=>{
    setBusy(true);setProblem('');setMessage('');
@@ -169,18 +215,16 @@ function Applicant({access,onRefresh,error}:{access:AccessState|null;onRefresh:(
    catch(e){setProblem(e instanceof Error?e.message:'Request rejected');}
    finally{setBusy(false);}
  };
- const pending=access?.state==='PENDING_REVIEW';
+ const currentState=access?.status||access?.state||'UNKNOWN';const pending=currentState==='PENDING_REVIEW';
  return <main className="auth-layout"><div className="auth-card applicant-card">
  <div className="brand-mark"><UserRound/></div><p className="overline">BO-02 / BO-02V / BO-03 · ADMIN ACCESS</p>
  <h1>{pending?'Your access application is awaiting review':'Complete your verified applicant profile'}</h1>
- <p>Application state: <strong>{access?.state||'UNKNOWN'}</strong>. Only your own application is visible before owner approval.</p>
+ <p>Application state: <strong>{currentState}</strong>. Only your own application is visible before owner approval.</p>
  {error&&<div className="error-note">{error}</div>}{problem&&<div className="error-note">{problem}</div>}{message&&<div className="success-note">{message}</div>}
- {!pending&&<><div className="notice"><LockKeyhole size={18}/> Name and contact email are required by the proposed contract. Date of birth, postal address and gender remain optional unless separately justified by approved privacy policy.</div>
+ {!pending&&<><div className="notice"><LockKeyhole size={18}/> Only the minimum contact details required for staff access review are collected. Date of birth, address and gender are not requested.</div>
  <label>Full name<input value={fullName} onChange={e=>setFullName(e.target.value)} maxLength={150} autoComplete="name"/></label>
  <label>Contact email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email"/></label>
- <label>Postal address (optional)<textarea rows={2} value={address} onChange={e=>setAddress(e.target.value)} maxLength={600}/></label>
- <div className="grid two"><label>Date of birth (optional)<input type="date" value={dob} onChange={e=>setDob(e.target.value)}/></label><label>Gender (optional)<select value={gender} onChange={e=>setGender(e.target.value)}><option value="">Prefer not to specify</option><option>Female</option><option>Male</option><option>Non-binary</option><option>Self-describe</option><option>Prefer not to say</option></select></label></div>
- <div className="button-row"><Button disabled={busy||!fullName.trim()||!email.includes('@')} onClick={()=>void act('/admin/access/profile','PUT',{full_name:fullName.trim(),contact_email:email.trim(),postal_address:address,date_of_birth:dob||undefined,gender:gender||undefined,privacy_notice_version:'admin-access-draft-2026-10'})}>Save profile</Button>
+ <div className="button-row"><Button disabled={busy||!fullName.trim()||!email.includes('@')} onClick={()=>void act('/admin/access/profile','PUT',{full_name:fullName.trim(),contact_email:email.trim(),expected_revision:revision,privacy_notice_version:'admin-access-draft-2026-10'})}>Save profile</Button>
  <Button kind="secondary" disabled={busy||!email.includes('@')} onClick={()=>void act('/admin/access/verify-email','POST',{contact_email:email.trim()})}>Verify email</Button></div>
  <p className="fine">The backend must create the email challenge and validate verified Google email server-side; the UI cannot self-certify.</p>
  <label>Verification challenge ID<input value={challenge} onChange={e=>setChallenge(e.target.value)} placeholder="Server-provided UUID"/></label><label>One-time code<input value={code} onChange={e=>setCode(e.target.value)} autoComplete="one-time-code"/></label>
