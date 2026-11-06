@@ -2,6 +2,34 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-06 P1 native manual SOS integrated into dev
+
+**PR #44 merged:** Child SOS source head `dac7f828e0d5a1ca196d93462dbe16fdee72ff1e` was confirmed open, non-draft, mergeable, and with completed successful CI workflows on the exact source head. Merged to `dev` as `5ad75d00166aa1b49622c8b05064c621078ab95d`. Parent guardian-ACK PR #45 and backend/API PR #41 were previously integrated into `dev`.
+
+**Owner-device lab evidence (reported by Hermes):** Child ELUGA I7 EE Android 9/API 28 and parent Xiaomi Mi A3 Android 11/API 30; actual installed debug APK, manual SOS HTTPS POST and event-bound status, encrypted outbox survival after app force-stop, offline exact-event replay, revoked credentials, cross-family rejection and guardian explicit ACK via dev TLS proxy. Child debug APK SHA256 `77e4eadb4e92bcab21bb23c812889b855877acf5e870a45f6628fddfdb313f74`; unsigned release APK SHA256 `ec65a83fa345075a72c226f6b29ee22cc6327cb1375bffc0759d16e736d67564`. Worker-reported physical tests cannot be reproduced from GitHub alone; CI validates unit/build/branch rules, not all Android OS and operational properties. Keep physical identifiers/tokens out of public GitHub evidence.
+
+**Acceptance boundary:** P1 is `CODE_INTEGRATED / PRIVATE_LAB_VERIFIED`, **not** `PUBLIC_CHILD_SAFETY_RELEASE_APPROVED`. API/parent in-app polling and a guardian acknowledgment do **not** prove asynchronous push notification delivery while parent app is sleeping/offline or emergency-service dispatch. Offline recovery currently requires an available retry/poll execution path; investigate unattended retry scheduling and app lifecycle constraints. Pre-production release still needs Android 10–16 matrix, live DNS/TLS x402 readiness, backup/purge retention/guardian TTL, Google Play policy and India child-data feature compliance, as applicable. Do not enable real-minor monitoring, remote media, automatic sensor/fall SOS or checkout by this merge.
+
+## 2026-11-06 parent PR #45 merged, child PR #44 exact-head gate
+
+**Direct integration:** PR [#45](https://github.com/methakon/Madalasa-Alarka/pull/45) merged into `dev` as commit `758bff761487b7dae0deacfd2317467e5110cad3` after final head `3d4b204d1c68dfa79586a42627d163f04d3fd678` completed all GitHub workflows successfully. Includes guardian in-app polling/explicit ACK UI and debug-only private CA trust. **No automatic FCM push delivery evidence is claimed.**
+
+**Child PR #44** new review head `378f849b86a88e59bc26da3453e733e63c880a7d` carries mandatory SOS fixes for exact matching HTTP receipts, persisted-before-send, prevention of unacknowledged event loss, Android Keystore-only encryption, and debug-only private CA. Its latest Android checks were in progress at inspection, and it became non-mergeable against newer `dev` following PR #45. **Do not merge yet**: perform clean non-destructive main/dev sync of child and run new exact-head Android/backend suites, then owner-phone physical HTTPS and offline process-restart test with new APK hash. All later evidence must specify *which stage was obtained by actual Android apps*, not an ADB host-side script. No real child data, camera/microphone or automatic sensor SOS.
+
+## 2026-11-06 native P1 review and direct security fixes (after Hermes report)
+
+Hermes reports new native Android SOS and parent alert integration: `child` PR #44 at `ff6ace33`, `parent` PR #45 at `387d5d15`, 139/139 and 88/88 unit tests, and owner-controlled Android 9/11 handset tests via private dev HTTPS proxy. **These results precede additional GitHub security fixes; prior APK checksums and CI results are no longer exact-head evidence.**
+
+**Independent source read confirms:** `HttpsChildSosService` POSTS backend `kind:"SOS"` (not the report's incorrect `sos_manual`), polls event status with enrolled credential, and uses an AndroidKeyStore AES-GCM SOS outbox; Madalasa client fetches scoped child signals and submits guardian ACK. Guardian retrieval through polling and a manual acknowledgment are **not proof of push-provider delivery** or background emergency wake-up.
+
+**Direct changes made during review:**
+- Child/parent network security XML: the project development CA was mistakenly in the release `base-config`; it is now available through `debug-overrides` only. System certificate roots remain trusted in release.
+- Child outbox: removed software-key plaintext fallback from SharedPreferences and require successful synchronous persistence/deletion; a failed encrypted save must not be represented as queued.
+- Child HTTPS service: fail-closed event-bound JSON POST acceptance (exact UUID and SERVER_ACCEPTED), event-bound GET status and acknowledgement, and no user reset/deletion of `DELIVERY_FAILED` unacknowledged SOS. Added two regression tests (storage failure and offline-reset preservation).
+- Preserve owner-approved Free V1 exclusion of remote media and automatic sensor/fall SOS.
+
+**Remaining code/operational gates:** PR #44 and #45 must pass **new exact-head CI** after these corrections, be independently reviewed, and merge through `dev` before `main`. Rebuild APKs for actual new heads and re-run owner-controlled handset HTTPS, offline/restart/expired-event/credential revoke tests; inspect real server responses, device status and parent acknowledgements separately. Neither host-driven ADB harness nor polling proves guaranteed push notification. No real minors, location collection or public release authorization.
+
 ## 2026-11-06 PR #41 integration and P1 evidence clarification
 
 **Direct GitHub integration:** PR [#41](https://github.com/methakon/Madalasa-Alarka/pull/41) merged into `dev` at commit `862c040f2ec702131ac329ec668e949c38d2a98f` with exact-head green workflows on `158956343168c01a9a2602669412dfbfebf94f4e`. This includes C++ SOS routes, migration 0031 RLS device signal status, PostgreSQL TLS verify-full and migration 0025 reconciliation. It is **code integration**, not production x402 deployment or verified real-minor operation.
