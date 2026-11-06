@@ -1,6 +1,16 @@
 # X402 Free-First API + Admin deployment — implementation runbook
 **Record:** X402-DEPLOY-001 · **Date:** 2026-11-05 · **Stage:** deployment candidate / controlled adult-device lab, **NOT public child-monitoring approval**.
 
+## 2026-11-06 deployment execution decision — controlled staging only
+
+**Owner asks to perform x402 deployment.** Staging API/admin is technically permitted under strict no-real-minor, FREE_ONLY controls, but no SSH, DNS, HTTPS, Nginx reload, systemd install, or end-to-end admin login has been executed by the assistant. Do **not** label this as a functioning production deployment or authorise public child monitoring.
+
+**Latest source:** Neon/TLS/role-boundary and SOS API PR #41 merged to `dev` (`862c040f2ec702131ac329ec668e949c38d2a98f`); parent premium-preview PR #43 and guardian PR #45 also merged. Admin source PR #29 is **open, behind `dev`**. It requires reconciliation and exact-head checks before a deployment build. The admin's reproducible `deploy/x402/admin/build.sh` requires `admin-web/package-lock.json`, which is **not present** in the admin-workstream tree; generate, review and commit the lockfile under a connected build environment before `npm ci`. API staging env example on `api` commit `18543a6` now identifies the exact restricted login roles `ap_m1_api_user` and `ap_auth_issuer_user`, external Neon hostname and `PGSSLMODE=verify-full`; it must be reviewed and merged via `api → dev`.
+
+**Execution handoff:** [Issue #46](https://github.com/methakon/Madalasa-Alarka/issues/46) contains SSH-only operator preflight, external binary/admin build, DNS/certbot/Nginx safe publish, actual OIDC and Neon checks, mail availability and rollback evidence. x402 RAM is ~954 MiB; **never install Postgres locally** and do not run heavyweight builds on this mail host. Passwords, Neon tokens, OAuth secrets and private keys must remain outside GitHub. No app ingestion, paid checkout, camera/mic/screen or sensor SOS in controlled staging.
+
+**Deployment GO/NO-GO:** code staging preparation GO; publicly operating child-safety production service remains NO-GO pending Play/DPDP, category retention, guardian and Android gates, 108-client capacity testing, backup/restore and operational evidence. Completion requires genuine x402 runtime test results, not merely passing GitHub CI.
+
 ## 2026-11-05 LIVE SSH PREFLIGHT — POSTGRESQL CO-LOCATION NO-GO (owner accepted)
 
 **Decision: do not install PostgreSQL/PostGIS on x402-endpoint.** A worker performed read-only SSH inspection and reported 954 MiB RAM, ~540 MiB available, 57 MiB swap already used at idle, 40 GB free disk, healthy mail services (OpenSMTPD ~61 MiB, Dovecot ~16 MiB, Nginx ~11 MiB). Oracle Cloud Agent ~86 MiB, journald ~53 MiB, fail2ban ~48 MiB, fwupd ~43 MiB and snapd ~25 MiB were observed. No PostgreSQL server installed and no 5432/443/8080 listener. Minimal PostgreSQL 16 + PostGIS estimated ~85–105 MiB additional idle memory **without peak-query/autovacuum/mail-spike headroom**. Measurements and risk estimate were supplied by the worker; independent operator rerun and evidence preservation remain required.
