@@ -132,9 +132,14 @@ class HttpsChildSosService(
         val eventId = UUID.randomUUID().toString().lowercase()
         val observedAt = Instant.now().toString()
         val initialState = ManualSosState(eventId = eventId, stage = ManualSosStage.LOCAL_QUEUED)
+        // Persist first; do not display a queued state if encryption/disk write
+        // failed, and do not transmit a non-durable SOS record.
+        try {
+            outbox.savePending(initialState, observedAt)
+        } catch (e: Exception) {
+            return@withContext Result.failure(e)
+        }
         _sosState.value = initialState
-        outbox.savePending(initialState, observedAt)
-
         sendExisting(initialState, observedAt)
     }
 
@@ -289,8 +294,10 @@ class HttpsChildSosService(
 
     override fun resetSos() {
         val current = _sosState.value
-        if (current?.guardianHasAcknowledged == true || current?.stage == ManualSosStage.DELIVERY_FAILED) {
-            current.let { outbox.clearPending(it.eventId) }
+        // A network failure does not mean the SOS can be discarded. Only the
+        // confirmed guardian acknowledgement clears the durable outbox.
+        if (current?.guardianHasAcknowledged == true) {
+            outbox.clearPending(current.eventId)
             _sosState.value = null
         }
     }
