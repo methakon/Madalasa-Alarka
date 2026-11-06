@@ -2,6 +2,14 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-06 P1 native manual SOS integrated into dev
+
+**PR #44 merged:** Child SOS source head `dac7f828e0d5a1ca196d93462dbe16fdee72ff1e` was confirmed open, non-draft, mergeable, and with completed successful CI workflows on the exact source head. Merged to `dev` as `5ad75d00166aa1b49622c8b05064c621078ab95d`. Parent guardian-ACK PR #45 and backend/API PR #41 were previously integrated into `dev`.
+
+**Owner-device lab evidence (reported by Hermes):** Child ELUGA I7 EE Android 9/API 28 and parent Xiaomi Mi A3 Android 11/API 30; actual installed debug APK, manual SOS HTTPS POST and event-bound status, encrypted outbox survival after app force-stop, offline exact-event replay, revoked credentials, cross-family rejection and guardian explicit ACK via dev TLS proxy. Child debug APK SHA256 `77e4eadb4e92bcab21bb23c812889b855877acf5e870a45f6628fddfdb313f74`; unsigned release APK SHA256 `ec65a83fa345075a72c226f6b29ee22cc6327cb1375bffc0759d16e736d67564`. Worker-reported physical tests cannot be reproduced from GitHub alone; CI validates unit/build/branch rules, not all Android OS and operational properties. Keep physical identifiers/tokens out of public GitHub evidence.
+
+**Acceptance boundary:** P1 is `CODE_INTEGRATED / PRIVATE_LAB_VERIFIED`, **not** `PUBLIC_CHILD_SAFETY_RELEASE_APPROVED`. API/parent in-app polling and a guardian acknowledgment do **not** prove asynchronous push notification delivery while parent app is sleeping/offline or emergency-service dispatch. Offline recovery currently requires an available retry/poll execution path; investigate unattended retry scheduling and app lifecycle constraints. Pre-production release still needs Android 10–16 matrix, live DNS/TLS x402 readiness, backup/purge retention/guardian TTL, Google Play policy and India child-data feature compliance, as applicable. Do not enable real-minor monitoring, remote media, automatic sensor/fall SOS or checkout by this merge.
+
 ## 2026-11-06 parent PR #45 merged, child PR #44 exact-head gate
 
 **Direct integration:** PR [#45](https://github.com/methakon/Madalasa-Alarka/pull/45) merged into `dev` as commit `758bff761487b7dae0deacfd2317467e5110cad3` after final head `3d4b204d1c68dfa79586a42627d163f04d3fd678` completed all GitHub workflows successfully. Includes guardian in-app polling/explicit ACK UI and debug-only private CA trust. **No automatic FCM push delivery evidence is claimed.**
