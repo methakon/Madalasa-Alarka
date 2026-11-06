@@ -55,15 +55,15 @@ def request(method, path, token=None, body=None):
     if payload is not None:
         headers["Content-Type"] = "application/json"
     req = urllib.request.Request(API + path, data=payload, headers=headers, method=method)
-    opener = urllib.request.build_opener(
-        urllib.request.HTTPSHandler(context=ssl.create_default_context()),
-        urllib.request.HTTPHandler()
-    )
-    # Reject redirects even if they would otherwise be handled automatically.
+    # Never permit a redirect to forward test bearer credentials elsewhere.
     class DenyRedirect(urllib.request.HTTPRedirectHandler):
         def redirect_request(self, *args, **kwargs):
             fail("unexpected redirect from public API")
-    opener.add_handler(DenyRedirect())
+
+    opener = urllib.request.build_opener(
+        DenyRedirect(),
+        urllib.request.HTTPSHandler(context=ssl.create_default_context()),
+    )
     try:
         with opener.open(req, timeout=15) as resp:
             status = resp.status
