@@ -6,7 +6,7 @@ cd "$(dirname "$0")/../../../admin-web"
 test -f package-lock.json || { echo 'Missing package-lock.json: cannot reproducibly use npm ci' >&2; exit 1; }
 export NODE_ENV=production
 export VITE_ADMIN_SYNTHETIC_PREVIEW=false
-npm ci --ignore-scripts
+npm ci --ignore-scripts --include=dev
 npm test
 npm run build
 test -s dist/index.html
