@@ -140,4 +140,48 @@ class ChildSosServiceTest {
         synth.acknowledgeSimulatedSos()
         assertTrue(synth.sosState.value?.guardianHasAcknowledged ?: false)
     }
+
+    @Test
+    fun rejectedDurableWriteDoesNotDisplayQueuedOrAttemptNetwork() = runTest(testDispatcher) {
+        val outbox = object : PersistentSosOutbox {
+            override fun savePending(state: ManualSosState, observedAt: String) {
+                throw IOException("Cannot persist SOS")
+            }
+            override fun updateStage(state: ManualSosState) = Unit
+            override fun readPending(): PersistedSosEvent? = null
+            override fun clearPending(eventId: String) = Unit
+        }
+        val service = HttpsChildSosService(
+            origin = "https://127.0.0.1:8443",
+            deviceIdProvider = { "c0a80101-0000-0000-0000-000000000001" },
+            credentialProvider = { "test_token" },
+            outbox = outbox,
+            coroutineScope = testScope,
+            ioDispatcher = testDispatcher
+        )
+        assertTrue(service.triggerSos().isFailure)
+        assertNull(service.sosState.value)
+    }
+
+    @Test
+    fun offlineFailedSosCannotBeResetBeforeGuardianAcknowledges() = runTest(testDispatcher) {
+        val outbox = InMemorySosOutbox()
+        val eventId = "e87e1a39-9f44-42b7-8ce2-472a5a2283a0"
+        outbox.savePending(
+            ManualSosState(eventId = eventId, stage = ManualSosStage.DELIVERY_FAILED),
+            "2026-11-06T00:00:00Z"
+        )
+        val service = HttpsChildSosService(
+            origin = "https://127.0.0.1:8443",
+            deviceIdProvider = { null },
+            credentialProvider = { null },
+            outbox = outbox,
+            coroutineScope = testScope,
+            ioDispatcher = testDispatcher
+        )
+        service.resetSos()
+        assertEquals(eventId, outbox.readPending()?.eventId)
+        assertEquals(eventId, service.sosState.value?.eventId)
+    }
+
 }
