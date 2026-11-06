@@ -10,7 +10,6 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
-import javax.crypto.spec.SecretKeySpec
 
 data class PersistedSosEvent(
     val eventId: String,
@@ -47,34 +46,22 @@ class KeystorePersistentSosOutbox(context: Context) : PersistentSosOutbox {
     private fun b64(bytes: ByteArray): String = Base64.encodeToString(bytes, Base64.NO_WRAP)
     private fun decode(s: String): ByteArray = Base64.decode(s, Base64.NO_WRAP)
 
-    // Fallback key in memory/prefs for JVM test environments without AndroidKeyStore provider
+    // Fail closed: a real device may never persist a software AES key in
+    // SharedPreferences. Unit tests inject a fake PersistentSosOutbox instead.
     private fun getSecretKey(): SecretKey {
-        val ks = keystore()
-        if (ks != null) {
-            val existing = ks.getKey(encryptionAlias, null) as? SecretKey
-            if (existing != null) return existing
-            val generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
-            val spec = KeyGenParameterSpec.Builder(
-                encryptionAlias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-            ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                .setKeySize(256)
-                .setRandomizedEncryptionRequired(true)
-                .build()
-            generator.init(spec)
-            return generator.generateKey()
-        } else {
-            // Software fallback for JVM unit tests
-            val raw = prefs.getString("jvm_test_key", null)
-            if (raw != null) {
-                return SecretKeySpec(decode(raw), "AES")
-            }
-            val keyGen = KeyGenerator.getInstance("AES")
-            keyGen.init(256)
-            val generated = keyGen.generateKey()
-            prefs.edit().putString("jvm_test_key", b64(generated.encoded)).apply()
-            return generated
-        }
+        val ks = keystore() ?: error("AndroidKeyStore unavailable; SOS cannot be persisted safely")
+        val existing = ks.getKey(encryptionAlias, null) as? SecretKey
+        if (existing != null) return existing
+        val generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
+        val spec = KeyGenParameterSpec.Builder(
+            encryptionAlias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+        ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setKeySize(256)
+            .setRandomizedEncryptionRequired(true)
+            .build()
+        generator.init(spec)
+        return generator.generateKey()
     }
 
     override fun savePending(state: ManualSosState, observedAt: String) {
@@ -88,7 +75,7 @@ class KeystorePersistentSosOutbox(context: Context) : PersistentSosOutbox {
             .putString("eventId", state.eventId)
             .putString("iv", b64(cipher.iv))
             .putString("ciphertext", b64(ciphertext))
-            .apply()
+            .commit().also { check(it) { "SOS persistence failed" } }
     }
 
     override fun updateStage(state: ManualSosState) {
@@ -128,7 +115,7 @@ class KeystorePersistentSosOutbox(context: Context) : PersistentSosOutbox {
                 .remove("eventId")
                 .remove("iv")
                 .remove("ciphertext")
-                .apply()
+                .commit().also { check(it) { "SOS deletion failed" } }
         }
     }
 }
