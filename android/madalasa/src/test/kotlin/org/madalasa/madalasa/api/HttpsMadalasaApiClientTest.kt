@@ -31,6 +31,8 @@ class HttpsMadalasaApiClientTest {
         assertTrue(client.getChildLocation(child).isFailure)
         assertTrue(client.getChildHistory(child).isFailure)
         assertTrue(client.createPairingCode(child).isFailure)
+        assertTrue(client.getChildSignals(child).isFailure)
+        assertTrue(client.acknowledgeChildSignal(child, "22222222-2222-2222-2222-222222222222").isFailure)
     }
 
     @Test fun failsIfActorIdIsMissingEvenWithBearer() = runTest {

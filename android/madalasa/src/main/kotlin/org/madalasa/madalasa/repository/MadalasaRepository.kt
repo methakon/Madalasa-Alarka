@@ -17,6 +17,12 @@ interface MadalasaRepository {
     val history: StateFlow<HistoryReadState>
     suspend fun refreshHistory(): Result<Unit>
     val selectedChildLocation: StateFlow<VerifiedLocationState?>
+    val activeSignals: StateFlow<List<org.madalasa.madalasa.api.ChildSignalSummary>>
+        get() = kotlinx.coroutines.flow.MutableStateFlow(emptyList())
+
+    suspend fun refreshSignals(): Result<Unit> = Result.success(Unit)
+    suspend fun acknowledgeSignal(eventId: String): Result<Boolean> =
+        Result.failure(IllegalStateException("Signal service unavailable"))
 
     suspend fun refreshProfile(): Result<Unit>
     suspend fun refreshChildren(): Result<Unit>
