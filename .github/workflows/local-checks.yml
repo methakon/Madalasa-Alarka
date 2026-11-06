@@ -48,6 +48,13 @@ jobs:
       - name: Local smoke pipeline (honest skips)
         run: bash tools/smoke-local.sh
 
+      - name: X402 deployment scripts syntax and Neon env regressions (synthetic only)
+        run: |
+          bash -n deploy/x402/api/staging-acceptance.sh
+          bash -n deploy/x402/api/validate-env.sh
+          bash -n deploy/x402/api/test-validate-env.sh
+          bash deploy/x402/api/test-validate-env.sh
+
   python-format:
     runs-on: ubuntu-latest
     steps:
@@ -58,4 +65,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Byte-compile all Python (fail on syntax errors)
-        run: python3 -m compileall -q tools testkit backend/tests || { echo "::error::python syntax errors"; exit 1; }
+        run: |
+          python3 -m compileall -q tools testkit backend/tests deploy/x402/api/public-synthetic-sos-acceptance.py || { echo "::error::python syntax errors"; exit 1; }
+          if MA_ACCEPTANCE_SYNTHETIC_ONLY=NO python3 deploy/x402/api/public-synthetic-sos-acceptance.py > /tmp/public-sos-negative.log 2>&1; then
+            echo "::error::public SOS test must fail closed without explicit synthetic authorization"
+            exit 1
+          fi
