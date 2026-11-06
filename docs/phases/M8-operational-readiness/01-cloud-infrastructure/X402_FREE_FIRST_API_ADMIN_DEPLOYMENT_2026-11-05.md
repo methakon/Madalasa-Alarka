@@ -1,6 +1,14 @@
 # X402 Free-First API + Admin deployment — implementation runbook
 **Record:** X402-DEPLOY-001 · **Date:** 2026-11-05 · **Stage:** deployment candidate / controlled adult-device lab, **NOT public child-monitoring approval**.
 
+## 2026-11-06 self-implemented deployment code and Antigravity-only environment steps
+
+**Direct GitHub implementation on `api`, PR #47:** corrected previously inconsistent `deploy/x402/api/validate-env.sh` to require actual managed-Neon LOGIN roles `ap_m1_api_user`, `ap_auth_issuer_user` (not `ap_m1_api` group), `PGSSLMODE=verify-full`, absolute trust-bundle path, external database DNS hostname, exact admin HTTPS origin and FREE_ONLY. Template uses placeholders for real Neon hostname/database/passwords. Added `deploy/x402/api/test-validate-env.sh` synthetic positive/negative role/TLS/origin tests and CI invocation in `.github/workflows/local-checks.yml`. Added **read-only** `deploy/x402/api/staging-acceptance.sh` to check existing mail units, Nginx syntax, loopback listener, free-only/readiness, verified public TLS, vhost separation and bounded resource evidence. These are committed but are **not x402 deployment proof**; only merge after new-head CI, branch sync and review.
+
+**Admin build blocker remains:** `admin-web/package-lock.json` is absent from `admin-web` branch, while `deploy/x402/admin/build.sh` correctly requires reproducible `npm ci`. Do not disable this precondition; Antigravity must generate and commit reviewed lockfile with network/Node/npm tooling. PR #29 is draft/stale relative to `dev` and requires clean main/dev sync, exact-head CI and scope review.
+
+**Antigravity environment handoff** in [Issue #46](https://github.com/methakon/Madalasa-Alarka/issues/46): after source merge, SSH read-only resource + mail preflight, off-host C++/admin builds, real Neon TLS/least-privilege and OIDC config outside repository, DNS/ACME and Nginx isolation, restricted systemd install, controlled static publish, mail continuity proof and rollback. **No PostgreSQL on x402, no production child-data processing and no live payments**. If resource or mail preflight fails, NO-GO; never disable existing mail to force staging.
+
 ## 2026-11-06 deployment execution decision — controlled staging only
 
 **Owner asks to perform x402 deployment.** Staging API/admin is technically permitted under strict no-real-minor, FREE_ONLY controls, but no SSH, DNS, HTTPS, Nginx reload, systemd install, or end-to-end admin login has been executed by the assistant. Do **not** label this as a functioning production deployment or authorise public child monitoring.
