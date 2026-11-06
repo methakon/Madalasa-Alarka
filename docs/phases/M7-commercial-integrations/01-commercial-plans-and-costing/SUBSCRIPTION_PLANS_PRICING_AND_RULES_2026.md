@@ -1,5 +1,7 @@
 # Madalasa–Alarka — Subscription Plans, Hidden Charges, Compliance Rules and Revenue Model
 
+> **2026-11-03 FREE-FIRST RELEASE OVERRIDE:** The first Play release is planned as **no-charge, free-only** with at most **108 admitted child profiles**; later successful parent/child signups join an authenticated FIFO queue without service activation. Live location (subject to separate legal/OS consent gates) and six-hour visible history are the only initial tracking entitlement. No paid checkout, 48h trial, founding offers, extra viewers, remote media, or prepaid upgrade is offered in this release. All subscription/paid design and source remain preserved for a later signed-off update **after** BillDesk and Google Play approval; none of the historical price examples below are current public purchase offers. See [Free-first release and waitlist plan](../../../roadmap/FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md).\n
+
 > **Document control:** M7 / 01-commercial-plans-and-costing · Proposed owner: Product + finance (not assigned) · Registry: DOCUMENTED_REVIEW_PENDING; approval not recorded. [Master register](../../../MASTER_DOCUMENT_CONTROL_REGISTER.md).
 
 > **Current product:** **Madalasa** (parent app) + **Alarka** (child app); the GitHub repository is now **[Madalasa-Alarka](https://github.com/methakon/Madalasa-Alarka)**. [English mythological inspiration](../../M0-foundation-and-approvals/02-market-and-feasibility/BRAND_NAME_MADALASA_ALARKA_AND_MYTHOLOGY_CONCEPT.md).

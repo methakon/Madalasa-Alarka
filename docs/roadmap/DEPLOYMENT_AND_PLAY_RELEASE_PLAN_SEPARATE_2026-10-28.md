@@ -1,6 +1,16 @@
 # Separate Deployment, Google Play, and Operations Readiness Plan
 
+> **2026-11-03 FREE-FIRST SUPERSESSION:** [Free-first 108-child release / waitlist plan](FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md) adds a free-only Play release stage ahead of BillDesk/paid activation. All payment code remains preserved but disabled by default, the first 108 child profiles are assigned service slots, later signups are WAITLISTED. This is a release plan, not a Play authorization.
+
+
 **Created:** 2026-10-28. **Status:** PLANNING ONLY. **NO deployment, upload, signup or Google Play action has been performed.** This document is deliberately SEPARATE from [the 262-task LOCAL DEVELOPMENT ROADMAP](LOCAL_AGENT_DEVELOPMENT_ROADMAP_2026-10-28.md). Local coding agents are prohibited from independently completing release/financial/identity/legal steps.
+
+## 2026-11-05 owner-approved Free V1 deliverable order
+
+1. **Finish parent premium catalog preview first**: ₹99/month and ₹999/year per paid child; Pay now routes to **Coming Soon** only, no actual payments, orders, trials, coupons, paid entitlements or billing profile dependency. This preview is allowed in the free build, superseding older blanket bans on all upgrade navigation.
+2. **Then finish manual child SOS**: explicit child-initiated alert and truthful backend/guardian delivery receipt status, tested on two owner-controlled phones reportedly already attached over USB debugging; actual hardware PASS is not yet evidenced.
+3. **Exclude from Free V1:** remote microphone, camera, video, screen capture/viewing, and accelerometer/gyroscope/fall-assisted automatic SOS. Maintain future research but no enabled release implementation or monitoring claims.
+4. **No shortcut to public release:** separate Google Play G01/G04, India child-data lawfulness, B-07 numeric retention, guardian authority/TTL, actual phone test outcomes, device capacity and deployment signoffs. Product scope approval is not regulatory approval.
 
 ## 0. Owner-reported Play account status and privacy
 

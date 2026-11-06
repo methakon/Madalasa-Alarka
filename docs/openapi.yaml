@@ -670,6 +670,7 @@
       "post": {
         "operationId": "post_devices_deviceId_locations_batch",
         "summary": "Durably accept authenticated GPS batches to PostgreSQL inbox for async bulk insertion",
+        "x-issue32-receipt-contract": "Implementation in review; this does not supersede the durable-inbox ADR or certify its implementation. The DeviceBearer must authorize the exact path device inside the write transaction; UUID context alone is not authentication. batch_id is a stable retry identity. Exact batch replay returns 202 with accepted_count=0 and duplicate_count equal to input occurrences. For a new batch, accepted_count counts unique newly inserted event identities; duplicate_count includes previously stored events and repeated identical occurrences in the same array. Changed payload under an existing batch/event identity or a reused sequence for a different event returns sanitized 409 CONFLICT without replacing stored data. Late valid observations do not regress the latest position. No production release or measured capacity is claimed.",
         "tags": [
           "Locations"
         ],

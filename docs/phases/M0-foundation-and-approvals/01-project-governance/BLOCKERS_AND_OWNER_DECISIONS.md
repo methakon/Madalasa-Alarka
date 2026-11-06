@@ -8,6 +8,56 @@
 
 Each blocker has an owner, decision or required evidence, and lifecycle: OPEN → DECIDED → IMPLEMENTED → VERIFIED → CLOSED. **Selecting a product option does not resolve software testing or Google Play review.**
 
+## 2026-11-05 owner Free V1 priorities, USB-device availability and feature exclusion
+
+**Owner decision recorded — scope DECIDED, acceptance not implied.** The two required Android phones are already attached to the Hermes execution workstation in USB-debugging mode; worker is to discover and test them via `adb devices -l`, not request another pair. Presence is not an authorization state, physical test result or all-Android-versions coverage. Do not disclose serial numbers in documentation. Tests require no real minors.
+
+**Priority P0:** FINISH the existing Madalasa premium price-preview UX: ₹99/month / ₹999/year per paid child, *Pay now → Coming Soon*, no charge, no purchase/trial/coupon/billing SDK/provider activation, and cannot bypass admission slots. Test on attached hardware with full accessibility and negative backend assertions. **No payment processing authorized in Free V1.**
+
+**Priority P1:** finish MANUAL, visibly user-initiated SOS with server acceptance/notification/human-acknowledgement distinctions and real end-to-end phone testing. A backend receipt must not be mislabeled as a guardian acknowledgment. All safety/permission/revocation and offline handling remain required.
+
+**Free V1 OUT OF SCOPE:** remote camera, microphone, video, screen viewing/capture, and automatic sensor-assisted incident/fall SOS. Retain only future design/R&D, with corresponding runtime capture permissions and service pathways default OFF; no stealth mode. This removes media as a *Free V1 feature delivery* dependency, **not** as a future legal/OS policy requirement.
+
+**Other Free V1 product direction approved in principle**; the owner's message did **not specify numeric B-07 storage/backup retention, exact B-09/B-18 guardian grant/invitation/session TTLs, or inviter/revoker policy**, and cannot count as an external Google Play/DPDP clearance. Keep those exact-value items OPEN until a documented concrete selection; default-deny/no real-child collection where required. Existing Google Play publisher identity completed; BillDesk remains unrelated to Coming Soon-only mode. Source of truth: [implementation handoff](../../../roadmap/FREE_FIRST_IMPLEMENTATION_AND_REAL_DEVICE_HANDOFF_2026-11-04.md) and [premium preview](../../../roadmap/FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md).
+
+## 2026-11-05 infrastructure ruling — x402 database co-location rejected
+
+**Owner accepted the live read-only VM preflight NO-GO.** x402 `161.33.146.238` (954 MiB RAM, 57 MiB swap at idle, running OpenSMTPD/Dovecot/Nginx plus OS/security agents) is **not approved** to host PostgreSQL 16/PostGIS together with mail and Free V1 API/admin. No database was installed, no cloud resource provisioned and no existing service modified. The older optional localhost PostgreSQL setup and its 32 MiB shared_buffers tuning are now **non-executable for this VM** until explicit future reconsideration after resize.
+
+**New infrastructure blocker X402-DB-01 (OPEN / resource decision):** choose and approve a separate PostgreSQL host, or resize x402 to ≥2 GiB (4 GiB preferred) followed by an independent feasibility check. GCP Always Free VM cannot proceed with the observed eight closed billing accounts; no billing activation was authorized. Any off-host DB requires authenticated TLS/private network, 5432 restricted to API host, separate least-privileged roles, backup and isolated restore evidence. Protect mail continuity and do not pretend two DB connections certify capacity. See [x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md#2026-11-05-live-ssh-preflight--postgresql-co-location-no-go-owner-accepted).
+
+**Permitted to continue independently:** compile and review Drogon/API and static admin assets, configure genuine TLS hostnames and Nginx after existing-vhost inspection, harden local process/readiness and prepare DB TLS implementation without provisioning. **Do not enable child-device external ingestion** before security/retention/Play/legal and real-device gates clear.
+
+## 2026-11-05 x402-endpoint Free V1 deployment decision (infrastructure only)
+
+**Owner selected an interim small Ubuntu x86_64 VM** for Free V1 Drogon API and React admin deployment: 2 vCPU, 954 MiB RAM, 1 GiB swap, 45 GB root, with pre-existing nginx/dovecot/opensmtpd. This **supersedes the historical Oracle Chicago A1 architecture solely as the immediate staging target**, not the long-term scaling model. The memory budget is constrained; no 108-child HTTP capacity, database co-location safety, public TLS, service availability or deploy success is certified by host specifications. Preserve all current mail services/ports.
+
+**Implementation source prepared, NOT DEPLOYED:** on `api`, loopback systemd service, startup FREE_ONLY/identity/database validation, `GET /readyz` database/schema gate, resource preflight and HTTP smoke; on `admin-web`, separate HTTPS Nginx API/admin vhost templates, static production build, atomic deploy/rollback and tests. [Canonical x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md) and [Issue #39](https://github.com/methakon/Madalasa-Alarka/issues/39). Workstream implementation must flow through reviewed `dev → main`; runtime status remains `NOT RUN` for actual VM until an authorized operator executes deployment and submits evidence.
+
+**Gates unchanged:** G01/G04 Google Play, Indian child-data feature legality, B-07 per-category retention and backup/deletion, actual Android 10–16 permission/physical tests, guardian authority/TTL and SOS/media restrictions. Two HTTPS domains, DB topology/SSL and authorized SSH operator action are outstanding. Public child GPS/usage/media collection and payment processing remain OFF, while approved adult-device private lab testing may proceed under the documented controls.
+
+## 2026-11-04 Issue #32 engineering checkpoint and owner decisions still needed
+
+**Owner directive:** update the discussed canonical documents first; no new feature-branch creation, PR merge or production activation is implied by this documentation step. See [branch/PR scope hold](../../M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md#2026-11-04--issue-32-pr-34-scope-drift-hold-documentation-first-directive).
+
+**Live inspected PR:** [#34](https://github.com/methakon/Madalasa-Alarka/pull/34) is open/unmerged and mergeable-at-GitHub, but **NOT CLEARED TO MERGE**: the named E-01 PR now includes additional E-03, E-04, B-09/B-18, and synthetic load-test work in its mutable `api` head `7b25d5b` (14 commits, 24 files). The PR description's 309-test E-01 checkpoint is **not** exact-head cumulative acceptance. Separate scope, retain all unique content, rerun exact-head and cumulative `dev` checks, and obtain independent security review before merging.
+
+| Blocker | 2026-11-04 evidence checkpoint | Open acceptance/decision |
+| --- | --- | --- |
+| E-01 RLS | Migration 0025, posture test; 309-test earlier PR candidate, 10 skipped (Hermes report) | **PARTIAL.** Default-deny false policies do not constitute perpetual privilege guard. Review cross-tenant HTTP, workers, caches, streams and runtime role boundaries |
+| E-03 GPS idempotence | 0026–0027, device activity/auth, reported production HTTP 11/11 and 58 targeted tests | **PARTIAL.** Durable transactional inbox ADR not implemented; protect receipt semantics and commit boundary; separate PR/evidence |
+| E-04 erasure/backup | 0028 dependency-order fix; reported 8/8 tests | **PARTIAL.** External archives, Android-local copies, backup restore/re-deletion and recovery ledger proof absent |
+| B-09/B-18 guardian | 0029 and reported 15/15, 360 full tests (10 skipped) | **PARTIAL.** Owner has not decided inviter/revoker powers, primary/delegated authority, exact invite/grant/session TTLs or overlapping-grant replacement. No new semantics silently chosen |
+| B-06 SOS/media | Child encrypted queue hardening, reported 108 JVM tests | **PARTIAL.** End-to-end SOS lifecycle, media permission legality, OS rejection, delivery vs human acknowledgement and physical validation remain open |
+| FF-04/FF-07 Android | Capability scaffolding and JVM tests | **NOT READY / PARTIAL.** No production GPS collector/durable encrypted outbox/real-device pairing and GPS acceptance; 96-case matrix NOT RUN |
+| B-07 per-category retention | [DOC-075 proposal](../../../roadmap/B07_RETENTION_MATRIX_PROPOSAL_2026-11-04.md) | **PROPOSAL ONLY.** Every duration, holds and backup bound require owner and relevant law review; leave expiry arming OFF. Six-hour free history is read visibility, **not retention** |
+| 108 active child cap | 108 synthetic DB clients, 324/324 operations, ~38.9 batches/s, DB p50 ~200 ms, ~99.2% one core (worker report) | **SYNTHETIC MEASURED ONLY.** No HTTP, target VM or Android battery/real-device benchmark; do not claim proven production capacity |
+| X-01B/X-01C, X-02 G01/G04, X-03 | Submission/due-diligence packs only | **EXTERNAL / OPEN.** BillDesk activation, Play determinations and substantive child-data lawfulness unresolved; no approval invented |
+
+**Previously approved presentation change (separate from payment activation):** Free-first Madalasa displays full **₹99/month / ₹999/year per paid child** regular plan preview, never coupon-adjusted ₹50/₹500 price in public plan listing. Tapping **Pay now** opens the [Coming Soon Figma dialog](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=186-41), **without** any order, BillDesk, Play Billing, trial, coupon application or entitlement mutation. See [canonical preview contract](../../../roadmap/FREE_FIRST_PREMIUM_PLAN_PREVIEW_COMING_SOON_2026-11-04.md); `FREE_ONLY` remains server-enforced.
+
+**Pending owner decisions, deliberately not adopted:** B-07 duration by category; B-09/B-18 invite/revoke permissions and token lifetimes; B-06 manual SOS versus sensor-assisted alert release scope and camera/mic restrictions; short-lived branch exception; physical devices/target VM availability. No production-capacity, regulatory or payment approval is asserted.
+
 ## 2026-11-03 X-01B — BillDesk portal submission confirmed; review still pending
 
 **Owner-provided BillDesk Connect portal confirmation:** the application was **successfully submitted**; a numeric **Application ID** was issued for future correspondence and must appear in the email subject when writing to **onboarding@billdesk.com**. The Application ID is retained privately, **not entered into the public repository**. No `BD`-prefixed Partner ID is necessary when the correct Application ID is available.
@@ -133,6 +183,135 @@ Source on `api` **not merged to dev**. [Status/evidence](../../M1-secure-platfor
 | **E-12** | Medium | Parent map paging, named-place optimistic edits, uncertain state UX | Multi-guardian and stale-state UI tests | Parent UI |
 | **E-13** | Medium | Play Billing and optional Drive/provider integrations | Sandbox payment and OAuth revocation results | Integrations |
 | **E-14** | High | End-to-end FR-to-test traceability and CI evidence | All release-scope requirements traceable to passing tests | QA/architect |
+
+### Issue #32 engineering checkpoint — 2026-11-04
+
+**Latest executed checkpoint:** [source, commands, results and residual gates](../../../../evidence/local/issue32/ENGINEERING_CHECKPOINT_2026-11-04.md).
+Focused E-01 [PR #34](https://github.com/methakon/Madalasa-Alarka/pull/34) is open;
+its isolated candidate passed 309 database tests (10 skipped). Queued E-03/E-04
+source through 0028 passed 345 tests (10 skipped), and the production-build GPS
+HTTP harness passed 11/11 checks with a real synthetic DeviceBearer and restricted
+runtime login. E-04's bundle/case FK failure was reproduced before the correction;
+eight deletion/restore regressions passed afterwards. Later source is published
+at recovery tag `issue32-tested-packages-checkpoint-456ca1e`, not accepted into
+dev/main. These results supersede the earlier 320-test checkpoint below, **not**
+the remaining E-01/E-03/E-04 acceptance requirements or any external gate.
+
+Status: **PARTIAL; no E-item closed and no release authorized.** Work follows
+[Issue #32](https://github.com/methakon/Madalasa-Alarka/issues/32), starting with
+E-01, E-03, E-04, B-09 and B-18. Payment activation and Play decisions do not block
+synthetic engineering. Existing exact-child authority and consent requirements remain.
+
+- **E-01:** `api` checkpoint `a371979dba0fc7e382ebe44a98ee8463e5a987ac`
+  adds `v2:0025`, explicit deny intent for tables without policies, catalog
+  inspection and a role-boundary assertion including privileged membership and
+  runtime administrative attributes. These are acceptance/inspection controls:
+  a permissive false policy does not strengthen the existing no-policy default
+  denial and does not prevent future privileged DBA changes. No whole-system
+  authorization/security clearance is claimed.
+- **E-03:** receipt/concurrency changes are under implementation. Review exposed
+  a separate production integration gap: the device HTTP handler sets
+  `ap.device_id`, while V2 device context requires verified credentials/session
+  context. A successful SQL test using synthetic sessions does not prove this
+  HTTP path works. Implementing and negative-testing that boundary is executable
+  engineering, **not** an external approval dependency.
+- **Executed local evidence:** fresh synthetic PostgreSQL replay plus 41 targeted
+  database/planner tests passed. The revised full database suite ran **320 tests,
+  OK (10 skipped)** in 128.501 seconds. This ran on uncommitted E-03 source with
+  the E-01 checkpoint; it is not evidence for later HTTP changes or an accepted
+  PR. Review regressions first reproduced role-detector and duplicate-accounting
+  defects, then passed after corrections. Raw local logs remain private under
+  `.local-db/issue32-reviewed-*.log`; hosted CI and focused PR acceptance remain
+  separate gates.
+- **B-09 / B-18:** hardened on `api` commit `7b25d5b` (`v2:0029`), review pending:
+  duplicate invite scopes are refused before a token exists, acceptance reads the
+  clock *after* the invite row lock, consent withdrawal advances grant
+  revision/epoch and revokes capabilities in ingestion lock order, dead/revoked
+  sessions stop occupying viewer capacity, and revocation-only triggers drop
+  stored viewer leases when grant/authority/consent/session state changes.
+  15 new regressions; full suite **360 tests OK (10 skipped)**. No replay bypass
+  was found in the existing row-locked single-use acceptance, so none is claimed.
+  Guardian-management powers, disputed TTLs and overlapping-grant replacement
+  remain owner decisions.
+- **E-04 / B-09 / B-18:** still open. Review existing deletion/recovery and
+  guardian-authority implementation before changes; do not invent disputed TTLs
+  or a legal guardian verifier. **B-07** category durations remain undecided;
+  proposed retention matrices are not approval to enable expiry.
+- **FF-07 / 108 capacity:** **MEASURED SYNTHETIC ONLY, NOT VALIDATED.** A reproducible
+  direct-SQL harness ([load measurement](../../../../evidence/local/issue32/LOAD_MEASUREMENT_2026-11-04.md))
+  ran 108 simulated clients against a deliberately capped 1 vCPU / 512 MiB instance:
+  324/324 attempts succeeded at 38.9 batches/s, DB p50 200 ms, saturated at 99.2 % of
+  one core, with pool queueing (8 connections) the dominant delay. That is synthetic
+  ingest headroom, **not** device capacity, HTTP edge, worker drain, Android battery
+  or target-VM proof; those are NOT_RUN and the 108 figure remains a policy cap.
+- **X-01 / X-02 / X-03:** unchanged external/evidence states. Draft submission
+  packs and due-diligence notes do not establish provider, Play or legal approval.
+
+#### Issue #32 PR isolation — owner authorization 2026-11-04
+
+The owner authorized temporary branches `temp/issue32-e01`, `-e03`, `-e04` and `-guardian`
+solely to isolate already implemented security/API packages for independent review, under the
+documented `main`+`dev` synchronization and `temp → dev → main` process, with no force pushes,
+no migration rewrites and no deletion of unique work.
+
+PR #34 (`api` head `7b25d5b`) carried `0025`–`0029` plus the FF-07 load harness under an
+E-01-only title and was **closed without merging**; its commits remain on `api`. Each package
+now has its own head, all rebased to a byte-identical tree of the locally tested commit:
+
+| Package | Branch | Head | PR | State not closed |
+|---|---|---|---|---|
+| E-01 | `temp/issue32-e01` | `65068a0` | #35 | cross-tenant HTTP, worker/cache/stream authorization, privilege-boundary acceptance |
+| E-03 | `temp/issue32-e03` | `657ec13` | #36 | durable inbox ADR still unmet (synchronous raw commit + receipt) |
+| E-04 | `temp/issue32-e04` | `526d593` | #37 | deletion propagation beyond this database, backup/restore tests |
+| B-09/B-18 | `temp/issue32-guardian` | `72a9f19` | #38 | guardian powers and TTLs remain owner decisions |
+
+Merge order is E-01 → E-03 → E-04 → B-09/B-18; each later branch contains its predecessors, so
+its focused diff is the range from the previous head. Local verification on each exact head tree,
+each from a fresh container: `reset && migrate && test` → 309 / 337 / 345 / 360 tests, all
+`OK (skipped=10)`, same 10 pre-existing skips in every run.
+
+Also on this date: `main` `d5c7933` fixed the documentation structure checker, which crashed on a
+null `compatibility_pointer_path` and compared `document_count` to a hard-coded 72 — newly
+published drafts (DOC-073..075) were never relocated and legitimately have no compatibility
+pointer. `dev` `ddbd78d` merges that fix. The free-first plan preview is implemented on `parent`
+`a2dfd74` (PR #30): list prices ₹99/month and ₹999/year per paid child, "Pay now" opens Coming
+Soon only, no billing client, order API, coupon, trial or entitlement path exists.
+
+#### B-06 / FF-04 Android review — 2026-11-04 (no code change)
+
+Review only, against live `child` source (`9692d673…`; the local `origin/child`
+ref `490b190…` was stale, so files were read by explicit ref). **B-06 PARTIAL,
+FF-04 NOT_READY.** An 8-API-level × 11-module matrix with 96 planned cases exists
+as a review draft; **every case is NOT_RUN** — no emulator, device, JUnit or
+instrumented execution was performed.
+
+- **Implemented:** HTTPS/Keystore code-pairing adapter, live permission
+  preflight with user-tap OS dialogs, read-only hardware/battery inventory,
+  parent-scoped pairing/latest-location adapters.
+- **Not implemented end-to-end:** QR-first handshake and scanner, production GPS
+  collector, durable encrypted ACK-safe outbox, SOS transport/state lifecycle,
+  optional capture and parent SOS alarm. Figma screens and synthetic state
+  services are not runtime evidence.
+- **Concrete queue defects** in the synthetic `SecureLocalQueue`
+  (`android/alarka/.../service/SecureLocalQueue.kt`): `flush():82-86` removes
+  records *before* durable acknowledgement, so a transport failure loses them;
+  `evictExpired():70-75` inspects only the head and assumes timestamp order;
+  `flush()` performs no expiry check, so an idle reconnect can replay expired
+  data; storage is in-memory ArrayDeque with fixed XOR/Base64, not production
+  encryption or durability.
+- **Public manifest remains INTERNET-only** with no production location service;
+  the debug foreground-service scaffold is a noncollecting QA harness that must
+  not be reused unchanged as monitoring.
+- **Queue corrections implemented** on `child` commit `053ee8b`: `lease()` replaces
+  the destructive `flush()` (records survive a failed upload), `acknowledge(n)`
+  removes only server-accepted entries, and expiry scans the whole buffer before
+  sending. `:alarka:testDebugUnitTest` = **108 tests, 0 failures**. The change
+  currently rides in the open child PR #31 alongside its disclosure/pairing work;
+  it is unrelated to that PR's topic and should be reviewed as its own slice.
+- Next safe slice: sensor-free, capture-OFF B-06 SOS state reducer with negative
+  JVM tests. Neither slice closes FF-04, which still requires real GNSS collection,
+  durable encrypted outbox (the queue remains in-memory XOR/Base64), device/OS
+  matrix execution and Play/legal clearance.
 
 ## X-02 Google Play G01/G04 review progress — 2026-10-31
 
