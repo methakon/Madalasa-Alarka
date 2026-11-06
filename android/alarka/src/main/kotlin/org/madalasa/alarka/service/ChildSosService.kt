@@ -199,7 +199,15 @@ class HttpsChildSosService(
                 return Result.failure(SecurityException("Device authorization revoked by server"))
             }
 
-            if (status in 200..299) {
+            if (status == 201) {
+                require(conn.contentType.orEmpty().contains("application/json", ignoreCase = true)) {
+                    "Unexpected SOS receipt content type"
+                }
+                val receipt = JSONObject(conn.inputStream.bufferedReader().use { it.readText().take(8193) })
+                require(receipt.getString("event_id") == eventId &&
+                        receipt.getString("stage") == "SERVER_ACCEPTED") {
+                    "SOS receipt does not match the submitted event"
+                }
                 val acceptedState = ManualSosDeliveryPolicy.apply(
                     sendingState, eventId, ManualSosEvidence.SERVER_ACCEPTED, verifiedServerReceipt = true
                 )
@@ -259,9 +267,18 @@ class HttpsChildSosService(
             }
 
             if (status == 200) {
-                val body = conn.inputStream.bufferedReader().use { it.readText() }
-                val serverStage = Regex("\"stage\"\\s*:\\s*\"([^\"]+)\"").find(body)?.groupValues?.get(1) ?: ""
-                val guardianAck = Regex("\"guardian_acknowledged\"\\s*:\\s*(true|false)").find(body)?.groupValues?.get(1)?.toBoolean() ?: false || serverStage == "GUARDIAN_ACKNOWLEDGED"
+                require(conn.contentType.orEmpty().contains("application/json", ignoreCase = true)) {
+                    "Unexpected SOS status content type"
+                }
+                val raw = conn.inputStream.bufferedReader().use { it.readText().take(8193) }
+                require(raw.length <= 8192) { "SOS status response exceeds size limit" }
+                val body = JSONObject(raw)
+                require(body.getString("event_id") == eventId && cur.eventId == eventId) {
+                    "SOS status response belongs to another event"
+                }
+                val serverStage = body.getString("stage")
+                val guardianAck = body.optBoolean("guardian_acknowledged", false) &&
+                    serverStage == "GUARDIAN_ACKNOWLEDGED"
 
                 if (guardianAck) {
                     val ackedState = ManualSosDeliveryPolicy.apply(
