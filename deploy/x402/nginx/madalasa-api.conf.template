@@ -1,12 +1,14 @@
 # Public API hostname (no child-data service until separate legal, Play and lab gates pass).
 # Proposed API hostname: api.madalasa.berhampore.in; requires an additional DNS A record.
+# Shared Let’s Encrypt lineage contains SANs for admin + API hostnames; validate before enabling.
 # TLS cert must exist before enabling. No plaintext public API.
+# Changing DNS-only to Cloudflare-proxied requires Full (strict) and SOS/guardian API regression.
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
     server_name api.madalasa.berhampore.in;
-    ssl_certificate /etc/letsencrypt/live/api.madalasa.berhampore.in/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/api.madalasa.berhampore.in/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/madalasa.berhampore.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/madalasa.berhampore.in/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     server_tokens off;
     client_max_body_size 640k; # API location batch <= 512 KiB; endpoint validates.
