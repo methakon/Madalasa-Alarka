@@ -48,8 +48,12 @@ jobs:
       - name: Local smoke pipeline (honest skips)
         run: bash tools/smoke-local.sh
 
-      - name: X402 Neon environment validation regression (synthetic only)
-        run: bash deploy/x402/api/test-validate-env.sh
+      - name: X402 deployment scripts syntax and Neon env regressions (synthetic only)
+        run: |
+          bash -n deploy/x402/api/staging-acceptance.sh
+          bash -n deploy/x402/api/validate-env.sh
+          bash -n deploy/x402/api/test-validate-env.sh
+          bash deploy/x402/api/test-validate-env.sh
 
   python-format:
     runs-on: ubuntu-latest
