@@ -244,6 +244,34 @@ class HttpsMadalasaApiClient(
                 PairingCodeResponse(code, expiry)
             }
         }
+
+    override suspend fun getChildSignals(childId: String): Result<List<ChildSignalSummary>> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val child = exactId(childId)
+                val body = request("/v1/children/" + child + "/signals")
+                val array = body.optJSONArray("signals") ?: body.optJSONArray("items") ?: org.json.JSONArray()
+                (0 until array.length()).map { i ->
+                    val obj = array.getJSONObject(i)
+                    ChildSignalSummary(
+                        eventId = exactId(obj.getString("event_id")),
+                        kind = obj.getString("kind"),
+                        observedAt = obj.getString("observed_at"),
+                        acknowledged = obj.optBoolean("acknowledged", false)
+                    )
+                }
+            }
+        }
+
+    override suspend fun acknowledgeChildSignal(childId: String, eventId: String): Result<Boolean> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val child = exactId(childId)
+                val event = exactId(eventId)
+                val body = request("/v1/children/" + child + "/signals/" + event + "/ack", "{}")
+                body.optString("stage") == "GUARDIAN_ACKNOWLEDGED"
+            }
+        }
 }
 
 /** Always refuses authenticated operations when no approved backend is configured. */
