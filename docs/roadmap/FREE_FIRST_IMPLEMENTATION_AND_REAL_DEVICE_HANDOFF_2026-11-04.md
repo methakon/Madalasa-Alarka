@@ -2,6 +2,12 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-06 parent PR #45 merged, child PR #44 exact-head gate
+
+**Direct integration:** PR [#45](https://github.com/methakon/Madalasa-Alarka/pull/45) merged into `dev` as commit `758bff761487b7dae0deacfd2317467e5110cad3` after final head `3d4b204d1c68dfa79586a42627d163f04d3fd678` completed all GitHub workflows successfully. Includes guardian in-app polling/explicit ACK UI and debug-only private CA trust. **No automatic FCM push delivery evidence is claimed.**
+
+**Child PR #44** new review head `378f849b86a88e59bc26da3453e733e63c880a7d` carries mandatory SOS fixes for exact matching HTTP receipts, persisted-before-send, prevention of unacknowledged event loss, Android Keystore-only encryption, and debug-only private CA. Its latest Android checks were in progress at inspection, and it became non-mergeable against newer `dev` following PR #45. **Do not merge yet**: perform clean non-destructive main/dev sync of child and run new exact-head Android/backend suites, then owner-phone physical HTTPS and offline process-restart test with new APK hash. All later evidence must specify *which stage was obtained by actual Android apps*, not an ADB host-side script. No real child data, camera/microphone or automatic sensor SOS.
+
 ## 2026-11-06 native P1 review and direct security fixes (after Hermes report)
 
 Hermes reports new native Android SOS and parent alert integration: `child` PR #44 at `ff6ace33`, `parent` PR #45 at `387d5d15`, 139/139 and 88/88 unit tests, and owner-controlled Android 9/11 handset tests via private dev HTTPS proxy. **These results precede additional GitHub security fixes; prior APK checksums and CI results are no longer exact-head evidence.**
