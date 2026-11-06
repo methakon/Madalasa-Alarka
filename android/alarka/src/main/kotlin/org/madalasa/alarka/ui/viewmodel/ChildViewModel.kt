@@ -6,11 +6,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import org.madalasa.alarka.di.ChildAppContainer
-import org.madalasa.alarka.service.ChildPairingPolicy
 import org.madalasa.alarka.service.CapabilitySyncReconciler
+import org.madalasa.alarka.service.ChildPairingPolicy
 import org.madalasa.alarka.service.DeviceCapabilityReport
 import org.madalasa.alarka.service.EnrollmentResult
+import org.madalasa.alarka.service.ManualSosDeliveryPolicy
+import org.madalasa.alarka.service.ManualSosEvidence
+import org.madalasa.alarka.service.ManualSosStage
+import org.madalasa.alarka.service.ManualSosState
 import org.madalasa.alarka.service.SyntheticAlarkaEnrollmentService
 
 data class ChildUiState(
@@ -23,7 +28,9 @@ data class ChildUiState(
     val lastRevokedPermissions: List<String> = emptyList(),
     val uploadsHalted: Boolean = false,
     val connectivityStatus: String = "Not paired · No monitoring",
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val sosState: ManualSosState? = null,
+    val isOfflineMode: Boolean = false
 )
 
 class ChildViewModel(
@@ -35,6 +42,11 @@ class ChildViewModel(
 
     init {
         loadInitialState()
+        viewModelScope.launch {
+            container.sosService.sosState.collect { state ->
+                _uiState.value = _uiState.value.copy(sosState = state)
+            }
+        }
     }
 
     private fun loadInitialState() {
@@ -137,5 +149,41 @@ class ChildViewModel(
                 )
             }
         }
+    }
+
+    fun isSyntheticSosPreview(): Boolean = container.sosService.isSynthetic
+
+    fun triggerManualSos() {
+        viewModelScope.launch {
+            val result = container.sosService.triggerSos()
+            result.onFailure { error ->
+                _uiState.value = _uiState.value.copy(errorMessage = error.message)
+            }
+        }
+    }
+
+    fun retryOfflineSos() {
+        viewModelScope.launch {
+            val result = container.sosService.retryPendingSos()
+            result.onFailure { error ->
+                _uiState.value = _uiState.value.copy(errorMessage = error.message)
+            }
+        }
+    }
+
+    fun acknowledgeSosFromGuardian() {
+        if (!isSyntheticSosPreview()) return
+        viewModelScope.launch {
+            container.sosService.acknowledgeSimulatedSos()
+        }
+    }
+
+    fun toggleOfflineSimulation() {
+        if (!isSyntheticSosPreview()) return
+        _uiState.value = _uiState.value.copy(isOfflineMode = !_uiState.value.isOfflineMode)
+    }
+
+    fun resetSos() {
+        container.sosService.resetSos()
     }
 }

@@ -267,6 +267,14 @@ fun ChildNavHost(
             composable(ChildNavRoute.AccountInfo.route) {
                 AccountInfoScreen(
                     enrollmentResult = uiState.enrollmentResult,
+                    sosState = uiState.sosState,
+                    sosDemoEnabled = viewModel.isSyntheticSosPreview(),
+                    isOfflineMode = uiState.isOfflineMode,
+                    onTriggerSos = { viewModel.triggerManualSos() },
+                    onRetrySos = { viewModel.retryOfflineSos() },
+                    onAcknowledgeSos = { viewModel.acknowledgeSosFromGuardian() },
+                    onToggleOffline = { viewModel.toggleOfflineSimulation() },
+                    onResetSos = { viewModel.resetSos() },
                     onResetPairing = { viewModel.resetPairing() },
                     onNavigateHome = {
                         navController.navigate(ChildNavRoute.Disclosure.route) {
