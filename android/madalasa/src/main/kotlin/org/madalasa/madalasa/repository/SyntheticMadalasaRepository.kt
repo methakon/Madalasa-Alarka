@@ -27,6 +27,9 @@ class SyntheticMadalasaRepository(
     private val _selectedChildLocation = MutableStateFlow<VerifiedLocationState?>(null)
     override val selectedChildLocation: StateFlow<VerifiedLocationState?> = _selectedChildLocation.asStateFlow()
 
+    private val _activeSignals = MutableStateFlow<List<org.madalasa.madalasa.api.ChildSignalSummary>>(emptyList())
+    override val activeSignals: StateFlow<List<org.madalasa.madalasa.api.ChildSignalSummary>> = _activeSignals.asStateFlow()
+
     // Client-side guard prevents stale/sibling preview data. Backend child grants/RLS
     // remain authoritative; this is NOT a substitute for checking them on the server.
     private fun selectedChildAllowed(id: String): Boolean =
@@ -227,5 +230,27 @@ class SyntheticMadalasaRepository(
         } else {
             Result.failure(result.exceptionOrNull() ?: Exception("Failed to generate code"))
         }
+    }
+
+    override suspend fun refreshSignals(): Result<Unit> {
+        val child = _selectedChildId.value ?: return Result.success(Unit)
+        if (!selectedChildAllowed(child)) {
+            _activeSignals.value = emptyList()
+            return Result.success(Unit)
+        }
+        val res = apiClient.getChildSignals(child)
+        if (res.isSuccess) {
+            _activeSignals.value = res.getOrDefault(emptyList()).filter { !it.acknowledged }
+        }
+        return res.map { }
+    }
+
+    override suspend fun acknowledgeSignal(eventId: String): Result<Boolean> {
+        val child = _selectedChildId.value ?: return Result.failure(IllegalStateException("No child selected"))
+        val res = apiClient.acknowledgeChildSignal(child, eventId)
+        if (res.isSuccess) {
+            _activeSignals.value = _activeSignals.value.filter { it.eventId != eventId }
+        }
+        return res
     }
 }

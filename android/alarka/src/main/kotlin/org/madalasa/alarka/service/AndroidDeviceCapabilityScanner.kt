@@ -114,9 +114,11 @@ class AndroidDeviceCapabilityScanner(private val appContext: Context) : DeviceCa
             },
             observedConstellations=emptySet() // Cannot claim NavIC support from a feature flag.
         )
-        val locationFgs=info.services.orEmpty().any {
-            (it.foregroundServiceType and ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION)!=0
-        }
+        val locationFgs = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            info.services.orEmpty().any {
+                (it.foregroundServiceType and ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION) != 0
+            }
+        } else false
         return DeviceCapabilityReport(
             osVersion=Build.VERSION.SDK_INT,
             hasGpsHardware=gpsHardware,

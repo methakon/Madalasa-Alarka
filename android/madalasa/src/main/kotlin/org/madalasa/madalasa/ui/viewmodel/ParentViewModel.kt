@@ -20,7 +20,8 @@ data class ParentUiState(
     val selectedChildLocation: VerifiedLocationState? = null,
     val isLoading: Boolean = false,
     val pairingCode: String? = null,
-    val history: org.madalasa.madalasa.repository.HistoryReadState = org.madalasa.madalasa.repository.HistoryReadState()
+    val history: org.madalasa.madalasa.repository.HistoryReadState = org.madalasa.madalasa.repository.HistoryReadState(),
+    val activeSignals: List<org.madalasa.madalasa.api.ChildSignalSummary> = emptyList()
 )
 
 class ParentViewModel(
@@ -28,12 +29,15 @@ class ParentViewModel(
 ) : ViewModel() {
 
     val uiState: StateFlow<ParentUiState> = combine(
-        repository.profile,
-        repository.children,
-        repository.selectedChildId,
+        combine(
+            repository.profile,
+            repository.children,
+            repository.selectedChildId
+        ) { profile, children, selectedChildId -> Triple(profile, children, selectedChildId) },
         repository.selectedChildLocation,
-        repository.history
-    ) { profile, children, selectedChildId, location, history ->
+        repository.history,
+        repository.activeSignals
+    ) { (profile, children, selectedChildId), location, history, activeSignals ->
         val allowed = selectedChildId != null && children.any {
             it.id == selectedChildId && it.freeServiceState == "ADMITTED" &&
                 profile?.familyIds?.contains(it.familyId) == true
@@ -45,6 +49,7 @@ class ParentViewModel(
             selectedChildLocation = location?.takeIf { allowed && it.childId == selectedChildId },
             history = history.takeIf { allowed && (it.data == null || it.data.childId == selectedChildId) }
                 ?: org.madalasa.madalasa.repository.HistoryReadState(),
+            activeSignals = if (allowed) activeSignals else emptyList(),
             isLoading = false
         )
     }.stateIn(
@@ -64,9 +69,20 @@ class ParentViewModel(
             if (repository.refreshProfile().isSuccess && selected != null &&
                 repository.selectedChildId.value == selected) {
                 repository.selectChild(selected)
-                if (repository.selectedChildId.value == selected) repository.refreshHistory()
+                if (repository.selectedChildId.value == selected) {
+                    repository.refreshHistory()
+                    repository.refreshSignals()
+                }
             }
         }
+    }
+
+    fun refreshSignals() {
+        viewModelScope.launch { repository.refreshSignals() }
+    }
+
+    fun acknowledgeSignal(eventId: String) {
+        viewModelScope.launch { repository.acknowledgeSignal(eventId) }
     }
 
     fun clearVisibleData() {

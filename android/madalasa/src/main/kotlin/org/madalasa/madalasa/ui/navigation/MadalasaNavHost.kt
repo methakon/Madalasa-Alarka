@@ -164,7 +164,8 @@ fun MadalasaNavHost(
                 onNavigateToPrivacy = {
                     navController.navigate(ParentPrivacyPage.OVERVIEW.route)
                 },
-                onExplorePremiumPlans = { navController.navigate("premium-preview") }
+                onExplorePremiumPlans = { navController.navigate("premium-preview") },
+                onAcknowledgeSignal = { eventId -> viewModel.acknowledgeSignal(eventId) }
             )
         }
         // Preview-only premium catalog: reachable without child admission and never bills.

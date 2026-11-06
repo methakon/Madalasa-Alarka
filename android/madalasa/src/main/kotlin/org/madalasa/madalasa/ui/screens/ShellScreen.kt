@@ -51,6 +51,7 @@ fun ShellScreen(
     onNavigateToPrivacy: () -> Unit,
     onExplorePremiumPlans: () -> Unit = {},
     onRefresh: () -> Unit = {},
+    onAcknowledgeSignal: (String) -> Unit = {},
     syntheticPreview: Boolean = false
 ) {
     var selectedTab by remember { mutableStateOf(ShellTab.MAP) }
@@ -108,6 +109,44 @@ fun ShellScreen(
 
             val child = uiState.children.singleOrNull { it.id == uiState.selectedChildId }
             Text(child?.let { "Selected child: ${it.alias}" } ?: "No authorized child selected")
+
+            if (uiState.activeSignals.isNotEmpty()) {
+                val sos = uiState.activeSignals.first()
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = ThemeCTokens.Vermilion.copy(alpha = 0.12f)),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = "EMERGENCY SOS SIGNAL RECEIVED",
+                            fontWeight = FontWeight.Bold,
+                            color = ThemeCTokens.Vermilion,
+                            fontSize = 16.sp
+                        )
+                        Text(
+                            text = "A manual SOS was raised by the child. Tap below to provide explicit human guardian acknowledgement.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = ThemeCTokens.Ink
+                        )
+                        androidx.compose.material3.Button(
+                            onClick = { onAcknowledgeSignal(sos.eventId) },
+                            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                containerColor = ThemeCTokens.Vermilion,
+                                contentColor = androidx.compose.ui.graphics.Color.White
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Acknowledge Emergency SOS", fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
             OutlinedButton(onClick = onRefresh) { Text("Refresh authorization and observations") }
             OutlinedButton(onClick = onNavigateToChildSelection) { Text("Choose child") }
             when (selectedTab) {
