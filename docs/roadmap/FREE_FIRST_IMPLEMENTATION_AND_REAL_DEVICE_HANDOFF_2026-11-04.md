@@ -2,6 +2,20 @@
 
 **Purpose:** executable worker instructions, factual coding status and an owner-device lab acceptance gate. The app is NOT yet declared releasable.
 
+## 2026-11-06 native P1 review and direct security fixes (after Hermes report)
+
+Hermes reports new native Android SOS and parent alert integration: `child` PR #44 at `ff6ace33`, `parent` PR #45 at `387d5d15`, 139/139 and 88/88 unit tests, and owner-controlled Android 9/11 handset tests via private dev HTTPS proxy. **These results precede additional GitHub security fixes; prior APK checksums and CI results are no longer exact-head evidence.**
+
+**Independent source read confirms:** `HttpsChildSosService` POSTS backend `kind:"SOS"` (not the report's incorrect `sos_manual`), polls event status with enrolled credential, and uses an AndroidKeyStore AES-GCM SOS outbox; Madalasa client fetches scoped child signals and submits guardian ACK. Guardian retrieval through polling and a manual acknowledgment are **not proof of push-provider delivery** or background emergency wake-up.
+
+**Direct changes made during review:**
+- Child/parent network security XML: the project development CA was mistakenly in the release `base-config`; it is now available through `debug-overrides` only. System certificate roots remain trusted in release.
+- Child outbox: removed software-key plaintext fallback from SharedPreferences and require successful synchronous persistence/deletion; a failed encrypted save must not be represented as queued.
+- Child HTTPS service: fail-closed event-bound JSON POST acceptance (exact UUID and SERVER_ACCEPTED), event-bound GET status and acknowledgement, and no user reset/deletion of `DELIVERY_FAILED` unacknowledged SOS. Added two regression tests (storage failure and offline-reset preservation).
+- Preserve owner-approved Free V1 exclusion of remote media and automatic sensor/fall SOS.
+
+**Remaining code/operational gates:** PR #44 and #45 must pass **new exact-head CI** after these corrections, be independently reviewed, and merge through `dev` before `main`. Rebuild APKs for actual new heads and re-run owner-controlled handset HTTPS, offline/restart/expired-event/credential revoke tests; inspect real server responses, device status and parent acknowledgements separately. Neither host-driven ADB harness nor polling proves guaranteed push notification. No real minors, location collection or public release authorization.
+
 ## 2026-11-06 PR #41 integration and P1 evidence clarification
 
 **Direct GitHub integration:** PR [#41](https://github.com/methakon/Madalasa-Alarka/pull/41) merged into `dev` at commit `862c040f2ec702131ac329ec668e949c38d2a98f` with exact-head green workflows on `158956343168c01a9a2602669412dfbfebf94f4e`. This includes C++ SOS routes, migration 0031 RLS device signal status, PostgreSQL TLS verify-full and migration 0025 reconciliation. It is **code integration**, not production x402 deployment or verified real-minor operation.
