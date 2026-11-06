@@ -174,6 +174,75 @@
       "path": "backend/persistence/migrations/0022_admin_session_bridge_and_back_office.sql",
       "sha256": "dcc7fcee66c1707478e65c850ba36d150da649440a71e7956fcba5f88b5e7d49",
       "published": true
+    },
+    {
+      "id": "v2:0023",
+      "path": "backend/persistence/migrations/0023_free_first_108_child_admission.sql",
+      "sha256": "e4483cda6294f527e92e7faa271606a0f423f6938238a991cd5b5800391b49b5",
+      "published": false
+    },
+    {
+      "id": "v2:0024",
+      "path": "backend/persistence/migrations/0024_single_active_child_device_pairing_audit.sql",
+      "sha256": "da50091293b0486935e987b3c0377928bd49692fd82117e79b5ae6a9b73ea745",
+      "published": false
+    },
+    {
+      "id": "v2:0025",
+      "path": "backend/persistence/migrations/0025_rls_default_deny_and_role_boundary.sql",
+      "sha256": "40b3cf1da6bd52073b01bf6dbbf769a3bce018a7e6fcebb7e838b842661526d2",
+      "accepted_sha256": [
+        "5afa0263c57998218946dcb46b1cfb5808e76712c54d33ee932b08652e422954"
+      ],
+      "published": false
+    },
+    {
+      "id": "v2:0026",
+      "path": "backend/persistence/migrations/0026_ingest_receipt_and_conflict_codes.sql",
+      "sha256": "72d8a3fcf5b120c21411242e1e64d1047b58dd84dee92814855e177970495895",
+      "published": false
+    },
+    {
+      "id": "v2:0027",
+      "path": "backend/persistence/migrations/0027_device_credential_transaction_context.sql",
+      "sha256": "af6b5ab853483568c81f945e1ad3f863864bf56ed876a7931c07176b23647ef6",
+      "published": false
+    },
+    {
+      "id": "v2:0028",
+      "path": "backend/persistence/migrations/0028_child_erasure_dependency_order.sql",
+      "sha256": "0224989ed4ee25edba400762039fc350b217f1136a8e20e70433e2a267b4cbeb",
+      "published": false
+    },
+    {
+      "id": "compat:v2_0028_retention_hold_guard",
+      "path": "backend/persistence/migrations/compat/v2_0028_retention_hold_guard.sql",
+      "sha256": "3e0a93b6bba0843431dfade9c68ea5fb6b4bd7abdf4cf660439cfb8ad7cf0243",
+      "published": false
+    },
+    {
+      "id": "compat:v2_0028_hold_snapshot_guard",
+      "path": "backend/persistence/migrations/compat/v2_0028_hold_snapshot_guard.sql",
+      "sha256": "c890439d55b96463d754299a2d61ec60cffc4add0bee2873b7fe686a40230866",
+      "published": false
+    },
+    {
+      "id": "v2:0029",
+      "path": "backend/persistence/migrations/0029_guardian_revocation_and_invite_validation.sql",
+      "sha256": "5fa823fcf371a032f273823847cbf5fea25523ee9c1af216a01ee1d62543d347",
+      "published": false
+    },
+    {
+      "id": "v2:0030",
+      "path": "backend/persistence/migrations/0030_guarded_device_pairing_code_issuer.sql",
+      "sha256": "84ff8e004a1cafaef4ab76e7f3753f5ee754af984534f6851d718293408c443b",
+      "published": false
+    },
+    {
+      "id": "v2:0031",
+      "path": "backend/persistence/migrations/0031_child_signal_device_status.sql",
+      "sha256": "9146dbf34ebab96b0ebded838700d0f6c1f14f4ac1f29209abaf4a0790fa8cd2",
+      "published": false
     }
   ]
 }

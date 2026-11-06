@@ -66,25 +66,49 @@ class SecureLocalQueue(
         }
     }
 
-    /** Drop entries whose observed time is older than the retention window. */
+    /**
+     * Drop every entry whose observed time is older than the retention window.
+     * Scans the whole buffer: late/out-of-order observations mean an expired record
+     * can sit behind a fresh head, and the previous head-only scan kept it forever.
+     */
     fun evictExpired(nowMillis: Long) {
         val cutoff = nowMillis - retentionMillis
-        while (entries.isNotEmpty() && entries.first().observedAtEpochMs < cutoff) {
-            entries.removeFirst()
-            overflowWarning = true
-        }
+        val before = entries.size
+        entries.removeAll { it.observedAtEpochMs < cutoff }
+        if (entries.size != before) overflowWarning = true
     }
 
     /** Number of queued-but-unflushed sealed entries. */
     fun pendingCount(): Int = entries.size
 
-    /** Flush returns the decrypted payloads only while active; empty once halted. */
-    fun flush(): List<LocationObservation> {
+    /**
+     * Lease the buffered payloads for an upload attempt WITHOUT removing them.
+     * A transport failure therefore loses nothing: the caller retries the same
+     * lease, and only a durable acknowledgement removes records.
+     * Expired entries are evicted here so an idle reconnect cannot replay them.
+     */
+    fun lease(nowMillis: Long = System.currentTimeMillis()): List<LocationObservation> {
         if (!isActive) return emptyList()
-        val out = entries.map { deserialize(unseal(it.sealed)) }
-        entries.clear()
-        return out
+        evictExpired(nowMillis)
+        return entries.map { deserialize(unseal(it.sealed)) }
     }
+
+    /**
+     * Remove the [sent] oldest leased records after the server durably accepted
+     * them. Never call this before the upload is confirmed.
+     */
+    fun acknowledge(sent: Int) {
+        require(sent >= 0) { "acknowledged count must not be negative" }
+        repeat(minOf(sent, entries.size)) { entries.removeFirst() }
+    }
+
+    /**
+     * Destructive read retained only for compatibility. It returns a lease and
+     * removes nothing; use [lease] + [acknowledge] at real call sites.
+     */
+    @Deprecated("Use lease() and acknowledge() so unaccepted records survive upload failure",
+        ReplaceWith("lease()"))
+    fun flush(): List<LocationObservation> = lease()
 
     /** Raw at-rest bytes as they would appear in a backup/logcat dump. */
     fun atRestSnapshot(): List<String> = entries.map { it.sealed }

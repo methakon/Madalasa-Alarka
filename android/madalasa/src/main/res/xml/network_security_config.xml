@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Release trusts only public/system roots. Private development CA and
+         user-installed CAs must never be trusted by a distributable build. -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    <!-- Android ignores debug-overrides when android:debuggable=false. -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" />
+            <certificates src="@raw/madalasa_dev_ca" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

@@ -34,6 +34,12 @@ if(MA_SYNTHETIC_AUTH)
   target_compile_definitions(ma_backend PRIVATE MA_SYNTHETIC_AUTH=1)
 endif()
 
+# x402 free-first deploy contract: loopback listener, FREE_ONLY, DB-aware readiness.
+# Static source tests; never a substitute for live VM/TLS/DB checks.
+add_test(NAME x402_deployment_contract
+         COMMAND python3 -m unittest backend.tests.test_x402_deployment_contract -v)
+set_tests_properties(x402_deployment_contract PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
 # Frozen 14-operation OpenAPI surface must match real route registration.
 # Static coverage alone cannot prove handlers are integrated or authorized.
 add_test(NAME privacy_route_contract
@@ -45,6 +51,10 @@ add_test(NAME m1_route_registration
 # Swagger UI is a separate LOCAL dev server, never linked into ma_backend.
 add_test(NAME swagger_ui_local_security
          COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_swagger_dev.py)
+
+add_executable(test_pg_tls_policy tests/cpp/test_pg_tls_policy.cc)
+target_include_directories(test_pg_tls_policy PRIVATE src)
+add_test(NAME pg_tls_policy COMMAND test_pg_tls_policy)
 
 add_executable(test_core tests/cpp/test_core.cc)
 target_link_libraries(test_core PRIVATE ma_core)
@@ -70,6 +80,14 @@ add_test(NAME capabilities_validation COMMAND test_capabilities_validation)
 add_executable(test_device_endpoints tests/cpp/test_device_endpoints.cc)
 target_link_libraries(test_device_endpoints PRIVATE ma_core OpenSSL::Crypto)
 add_test(NAME device_endpoints COMMAND test_device_endpoints)
+
+add_executable(billing_catalog_test tests/cpp/billing_catalog_test.cc)
+target_link_libraries(billing_catalog_test PRIVATE ma_core ma_oidc)
+add_test(NAME billing_catalog COMMAND billing_catalog_test)
+
+add_executable(trial_policy_test tests/cpp/trial_policy_test.cc)
+target_link_libraries(trial_policy_test PRIVATE ma_core ma_oidc)
+add_test(NAME trial_policy_handler COMMAND trial_policy_test)
 
 add_executable(test_children_read tests/cpp/test_children_read.cc)
 target_link_libraries(test_children_read PRIVATE ma_core ma_oidc)
@@ -122,3 +140,11 @@ if(MA_LOCAL_DB_READ_PROBE)
   target_link_libraries(database_config_test PRIVATE ma_local_database)
   add_test(NAME database_config COMMAND database_config_test)
 endif()
+
+# Phase 15: pure erasure state/fence tests (no database or credentials required).
+add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
+add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
+
+# Free-first release must default to no payment or trial.
+add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
+add_test(NAME free_release_profile COMMAND test_free_release_profile)

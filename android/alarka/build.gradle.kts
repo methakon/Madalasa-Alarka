@@ -11,16 +11,30 @@ android {
     defaultConfig {
         // Non-production placeholder ID until publication authorization
         applicationId = "in.berhampore.alarka.synthetic"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 36
         versionCode = 1
         versionName = "0.1.0-synthetic"
 
+        // Empty by default: release can be installed but cannot falsely activate.
+        // Inject a reviewed HTTPS API origin for device/closed tests:
+        // ./gradlew :alarka:assembleDebug -PalarkaApiOrigin=https://api.example
+        resValue("string", "alarka_api_origin",
+            providers.gradleProperty("alarkaApiOrigin").orNull ?: "")
+
+        // Deliberately FALSE until independent legal, Play, Android and
+        // deployment signoff; a UI button cannot override this binary gate.
+        resValue("bool", "alarka_location_release_approved", "false")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            resValue("bool", "alarka_location_lab_enabled",
+                (providers.gradleProperty("alarkaLocationLab").orNull == "true").toString())
+        }
         release {
+            resValue("bool", "alarka_location_lab_enabled", "false")
             isMinifyEnabled = false
         }
     }

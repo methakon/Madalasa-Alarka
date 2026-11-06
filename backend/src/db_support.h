@@ -65,6 +65,11 @@ inline drogon::HttpResponsePtr response_for_sqlstate(const std::string& state, c
     return error_response("CONFLICT", "another identical request is still in progress; retry", rid, true);
   if (state == "57014" || state.rfind("08", 0) == 0 || state == "57P01" || state == "57P02" || state == "57P03")
     return error_response("SERVICE_UNAVAILABLE", "database unavailable or deadline exceeded", rid, true);
+  if (state == "23505")
+    return error_response("CONFLICT", "a conflicting active record exists; refresh and retry only after review", rid);
+  if (state == "MAB01" || state == "MAB02" || state == "MAB03")
+    return error_response("CONFLICT", "location batch conflicts with an earlier submission", rid);
+  if (state == "42501") return error_response("FORBIDDEN", "operation denied", rid);
   if (state == "53400") return error_response("VALIDATION_FAILED", "account limit reached", rid);
   if (state == "23514") return error_response("VALIDATION_FAILED", "value out of range", rid);
   if (state == "22007" || state == "22008") return error_response("VALIDATION_FAILED", "invalid date-time value", rid);

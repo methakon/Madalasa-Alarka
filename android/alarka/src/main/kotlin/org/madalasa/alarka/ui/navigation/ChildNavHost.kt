@@ -1,5 +1,12 @@
 package org.madalasa.alarka.ui.navigation
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import org.madalasa.alarka.R
+import org.madalasa.alarka.service.AndroidPermissionPreflight
+import org.madalasa.alarka.service.LocationSetupAction
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -52,10 +59,28 @@ fun ChildNavHost(
     val currentRoute = navBackStackEntry?.destination?.route
     var consentStatus by remember { mutableStateOf<ServerConsentStatus?>(null) }
     var consentError by remember { mutableStateOf<String?>(null) }
+    val permissionPlan = AndroidPermissionPreflight.evaluate(
+        report = uiState.capabilityReport,
+        pairedWithVerifiedCredential = viewModel.hasVerifiedParentPairing(),
+        server = consentStatus,
+        locationReleaseApproved =
+            context.resources.getBoolean(R.bool.alarka_location_release_approved)
+    )
+    val foregroundLocationRequest = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { viewModel.refreshCapabilities() }
+    val backgroundLocationRequest = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { viewModel.refreshCapabilities() }
+    val notificationRequest = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { viewModel.refreshCapabilities() }
+
     // Server consent and current Android permission are independent observations.
-    LaunchedEffect(currentRoute) {
+    LaunchedEffect(currentRoute, uiState.capabilityReport) {
         if (currentRoute == ChildNavRoute.Privacy.route ||
-            currentRoute == ChildNavRoute.LocationUnavailable.route) {
+            currentRoute == ChildNavRoute.LocationUnavailable.route ||
+            currentRoute == ChildNavRoute.Permissions.route) {
             consentStatus = null
             privacyGateway.readConsentStatus().fold(
                 onSuccess = { status ->
@@ -127,10 +152,59 @@ fun ChildNavHost(
             composable(ChildNavRoute.Permissions.route) {
                 PermissionsScreen(
                     report = uiState.capabilityReport,
+                    pairedForOptionalModules = viewModel.hasVerifiedParentPairing(),
                     onNavigateNext = { navController.navigate(ChildNavRoute.Connectivity.route) },
                     onRefresh = { viewModel.refreshCapabilities() },
                     onViewCapabilityGuide = { navController.navigate(ChildNavRoute.CapabilityGuide.route) },
-                    onViewPrivacy = { navController.navigate(ChildNavRoute.Privacy.route) }
+                    onViewPrivacy = { navController.navigate(ChildNavRoute.Privacy.route) },
+                    permissionPlan = permissionPlan,
+                    onRequestForegroundLocation = {
+                        if (permissionPlan.action == LocationSetupAction.REQUEST_FOREGROUND_LOCATION) {
+                            foregroundLocationRequest.launch(arrayOf(
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ))
+                        }
+                    },
+                    onRequestBackgroundLocation = {
+                        if (Build.VERSION.SDK_INT == 29 &&
+                            permissionPlan.action ==
+                                LocationSetupAction.REQUEST_BACKGROUND_LOCATION_ANDROID_10) {
+                            backgroundLocationRequest.launch(
+                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                            )
+                        }
+                    },
+                    onRequestNotifications = {
+                        if (Build.VERSION.SDK_INT >= 33 &&
+                            permissionPlan.action == LocationSetupAction.REQUEST_NOTIFICATION_PERMISSION) {
+                            notificationRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        }
+                    },
+                    onOpenLocationSettings = {
+                        if (permissionPlan.action == LocationSetupAction.ENABLE_SYSTEM_LOCATION)
+                            context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    },
+                    onOpenAppSettings = {
+                        if (permissionPlan.action in setOf(
+                                LocationSetupAction.OPEN_BACKGROUND_LOCATION_SETTINGS,
+                                LocationSetupAction.MANIFEST_NOT_READY
+                            )) {
+                            context.startActivity(
+                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                    data = Uri.fromParts("package", context.packageName, null)
+                                }
+                            )
+                        }
+                    },
+                    onOpenNotificationSettings = {
+                        if (permissionPlan.action == LocationSetupAction.OPEN_NOTIFICATION_SETTINGS)
+                            context.startActivity(
+                                Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                                    putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                }
+                            )
+                    }
                 )
             }
 
@@ -193,6 +267,14 @@ fun ChildNavHost(
             composable(ChildNavRoute.AccountInfo.route) {
                 AccountInfoScreen(
                     enrollmentResult = uiState.enrollmentResult,
+                    sosState = uiState.sosState,
+                    sosDemoEnabled = viewModel.isSyntheticSosPreview(),
+                    isOfflineMode = uiState.isOfflineMode,
+                    onTriggerSos = { viewModel.triggerManualSos() },
+                    onRetrySos = { viewModel.retryOfflineSos() },
+                    onAcknowledgeSos = { viewModel.acknowledgeSosFromGuardian() },
+                    onToggleOffline = { viewModel.toggleOfflineSimulation() },
+                    onResetSos = { viewModel.resetSos() },
                     onResetPairing = { viewModel.resetPairing() },
                     onNavigateHome = {
                         navController.navigate(ChildNavRoute.Disclosure.route) {

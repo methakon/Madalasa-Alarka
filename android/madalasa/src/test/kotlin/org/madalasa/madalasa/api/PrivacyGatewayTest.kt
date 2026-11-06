@@ -12,6 +12,8 @@ class PrivacyGatewayTest {
         assertTrue(gateway.guardianGrants(child).isFailure)
         assertTrue(gateway.childConsents(child).isFailure)
         assertTrue(gateway.revokeGuardianGrant(child, child).isFailure)
+        assertTrue(gateway.erasureRequests(child).isFailure)
+        assertTrue(gateway.exportRequests(child).isFailure)
     }
 
     @Test fun realGatewayRejectsInsecureHttpAndAcceptsHttpsConstructor() {
@@ -26,5 +28,6 @@ class PrivacyGatewayTest {
         val failure = gateway.guardianGrants("00000000-0000-0000-0000-000000000001")
         assertTrue(failure.isFailure)
         assertTrue(failure.exceptionOrNull()?.message.orEmpty().contains("sign in"))
+        assertTrue(gateway.erasureRequests("00000000-0000-0000-0000-000000000001").isFailure)
     }
 }

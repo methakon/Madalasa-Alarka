@@ -1,0 +1,27 @@
+# DEPRECATED FOR x402 — OWNER NO-GO, 2026-11-05.
+# DO NOT INSTALL/APPLY ON 161.33.146.238: co-located PostgreSQL failed
+# live resource preflight and must not jeopardize existing mail services.
+# Retained only to document a rejected tuning experiment. Select a separate
+# DB host, or seek separately authorized VM resize + fresh measurements.
+# OPTIONAL LAB-ONLY PostgreSQL 16 overrides for 954 MiB host.
+# NOT an automatically adopted tuning profile or a production capacity guarantee.
+# Existing dovecot/opensmtpd/nginx already consume significant memory.
+# Use only after RAM/VM pressure review, backups and restore validation.
+listen_addresses = '127.0.0.1'
+port = 5432
+max_connections = 15
+shared_buffers = '32MB'
+effective_cache_size = '128MB'
+work_mem = '1MB'
+maintenance_work_mem = '32MB'
+temp_buffers = '4MB'
+wal_buffers = '4MB'
+autovacuum_max_workers = 1
+max_worker_processes = 2
+max_parallel_workers = 0
+max_parallel_workers_per_gather = 0
+log_min_duration_statement = 1000
+log_connections = off
+log_disconnections = off
+# Must still enforce app-specific sensitive statement parameter/log minimization.
+# Never expose Postgres :5432 on public/private NIC; localhost only.
