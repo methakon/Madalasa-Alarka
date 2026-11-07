@@ -11,6 +11,9 @@ test('admin web is HTTPS with only scoped admin API',()=>{
  assert.match(admin,/location \^~ \/v1\/ \{ return 404; \}/);
  assert.match(admin,/proxy_pass http:\/\/127\.0\.0\.1:8080/);
  assert.match(admin,/frame-ancestors 'none'/);
+ assert.match(admin,/Strict-Transport-Security "max-age=31536000; includeSubDomains" always;/);
+ assert.match(admin,/location \^~ \/v1\/admin\/[\s\S]*?Content-Security-Policy/);
+ assert.match(admin,/location \^~ \/v1\/admin\/[\s\S]*?Strict-Transport-Security/);
  assert.doesNotMatch(admin,/listen 80/);
 });
 
@@ -18,7 +21,7 @@ test('public API does not expose administrator routes',()=>{
  const api=read('../nginx/madalasa-api.conf.template');
  assert.match(api,/location \^~ \/v1\/admin\/ \{ return 404; \}/);
  assert.match(api,/listen 443 ssl/);
- assert.doesNotMatch(api,/listen 80/);
+ assert.match(api,/return 301 https:\/\/api\.madalasa\.berhampore\.in\$request_uri;/);
  assert.doesNotMatch(api,/proxy_pass http:\/\/161\.33\.146\.238/);
 });
 
