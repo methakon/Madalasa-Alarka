@@ -99,6 +99,10 @@
 | Current documentation controls | [Machine register](document-control-register.json), [phase checklist](DOCUMENTATION_PHASE_GATE_CHECKLIST.md), [verification tools](tools/README.md) | 72-row relocation scope only; 22 parser/negative tests and whole-library local links; no approval inferred |
 | Consolidation accounting | [Branch record](../evidence/local/integration/BRANCH_CONSOLIDATION_2026-10-30.json), [documentation source-path proof](../evidence/local/integration/DOCUMENTATION_CONSOLIDATION_2026-10-30.json) | Original refs/checkpoints, tested content preservation and verified remote deletion; unique V2 work retained, not discarded |
 
+## 2026-11-08 operational evidence reconciliation
+
+[X402-ACC-2026-11-07](phases/M8-operational-readiness/03-quality-and-evidence/X402_PUBLIC_ACCEPTANCE_OAUTH_SIGNING_AND_WAF_2026-11-07.md) has a dated **2026-11-08** evidence addendum for the seven operator-reported physical handset tests in [Issue #52](https://github.com/methakon/Madalasa-Alarka/issues/52#issuecomment-6712011065). Parent debug OAuth sign-in, exact SOS GET→ACK→child status/outbox convergence, offline/manual retry, revoked credential rejection, cross-family restriction and host continuity are **ENGINEERING_REPORTED_PASS**. Not independently repeated here. The previous missing synthetic Android OAuth registration has been superseded for those installed debug builds. Approval remains **STAGING_SYNTHETIC_ONLY / INDEPENDENT_REVIEW_PENDING**; [security assessment #54](https://github.com/methakon/Madalasa-Alarka/issues/54) and legal/Google Play/real-child data gates remain separate, open and unchanged.
+
 ## Newly controlled operational record — 2026-11-07
 
 | Document / stable ID | Purpose and latest evidence | Status / approver |
