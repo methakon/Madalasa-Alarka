@@ -3,7 +3,10 @@
 
 Run only on owner-authorized Madalasa-Alarka staging. One GET per check,
 sequentially, no brute-force, redirects, mutation, credential use or crawling.
-This is NOT a comprehensive pentest and cannot prove authorized RLS.
+This test asserts public HTTP routing, status codes, and mandatory security
+headers (nosniff, no-referrer, HSTS, frame options, CSP on admin, no-store on APIs).
+It certifies selected public HTTP boundary posture; tenant isolation and PostgreSQL
+RLS require authenticated multi-family integration tests.
 """
 import http.client
 import json
@@ -62,9 +65,15 @@ def check(label, target, path, expected):
             flags.append("UNEXPECTED_STATUS")
         if not headers.get("x-content-type-options", "").lower() == "nosniff":
             flags.append("MISSING_NOSNIFF")
+        if headers.get("referrer-policy", "").lower() != "no-referrer":
+            flags.append("MISSING_REFERRER_POLICY")
+        if "max-age=" not in headers.get("strict-transport-security", "").lower():
+            flags.append("MISSING_HSTS")
         if target == "admin" and not headers.get("x-frame-options", "").lower() == "deny":
             flags.append("ADMIN_FRAME_POLICY")
-        if "/v1/" in path and status in (200, 201) and "no-store" not in headers.get("cache-control", "").lower():
+        if target == "admin" and not headers.get("content-security-policy"):
+            flags.append("ADMIN_MISSING_CSP")
+        if "/v1/" in path and "no-store" not in headers.get("cache-control", "").lower():
             flags.append("MISSING_API_NO_STORE")
         if target == "api" and "/v1/" in path and headers.get("cf-cache-status", "").upper() == "HIT":
             flags.append("API_EDGE_CACHE_HIT")
