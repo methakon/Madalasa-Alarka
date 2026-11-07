@@ -6,6 +6,8 @@ The 72 root-level compatibility pointers were consolidated into [legacy-root-lin
 
 ## Latest controlled acceptance checkpoint — 2026-11-08
 
+The comprehensive [M8 pre-release audit dossier](phases/M8-operational-readiness/03-quality-and-evidence/M8_RELEASE_CANDIDATE_AUDIT_DOSSIER_2026-11-08.md) consolidates the 393-commit integration delta proposed in [PR #60](https://github.com/methakon/Madalasa-Alarka/pull/60), covering security penetration hardening (Issues #54 and #57), physical two-handset acceptance (Issue #52), PostgreSQL RLS and verify-full TLS, admin web OAuth/CSRF/logout, and continuous host mail health.
+
 The updated [M8 x402 physical-device acceptance addendum](phases/M8-operational-readiness/03-quality-and-evidence/X402_PUBLIC_ACCEPTANCE_OAUTH_SIGNING_AND_WAF_2026-11-07.md) now records **operator-reported PASS** for genuine parent Android Google sign-in, guardian retrieval/ACK, child status convergence and encrypted outbox clearance, offline force-stop/manual resend, revoked device credential handling, and cross-family 403 isolation. See [Issue #52 evidence](https://github.com/methakon/Madalasa-Alarka/issues/52#issuecomment-6712011065). The formerly missing synthetic Android OAuth registration is resolved **for the tested debug app**, not Play signing. These worker results have not been independently rerun by this assistant and **do not** constitute release, real-child data, background-availability SLA or security pentest approval. Track separate public security assessment in [Issue #54](https://github.com/methakon/Madalasa-Alarka/issues/54).
 
 ## Current operational status — 2026-11-07
