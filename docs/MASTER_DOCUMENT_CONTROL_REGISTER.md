@@ -99,6 +99,14 @@
 | Current documentation controls | [Machine register](document-control-register.json), [phase checklist](DOCUMENTATION_PHASE_GATE_CHECKLIST.md), [verification tools](tools/README.md) | 72-row relocation scope only; 22 parser/negative tests and whole-library local links; no approval inferred |
 | Consolidation accounting | [Branch record](../evidence/local/integration/BRANCH_CONSOLIDATION_2026-10-30.json), [documentation source-path proof](../evidence/local/integration/DOCUMENTATION_CONSOLIDATION_2026-10-30.json) | Original refs/checkpoints, tested content preservation and verified remote deletion; unique V2 work retained, not discarded |
 
+## Newly controlled operational record — 2026-11-07
+
+| Document / stable ID | Purpose and latest evidence | Status / approver |
+|---|---|---|
+| [X402 public acceptance — WAF, OAuth, signing and SOS](phases/M8-operational-readiness/03-quality-and-evidence/X402_PUBLIC_ACCEPTANCE_OAUTH_SIGNING_AND_WAF_2026-11-07.md) · X402-ACC-2026-11-07 | Reconciles GitHub #46/#48/#52, merged PR #50/#51, worker-reported live HTTPS/Cloudflare WAF admin, synthetic physical-device child SOS, web OIDC, exact Play vs debug signing fingerprints and Android OAuth blocker; supersedes only historical x402 status bullets | ENGINEERING_REPORTED / INDEPENDENT_REVIEW_PENDING; proposed Android/security/operations reviewers; no production, legal or Play approval |
+
+**Control rule:** Do not silently mark a worker's command output as independently verified, and do not infer `guardian_acknowledged` or encrypted outbox deletion from `SERVER_ACCEPTED`. Google Play package `in.berhampore.madalasa` and debug `in.berhampore.madalasa.synthetic` need distinct Android OAuth package/certificate registration. No local signing material or credentials are stored in docs.
+
 ## Approval register — no fictitious sign-offs
 
 | Required gate | Approver role to appoint | Status | Evidence artifact required |
