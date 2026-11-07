@@ -65,4 +65,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Byte-compile all Python (fail on syntax errors)
-        run: python3 -m compileall -q tools testkit backend/tests || { echo "::error::python syntax errors"; exit 1; }
+        run: |
+          python3 -m compileall -q tools testkit backend/tests deploy/x402/api/public-synthetic-sos-acceptance.py deploy/x402/api/public-security-baseline.py || { echo "::error::python syntax errors"; exit 1; }
+          if MA_ACCEPTANCE_SYNTHETIC_ONLY=NO python3 deploy/x402/api/public-synthetic-sos-acceptance.py > /tmp/public-sos-negative.log 2>&1; then
+            echo "::error::public SOS test must fail closed without explicit synthetic authorization"
+            exit 1
+          fi
+          if MA_SECURITY_BASELINE_AUTHORIZED=NO python3 deploy/x402/api/public-security-baseline.py >/tmp/security-negative.log 2>&1; then
+            echo "::error::public security baseline must fail closed without owner authorization"
+            exit 1
+          fi
