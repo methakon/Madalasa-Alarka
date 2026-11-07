@@ -4,7 +4,36 @@
 
 **Companion documents:** [x402 deployment runbook](../01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md), [repository branch governance](../../M1-secure-platform-foundation/02-development-process/BRANCHING_VERSIONING_AND_RELEASE_PROCESS.md), [Google Play gate](../../M9-play-release/03-release-gates/DEPLOYMENT_RELEASE_READINESS_CHECKLIST.md). **Execution tracking:** [GitHub #46](https://github.com/methakon/Madalasa-Alarka/issues/46), [#48](https://github.com/methakon/Madalasa-Alarka/issues/48), [#52](https://github.com/methakon/Madalasa-Alarka/issues/52). This record supersedes older runbook **status bullets only**, not their source-of-truth installation instructions or historical dates.
 
-## 1. Current verified-vs-reported evidence (do not overclaim)
+## 2026-11-08 acceptance evidence addendum — two physical Android handsets
+
+**Latest operator evidence:** [Issue #52, comment 6712011065](https://github.com/methakon/Madalasa-Alarka/issues/52#issuecomment-6712011065), reproduced in the owner's 2026-11-08 status report. **Evidence class:** ANTIGRAVITY_REPORTED_PHYSICAL_PASS (not an independently replayed assistant test, security pentest, legal sign-off, or production release). This dated record **supersedes all earlier `BLOCKED` / `NOT YET VERIFIED` entries below only for the exact tests and builds evidenced here**. Retain prior history for audit.
+
+| Gate | Latest operator result | Evidence description / boundary |
+|---|---|---|
+| Parent Android 11 genuine Google sign-in | **REPORTED PASS** | Physical Mi A3 used Android Credential Manager; `POST /v1/auth/parent/google` 201; authenticated `GET /v1/families` and family child list both 200. Android synthetic OAuth registration blocker resolved for this tested build. No production signing/OAuth authorization implied. |
+| Guardian signal retrieval + deliberate ACK | **REPORTED PASS** | Parent app fetched its synthetic child's signal list via `GET /v1/children/{childId}/signals` 200; displayed SOS, owner tapped acknowledgment; `POST /v1/children/{childId}/signals/{eventId}/ack` 200 and `ap_m1.signal_acknowledgements` persisted. |
+| Child same-event status + encrypted outbox clearance | **REPORTED PASS** | Physical Android 9 Alarka `GET /v1/devices/{deviceId}/signals/{eventId}/status` returned `GUARDIAN_ACKNOWLEDGED`; UI showed confirmation, polling stopped and `alarka_sos_outbox_v1.xml` was inspected as empty. **Event acknowledged in this report differs from the earlier standalone SOS UUID**; do not silently treat two different events as one. |
+| Offline/force-stop/resume/retry | **REPORTED PASS** | Separate synthetic SOS created while Wi-Fi disabled; encrypted ciphertext and IV persisted across Android force-stop and relaunch; same event retried after connectivity restored and accepted 201; parent ACK then child final confirmation and outbox clearance. Note this shows **manual retry**, not guaranteed autonomous background delivery. |
+| Device credential revocation | **REPORTED PASS** | Staging database credential deliberately marked revoked; child request returned 401 and showed AUTHORIZATION REVOKED, stopped retrying. Worker reports test fixture restored afterward; verify cleanup in future runs. |
+| Cross-family isolation (synthetic Parent B) | **REPORTED PASS** | Wrong-family `GET` child SOS and `POST` acknowledge both returned 403; session cleaned up afterward. |
+| Existing services | **REPORTED PASS** | `madalasa-api`, nginx, OpenSMTPD and Dovecot active; memory available ~491 MiB of 954 MiB and swap used ~76 MiB of 1,023 MiB. Shared-host resource trend/load and real outbound mail delivery are separate checks. |
+
+**Operator-provided installed build identifiers (artifact SHA-256 only, not secrets):**
+- Madalasa debug package `in.berhampore.madalasa.synthetic`, APK SHA-256 `1ba6504636359c8fd33e407dc1e6fdece1992d996a836e8a8a1455e80f4686fd`.
+- Alarka debug package `in.berhampore.alarka.synthetic`, APK SHA-256 `eb7690e812be4c3c17f56286e9892f084f648aa232b6ba2fc2c0b9636f610bf8`.
+- Both are reported signed with local synthetic/debug SHA-1 `D1:35:08:5A:88:E6:B5:B8:27:F5:64:DE:57:D6:61:40:13:BB:56:61`; Google Play production signing identity remains different.
+
+**Current acceptance decision:** `PUBLIC_STAGING_SYNTHETIC_E2E_OPERATOR_VERIFIED` for the stated physical handset workflow, pending independent review of redacted logs/build reproducibility and complete external security assessment [Issue #54](https://github.com/methakon/Madalasa-Alarka/issues/54). The previously recorded Android OAuth blocker is **RESOLVED for synthetic physical testing only**. **Do not conflate this with complete pentest coverage, production reliability, background SOS delivery, minors' data lawfulness, Google Play Families/monitoring approvals, or merchant/premium feature readiness.**
+
+### Continuing testing and documentation hygiene
+
+- Reconcile the reported APK hashes against artifacts built from an exact `dev` SHA; record version, Android package and signing certificate for repeatability. Keep any raw identity tokens/session cookies, child PII or device serials out of public evidence.
+- Confirm which methods actually trigger user-facing guardian notification versus explicit polling; report `SERVER_ACCEPTED`, `NOTIFICATION_DELIVERED` and `GUARDIAN_ACKNOWLEDGED` distinctly.
+- Retain [Issue #54](https://github.com/methakon/Madalasa-Alarka/issues/54) for non-destructive external endpoint security testing, synthetic role tests, and confirmed remediation. Stage acceptance is *not* a penetration test.
+- Keep x402 admin proxied behind Cloudflare while deeper API remains DNS-only with direct Let’s Encrypt TLS, unless a separately tested/approved architecture change is made.
+- Continue to enforce FREE_ONLY, synthetic adult-device testing only, and release NO-GO for real children until separate approval.
+
+## 1. Current verified-vs-reported evidence (historical snapshot superseded by addendum above)
 
 | Area | Latest evidence | Classification | Outstanding condition |
 |---|---|---|---|
