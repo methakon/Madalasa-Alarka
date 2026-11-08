@@ -3,10 +3,12 @@ on:
   push:
     paths:
       - 'admin-web/**'
+      - 'deploy/x402/**'
       - '.github/workflows/admin-web.yml'
   pull_request:
     paths:
       - 'admin-web/**'
+      - 'deploy/x402/**'
       - '.github/workflows/admin-web.yml'
 jobs:
   build-test:

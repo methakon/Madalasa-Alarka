@@ -54,6 +54,9 @@ jobs:
           bash -n deploy/x402/api/validate-env.sh
           bash -n deploy/x402/api/test-validate-env.sh
           bash deploy/x402/api/test-validate-env.sh
+          bash -n deploy/x402/api/check-test-mode-off.sh
+          bash -n deploy/x402/api/test-check-test-mode-off.sh
+          bash deploy/x402/api/test-check-test-mode-off.sh
 
   python-format:
     runs-on: ubuntu-latest

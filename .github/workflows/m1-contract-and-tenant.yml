@@ -288,5 +288,13 @@ jobs:
         run: |
           python3 backend/tests/integration_freev1_pairing_enrollment.py build-pairing/ma_backend \
             --allow-disposable-db --evidence "$RUNNER_TEMP/pairing-http-evidence.json"
+      - name: Test-mode switch guard (SQL, production-name refusal)
+        run: |
+          PGPASSWORD="$MA_CI_ADMIN_PASSWORD" psql -X -h 127.0.0.1 -U postgres -d madalasa_alarka_test \
+            -v ON_ERROR_STOP=1 -f backend/tests/m1_test_mode_guard.sql
+          PGHOST=127.0.0.1 PGUSER=postgres PGPASSWORD="$MA_CI_ADMIN_PASSWORD" PGDATABASE=madalasa_alarka_test \
+            bash backend/tests/m1_test_mode_guard_prod_name.sh
+      - name: Test-mode switch guard (deployable binary refuses traffic while the switch is on)
+        run: bash backend/tests/integration_test_mode_guard.sh build-pairing/ma_backend
       - name: Synthetic load and privileged fixture refusal regressions
         run: python3 -m unittest discover -s backend/tests/load -v

@@ -73,7 +73,7 @@ class MigrationLineages(unittest.TestCase):
             plan = [e['id'] for e in manage.migration_plan(entries, applied=applied)]
             self.assertEqual(plan[:3], ['common:0001', 'm1:0005', 'm1:0006'])
             self.assertLess(plan.index('compat:m1_pre_v2_0017'), plan.index('v2:0017'))
-            self.assertEqual(plan[-1], 'v2:0031')
+            self.assertEqual(plan[-1], 'v2:0032')
         old = set(m1[:4]) | {'v2:%04d' % n for n in range(2, 20)} | {'compat:m1_pre_v2_0016'}
         manage.validate_migration_history(entries, [], self.ledger_rows(old))
         plan = [e['id'] for e in manage.migration_plan(entries, applied=old)]
@@ -82,7 +82,7 @@ class MigrationLineages(unittest.TestCase):
         # reconciliation bridge must still be selected; the historical DDL is not.
         self.assertIn('compat:m1_pre_v2_0017', plan)
         self.assertLess(plan.index('compat:m1_pre_v2_0017'), plan.index('v2:0017'))
-        self.assertEqual(plan[-1], 'v2:0031')
+        self.assertEqual(plan[-1], 'v2:0032')
 
     def ledger_rows(self, ids):
         known = {e['id']: e for e in self.entries()}
@@ -96,7 +96,7 @@ class MigrationLineages(unittest.TestCase):
         self.assertEqual([e['id'] for e in clean], ['common:0001'] + ['v2:%04d' % n for n in range(2, 17)]
 
                          + ['compat:m1_pre_v2_0017'] + ['v2:%04d' % n for n in range(17, 29)]
-                         + ['compat:v2_0028_retention_hold_guard', 'compat:v2_0028_hold_snapshot_guard', 'v2:0029', 'v2:0030', 'v2:0031'])
+                         + ['compat:v2_0028_retention_hold_guard', 'compat:v2_0028_hold_snapshot_guard', 'v2:0029', 'v2:0030', 'v2:0031', 'v2:0032'])
         self.assertEqual([e['id'] for e in manage.migration_plan(entries, 'v2', through='0001')], ['common:0001'])
 
     def entries(self):
@@ -137,7 +137,7 @@ class MigrationLineages(unittest.TestCase):
         applied = manage.validate_migration_history(self.entries(), self.rows(['common:0001','m1:0002','m1:0003','m1:0004']), [])
         plan = [e['id'] for e in manage.migration_plan(self.entries(), applied=applied)]
 
-        self.assertEqual(plan[-19:], ['v2:0016', 'compat:m1_pre_v2_0017', 'v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022', 'v2:0023', 'v2:0024', 'v2:0025', 'v2:0026', 'v2:0027', 'v2:0028', 'compat:v2_0028_retention_hold_guard', 'compat:v2_0028_hold_snapshot_guard', 'v2:0029', 'v2:0030', 'v2:0031'])
+        self.assertEqual(plan[-20:], ['v2:0016', 'compat:m1_pre_v2_0017', 'v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022', 'v2:0023', 'v2:0024', 'v2:0025', 'v2:0026', 'v2:0027', 'v2:0028', 'compat:v2_0028_retention_hold_guard', 'compat:v2_0028_hold_snapshot_guard', 'v2:0029', 'v2:0030', 'v2:0031', 'v2:0032'])
         self.assertEqual([e['id'] for e in manage.migration_plan(self.entries(), applied={
             'common:0001','m1:0002','m1:0003','m1:0004'})][:4],
             ['common:0001', 'm1:0005', 'm1:0006', 'v2:0002'])

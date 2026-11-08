@@ -81,6 +81,10 @@ add_executable(test_device_endpoints tests/cpp/test_device_endpoints.cc)
 target_link_libraries(test_device_endpoints PRIVATE ma_core OpenSSL::Crypto)
 add_test(NAME device_endpoints COMMAND test_device_endpoints)
 
+add_executable(test_mode_guard_test tests/cpp/test_mode_guard_test.cc)
+target_link_libraries(test_mode_guard_test PRIVATE ma_core ma_oidc)
+add_test(NAME test_mode_guard COMMAND test_mode_guard_test)
+
 add_executable(billing_catalog_test tests/cpp/billing_catalog_test.cc)
 target_link_libraries(billing_catalog_test PRIVATE ma_core ma_oidc)
 add_test(NAME billing_catalog COMMAND billing_catalog_test)
