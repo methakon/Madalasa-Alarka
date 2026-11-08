@@ -23,3 +23,11 @@ Branch `api`. SYNTHETIC DATA ONLY. Pre-work sync: `bash docs/tools/sync_work_bra
 - ctest 27/27; migration manifest verified with checksums (41 entries); lineage unit tests 21/21 (driver stubbed locally; full suite runs in CI).
 **Not verified locally:** the CI wiring itself (new steps in `m1-contract-and-tenant.yml` and `local-checks.yml`) until the pushed run finishes; migration replay of 0005–0031 (PostGIS unavailable here).
 **Residual risk:** a superuser can drop the trigger on purpose, and the guard reads the flag every 30 s, so up to 30 s of exposure after an out-of-band enable. The backend does not stop the synthetic *SQL* functions themselves; the trigger and gate are what keep the flag off.
+
+## Update: disposable-database opt-in for the CI pairing harness
+The deployable binary refuses traffic (503, /healthz exempt) whenever `ap_m1.local_test_settings.enabled` is true. The
+CI pairing/ingestion e2e runs the deployable binary against `madalasa_alarka_test`, whose fixtures leave the switch on.
+It now sets `MA_TEST_MODE_ALLOWED_IN_DISPOSABLE_DB=1`; the guard honours this only when `current_database()` matches the
+same disposable-name predicate as the DB trigger (`madalasa_alarka_(dev|test)` or `ma_synthetic_*`). A stray variable in
+production, or any other database name, still blocks. Unit tests cover opt-in with disposable, production and near-miss
+names and without the opt-in. `integration_test_mode_guard.sh` deliberately does not set the variable.
