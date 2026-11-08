@@ -39,6 +39,11 @@ on:
       - "tools/database/**"
       - "infra/local/**"
       - "docs/data-model/local-postgresql/**"
+# CMake 4 on current runner images rejects the pinned jsoncpp's `cmake_policy(VERSION <3.5)`; this keeps the pinned
+# dependency building without changing its pin.
+env:
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
 jobs:
   contracts-and-isolation:
     runs-on: ubuntu-latest

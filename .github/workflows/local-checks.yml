@@ -28,6 +28,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install JDK 17 (the runner image default moved to JDK 25, which the pinned Gradle cannot use)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
       - name: Shell lint (shellcheck)
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
