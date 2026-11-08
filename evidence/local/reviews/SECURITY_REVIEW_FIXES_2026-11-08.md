@@ -31,3 +31,9 @@ It now sets `MA_TEST_MODE_ALLOWED_IN_DISPOSABLE_DB=1`; the guard honours this on
 same disposable-name predicate as the DB trigger (`madalasa_alarka_(dev|test)` or `ma_synthetic_*`). A stray variable in
 production, or any other database name, still blocks. Unit tests cover opt-in with disposable, production and near-miss
 names and without the opt-in. `integration_test_mode_guard.sh` deliberately does not set the variable.
+
+## Findings 3-6 (2026-11-09)
+- **Workflow hardening:** every workflow now has a top-level `permissions: contents: read`; all third-party actions are pinned to commit SHAs (tag kept in a trailing comment).
+- **Dependency pinning:** `backend/scripts/build_deps.sh` verifies the cloned jsoncpp and Drogon commits against fixed SHAs (both checked against upstream tags in this session); `dependencies.lock` records them.
+- **Android (low):** explicit `data_extraction_rules.xml` excluding all backup/transfer domains; release builds enable R8 shrinking, and CI now builds `assembleRelease` so a shrinker break is caught.
+- **Branch protection / doc redaction:** see commit notes on `main`.

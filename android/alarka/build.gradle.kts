@@ -35,7 +35,9 @@ android {
         }
         release {
             resValue("bool", "alarka_location_lab_enabled", "false")
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
