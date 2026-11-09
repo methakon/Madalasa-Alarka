@@ -1,5 +1,24 @@
 # Release Readiness & Owner Decision Gate — M0/M1 → Android Pilot
 
+## 2026-11-09 engineering-evidence reconciliation — Free V1 Internal Testing (NOT public clearance)
+
+This dated note **supersedes the historical 2026-10-30 PR #9/Android scaffolding status statements for the specifically evidenced 2026-11-08 development and internal-test slices**, but does NOT check the unresolved legal, child-data, Play policy, operational, background-location or production-release approval boxes below. Basis: [dated source/evidence audit](../../../audits/RELEASE_AND_NEXT_VERSION_IMPLEMENTATION_AUDIT_2026-11-09.md) and [next full-version plan](../../../roadmap/NEXT_FULL_VERSION_IMPLEMENTATION_AND_ACCEPTANCE_2026-11-09.md).
+
+| Milestone | Evidence as of review | Gate |
+|---|---|---|
+| GitHub code integration | `dev` has production-ID defaults for both Android Gradle modules; `dev → main` [PR #60](https://github.com/methakon/Madalasa-Alarka/pull/60) remains **open** (at inspection: 396 commits / 187 files ahead). Permanent `parent`/`child` branch copies require synchronized reconciliation. | REVIEW REQUIRED |
+| Signed Android artifacts | Owner/Antigravity reports Alarka 0.1.0 versionCode **1**, Madalasa 0.1.0 versionCode **2**, dedicated upload keys and successful `jarsigner` verification. This documentation review did not access the AAB bytes. | ENGINEERING_REPORTED |
+| Internal Play distribution | Owner supplied Alarka Internal Testing acceptance screenshots and an internal test opt-in URL. Madalasa parent signed AAB is reported ready, but no final parent Play-distribution link was verified in this audit. | ALARKA OWNER-REPORTED; PARENT BLOCKED/UNKNOWN |
+| Release-built API/OAuth configuration | Non-secret HTTPS API origins and parent Google Web Client ID may be supplied at Gradle build time but **default empty**. No independently verified dump of these resources from the signed or Play-delivered AABs is available. See [Issue #61](https://github.com/methakon/Madalasa-Alarka/issues/61). | P0 VERIFY |
+| Two-phone SOS/ACK | Owner/Antigravity evidence at [Issue #52](https://github.com/methakon/Madalasa-Alarka/issues/52#issuecomment-6712011065) for Android 9/11 synthetic/debug identities; same-event ACK, manual offline retry and revocation reported PASS. **Not** evidence that Play-distributed production-signed bundles passed. | REPLAY REQUIRED |
+| Security baseline | CSP/HSTS and logout PRs #58/#59, 14/14 bounded staging baseline, Neon TLS, RLS worker reports; [Issue #57](https://github.com/methakon/Madalasa-Alarka/issues/57) closed. [Issues #52](https://github.com/methakon/Madalasa-Alarka/issues/52) and [#54](https://github.com/methakon/Madalasa-Alarka/issues/54) remain open pending their individual criteria. | STAGING VERIFIED BY WORKER |
+| App icons & listing | Android adaptive launcher resources inspectable in source; operator reports original Queen Madalasa/Prince Alarka assets, 512px icons and feature graphics. Upload/presence of **both Play listing assets** requires Console verification. | INCOMPLETE STORE EVIDENCE |
+| Public/real-minor release | Scope remains FREE_ONLY adult-owned synthetic test devices; location monitoring release gate OFF, no child personal data processing, payments or public rollout authorized. Independent India legal/retention/custody/Google Play and operations approval still pending. | **NO-GO** |
+
+The historical `docs/roadmap/LOCAL_TASK_EXECUTION_STATUS.json` was last updated 2026-11-02 and must not be bulk-marked PASS without per-task execution evidence. For the next development milestone follow the [task- and acceptance-ordered plan](../../../roadmap/NEXT_FULL_VERSION_IMPLEMENTATION_AND_ACCEPTANCE_2026-11-09.md), not the prior assumption that all Figma/OpenAPI concepts are executable.
+
+
+
 > **FREE-FIRST DECISION (2026-11-03):** Free-only parent/child Play launch is now the proposed first production stage, with 108 child slots and a server-enforced FIFO service queue. Parental signup remains available after capacity fills, but queued children cannot start services. Paid SKU, trial and premium functions remain preserved in code and disabled. See [free-first release roadmap](../../../roadmap/FREE_FIRST_108_CHILD_RELEASE_AND_WAITLIST_2026-11-03.md). **BillDesk approval is not a precondition for a free-only non-transactional listing, but all Google Play, child-data legal, OS permissions, security and operational gates still apply; no live release approved.**
 
 

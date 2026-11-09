@@ -365,7 +365,7 @@ _09   Operations, evidence gates & resilient event flow — PostgreSQL-backed in
 
 ### [ERD 10 / Admin accounts, access requests, FAQ, support and parent-service logs](https://www.figma.com/design/TKiZXwjkWdkponF1zNsfli?node-id=108-2)
 
-Owner 2026-10-28: separate back-office, only verified owner swarna.s.jobs@gmail.com may approve/reject applicant staff profiles. Admin applicant needs valid profile and verified email. Collecting full DOB/address/gender is a privacy/legal design gate; Google login alone grants zero permissions.
+Owner 2026-10-28: separate back-office, only verified owner <owner-google-account> may approve/reject applicant staff profiles. Admin applicant needs valid profile and verified email. Collecting full DOB/address/gender is a privacy/legal design gate; Google login alone grants zero permissions.
 
 **admin_accounts** · OWNER BOOTSTRAP  
 `PK id : uuid` · `google_issuer, google_sub : UNIQUE` · `verified_google_email : text` · `email_verified_at : timestamp` · `state : NO_ACCESS/ACTIVE/REVOKED` · `session_revocation_epoch : bigint`

@@ -55,7 +55,7 @@
       "design_document": "docs/phases/M7-commercial-integrations/01-commercial-plans-and-costing/EMAIL_LIFECYCLE_AND_SUPPORT_TEMPLATES_2026-11-01.md",
       "transport_and_env": "VERIFIED_BIDIRECTIONAL_DELIVERY_2026-11-01",
       "does_not_close_individual_dag_tasks": true,
-      "transport_verification_evidence": "SMTP (noreply@berhampore.in:465) and IMAP (madalasa-alarka@berhampore.in:993) tested live with bidirectional delivery and receipt against Google Gmail (swarna.s.jobs@gmail.com)",
+      "transport_verification_evidence": "SMTP (noreply@berhampore.in:465) and IMAP (madalasa-alarka@berhampore.in:993) tested live with bidirectional delivery and receipt against Google Gmail (<owner-google-account>)",
       "source_path": "email/templates",
       "template_count": 11,
       "template_manifest": "email/templates/manifest.json",
