@@ -1,7 +1,7 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-12T19:35:00Z",
-  "note": "Phase 10 (L10-001, L10-002, L10-005) and phase 15 (L15-001) reconciled after execution on api at dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f; the ledger had lagged these completed tasks. Free V1 remains gated: no paid, trial, media or location activation.",
+  "as_of": "2026-11-12T19:55:00Z",
+  "note": "Phases 10, 12, 13, 14 and 15 reconciled after execution on api (3490542, dd8f2fb) and admin-web (c619dcb); the ledger had lagged these completed tasks. Free V1 remains gated: no paid, trial, media or location activation.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 130,
-    "PASS": 132
+    "NOT_STARTED": 127,
+    "PASS": 135
   },
   "task_statuses": {
     "L00-001": {
@@ -1417,11 +1417,13 @@
       "verified_by": null
     },
     "L12-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L12-001.md",
+      "commit_sha": "34905425caaf89eee73d9e3b441890a71b9aa7a5",
+      "verified_at_utc": "2026-11-12T19:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/madalasa/src/main/res",
+      "verification": "AUTOMATED_TEST: :madalasa:testDebugUnitTest 92 tests 0 failures; ThemeCTokenAndLocaleTest asserts the nine Theme C palette ARGB values, a strictly ascending readable type scale, resolvable adaptive-icon layers, all density buckets, and rejection of locale-qualified values dirs and non-English scripts"
     },
     "L12-002": {
       "status": "NOT_STARTED",
@@ -1515,11 +1517,13 @@
       "verified_by": null
     },
     "L13-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L13-001.md",
+      "commit_sha": "34905425caaf89eee73d9e3b441890a71b9aa7a5",
+      "verified_at_utc": "2026-11-12T19:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/alarka/src/main/res",
+      "verification": "AUTOMATED_TEST: :alarka:testDebugUnitTest 147 tests 0 failures; AlarkaLauncherBrandingTest asserts valid PNG portrait artwork, resolvable adaptive-icon layers, all density buckets, monochrome themed-icon layer, resource-based labelling and honest child copy"
     },
     "L13-002": {
       "status": "NOT_STARTED",
@@ -1599,11 +1603,13 @@
       "verified_by": null
     },
     "L14-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L14-001.md",
+      "commit_sha": "c619dcbdeb4f1909d5ec255b638b3688e3e5bd8a",
+      "verified_at_utc": "2026-11-12T19:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "admin-web/package.json",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: npm test 11/11 pass; dev shell serves the admin document on 127.0.0.1:5173 only; synthetic preview never enables in production. Live x402 deploy, real OIDC/MFA and Nginx checks NOT_RUN"
     },
     "L14-002": {
       "status": "NOT_STARTED",
