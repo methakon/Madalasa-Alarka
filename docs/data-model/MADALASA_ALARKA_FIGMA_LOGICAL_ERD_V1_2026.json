@@ -1279,7 +1279,7 @@
       "notes": [
         "MADALASA · ALARKA  /  LOGICAL DATA MODEL",
         "10   Admin access, content, support & usage metadata",
-        "Owner approval is exclusive to verified <owner-google-account> (Google sub bound); FULL admin authority does not expose child-private data.",
+        "Owner approval is exclusive to verified swarna.s.jobs@gmail.com (Google sub bound); FULL admin authority does not expose child-private data.",
         "SOURCE: ADMIN_OWNER_GOOGLE_ACCESS_FAQ_SUPPORT_BILLING_AND_USAGE_2026.md · DESIGN / NO AUTH IMPLEMENTED"
       ],
       "tables": [

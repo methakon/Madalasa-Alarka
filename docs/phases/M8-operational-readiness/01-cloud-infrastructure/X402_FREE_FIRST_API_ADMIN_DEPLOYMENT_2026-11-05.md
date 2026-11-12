@@ -1,14 +1,6 @@
 # X402 Free-First API + Admin deployment — implementation runbook
 **Record:** X402-DEPLOY-001 · **Date:** 2026-11-05 · **Stage:** deployment candidate / controlled adult-device lab, **NOT public child-monitoring approval**.
 
-## 2026-11-08 newer acceptance supersession — synthetic handset end-to-end PASS reported
-
-Antigravity's [Issue #52 acceptance evidence](https://github.com/methakon/Madalasa-Alarka/issues/52#issuecomment-6712011065) now reports actual Android 11 parent Google sign-in, child-scoped guardian SOS retrieval, user-initiated ACK, Android 9 child status convergence and encrypted outbox removal; offline force-stop/manual retry, credential revocation and cross-family denied operations also passed. **Supersedes the 2026-11-07 parent OAuth and guardian-ACK blockers below for the tested synthetic builds only.** Definitive statuses, APK SHA-256s, evidence class and open gates are in the [M8 public acceptance record](../03-quality-and-evidence/X402_PUBLIC_ACCEPTANCE_OAUTH_SIGNING_AND_WAF_2026-11-07.md). Live admin Cloudflare WAF and API DNS-only mode remain unchanged; the shared mail VM and real-child release are not approved for unlimited production traffic. Pentest [Issue #54](https://github.com/methakon/Madalasa-Alarka/issues/54) remains separate.
-
-## 2026-11-07 status supersession — HTTPS/WAF live; Android OAuth still blocks full SOS round trip
-
-**Read the newer [controlled x402 public acceptance, signing and OAuth record](../03-quality-and-evidence/X402_PUBLIC_ACCEPTANCE_OAUTH_SIGNING_AND_WAF_2026-11-07.md) before interpreting earlier `NOT RUN` lines below.** The 2026-11-05/06 bullets are **historical snapshots**. Antigravity subsequently reports x402 public TLS, free-only Drogon service, Nginx/admin static delivery, Neon TLS verification and mail preservation, plus Cloudflare-proxied **admin** website; the deeper API hostname deliberately remains **DNS-only**, not Cloudflare WAF-protected. Admin genuine Google web sign-in and native Alarka SOS 201 are subsequently worker-reported PASS; parent Android OAuth remains blocked pending its separately registered `.synthetic` package+SHA-1 client in project 207621418218. Parent same-event ACK, child's confirmed ACK status, encrypted outbox clearance and offline/revocation tests remain NOT YET VERIFIED. See [GitHub #52](https://github.com/methakon/Madalasa-Alarka/issues/52). None of these authorize real-minor data or public Play release.
-
 ## 2026-11-06 self-implemented deployment code and Antigravity-only environment steps
 
 **Direct GitHub implementation on `api`, PR #47:** corrected previously inconsistent `deploy/x402/api/validate-env.sh` to require actual managed-Neon LOGIN roles `ap_m1_api_user`, `ap_auth_issuer_user` (not `ap_m1_api` group), `PGSSLMODE=verify-full`, absolute trust-bundle path, external database DNS hostname, exact admin HTTPS origin and FREE_ONLY. Template uses placeholders for real Neon hostname/database/passwords. Added `deploy/x402/api/test-validate-env.sh` synthetic positive/negative role/TLS/origin tests and CI invocation in `.github/workflows/local-checks.yml`. Added **read-only** `deploy/x402/api/staging-acceptance.sh` to check existing mail units, Nginx syntax, loopback listener, free-only/readiness, verified public TLS, vhost separation and bounded resource evidence. These are committed but are **not x402 deployment proof**; only merge after new-head CI, branch sync and review.
@@ -55,17 +47,17 @@ Antigravity's [Issue #52 acceptance evidence](https://github.com/methakon/Madala
 
 ## 2026-11-05 owner hostname selection
 
-**Owner supplied:** `madalasa.berhampore.in`. This is the **admin-panel hostname** `https://madalasa.berhampore.in`, and the separate **proposed** API hostname is `https://api.madalasa.berhampore.in`. Both should resolve to the VM public IPv4 `<VM_PUBLIC_IP>` only after DNS changes are confirmed. An existing DNS record or Nginx virtual host may already own the first hostname: **inspect and preserve current content before changing it**. No DNS, TLS certificate, or VM state was changed by recording this decision.
+**Owner supplied:** `madalasa.berhampore.in`. This is the **admin-panel hostname** `https://madalasa.berhampore.in`, and the separate **proposed** API hostname is `https://api.madalasa.berhampore.in`. Both should resolve to the VM public IPv4 `161.33.146.238` only after DNS changes are confirmed. An existing DNS record or Nginx virtual host may already own the first hostname: **inspect and preserve current content before changing it**. No DNS, TLS certificate, or VM state was changed by recording this decision.
 
 | DNS host | Proposed record | Purpose |
 |---|---|---|
-| `madalasa.berhampore.in` | A → `<VM_PUBLIC_IP>` | Admin UI, same-origin `/v1/admin/*` only |
-| `api.madalasa.berhampore.in` | A → `<VM_PUBLIC_IP>` (new subdomain, owner DNS control pending) | Parent/child free-service API, deny admin routes |
+| `madalasa.berhampore.in` | A → `161.33.146.238` | Admin UI, same-origin `/v1/admin/*` only |
+| `api.madalasa.berhampore.in` | A → `161.33.146.238` (new subdomain, owner DNS control pending) | Parent/child free-service API, deny admin routes |
 
 API env `MA_ADMIN_ORIGIN=https://madalasa.berhampore.in`; backend remains local `127.0.0.1:8080`. Admin and API Nginx templates on `admin-web` use the hostnames and expected separate LetsEncrypt live certificate paths. **They will fail `nginx -t` until valid certificates exist.** Use a non-invasive HTTP-01 DNS/ACME procedure that keeps current port-80 websites, Nginx and mail services operational; do not assume Certbot is installed or replace existing certificates. Verify `dig +short A` for both hosts, detect public A/AAAA mismatches, check `sudo nginx -T` for duplicate `server_name`, and confirm ports 80/443 firewall rules before issuance. No automatic redirect, HSTS, or public publishing until the verified admin/auth flows pass.
 
 ## 1. Owner-provided host baseline (unverified by this assistant)
-- Host label: `x402-endpoint`; public IPv4 **<VM_PUBLIC_IP>**, private **<VM_PRIVATE_IP>**.
+- Host label: `x402-endpoint`; public IPv4 **161.33.146.238**, private **10.0.0.89**.
 - Ubuntu 24.04.5 LTS, Linux 6.17.0-1020-oracle, **x86_64**, KVM/AMD EPYC 7551, **2 vCPU**.
 - **954 MiB RAM**, **1 GiB swap**, 45 GiB root disk (reported ~40 GiB free), 533 MiB available RAM, ~420 MiB used, swap 86 MiB used.
 - Existing **nginx, dovecot, opensmtpd** must remain active. Public TCP listeners 22,25,80,465,587,993,995. No public 443 at report time; 5432 and 8080 must remain closed externally.
@@ -117,7 +109,7 @@ Parent Madalasa / Alarka adult lab     Staff browser
 **Governance:** implementation changes remain on workstream branches pending code PRs to `dev`; documentation remains on `main`. No direct workstream deployment as a public release. The previous Chicago/A1 architecture is historical planning; this new target is a **temporary smaller VM decision**, not an authorization for sensitive data collection.
 
 ## 4. Operator prerequisites (never put secrets in GitHub)
-1. Two DNS hostnames and DNS A records to <VM_PUBLIC_IP>, then issue legitimate TLS certificates for the actual names. Confirm the existing Nginx `80` vhost, ACME and all mail services remain working. Enable 443 at the provider/network firewall; do **not** close existing mail ports, widen 22, expose 8080/5432 or change MX.
+1. Two DNS hostnames and DNS A records to 161.33.146.238, then issue legitimate TLS certificates for the actual names. Confirm the existing Nginx `80` vhost, ACME and all mail services remain working. Enable 443 at the provider/network firewall; do **not** close existing mail ports, widen 22, expose 8080/5432 or change MX.
 2. Root/sudo shell access through existing secured SSH, and enough disk/RAM headroom. Run `bash deploy/x402/api/preflight.sh` and store **redacted** output. Check `nginx -t`, `systemctl --failed`, `free -m`, `ss -lntup`, `df -h`.
 3. Decide verified PostgreSQL deployment location. For a localhost lab choose PostgreSQL 16 + compatible PostGIS, bind localhost, tune/monitor conservatively, create a **dedicated disposable test database** and separate `ap_m1_api` versus issuer roles using the documented DB migration/bootstrap process. Never run `manage.py reset` against production. Capture migrations through v2:0029 (or later approved SHA), SQL role/RLS tests, backup and an **isolated restore drill** first. For remote DB, implement/test TLS verification and private networking; never use plaintext external DB.
 4. Configure approved Google OIDC audience/client IDs for guardian and admin separately; verify issuer/keys and actual Google ID-token flow. Do not enable synthetic header authentication or use test credentials as administrator production identity. Ensure intended root admin provisioning uses verified backend owner controls, not client-manufactured roles.
