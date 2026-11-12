@@ -1,7 +1,7 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-02T19:15:00Z",
-  "note": "Phase 09 (L09-001..012) reconciled after execution on child, parent, and api; 128 PASS / 134 NOT_STARTED.",
+  "as_of": "2026-11-12T19:35:00Z",
+  "note": "Phase 10 (L10-001, L10-002, L10-005) and phase 15 (L15-001) reconciled after execution on api at dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f; the ledger had lagged these completed tasks. Free V1 remains gated: no paid, trial, media or location activation.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -119,8 +119,8 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 134,
-    "PASS": 128
+    "NOT_STARTED": 130,
+    "PASS": 132
   },
   "task_statuses": {
     "L00-001": {
@@ -1215,18 +1215,22 @@
       "verification": "AUTOMATED_TEST: test_safety_sos duplicate SOS idempotent, replay rejected, unrelated parent rejected; exit 0"
     },
     "L10-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-001.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests/cpp/trial_policy_test.cc",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS includes trial_policy_handler (repeat attempt 409, unique race 409, non-owner 404, device/advertising/hardware/national identifier fields rejected, FREE_ONLY latch); disposable-PostgreSQL suite 368 tests OK, 10 skipped, includes m1_trial_policy.sql"
     },
     "L10-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-002.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/billing_trial.h",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS re-verifies the 48h trial handler boundary and SQLSTATE mapping; expiry covered by backend/tests/database/test_billing.py in the disposable-PostgreSQL suite (368 tests OK, 10 skipped)"
     },
     "L10-003": {
       "status": "NOT_STARTED",
@@ -1243,11 +1247,13 @@
       "verified_by": null
     },
     "L10-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-005.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/billing_catalog.h",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS re-verifies billing_catalog (UNVERIFIED rows never quote a price); runtime read of the catalog rows exercised in the disposable-PostgreSQL suite (368 tests OK, 10 skipped)"
     },
     "L10-006": {
       "status": "NOT_STARTED",
@@ -1719,11 +1725,13 @@
       "verified_by": null
     },
     "L15-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L15-001.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/retention_policy.h",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS includes retention_policy; undecided, incomplete, zero and negative decisions keep purge scheduling disabled and report no period, no category falls back to a planning candidate, and the six-hour free window is not a storage lifetime"
     },
     "L15-002": {
       "status": "NOT_STARTED",
