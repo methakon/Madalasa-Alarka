@@ -152,3 +152,8 @@ add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
 # Free-first release must default to no payment or trial.
 add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
 add_test(NAME free_release_profile COMMAND test_free_release_profile)
+
+# Phase 15: per-category retention stays fail-closed until an exact period is
+# approved; the six-hour free window is a query bound, never a storage lifetime.
+add_executable(test_retention_policy tests/cpp/test_retention_policy.cc)
+add_test(NAME retention_policy COMMAND test_retention_policy)
