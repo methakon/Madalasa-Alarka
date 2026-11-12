@@ -22,7 +22,7 @@ Each blocker has an owner, decision or required evidence, and lifecycle: OPEN �
 
 ## 2026-11-05 infrastructure ruling — x402 database co-location rejected
 
-**Owner accepted the live read-only VM preflight NO-GO.** x402 `<VM_PUBLIC_IP>` (954 MiB RAM, 57 MiB swap at idle, running OpenSMTPD/Dovecot/Nginx plus OS/security agents) is **not approved** to host PostgreSQL 16/PostGIS together with mail and Free V1 API/admin. No database was installed, no cloud resource provisioned and no existing service modified. The older optional localhost PostgreSQL setup and its 32 MiB shared_buffers tuning are now **non-executable for this VM** until explicit future reconsideration after resize.
+**Owner accepted the live read-only VM preflight NO-GO.** x402 `161.33.146.238` (954 MiB RAM, 57 MiB swap at idle, running OpenSMTPD/Dovecot/Nginx plus OS/security agents) is **not approved** to host PostgreSQL 16/PostGIS together with mail and Free V1 API/admin. No database was installed, no cloud resource provisioned and no existing service modified. The older optional localhost PostgreSQL setup and its 32 MiB shared_buffers tuning are now **non-executable for this VM** until explicit future reconsideration after resize.
 
 **New infrastructure blocker X402-DB-01 (OPEN / resource decision):** choose and approve a separate PostgreSQL host, or resize x402 to ≥2 GiB (4 GiB preferred) followed by an independent feasibility check. GCP Always Free VM cannot proceed with the observed eight closed billing accounts; no billing activation was authorized. Any off-host DB requires authenticated TLS/private network, 5432 restricted to API host, separate least-privileged roles, backup and isolated restore evidence. Protect mail continuity and do not pretend two DB connections certify capacity. See [x402 runbook](../../M8-operational-readiness/01-cloud-infrastructure/X402_FREE_FIRST_API_ADMIN_DEPLOYMENT_2026-11-05.md#2026-11-05-live-ssh-preflight--postgresql-co-location-no-go-owner-accepted).
 
@@ -153,7 +153,7 @@ Source and decision owner: explicit project-owner instruction dated 2026-10-30. 
 - **Android Foundations Promoted to main (PR #17, PR #18, PR #19, commit `accfe14`):**
   Scaffolded both Madalasa parent app (`android/madalasa`) and Alarka child companion app (`android/alarka`) with shared UI contract library (`android/ui-common`). Single-activity Compose architecture, Theme C design tokens, transparency disclosure, placeholder navigation, and zero covert recording/monitoring permissions. 18/18 unit tests passing and both debug APKs assembling cleanly.
 - **Email & Communications Infrastructure Verified (2026-11-01):**
-  Outbound SMTP (`mail.berhampore.in:465`, user `noreply`) and inbound mailbox (`mail.berhampore.in:993`, user `madalasa-alarka`) tested with live bidirectional email delivery and receipt against Google Gmail (`<owner-google-account>`), confirming delivery directly to the primary inbox.
+  Outbound SMTP (`mail.berhampore.in:465`, user `noreply`) and inbound mailbox (`mail.berhampore.in:993`, user `madalasa-alarka`) tested with live bidirectional email delivery and receipt against Google Gmail (`swarna.s.jobs@gmail.com`), confirming delivery directly to the primary inbox.
 
 ## 2026-10-31 E-02 API implementation update (synthetic-only)
 

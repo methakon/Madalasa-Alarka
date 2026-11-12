@@ -3,7 +3,7 @@
 **Date:** 2026-11-01  
 **Target:** Local `.env` Email Configurations (`mail.berhampore.in`)  
 **Scope:** Outbound Notification SMTP (`noreply@berhampore.in`) and Inbound Support IMAP (`madalasa-alarka@berhampore.in`)  
-**Verification Method:** Live bidirectional delivery and receipt test with external reference provider (`<owner-google-account>` via Google Gmail)  
+**Verification Method:** Live bidirectional delivery and receipt test with external reference provider (`swarna.s.jobs@gmail.com` via Google Gmail)  
 **Status:** PASS — VERIFIED OPERATIONAL  
 
 ---
@@ -31,21 +31,21 @@ The email parameters in `.env` were evaluated and verified against real transpor
 ### Phase 1: Outbound Dispatch (`mail.berhampore.in` → Google Gmail)
 1. **Client Action:** Connected to `mail.berhampore.in:465` (SSL) using `noreply` credentials and dispatched a standard RFC 5322 test message:
    - `From:` `noreply@berhampore.in`
-   - `To:` `<owner-google-account>`
+   - `To:` `swarna.s.jobs@gmail.com`
    - `Subject:` `Amar-Pola Test: Outbound Delivery Check [67118180]`
-2. **Receiver Verification:** Polled `imap.gmail.com:993` using authenticated credentials for `<owner-google-account>`.
+2. **Receiver Verification:** Polled `imap.gmail.com:993` using authenticated credentials for `swarna.s.jobs@gmail.com`.
 3. **Result:** Message arrived in Gmail primary **`INBOX`** on Attempt 1 (Message ID `217`).
 4. **Received Transport Headers:**
    ```
-   Received: from berhampore.in ([<VM_PUBLIC_IP>]) by smtp.gmail.com with ESMTPSA
-   From: <operator-google-account> / noreply@berhampore.in
-   To: <owner-google-account>
+   Received: from berhampore.in ([161.33.146.238]) by smtp.gmail.com with ESMTPSA
+   From: bapay.9@gmail.com / noreply@berhampore.in
+   To: swarna.s.jobs@gmail.com
    Subject: Amar-Pola Test: Outbound Delivery Check [67118180]
    ```
 
 ### Phase 2: Inbound Dispatch (Google Gmail → `madalasa-alarka@berhampore.in`)
-1. **Client Action:** Connected to `smtp.gmail.com:465` using `<owner-google-account>` and dispatched a return test message:
-   - `From:` `<owner-google-account>`
+1. **Client Action:** Connected to `smtp.gmail.com:465` using `swarna.s.jobs@gmail.com` and dispatched a return test message:
+   - `From:` `swarna.s.jobs@gmail.com`
    - `To:` `madalasa-alarka@berhampore.in`
    - `Subject:` `Amar-Pola Test: Inbound Receipt Check [67118180]`
 2. **Receiver Verification:** Polled `mail.berhampore.in:993` using IMAP credentials for user `madalasa-alarka`.
@@ -53,7 +53,7 @@ The email parameters in `.env` were evaluated and verified against real transpor
 4. **Received Transport Headers:**
    ```
    Received: from mail-dy1-f179.google.com ([74.125.82.179]) by mail.berhampore.in
-   From: <owner-google-account>
+   From: swarna.s.jobs@gmail.com
    To: madalasa-alarka@berhampore.in
    Subject: Amar-Pola Test: Inbound Receipt Check [67118180]
    ```
