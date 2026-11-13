@@ -11,7 +11,7 @@ android {
     defaultConfig {
         // Production package in.berhampore.alarka by default, or overridable via -PalarkaApplicationId
         applicationId = providers.gradleProperty("alarkaApplicationId").orNull ?: "in.berhampore.alarka"
-        minSdk = 28
+        minSdk = 29
         targetSdk = 36
         versionCode = providers.gradleProperty("alarkaVersionCode").map { it.toInt() }.orNull ?: 1
         versionName = providers.gradleProperty("alarkaVersionName").orNull ?: "0.1.0"
