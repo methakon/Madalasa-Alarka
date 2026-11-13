@@ -1,7 +1,7 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-13T06:25:00Z",
-  "note": "Phases 10 and 15 advanced: free-tier revert on prepaid/trial expiry and a distinct six-hour visibility gate, both with ctest evidence and a 368-test disposable-PostgreSQL run. Free V1 remains gated: no paid, trial, media or location activation.",
+  "as_of": "2026-11-13T14:30:00Z",
+  "note": "Physical/emulator device matrix extended: API 29 (emulator) and API 30 (handset) covered for both apps, API 28 for the parent only, API 27 clone rejected. L18-012 remains IN_PROGRESS with API 31..36 unrun and OEM breadth unmet. Free V1 stays gated: no paid, trial, media or location activation.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -2092,11 +2092,11 @@
     "L18-012": {
       "status": "IN_PROGRESS",
       "evidence_path": "evidence/local/DEVICE_MATRIX.md",
-      "commit_sha": "1d91176607accc371996a81e9d08ad4479f3b140",
-      "verified_at_utc": "2026-11-13T04:20:00Z",
+      "commit_sha": "49c1b91e2b4b301f2f63fc89eb8d68cd6b165f1d",
+      "verified_at_utc": "2026-11-13T14:30:00Z",
       "verified_by": "Swarna Sekhar Dhar",
       "target_artifact": "evidence/local/DEVICE_MATRIX.md",
-      "verification": "PHYSICAL_DEVICE_PARTIAL: Xiaomi Mi A3 (Android 11 / API 30) parent 3/3 and child 7/7 instrumented tests pass; Panasonic Eluga I7 (Android 9 / API 28) parent 3/3 pass but is outside the child API 29 floor. API 29, 31, 32, 33, 34, 35, 36 NOT RUN; no live HTTPS backend, no emulator, no OEM breadth. Dependency L18-011 is not yet PASS, so this is partial coverage, not acceptance."
+      "verification": "PHYSICAL_DEVICE_PARTIAL + EMULATOR: parent instrumented suite 3/3 on a Xiaomi Mi A3 (API 30), a Panasonic Eluga I7 (API 28) and an API 29 Pixel 4 AVD; child suite 7/7 on the Mi A3 and on the API 29 AVD, and refused on API 28 by the enforced minSdk 29 floor (INSTALL_FAILED_OLDER_SDK). A third handset offered as a second child was a spoofing MT6580 clone at API 27 and is rejected. API 31, 32, 33, 34, 35, 36 NOT RUN; the API 29 row is a userdebug emulator, not a device, so OEM breadth remains unmet. Dependency L18-011 is still not PASS: partial coverage, not acceptance."
     },
     "L18-013": {
       "status": "NOT_STARTED",
