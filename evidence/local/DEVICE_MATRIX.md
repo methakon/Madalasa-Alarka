@@ -109,6 +109,49 @@ DPC power is claimed without genuine factory-reset provisioning.
 The parent debug build carries a deliberate `applicationIdSuffix = ".synthetic"` so the lab
 build coexists with any production install; the child debug build keeps the production id.
 
+## Device C — offered as a second child handset, rejected
+
+A third handset was connected and presented for use as a second child device. It is a
+**spoofing MediaTek clone** and is excluded from acceptance.
+
+| Claimed | Actually measured |
+|---|---|
+| `S25 Ultra` / `persist.sys.fakeandroidversion=15.0` | `ro.build.version.sdk=27` (Android 8.1.0); `ro.product.name=full_b9ea2_v6_f20c_s25ultra`, `ro.build.fingerprint=Ruby/Ruby/Ruby:8.1.0/O11019/…` |
+| `persist.sys.fakemtkcpu=Snapdragon8 Gen3`, `persist.sys.fakecpucore=Deca Core` | `ro.board.platform=mt6580`, `ro.product.manufacturer=alps`, 32-bit `armeabi-v7a` only |
+| `ro.lys.fakeramtype=16` (GB) | `MemTotal` 984,792 kB ≈ 940 MiB |
+| `ro.lys.fakeromtype=1024` (GB) | eMMC `F822MB`, `/data` 12 G total / 5.0 G free |
+| `persist.sys.fakebattery=8800mAh` | not measured; treated as unverified |
+
+Other markers: `lys.faker.ramrom=[1,16]`, `ro.lys.changedmodel=*#6000#*` (the seller dialer code
+that switches the lies), `ro.build.tags=test-keys` (not `release-keys`), `ro.crypto.state=unencrypted`.
+USB identity is `0e8d:201c` (MediaTek), not a Samsung vendor id.
+
+**Empirically unusable — both apps refuse to install:**
+
+```
+Alarka (child)  adb install -r alarka-debug.apk
+  INSTALL_FAILED_OLDER_SDK: … Requires newer sdk version #29 (current version is #27)
+Madalasa (parent) adb install -r madalasa-debug.apk
+  INSTALL_FAILED_OLDER_SDK: … Requires newer sdk version #28 (current version is #27)
+```
+
+Nothing was installed (`pm list packages` shows no project package afterwards), and no device
+setting was changed. It cannot serve as a second child, and it is also unsuitable on
+provenance grounds: an unencrypted build with `test-keys` whose own firmware ships controls
+for falsifying its identity and specifications is not an acceptable subject for a
+child-monitoring acceptance run.
+
+## What the three handsets can actually cover
+
+| Role | Mi A3 (API 30) | Eluga I7 (API 28) | Clone (API 27) |
+|---|---|---|---|
+| Child (Alarka, minSdk 29) | yes | no | no |
+| Parent (Madalasa, minSdk 28) | yes | **yes** | no |
+
+So a genuine two-handset run is available as **child = Mi A3, parent = Eluga I7**. It is not
+"clone as a second child". Physical coverage of API 29 and 31..36 still needs more handsets
+or emulators.
+
 ## Explicitly NOT tested (no green pass claimed)
 
 - API **29, 31, 32, 33, 34, 35, 36** — 7 of the 8 required levels. Only 30 and 28 were run.
