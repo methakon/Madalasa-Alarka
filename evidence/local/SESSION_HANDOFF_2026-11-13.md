@@ -55,9 +55,23 @@ API 31–36 emulator sweep (`proc_d0727a042fef`). It gates on a complete image i
 one emulator per level, runs both suites, copies each level's result XML out, then kills the
 emulator. Safe to let finish; it self-cleans.
 
+**Where its results land** (scratch, not committed — fold them into
+`evidence/local/DEVICE_MATRIX.md` next session):
+
+```
+~/.hermes/cache/scratch/matrix/SUMMARY.txt          per-level verdicts
+~/.hermes/cache/scratch/matrix/api<API>.log         both suites' output per level
+~/.hermes/cache/scratch/matrix/emu-<API>.log        emulator boot log
+~/.hermes/cache/scratch/matrix/api<API>-*-TEST-*.xml  that level's result XML
+```
+
+Reclaim the disk with `rm -rf $HOME/.android/avd/ma-api3*` and
+`rm -rf ~/Android/Sdk/system-images/android-{31,32,33,34,35,36}` once the matrix is recorded;
+they are ~15 GB and re-downloadable.
+
 ## Needs the owner (nothing here is blocked on more effort)
 
-1. **Push / PR `api → dev`** — `api` is 28 commits ahead of `origin/api`. Local only because
+1. **Push / PR `api → dev`** — `api` is 29 commits ahead of `origin/api`. Local only because
    AGENTS.md requires a reviewed `dev` PR; I will not push unreviewed.
 2. **Rebuild `alarka-release.aab`** — the bundle in `Downloads/ME/Alarka` was built at
    `minSdk 28` and is now stale.
