@@ -1,7 +1,7 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-13T04:20:00Z",
-  "note": "Physical-device run on two USB handsets: parent instrumented suite 3/3 on Android 11 and Android 9; child suite 7/7 on Android 11 with the API 29 floor now enforced (defect DM-01 fixed). L18-012 recorded as IN_PROGRESS with partial API coverage; API 29 and 31..36 remain untested. Free V1 stays gated: no paid, trial, media or location activation.",
+  "as_of": "2026-11-13T06:10:00Z",
+  "note": "Phases 10 and 15 advanced: free-tier revert on prepaid/trial expiry and a distinct six-hour visibility gate, both with ctest evidence and a 368-test disposable-PostgreSQL run. Free V1 remains gated: no paid, trial, media or location activation.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -120,8 +120,8 @@
   ],
   "counts": {
     "IN_PROGRESS": 1,
-    "NOT_STARTED": 126,
-    "PASS": 135
+    "NOT_STARTED": 124,
+    "PASS": 137
   },
   "task_statuses": {
     "L00-001": {
@@ -1234,11 +1234,13 @@
       "verification": "AUTOMATED_TEST: ctest 28/28 PASS re-verifies the 48h trial handler boundary and SQLSTATE mapping; expiry covered by backend/tests/database/test_billing.py in the disposable-PostgreSQL suite (368 tests OK, 10 skipped)"
     },
     "L10-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-003.md",
+      "commit_sha": "000f03b4af3caf3fca15c3b209b2e979ae210f1f",
+      "verified_at_utc": "2026-11-13T06:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/free_tier.h",
+      "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes free_tier. An expired prepaid balance or ended trial reverts to exactly the free set (paid features off, six-hour window, documented 10-15 min reduced cadence) with one identical capability fingerprint across all free-tier entry paths; paid history depth stays unspecified rather than guessed; a held premium addon is dormant, not deleted."
     },
     "L10-004": {
       "status": "NOT_STARTED",
@@ -1741,11 +1743,13 @@
       "verification": "AUTOMATED_TEST: ctest 28/28 PASS includes retention_policy; undecided, incomplete, zero and negative decisions keep purge scheduling disabled and report no period, no category falls back to a planning candidate, and the six-hour free window is not a storage lifetime"
     },
     "L15-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L15-002.md",
+      "commit_sha": "000f03b4af3caf3fca15c3b209b2e979ae210f1f",
+      "verified_at_utc": "2026-11-13T06:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests/test_history_visibility_contract.py",
+      "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes history_visibility_contract (5 cases). Free reads clamp to a fixed server-side six-hour predicate, refuse all query parameters and use server page limits on both routes; the read path carries no retention/purge/deletion behaviour and retention_policy remains undecided and unscheduled. Behavioural proof against real PostgreSQL is backend/tests/database/test_premium_history_leases.py in the 368-test disposable suite."
     },
     "L15-003": {
       "status": "NOT_STARTED",
