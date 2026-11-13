@@ -32,8 +32,10 @@ child-selection copy) and `FreeV1InteractionTest` (premium preview ₹99/month �
 |---|---|---|---|---|---|
 | A (API 30) | 3 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
 | B (API 28) | 3 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+| Emulator (API 29) | 3 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
 
-Both result files: `TEST-Mi A3 - 11-_madalasa-.xml`, `TEST-ELUGA_I7_EE - 9-_madalasa-.xml`.
+Result files: `TEST-Mi A3 - 11-_madalasa-.xml`, `TEST-ELUGA_I7_EE - 9-_madalasa-.xml`,
+`TEST-ma-api29(AVD) - 10-_madalasa-.xml`.
 
 ## Results — child app (Alarka)
 
@@ -44,6 +46,7 @@ Suite: `:alarka:connectedDebugAndroidTest` — `DeviceOwnerLabOnlyTest`,
 | Device | Tests | Failures | Errors | Skipped | Gradle |
 |---|---|---|---|---|---|
 | A (API 30) | 7 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+| Emulator (API 29) | 7 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
 | B (API 28) | 7 | **2** | 0 | 0 | BUILD FAILED, exit 1 — see defect DM-01 |
 
 Passing tests on device A, named:
@@ -141,6 +144,28 @@ provenance grounds: an unencrypted build with `test-keys` whose own firmware shi
 for falsifying its identity and specifications is not an acceptable subject for a
 child-monitoring acceptance run.
 
+## Emulator — API 29 (Android 10), the child's floor
+
+A second child-capable target was provisioned as an emulator, because no second handset at
+API 29+ was available.
+
+| Property | Value |
+|---|---|
+| AVD | `ma-api29`, Pixel 4 profile |
+| Image | `system-images;android-29;google_apis;x86_64` |
+| Reported | Android 10 / `ro.build.version.sdk=29`, `x86_64` |
+| Fingerprint | `google/sdk_gphone_x86_64/generic_x86_64:10/QSR1.211112.011/13135432:userdebug/dev-keys` |
+| Boot | `-no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -accel on -memory 2048 -cores 4`; boot completed in 85.8 s |
+
+Both suites pass on it: child 7/7 and parent 3/3, each `BUILD SUCCESSFUL, exit 0`.
+
+**What this does and does not prove.** It closes the API **29** gap — the child app's exact
+minimum, previously untested — and gives a genuine second mobile target for child-side runs.
+It is a `userdebug`/`dev-keys` emulator: it is **not** a physical device and provides **no
+OEM breadth**, so it does not satisfy the "physical/OEM acceptance" half of L18-012. It also
+carries `google_apis` rather than `google_apis_playstore`, so Google sign-in cannot be
+exercised there.
+
 ## What the three handsets can actually cover
 
 | Role | Mi A3 (API 30) | Eluga I7 (API 28) | Clone (API 27) |
@@ -154,8 +179,10 @@ or emulators.
 
 ## Explicitly NOT tested (no green pass claimed)
 
-- API **29, 31, 32, 33, 34, 35, 36** — 7 of the 8 required levels. Only 30 and 28 were run.
-- No emulator run and no representative-OEM breadth beyond these two handsets.
+- API **31, 32, 33, 34, 35, 36** — 6 of the 8 required levels are still unrun (29 and 30 are
+  covered; 28 is below the supported floor).
+- No representative-OEM breadth beyond the two handsets; the API 29 row is an emulator, not a
+  device.
 - API 28 is outside the supported range, so it is not acceptance coverage at all.
 - No live HTTPS backend: `alarka_api_origin` / `madalasaApiOrigin` are empty, so enrollment,
   ingestion and guardian reads over TLS remain **NOT_RUN** here.
