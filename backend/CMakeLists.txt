@@ -157,3 +157,14 @@ add_test(NAME free_release_profile COMMAND test_free_release_profile)
 # approved; the six-hour free window is a query bound, never a storage lifetime.
 add_executable(test_retention_policy tests/cpp/test_retention_policy.cc)
 add_test(NAME retention_policy COMMAND test_retention_policy)
+
+# Phase 10: an expired prepaid balance or trial reverts to the free capability set
+# with the documented reduced cadence, and no unspecified figure is invented.
+add_executable(test_free_tier tests/cpp/test_free_tier.cc)
+add_test(NAME free_tier COMMAND test_free_tier)
+
+# Phase 15: the six-hour free visibility window is an access bound and stays
+# independent of any storage/retention decision.
+add_test(NAME history_visibility_contract
+         COMMAND python3 -m unittest backend.tests.test_history_visibility_contract -v)
+set_tests_properties(history_visibility_contract PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..)
