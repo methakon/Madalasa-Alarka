@@ -1,0 +1,195 @@
+# Android physical-device acceptance matrix
+
+**Task:** L18-012 — "Run mixed API29..36 Android physical/OEM acceptance"
+**Acceptance:** *"No green pass without actual tested device"*
+**Status:** PARTIAL — real devices tested, full API 29..36 span NOT covered
+**Release gate:** LOCAL_ONLY · **Privacy class:** SYNTHETIC_DATA_ONLY
+
+**Branch:** `api` · **Host:** Ubuntu 24.04.5 LTS, kernel 7.0.0-42-generic · JDK 17.0.20.1 ·
+Android SDK platform 36 / build-tools 36.0.0 · Gradle 8.9 · adb 1.0.41 (34.0.4-debian,
+`/usr/lib/android-sdk/platform-tools/adb`) · **API levels tested:** 30 and 28.
+
+Device serials are redacted; devices are referenced as A and B. Results are read from the
+generated `TEST-*.xml` under `android/<module>/build/outputs/androidTest-results/connected/`.
+
+## Devices
+
+| Alias | Manufacturer / model | Android | API | ABI | Build | Storage | Security patch |
+|---|---|---|---|---|---|---|---|
+| A | Xiaomi Mi A3 (`laurel_sprout`) | 11 | 30 | arm64-v8a | `user`, encrypted, SELinux enforcing | 720x1560 @ 320dpi | 2022-08-01 |
+| B | Panasonic ELUGA I7 EE | 9 | 28 | arm64-v8a | `user`, encrypted, SELinux enforcing | 720x1440 @ 320dpi | 2021-04-05 |
+
+Both were peer-connected over USB with debugging authorized; both reported `device`
+(not `offline`/`unauthorized`) throughout.
+
+## Results — parent app (Madalasa)
+
+Suite: `:madalasa:connectedDebugAndroidTest` — `ParentScreenRegressionTest` (Theme C
+child-selection copy) and `FreeV1InteractionTest` (premium preview ₹99/month · ₹999/year,
+**Pay now → Coming Soon**, dismissal; explicit-child pairing selection).
+
+| Device | Tests | Failures | Errors | Skipped | Gradle |
+|---|---|---|---|---|---|
+| A (API 30) | 3 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+| B (API 28) | 3 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+| Emulator (API 29) | 3 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+
+Result files: `TEST-Mi A3 - 11-_madalasa-.xml`, `TEST-ELUGA_I7_EE - 9-_madalasa-.xml`,
+`TEST-ma-api29(AVD) - 10-_madalasa-.xml`.
+
+## Results — child app (Alarka)
+
+Suite: `:alarka:connectedDebugAndroidTest` — `DeviceOwnerLabOnlyTest`,
+`DurableLabQueueInstrumentedTest` (real Android Keystore atomic restart + revoked queue),
+`PermissionMatrixInstrumentedTest`.
+
+| Device | Tests | Failures | Errors | Skipped | Gradle |
+|---|---|---|---|---|---|
+| A (API 30) | 7 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+| Emulator (API 29) | 7 | 0 | 0 | 0 | BUILD SUCCESSFUL, exit 0 |
+| B (API 28) | 7 | **2** | 0 | 0 | BUILD FAILED, exit 1 — see defect DM-01 |
+
+Passing tests on device A, named:
+
+```
+DeviceOwnerLabOnlyTest            appIsNotDeviceOwnerOnOrdinaryDevice
+DeviceOwnerLabOnlyTest            classifierReportsStandardWhenPlatformHasNoOwnership
+DurableLabQueueInstrumentedTest   realKeystoreAtomicRestartAndRevokedQueueSurvive
+PermissionMatrixInstrumentedTest  unsupportedCapabilityNeverBypassesOnThisDevice
+PermissionMatrixInstrumentedTest  postNotificationsDecisionMatchesActualOsAndGrant
+PermissionMatrixInstrumentedTest  runningOsIsWithinSupportedRange
+PermissionMatrixInstrumentedTest  scannedManifestAndGrantsCannotBypassPairingConsentOrLegalGate
+```
+
+The first two prove the child build is **not** a Device Owner on an ordinary phone — no
+DPC power is claimed without genuine factory-reset provisioning.
+
+## Defects found and resolved
+
+### DM-01 — child app declared `minSdk = 28` while its own policy and roadmap set the floor at API 29
+
+- **Observed on device B:** `runningOsIsWithinSupportedRange` →
+  `java.lang.AssertionError: Device API 28 below supported minimum`
+  (`PermissionMatrixInstrumentedTest.kt:36`), and
+  `scannedManifestAndGrantsCannotBypassPairingConsentOrLegalGate` →
+  `AssertionError` at line 78 (`assertTrue(report.osVersion >= 29)`).
+- **Root cause:** three sources agree the child floor is Android 10 / API 29 —
+  `PermissionMatrixEvaluator.SUPPORTED_MIN_API = 29`,
+  `docs/roadmap/ANDROID_10_TO_16_FREE_RELEASE_COMPATIBILITY_2026-11-03.md` records
+  `android/alarka/build.gradle.kts: minSdk=29` with status "Configured", and the mandatory
+  exit criteria list tests for API 29..36 only — but the build file actually declared
+  `minSdk = 28`. No source sanctioned API 28.
+- **Fix:** `android/alarka/build.gradle.kts` → `minSdk = 29`. Not a threshold loosening;
+  the instrumented test was left unchanged because it was right.
+- **Verified after the fix:**
+  - device A: `:alarka:connectedDebugAndroidTest` → 7/7, BUILD SUCCESSFUL, exit 0;
+  - device B: install refused with
+    `INSTALL_FAILED_OLDER_SDK: ... Requires newer sdk version #29 (current version is #28)`
+    for both the app and the androidTest APK — the Android 9 handset is now correctly
+    outside the supported range instead of silently receiving an unsupported build.
+- **Consequence the owner must know:** handset B (Android 9) can no longer run the child
+  app. Mixed API 29..36 child acceptance therefore needs a second Android 10+ device.
+
+### DM-02 — instrumented tests failed on device B because the phone was locked (environment, not product)
+
+- All three parent tests and the whole child suite initially failed on device B with
+  `IllegalStateException: No compose hierarchies found in the app`.
+- Logcat showed the Compose host activity reaching `RESUMED` then dropping
+  `PAUSED → STOPPED → DESTROYED` within ~200 ms; `dumpsys window` reported
+  `mDreamingLockscreen=true`, `isStatusBarKeyguard=true`, `mFocusedApp=null`.
+- Wake + `wm dismiss-keyguard` made every test pass. Not an app defect. Both devices were
+  kept awake with `svc power stayon true` for the runs and the setting was reverted after.
+
+## Artifact identity (bytes actually under test)
+
+| Artifact | Bytes | SHA-256 |
+|---|---|---|
+| `madalasa-debug.apk` (id `in.berhampore.madalasa.synthetic`, versionCode 2) | 30,763,469 | `e8080eed0629f31d0133357ab455955c3372aa13effcabf3d76cd9878af449b4` |
+| `madalasa-debug-androidTest.apk` | 2,288,583 | `ce21f0d39f7fcf2395a9ad7f200dbda0ab2b212ee142494f85266abd1848ebdf` |
+| `alarka-debug.apk` (id `in.berhampore.alarka`, minSdk 29, after DM-01) | 26,383,921 | `41bd106431a026794eb18e0b46dd89ead85f65da70204f69a03b2dfe96d3bb0e` |
+| `alarka-debug-androidTest.apk` (after DM-01) | 1,309,541 | `7a8c0dd29d73201cd340474dcdb41fdd7d2b5ecceb8a278003945c4957068214` |
+
+The parent debug build carries a deliberate `applicationIdSuffix = ".synthetic"` so the lab
+build coexists with any production install; the child debug build keeps the production id.
+
+## Device C — offered as a second child handset, rejected
+
+A third handset was connected and presented for use as a second child device. It is a
+**spoofing MediaTek clone** and is excluded from acceptance.
+
+| Claimed | Actually measured |
+|---|---|
+| `S25 Ultra` / `persist.sys.fakeandroidversion=15.0` | `ro.build.version.sdk=27` (Android 8.1.0); `ro.product.name=full_b9ea2_v6_f20c_s25ultra`, `ro.build.fingerprint=Ruby/Ruby/Ruby:8.1.0/O11019/…` |
+| `persist.sys.fakemtkcpu=Snapdragon8 Gen3`, `persist.sys.fakecpucore=Deca Core` | `ro.board.platform=mt6580`, `ro.product.manufacturer=alps`, 32-bit `armeabi-v7a` only |
+| `ro.lys.fakeramtype=16` (GB) | `MemTotal` 984,792 kB ≈ 940 MiB |
+| `ro.lys.fakeromtype=1024` (GB) | eMMC `F822MB`, `/data` 12 G total / 5.0 G free |
+| `persist.sys.fakebattery=8800mAh` | not measured; treated as unverified |
+
+Other markers: `lys.faker.ramrom=[1,16]`, `ro.lys.changedmodel=*#6000#*` (the seller dialer code
+that switches the lies), `ro.build.tags=test-keys` (not `release-keys`), `ro.crypto.state=unencrypted`.
+USB identity is `0e8d:201c` (MediaTek), not a Samsung vendor id.
+
+**Empirically unusable — both apps refuse to install:**
+
+```
+Alarka (child)  adb install -r alarka-debug.apk
+  INSTALL_FAILED_OLDER_SDK: … Requires newer sdk version #29 (current version is #27)
+Madalasa (parent) adb install -r madalasa-debug.apk
+  INSTALL_FAILED_OLDER_SDK: … Requires newer sdk version #28 (current version is #27)
+```
+
+Nothing was installed (`pm list packages` shows no project package afterwards), and no device
+setting was changed. It cannot serve as a second child, and it is also unsuitable on
+provenance grounds: an unencrypted build with `test-keys` whose own firmware ships controls
+for falsifying its identity and specifications is not an acceptable subject for a
+child-monitoring acceptance run.
+
+## Emulator — API 29 (Android 10), the child's floor
+
+A second child-capable target was provisioned as an emulator, because no second handset at
+API 29+ was available.
+
+| Property | Value |
+|---|---|
+| AVD | `ma-api29`, Pixel 4 profile |
+| Image | `system-images;android-29;google_apis;x86_64` |
+| Reported | Android 10 / `ro.build.version.sdk=29`, `x86_64` |
+| Fingerprint | `google/sdk_gphone_x86_64/generic_x86_64:10/QSR1.211112.011/13135432:userdebug/dev-keys` |
+| Boot | `-no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -accel on -memory 2048 -cores 4`; boot completed in 85.8 s |
+
+Both suites pass on it: child 7/7 and parent 3/3, each `BUILD SUCCESSFUL, exit 0`.
+
+**What this does and does not prove.** It closes the API **29** gap — the child app's exact
+minimum, previously untested — and gives a genuine second mobile target for child-side runs.
+It is a `userdebug`/`dev-keys` emulator: it is **not** a physical device and provides **no
+OEM breadth**, so it does not satisfy the "physical/OEM acceptance" half of L18-012. It also
+carries `google_apis` rather than `google_apis_playstore`, so Google sign-in cannot be
+exercised there.
+
+## What the three handsets can actually cover
+
+| Role | Mi A3 (API 30) | Eluga I7 (API 28) | Clone (API 27) |
+|---|---|---|---|
+| Child (Alarka, minSdk 29) | yes | no | no |
+| Parent (Madalasa, minSdk 28) | yes | **yes** | no |
+
+So a genuine two-handset run is available as **child = Mi A3, parent = Eluga I7**. It is not
+"clone as a second child". Physical coverage of API 29 and 31..36 still needs more handsets
+or emulators.
+
+## Explicitly NOT tested (no green pass claimed)
+
+- API **31, 32, 33, 34, 35, 36** — 6 of the 8 required levels are still unrun (29 and 30 are
+  covered; 28 is below the supported floor).
+- No representative-OEM breadth beyond the two handsets; the API 29 row is an emulator, not a
+  device.
+- API 28 is outside the supported range, so it is not acceptance coverage at all.
+- No live HTTPS backend: `alarka_api_origin` / `madalasaApiOrigin` are empty, so enrollment,
+  ingestion and guardian reads over TLS remain **NOT_RUN** here.
+- Location collection is release-gated OFF (`alarka_location_release_approved=false`); no
+  location, SOS, notification-delivery or revocation end-to-end test was performed.
+- Accessibility (TalkBack, 200 % font, 320 dp), screenshot diffing and install/upgrade over
+  an existing production install were not exercised.
+- Backend/API was not involved; this record is device-side only.
+
+**Reviewer:** not yet assigned (human sign-off outstanding).

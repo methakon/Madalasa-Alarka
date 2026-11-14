@@ -81,6 +81,10 @@ add_executable(test_device_endpoints tests/cpp/test_device_endpoints.cc)
 target_link_libraries(test_device_endpoints PRIVATE ma_core OpenSSL::Crypto)
 add_test(NAME device_endpoints COMMAND test_device_endpoints)
 
+add_executable(test_mode_guard_test tests/cpp/test_mode_guard_test.cc)
+target_link_libraries(test_mode_guard_test PRIVATE ma_core ma_oidc)
+add_test(NAME test_mode_guard COMMAND test_mode_guard_test)
+
 add_executable(billing_catalog_test tests/cpp/billing_catalog_test.cc)
 target_link_libraries(billing_catalog_test PRIVATE ma_core ma_oidc)
 add_test(NAME billing_catalog COMMAND billing_catalog_test)
@@ -145,6 +149,32 @@ endif()
 add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
 add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
 
+# Phase 15: authenticated deletion workflow and notices (202 Accepted, completed=false).
+add_executable(test_deletion_workflow tests/cpp/test_deletion_workflow.cc)
+target_link_libraries(test_deletion_workflow PRIVATE ma_core)
+add_test(NAME deletion_workflow COMMAND test_deletion_workflow)
+
+# Phase 10: founding family 1008 distinct paid counter & child inheritance.
+add_executable(test_founding_family_counter tests/cpp/test_founding_family_counter.cc)
+target_include_directories(test_founding_family_counter PRIVATE src)
+add_test(NAME founding_family_counter COMMAND test_founding_family_counter)
+
 # Free-first release must default to no payment or trial.
 add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
 add_test(NAME free_release_profile COMMAND test_free_release_profile)
+
+# Phase 15: per-category retention stays fail-closed until an exact period is
+# approved; the six-hour free window is a query bound, never a storage lifetime.
+add_executable(test_retention_policy tests/cpp/test_retention_policy.cc)
+add_test(NAME retention_policy COMMAND test_retention_policy)
+
+# Phase 10: an expired prepaid balance or trial reverts to the free capability set
+# with the documented reduced cadence, and no unspecified figure is invented.
+add_executable(test_free_tier tests/cpp/test_free_tier.cc)
+add_test(NAME free_tier COMMAND test_free_tier)
+
+# Phase 15: the six-hour free visibility window is an access bound and stays
+# independent of any storage/retention decision.
+add_test(NAME history_visibility_contract
+         COMMAND python3 -m unittest backend.tests.test_history_visibility_contract -v)
+set_tests_properties(history_visibility_contract PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..)
