@@ -1,6 +1,6 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-13T14:30:00Z",
+  "as_of": "2026-11-14T17:25:00Z",
   "note": "Physical/emulator device matrix extended: API 29 (emulator) and API 30 (handset) covered for both apps, API 28 for the parent only, API 27 clone rejected. L18-012 remains IN_PROGRESS with API 31..36 unrun and OEM breadth unmet. Free V1 stays gated: no paid, trial, media or location activation.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
@@ -120,8 +120,8 @@
   ],
   "counts": {
     "IN_PROGRESS": 1,
-    "NOT_STARTED": 123,
-    "PASS": 138
+    "NOT_STARTED": 118,
+    "PASS": 143
   },
   "task_statuses": {
     "L00-001": {
@@ -1243,11 +1243,13 @@
       "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes free_tier. An expired prepaid balance or ended trial reverts to exactly the free set (paid features off, six-hour window, documented 10-15 min reduced cadence) with one identical capability fingerprint across all free-tier entry paths; paid history depth stays unspecified rather than guessed; a held premium addon is dormant, not deleted."
     },
     "L10-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-004.md",
+      "commit_sha": "188bfcc0d68481358c5a452db89487b7a2d488ad",
+      "verified_at_utc": "2026-11-14T17:05:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/founding_family_counter.h",
+      "verification": "AUTOMATED_TEST: ctest 32/32 PASS includes founding_family_counter. Exactly 1008 distinct families qualify for founding pricing (\u20b950/mo or \u20b9500/yr); subsequent children added to a founding family automatically inherit founding rate keyed to family_id; 1009th distinct family is cut off and charged standard pricing (\u20b999/mo or \u20b9999/yr); viewer addons do not increment founding counter."
     },
     "L10-005": {
       "status": "PASS",
@@ -1429,11 +1431,13 @@
       "verification": "AUTOMATED_TEST: :madalasa:testDebugUnitTest 92 tests 0 failures; ThemeCTokenAndLocaleTest asserts the nine Theme C palette ARGB values, a strictly ascending readable type scale, resolvable adaptive-icon layers, all density buckets, and rejection of locale-qualified values dirs and non-English scripts"
     },
     "L12-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L12-002.md",
+      "commit_sha": "bb6503f191b4c483d4107e32fb99a059c4aee052",
+      "verified_at_utc": "2026-11-14T17:12:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/navigation/ParentDeepLinkNavigator.kt",
+      "verification": "AUTOMATED_TEST: Gradle :madalasa:testDebugUnitTest and :madalasa:testReleaseUnitTest (37 tasks, 0 failures) includes ParentDeepLinkNavigatorTest (10 cases). Deep links require valid parent authentication and exact-child admitted grants; unauthenticated callers redirect to auth; unauthorized child IDs or non-admitted states redirect to child_selection without exposing child data; sub-route destinations (location, privacy) preserved upon authorization."
     },
     "L12-003": {
       "status": "NOT_STARTED",
@@ -1529,11 +1533,13 @@
       "verification": "AUTOMATED_TEST: :alarka:testDebugUnitTest 147 tests 0 failures; AlarkaLauncherBrandingTest asserts valid PNG portrait artwork, resolvable adaptive-icon layers, all density buckets, monochrome themed-icon layer, resource-based labelling and honest child copy"
     },
     "L13-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L13-002.md",
+      "commit_sha": "65082436d4df656a29be602c3ef67cf5e4fc9ecf",
+      "verified_at_utc": "2026-11-14T17:15:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/alarka/src/main/kotlin/org/madalasa/alarka/ui/screens/TransparencyDisclosureScreen.kt",
+      "verification": "AUTOMATED_TEST: Gradle :alarka:testDebugUnitTest and :alarka:testReleaseUnitTest (37 tasks, 0 failures) includes ChildConsentAndSetupDisclosureTest (5 cases). Child companion setup begins on TransparencyDisclosureScreen; pairing is blocked unless disclosure is acknowledged; active monitoring strictly requires a child-visible, persistent, ongoing notification identifying Alarka; covert or dismissible monitoring is rejected by policy; AndroidManifest declares isMonitoringTool=child_monitoring."
     },
     "L13-003": {
       "status": "NOT_STARTED",
@@ -1624,11 +1630,13 @@
       "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes oidc, oidc_http and admin_oidc_negative. Wrong iss (trailing slash, http, case, evil, leading space, empty), aud (wrong/null/empty/huge/empty-array), sub (missing/empty/long/numeric/control) and email (unverified, missing, non-boolean, malformed) are denied, plus algorithm confusion, forbidden headers, bad kid and iat freshness. Real RS256 tokens signed against a local JWKS fixture; tampered payloads rejected."
     },
     "L14-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L14-003.md",
+      "commit_sha": "5a7004b087095034c56eb722b5e2d1a3c7fc01f3",
+      "verified_at_utc": "2026-11-14T16:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/admin_owner.h",
+      "verification": "AUTOMATED_TEST: ctest 32/32 PASS includes test_admin_owner. ap_m1.owner_identity_allowlist verifies Google OIDC subject and issuer; owner queue authorization requires OWNER_MANAGE permission; only verified owner can grant or revoke roles via decide_admin_request; non-owner role modifications return 403 / SQLSTATE 42501."
     },
     "L14-004": {
       "status": "NOT_STARTED",
@@ -1754,11 +1762,13 @@
       "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes history_visibility_contract (5 cases). Free reads clamp to a fixed server-side six-hour predicate, refuse all query parameters and use server page limits on both routes; the read path carries no retention/purge/deletion behaviour and retention_policy remains undecided and unscheduled. Behavioural proof against real PostgreSQL is backend/tests/database/test_premium_history_leases.py in the 368-test disposable suite."
     },
     "L15-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L15-003.md",
+      "commit_sha": "ebda581774e1d556dbe1eebfe46ad5d8c6b75825",
+      "verified_at_utc": "2026-11-14T17:00:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/privacy_request_endpoints.h",
+      "verification": "AUTOMATED_TEST: ctest 32/32 PASS includes deletion_workflow (7 negative/contract cases). Child erasure request returns HTTP 202 Accepted with completed=false and explicit pending notice indicating primary deletion and external/backup verification are separate; unauthenticated, malformed UUID, missing confirmation, oversized payload (>1024 bytes), and offline DB fail closed."
     },
     "L15-004": {
       "status": "NOT_STARTED",
