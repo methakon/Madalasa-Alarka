@@ -2,6 +2,7 @@ package org.madalasa.madalasa.api
 
 import android.app.Activity
 import android.util.Base64
+import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -149,13 +150,17 @@ class GoogleParentCredentialFlow {
                 context = activity,
                 request = request
             ).credential
-        } catch (_: GetCredentialCancellationException) {
+        } catch (e: GetCredentialCancellationException) {
+            Log.e("MadalasaAuth", "GetCredentialCancellationException: ${e.message} type: ${e.type}", e)
             return GoogleHandoffResult.Denied(GoogleHandoffFailure.CANCELLED)
-        } catch (_: NoCredentialException) {
+        } catch (e: NoCredentialException) {
+            Log.e("MadalasaAuth", "NoCredentialException: ${e.message} type: ${e.type}", e)
             return GoogleHandoffResult.Denied(GoogleHandoffFailure.NO_ACCOUNT)
-        } catch (_: GetCredentialException) {
+        } catch (e: GetCredentialException) {
+            Log.e("MadalasaAuth", "GetCredentialException: ${e.message} type: ${e.type}", e)
             return GoogleHandoffResult.Denied(GoogleHandoffFailure.SERVICE_UNAVAILABLE)
-        } catch (_: RuntimeException) {
+        } catch (e: RuntimeException) {
+            Log.e("MadalasaAuth", "RuntimeException in credential flow: ${e.message}", e)
             return GoogleHandoffResult.Denied(GoogleHandoffFailure.SERVICE_UNAVAILABLE)
         }
 
