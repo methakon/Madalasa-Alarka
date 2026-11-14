@@ -154,6 +154,11 @@ add_executable(test_deletion_workflow tests/cpp/test_deletion_workflow.cc)
 target_link_libraries(test_deletion_workflow PRIVATE ma_core)
 add_test(NAME deletion_workflow COMMAND test_deletion_workflow)
 
+# Phase 10: founding family 1008 distinct paid counter & child inheritance.
+add_executable(test_founding_family_counter tests/cpp/test_founding_family_counter.cc)
+target_include_directories(test_founding_family_counter PRIVATE src)
+add_test(NAME founding_family_counter COMMAND test_founding_family_counter)
+
 # Free-first release must default to no payment or trial.
 add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
 add_test(NAME free_release_profile COMMAND test_free_release_profile)
