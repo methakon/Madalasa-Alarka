@@ -17,4 +17,11 @@ if [ -f /etc/madalasa/api.env ]; then
   case "$mode" in 600|640) : ;; *) echo "api.env mode $mode is too permissive; use 600/640" >&2; exit 1;; esac
   # Do not source, print or grep secrets from this file.
 fi
+# Release gate for the database test-mode switch. Needs the runtime login in the libpq environment (PG*).
+# Skipping must be explicit; a silent skip would defeat the point.
+if [ "${MA_PREFLIGHT_SKIP_TEST_MODE_CHECK:-0}" = 1 ]; then
+  echo 'WARNING: test-mode switch NOT CHECKED (MA_PREFLIGHT_SKIP_TEST_MODE_CHECK=1). Do not release on this result.' >&2
+else
+  bash "$(dirname "$0")/check-test-mode-off.sh"
+fi
 echo 'PASS: basic non-destructive preflight. This is not DB, TLS or feature readiness.'

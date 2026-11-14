@@ -60,7 +60,8 @@ def server(binary, runtime, evidence, sensitive, auth=None):
     # Do not inherit ambient auth/DB/release configuration from the developer.
     env = {k: v for k, v in os.environ.items() if not k.startswith('MA_')}
     env.update(MA_LISTEN_ADDR='127.0.0.1', MA_PARENT_AUTH_MODE='v2_session',
-               MA_RELEASE_PROFILE='FREE_ONLY', MA_PG_HOST=runtime['host'],
+               MA_RELEASE_PROFILE='FREE_ONLY', MA_TEST_MODE_ALLOWED_IN_DISPOSABLE_DB='1',
+               MA_PG_HOST=runtime['host'],
                MA_PG_PORT=runtime['port'], MA_PG_DB=runtime['dbname'],
                MA_PG_USER=runtime['user'], MA_PG_PASSWORD=runtime.get('password', ''))
     if auth is not None:
