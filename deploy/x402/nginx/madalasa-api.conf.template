@@ -4,6 +4,14 @@
 # TLS cert must exist before enabling. No plaintext public API.
 # Changing DNS-only to Cloudflare-proxied requires Full (strict) and SOS/guardian API regression.
 server {
+    listen 80;
+    listen [::]:80;
+    server_name api.madalasa.berhampore.in;
+    server_tokens off;
+    return 301 https://api.madalasa.berhampore.in$request_uri;
+}
+
+server {
     listen 443 ssl;
     listen [::]:443 ssl;
     server_name api.madalasa.berhampore.in;
@@ -12,8 +20,10 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     server_tokens off;
     client_max_body_size 640k; # API location batch <= 512 KiB; endpoint validates.
+    add_header Cache-Control no-store always;
     add_header X-Content-Type-Options nosniff always;
     add_header Referrer-Policy no-referrer always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     location ^~ /v1/admin/ { return 404; } # admin only on dedicated same-origin HTTPS vhost
     location = /healthz { proxy_pass http://127.0.0.1:8080; proxy_set_header Host $host; }
     location /v1/ {
@@ -28,6 +38,9 @@ server {
         proxy_send_timeout 15s;
         proxy_buffering off;
         add_header Cache-Control no-store always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header Referrer-Policy no-referrer always;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     }
     location / { return 404; }
 }
