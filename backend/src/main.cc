@@ -28,6 +28,7 @@
 #include "pairing.h"
 #include "parent_session.h"
 #include "billing_catalog.h"
+#include "test_mode_guard.h"
 #include "billing_trial.h"
 #include "privacy_endpoints.h"
 #include "privacy_request_endpoints.h"
@@ -175,10 +176,15 @@ int main() {
   const std::string addr = addr_env ? addr_env : "127.0.0.1";
 
   // Every request gets a fresh server-generated id before routing; every response carries it.
-  app().registerPreRoutingAdvice([](const HttpRequestPtr& req, AdviceCallback&&, AdviceChainCallback&& next) {
+  app().registerPreRoutingAdvice([](const HttpRequestPtr& req, AdviceCallback&& stop, AdviceChainCallback&& next) {
     req->getAttributes()->insert(ma::kRequestIdAttr, ma::new_request_id());
+    if (ma::test_mode_tripped().load() && !ma::path_exempt_from_test_mode_block(req->path())) {
+      stop(ma::error_response("SERVICE_UNAVAILABLE", "service unavailable", ma::request_id_of(req), true));
+      return;
+    }
     next();
   });
+  ma::start_test_mode_guard();
   app().registerPreSendingAdvice([](const HttpRequestPtr& req, const HttpResponsePtr& resp) {
     resp->removeHeader(ma::kRequestIdHeader);
     resp->addHeader(ma::kRequestIdHeader, ma::request_id_of(req));

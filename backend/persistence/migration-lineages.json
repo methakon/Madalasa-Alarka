@@ -243,6 +243,18 @@
       "path": "backend/persistence/migrations/0031_child_signal_device_status.sql",
       "sha256": "9146dbf34ebab96b0ebded838700d0f6c1f14f4ac1f29209abaf4a0790fa8cd2",
       "published": false
+    },
+    {
+      "id": "v2:0032",
+      "path": "backend/persistence/migrations/0032_test_mode_production_guard.sql",
+      "sha256": "41185930f31455bafad77fce802a29c7aa713817e910fe340014c8f0d85bc197",
+      "published": false
+    },
+    {
+      "id": "v2:0033",
+      "path": "backend/persistence/migrations/0033_credential_renewal_expiry_reader.sql",
+      "sha256": "fdcb74f7e232ea7f7fa850084949471548dccb9ad310175fe2f9f6e7462ce434",
+      "published": false
     }
   ]
 }
