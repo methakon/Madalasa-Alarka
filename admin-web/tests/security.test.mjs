@@ -46,3 +46,12 @@ test('owner approvals use the server revision, not a hardcoded zero',()=>{
  assert.doesNotMatch(ui,/expected_revision:0/);
  assert.doesNotMatch(ui,/postal_address:address/);
 });
+
+test('admin logout handles failures securely without unconditional client signout',()=>{
+ const ui=read('src/main.tsx');
+ assert.doesNotMatch(ui,/\.finally\(\(\)=>\{clearCsrfToken\(\);setAuth\('signed-out'\)/);
+ assert.match(ui,/const handleSignOut=async/);
+ assert.match(ui,/request\('\/admin\/auth\/session',\{method:'DELETE'\}\)/);
+ assert.match(ui,/e instanceof ApiError&&e\.status===401/);
+ assert.match(ui,/Server logout failed/);
+});

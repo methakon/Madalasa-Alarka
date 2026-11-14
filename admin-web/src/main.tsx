@@ -92,6 +92,20 @@ function App(){
   try{await request(path,{method,body});setActionMessage('Server confirmed the update.');await refresh();}
   catch(e){setActionError(e instanceof Error?e.message:'Action failed; no success assumed');}finally{setBusy(false);}
  };
+ const handleSignOut=async()=>{
+  if(PREVIEW){setAuth('signed-out');setRoles([]);setAccess(null);return;}
+  setBusy(true);setActionError('');setActionMessage('');
+  try{
+    await request('/admin/auth/session',{method:'DELETE'});
+    clearCsrfToken();setRoles([]);setAccess(null);setSessionError('');setAuth('signed-out');
+  }catch(e){
+    if(e instanceof ApiError&&e.status===401){
+      clearCsrfToken();setRoles([]);setAccess(null);setSessionError('Admin session expired.');setAuth('signed-out');
+    }else{
+      setActionError(e instanceof Error?`Server logout failed (${e.message}). Session remains active for security; retry sign-out.`:'Server logout failed. Session remains active for security.');
+    }
+  }finally{setBusy(false);}
+ };
  if(auth==='checking')return <NoAccess message="Checking administrator session…"/>;
  if(auth==='signed-out')return <GoogleEntry error={sessionError} onApproved={async(idToken,nonce)=>{
    try{
@@ -128,12 +142,7 @@ function App(){
    <div className="sidebar-foot"><LockKeyhole size={16}/><span>CHILD PRIVACY WALL ACTIVE</span></div>
   </aside>
   <main className="main">
-   <header className="topbar"><button className="menu-toggle" onClick={()=>setMenuOpen(x=>!x)} aria-label="Toggle menu">☰</button><span>Operations workspace</span><div className="top-actions"><Label>{PREVIEW?'SYNTHETIC PREVIEW':'SERVER AUTHENTICATED'}</Label><button className="icon-button" aria-label="Refresh" onClick={()=>void refresh()}><RefreshCw size={18}/></button><button className="icon-button" aria-label="Leave console" onClick={()=>{if(PREVIEW){setAuth('signed-out');setRoles([]);setAccess(null);return;}
-     void request('/admin/auth/session',{method:'DELETE'}).catch(e=>{
-       setSessionError('Server logout not confirmed. Close other sessions from account security settings.');
-       setActionError(e instanceof Error?e.message:'Server logout failed');
-     }).finally(()=>{clearCsrfToken();setAuth('signed-out');setRoles([]);setAccess(null);});
-   }}><LogOut size={18}/></button></div></header>
+   <header className="topbar"><button className="menu-toggle" onClick={()=>setMenuOpen(x=>!x)} aria-label="Toggle menu">☰</button><span>Operations workspace</span><div className="top-actions"><Label>{PREVIEW?'SYNTHETIC PREVIEW':'SERVER AUTHENTICATED'}</Label><button className="icon-button" aria-label="Refresh" onClick={()=>void refresh()}><RefreshCw size={18}/></button><button className="icon-button" aria-label="Leave console" disabled={busy} onClick={()=>void handleSignOut()}><LogOut size={18}/></button></div></header>
    <div className="content"><div className="page-heading"><div><div className="breadcrumb">Administration <span>/</span> {section}</div><h1>{titles[section]}</h1><p>{subtitles[section]}</p></div><Label>{PREVIEW?'NOT LIVE':'PROTECTED'}</Label></div>
    {PREVIEW&&<div className="preview-note"><AlertCircle size={18}/> <span>Invented example accounts, tickets and subscriptions. No real records are accessed and all mutations are disabled.</span></div>}
    {error&&<div className="error-note" role="alert">{error}. No cached or fabricated live results shown.</div>}

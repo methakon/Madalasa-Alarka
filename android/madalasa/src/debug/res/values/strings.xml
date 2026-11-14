@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Synthetic development label; release builds use "Madalasa" from src/main -->
+    <string name="app_name">Madalasa — synthetic demo</string>
+</resources>
