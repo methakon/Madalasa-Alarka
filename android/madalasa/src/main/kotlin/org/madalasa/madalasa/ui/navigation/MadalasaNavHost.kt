@@ -38,11 +38,41 @@ fun MadalasaNavHost(
     privacyGateway: PrivacyGateway,
     googleConfiguration: GoogleParentConfiguration,
     parentSessionMemory: ParentSessionMemory,
+    deepLinkUri: String? = null,
+    onDeepLinkConsumed: () -> Unit = {},
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    val deepLinkNavigator = remember { ParentDeepLinkNavigator() }
+
+    LaunchedEffect(deepLinkUri, uiState.profile, uiState.children) {
+        val uri = deepLinkUri ?: return@LaunchedEffect
+        val isAuthenticated = parentSessionMemory.currentToken() != null
+        when (val outcome = deepLinkNavigator.resolve(uri, isAuthenticated, uiState.profile, uiState.children)) {
+            is DeepLinkResolution.Authorized -> {
+                viewModel.selectChild(outcome.childId) {
+                    navController.navigate(outcome.targetRoute) {
+                        popUpTo(Screen.ChildSelection.route) { inclusive = false }
+                    }
+                }
+                onDeepLinkConsumed()
+            }
+            is DeepLinkResolution.DeniedUnauthenticated -> {
+                navController.navigate(outcome.redirectRoute)
+                onDeepLinkConsumed()
+            }
+            is DeepLinkResolution.DeniedUnauthorizedChild -> {
+                navController.navigate(outcome.redirectRoute)
+                onDeepLinkConsumed()
+            }
+            is DeepLinkResolution.InvalidUri -> {
+                onDeepLinkConsumed()
+            }
+        }
+    }
+
     androidx.compose.runtime.DisposableEffect(lifecycleOwner, viewModel) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             when (event) {

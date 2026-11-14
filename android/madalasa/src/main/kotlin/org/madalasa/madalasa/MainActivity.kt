@@ -1,8 +1,12 @@
 package org.madalasa.madalasa
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.madalasa.madalasa.di.DefaultAppContainer
 import org.madalasa.madalasa.ui.navigation.MadalasaNavHost
@@ -17,9 +21,11 @@ import org.madalasa.madalasa.ui.viewmodel.ParentViewModel
 class MainActivity : ComponentActivity() {
 
     private val appContainer by lazy { DefaultAppContainer(applicationContext) }
+    private var pendingDeepLink by mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pendingDeepLink = intent?.dataString
         setContent {
             MadalasaTheme {
                 val viewModel: ParentViewModel = viewModel(
@@ -29,9 +35,17 @@ class MainActivity : ComponentActivity() {
                     viewModel = viewModel,
                     privacyGateway = appContainer.privacyGateway,
                     googleConfiguration = appContainer.googleParentConfiguration,
-                    parentSessionMemory = appContainer.parentSessionMemory
+                    parentSessionMemory = appContainer.parentSessionMemory,
+                    deepLinkUri = pendingDeepLink,
+                    onDeepLinkConsumed = { pendingDeepLink = null }
                 )
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        pendingDeepLink = intent.dataString
     }
 }
