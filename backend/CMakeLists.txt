@@ -149,6 +149,11 @@ endif()
 add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
 add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
 
+# Phase 15: authenticated deletion workflow and notices (202 Accepted, completed=false).
+add_executable(test_deletion_workflow tests/cpp/test_deletion_workflow.cc)
+target_link_libraries(test_deletion_workflow PRIVATE ma_core)
+add_test(NAME deletion_workflow COMMAND test_deletion_workflow)
+
 # Free-first release must default to no payment or trial.
 add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
 add_test(NAME free_release_profile COMMAND test_free_release_profile)

@@ -155,10 +155,6 @@ inline Json::Value admin_text_array(const std::string& pg_array) {
   return out;
 }
 
-inline std::string pg_utc(const char* column) {
-  return std::string("to_char(") + column + " AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"')";
-}
-
 // ---------------------------------------------------------------- shared session guard
 using AdminBody = std::function<drogon::Task<drogon::HttpResponsePtr>(
     std::shared_ptr<drogon::orm::Transaction>, std::string)>;
