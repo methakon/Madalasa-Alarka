@@ -200,31 +200,8 @@ fun PermissionsScreen(
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                StatusRow(
-                    permission = "Location (Fine/Coarse)",
-                    status = when {
-                        report == null -> "Unknown — scan pending"
-                        report.permissionsGranted.contains(Manifest.permission.ACCESS_FINE_LOCATION) -> "Fine grant present · feature OFF pending approval"
-                        report.permissionsGranted.contains(Manifest.permission.ACCESS_COARSE_LOCATION) -> "Approximate grant present · feature OFF pending approval"
-                        else -> "Not granted · feature OFF"
-                    },
-                    color = ThemeCColors.Teal
-                )
-                StatusRow(
-                    permission = "Activity Recognition",
-                    status = "Not requested in this build",
-                    color = ThemeCColors.Teal
-                )
-                StatusRow(
-                    permission = "Persistent Notification",
-                    status = "No active background monitoring service",
-                    color = ThemeCColors.Indigo
-                )
-                StatusRow(
-                    permission = "Covert Capture / Recording",
-                    status = "Strictly Prohibited",
-                    color = ThemeCColors.Leaf
-                )
+                val checklistItems = PermissionChecklistEvaluator.buildChecklist(report)
+                PermissionChecklistView(items = checklistItems)
             }
         }
 
