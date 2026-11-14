@@ -1,7 +1,7 @@
 {
   "name": "Madalasa\u2013Alarka Local Agent Execution Status",
-  "as_of": "2026-11-02T19:15:00Z",
-  "note": "Phase 09 (L09-001..012) reconciled after execution on child, parent, and api; 128 PASS / 134 NOT_STARTED.",
+  "as_of": "2026-11-13T14:30:00Z",
+  "note": "Physical/emulator device matrix extended: API 29 (emulator) and API 30 (handset) covered for both apps, API 28 for the parent only, API 27 clone rejected. L18-012 remains IN_PROGRESS with API 31..36 unrun and OEM breadth unmet. Free V1 stays gated: no paid, trial, media or location activation.",
   "workstream_checkpoints": {
     "synthetic_local_database_foundation": {
       "readiness": "LOCAL_READY",
@@ -119,8 +119,9 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
-    "NOT_STARTED": 134,
-    "PASS": 128
+    "IN_PROGRESS": 1,
+    "NOT_STARTED": 123,
+    "PASS": 138
   },
   "task_statuses": {
     "L00-001": {
@@ -809,10 +810,10 @@
     "L05-011": {
       "status": "PASS",
       "evidence_path": "evidence/local/tasks/L05-011.md",
-      "commit_sha": "c654abd",
-      "verified_at_utc": "2026-11-02T07:48:00Z",
+      "commit_sha": "1d91176607accc371996a81e9d08ad4479f3b140",
+      "verified_at_utc": "2026-11-13T04:20:00Z",
       "verified_by": "Swarna Sekhar Dhar",
-      "verification": "AUTOMATED_TEST: PermissionMatrixEvaluatorTest (API29..36 fail-closed) + connectedDebugAndroidTest 3/3 on Xiaomi Mi A3 Android 11/API30 exit 0"
+      "verification": "AUTOMATED_TEST: instrumented suite 7/7 on Xiaomi Mi A3 (API 30) exit 0; :alarka:test JVM variants exit 0. On Panasonic Eluga I7 (API 28) two permission-matrix tests failed because the build declared minSdk 28 while the evaluator and the Android 10-16 roadmap set the floor at 29; minSdk raised to 29 and the Android 9 handset now refuses install with INSTALL_FAILED_OLDER_SDK. Coverage across API 29 and 31..36 still OPEN."
     },
     "L05-012": {
       "status": "PASS",
@@ -1215,25 +1216,31 @@
       "verification": "AUTOMATED_TEST: test_safety_sos duplicate SOS idempotent, replay rejected, unrelated parent rejected; exit 0"
     },
     "L10-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-001.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests/cpp/trial_policy_test.cc",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS includes trial_policy_handler (repeat attempt 409, unique race 409, non-owner 404, device/advertising/hardware/national identifier fields rejected, FREE_ONLY latch); disposable-PostgreSQL suite 368 tests OK, 10 skipped, includes m1_trial_policy.sql"
     },
     "L10-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-002.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/billing_trial.h",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS re-verifies the 48h trial handler boundary and SQLSTATE mapping; expiry covered by backend/tests/database/test_billing.py in the disposable-PostgreSQL suite (368 tests OK, 10 skipped)"
     },
     "L10-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-003.md",
+      "commit_sha": "000f03b4af3caf3fca15c3b209b2e979ae210f1f",
+      "verified_at_utc": "2026-11-13T06:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/free_tier.h",
+      "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes free_tier. An expired prepaid balance or ended trial reverts to exactly the free set (paid features off, six-hour window, documented 10-15 min reduced cadence) with one identical capability fingerprint across all free-tier entry paths; paid history depth stays unspecified rather than guessed; a held premium addon is dormant, not deleted."
     },
     "L10-004": {
       "status": "NOT_STARTED",
@@ -1243,11 +1250,13 @@
       "verified_by": null
     },
     "L10-005": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-005.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/billing_catalog.h",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS re-verifies billing_catalog (UNVERIFIED rows never quote a price); runtime read of the catalog rows exercised in the disposable-PostgreSQL suite (368 tests OK, 10 skipped)"
     },
     "L10-006": {
       "status": "NOT_STARTED",
@@ -1411,11 +1420,13 @@
       "verified_by": null
     },
     "L12-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L12-001.md",
+      "commit_sha": "34905425caaf89eee73d9e3b441890a71b9aa7a5",
+      "verified_at_utc": "2026-11-12T19:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/madalasa/src/main/res",
+      "verification": "AUTOMATED_TEST: :madalasa:testDebugUnitTest 92 tests 0 failures; ThemeCTokenAndLocaleTest asserts the nine Theme C palette ARGB values, a strictly ascending readable type scale, resolvable adaptive-icon layers, all density buckets, and rejection of locale-qualified values dirs and non-English scripts"
     },
     "L12-002": {
       "status": "NOT_STARTED",
@@ -1509,11 +1520,13 @@
       "verified_by": null
     },
     "L13-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L13-001.md",
+      "commit_sha": "34905425caaf89eee73d9e3b441890a71b9aa7a5",
+      "verified_at_utc": "2026-11-12T19:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/alarka/src/main/res",
+      "verification": "AUTOMATED_TEST: :alarka:testDebugUnitTest 147 tests 0 failures; AlarkaLauncherBrandingTest asserts valid PNG portrait artwork, resolvable adaptive-icon layers, all density buckets, monochrome themed-icon layer, resource-based labelling and honest child copy"
     },
     "L13-002": {
       "status": "NOT_STARTED",
@@ -1593,18 +1606,22 @@
       "verified_by": null
     },
     "L14-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L14-001.md",
+      "commit_sha": "c619dcbdeb4f1909d5ec255b638b3688e3e5bd8a",
+      "verified_at_utc": "2026-11-12T19:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "admin-web/package.json",
+      "verification": "STATIC_REVIEW_AND_VALIDATOR: npm test 11/11 pass; dev shell serves the admin document on 127.0.0.1:5173 only; synthetic preview never enables in production. Live x402 deploy, real OIDC/MFA and Nginx checks NOT_RUN"
     },
     "L14-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L14-002.md",
+      "commit_sha": "453e99a17eb0a4ad66542627762f232e1f352078",
+      "verified_at_utc": "2026-11-13T06:25:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/google_oidc.cc",
+      "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes oidc, oidc_http and admin_oidc_negative. Wrong iss (trailing slash, http, case, evil, leading space, empty), aud (wrong/null/empty/huge/empty-array), sub (missing/empty/long/numeric/control) and email (unverified, missing, non-boolean, malformed) are denied, plus algorithm confusion, forbidden headers, bad kid and iat freshness. Real RS256 tokens signed against a local JWKS fixture; tampered payloads rejected."
     },
     "L14-003": {
       "status": "NOT_STARTED",
@@ -1719,18 +1736,22 @@
       "verified_by": null
     },
     "L15-001": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L15-001.md",
+      "commit_sha": "dd8f2fb8d8aed8ab819426bacb82b2910ffdb43f",
+      "verified_at_utc": "2026-11-12T19:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/retention_policy.h",
+      "verification": "AUTOMATED_TEST: ctest 28/28 PASS includes retention_policy; undecided, incomplete, zero and negative decisions keep purge scheduling disabled and report no period, no category falls back to a planning candidate, and the six-hour free window is not a storage lifetime"
     },
     "L15-002": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L15-002.md",
+      "commit_sha": "000f03b4af3caf3fca15c3b209b2e979ae210f1f",
+      "verified_at_utc": "2026-11-13T06:10:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/tests/test_history_visibility_contract.py",
+      "verification": "AUTOMATED_TEST: ctest 30/30 PASS includes history_visibility_contract (5 cases). Free reads clamp to a fixed server-side six-hour predicate, refuse all query parameters and use server page limits on both routes; the read path carries no retention/purge/deletion behaviour and retention_policy remains undecided and unscheduled. Behavioural proof against real PostgreSQL is backend/tests/database/test_premium_history_leases.py in the 368-test disposable suite."
     },
     "L15-003": {
       "status": "NOT_STARTED",
@@ -2069,11 +2090,13 @@
       "verified_by": null
     },
     "L18-012": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "IN_PROGRESS",
+      "evidence_path": "evidence/local/DEVICE_MATRIX.md",
+      "commit_sha": "49c1b91e2b4b301f2f63fc89eb8d68cd6b165f1d",
+      "verified_at_utc": "2026-11-13T14:30:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "evidence/local/DEVICE_MATRIX.md",
+      "verification": "PHYSICAL_DEVICE_PARTIAL + EMULATOR: parent instrumented suite 3/3 on a Xiaomi Mi A3 (API 30), a Panasonic Eluga I7 (API 28) and an API 29 Pixel 4 AVD; child suite 7/7 on the Mi A3 and on the API 29 AVD, and refused on API 28 by the enforced minSdk 29 floor (INSTALL_FAILED_OLDER_SDK). A third handset offered as a second child was a spoofing MT6580 clone at API 27 and is rejected. API 31, 32, 33, 34, 35, 36 NOT RUN; the API 29 row is a userdebug emulator, not a device, so OEM breadth remains unmet. Dependency L18-011 is still not PASS: partial coverage, not acceptance."
     },
     "L18-013": {
       "status": "NOT_STARTED",
