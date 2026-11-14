@@ -21,9 +21,13 @@ enable_testing()
 # Test-only header authentication. NEVER enable for a deployable build (see src/auth.h).
 option(MA_SYNTHETIC_AUTH "Compile the synthetic test authenticator" OFF)
 
+add_library(ma_admin_state STATIC src/admin/access_state.cc)
+target_include_directories(ma_admin_state PUBLIC src)
+target_link_libraries(ma_admin_state PUBLIC Drogon::Drogon)
+
 add_library(ma_core INTERFACE)
 target_include_directories(ma_core INTERFACE src)
-target_link_libraries(ma_core INTERFACE Drogon::Drogon)
+target_link_libraries(ma_core INTERFACE Drogon::Drogon ma_admin_state)
 
 add_executable(ma_backend src/main.cc)
 add_library(ma_oidc src/google_oidc.cc src/google_jwks.cc)
@@ -116,6 +120,10 @@ add_test(NAME admin_applicant_negative COMMAND test_admin_applicant)
 add_executable(test_admin_session tests/cpp/test_admin_session.cc)
 target_link_libraries(test_admin_session PRIVATE ma_core ma_oidc)
 add_test(NAME admin_session_negative COMMAND test_admin_session)
+
+add_executable(test_admin_access_state tests/cpp/test_admin_access_state.cc)
+target_link_libraries(test_admin_access_state PRIVATE ma_core ma_oidc)
+add_test(NAME admin_access_state_negative COMMAND test_admin_access_state)
 
 add_executable(test_admin_auth tests/cpp/test_admin_auth.cc)
 target_link_libraries(test_admin_auth PRIVATE ma_core ma_oidc)
