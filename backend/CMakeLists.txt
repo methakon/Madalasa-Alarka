@@ -25,9 +25,12 @@ add_library(ma_admin_state STATIC src/admin/access_state.cc)
 target_include_directories(ma_admin_state PUBLIC src)
 target_link_libraries(ma_admin_state PUBLIC Drogon::Drogon)
 
+add_library(ma_privacy_tombstones STATIC src/privacy/tombstones.cc)
+target_include_directories(ma_privacy_tombstones PUBLIC src)
+
 add_library(ma_core INTERFACE)
 target_include_directories(ma_core INTERFACE src)
-target_link_libraries(ma_core INTERFACE Drogon::Drogon ma_admin_state)
+target_link_libraries(ma_core INTERFACE Drogon::Drogon ma_admin_state ma_privacy_tombstones)
 
 add_executable(ma_backend src/main.cc)
 add_library(ma_oidc src/google_oidc.cc src/google_jwks.cc)
@@ -161,6 +164,11 @@ add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
 add_executable(test_deletion_workflow tests/cpp/test_deletion_workflow.cc)
 target_link_libraries(test_deletion_workflow PRIVATE ma_core)
 add_test(NAME deletion_workflow COMMAND test_deletion_workflow)
+
+# Phase 15: parent/child device revocation before erasure and offline replay guard.
+add_executable(test_device_revocation_before_erasure tests/cpp/test_device_revocation_before_erasure.cc)
+target_link_libraries(test_device_revocation_before_erasure PRIVATE ma_core)
+add_test(NAME device_revocation_before_erasure COMMAND test_device_revocation_before_erasure)
 
 # Phase 10: founding family 1008 distinct paid counter & child inheritance.
 add_executable(test_founding_family_counter tests/cpp/test_founding_family_counter.cc)
