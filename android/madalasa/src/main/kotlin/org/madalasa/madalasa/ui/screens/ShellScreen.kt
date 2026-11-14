@@ -108,9 +108,32 @@ fun ShellScreen(
             }
 
             val child = uiState.children.singleOrNull { it.id == uiState.selectedChildId }
-            Text(child?.let { "Selected child: ${it.alias}" } ?: "No authorized child selected")
+            if (child != null) {
+                val loc = uiState.selectedChildLocation?.takeIf { it.childId == child.id }
+                val sos = uiState.activeSignals.firstOrNull()
+                ChildActivityCard(
+                    state = ChildActivityCardState(
+                        childId = child.id,
+                        alias = child.alias,
+                        freeServiceState = child.freeServiceState,
+                        queuePosition = child.queuePosition,
+                        batteryPercent = null,
+                        isCharging = null,
+                        locationFreshness = loc?.freshness ?: org.madalasa.madalasa.domain.Freshness.UNAVAILABLE,
+                        lastObservedEpochMs = loc?.observedAtEpochMs,
+                        hasActiveSos = sos != null,
+                        activeSosEventId = sos?.eventId
+                    ),
+                    onCardClick = onNavigateToChildSelection,
+                    onAcknowledgeSos = onAcknowledgeSignal
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            } else {
+                Text("No authorized child selected")
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
-            if (uiState.activeSignals.isNotEmpty()) {
+            if (child == null && uiState.activeSignals.isNotEmpty()) {
                 val sos = uiState.activeSignals.first()
                 Card(
                     modifier = Modifier.fillMaxWidth(),
