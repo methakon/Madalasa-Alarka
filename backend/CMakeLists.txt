@@ -34,6 +34,12 @@ if(MA_SYNTHETIC_AUTH)
   target_compile_definitions(ma_backend PRIVATE MA_SYNTHETIC_AUTH=1)
 endif()
 
+# x402 free-first deploy contract: loopback listener, FREE_ONLY, DB-aware readiness.
+# Static source tests; never a substitute for live VM/TLS/DB checks.
+add_test(NAME x402_deployment_contract
+         COMMAND python3 -m unittest backend.tests.test_x402_deployment_contract -v)
+set_tests_properties(x402_deployment_contract PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
 # Frozen 14-operation OpenAPI surface must match real route registration.
 # Static coverage alone cannot prove handlers are integrated or authorized.
 add_test(NAME privacy_route_contract
@@ -45,6 +51,10 @@ add_test(NAME m1_route_registration
 # Swagger UI is a separate LOCAL dev server, never linked into ma_backend.
 add_test(NAME swagger_ui_local_security
          COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_swagger_dev.py)
+
+add_executable(test_pg_tls_policy tests/cpp/test_pg_tls_policy.cc)
+target_include_directories(test_pg_tls_policy PRIVATE src)
+add_test(NAME pg_tls_policy COMMAND test_pg_tls_policy)
 
 add_executable(test_core tests/cpp/test_core.cc)
 target_link_libraries(test_core PRIVATE ma_core)
@@ -70,6 +80,18 @@ add_test(NAME capabilities_validation COMMAND test_capabilities_validation)
 add_executable(test_device_endpoints tests/cpp/test_device_endpoints.cc)
 target_link_libraries(test_device_endpoints PRIVATE ma_core OpenSSL::Crypto)
 add_test(NAME device_endpoints COMMAND test_device_endpoints)
+
+add_executable(test_mode_guard_test tests/cpp/test_mode_guard_test.cc)
+target_link_libraries(test_mode_guard_test PRIVATE ma_core ma_oidc)
+add_test(NAME test_mode_guard COMMAND test_mode_guard_test)
+
+add_executable(billing_catalog_test tests/cpp/billing_catalog_test.cc)
+target_link_libraries(billing_catalog_test PRIVATE ma_core ma_oidc)
+add_test(NAME billing_catalog COMMAND billing_catalog_test)
+
+add_executable(trial_policy_test tests/cpp/trial_policy_test.cc)
+target_link_libraries(trial_policy_test PRIVATE ma_core ma_oidc)
+add_test(NAME trial_policy_handler COMMAND trial_policy_test)
 
 add_executable(test_children_read tests/cpp/test_children_read.cc)
 target_link_libraries(test_children_read PRIVATE ma_core ma_oidc)
@@ -122,3 +144,37 @@ if(MA_LOCAL_DB_READ_PROBE)
   target_link_libraries(database_config_test PRIVATE ma_local_database)
   add_test(NAME database_config COMMAND database_config_test)
 endif()
+
+# Phase 15: pure erasure state/fence tests (no database or credentials required).
+add_executable(privacy_lifecycle_policy_test tests/cpp/privacy_lifecycle_policy_test.cc)
+add_test(NAME privacy_lifecycle_policy COMMAND privacy_lifecycle_policy_test)
+
+# Phase 15: authenticated deletion workflow and notices (202 Accepted, completed=false).
+add_executable(test_deletion_workflow tests/cpp/test_deletion_workflow.cc)
+target_link_libraries(test_deletion_workflow PRIVATE ma_core)
+add_test(NAME deletion_workflow COMMAND test_deletion_workflow)
+
+# Phase 10: founding family 1008 distinct paid counter & child inheritance.
+add_executable(test_founding_family_counter tests/cpp/test_founding_family_counter.cc)
+target_include_directories(test_founding_family_counter PRIVATE src)
+add_test(NAME founding_family_counter COMMAND test_founding_family_counter)
+
+# Free-first release must default to no payment or trial.
+add_executable(test_free_release_profile tests/cpp/test_free_release_profile.cc)
+add_test(NAME free_release_profile COMMAND test_free_release_profile)
+
+# Phase 15: per-category retention stays fail-closed until an exact period is
+# approved; the six-hour free window is a query bound, never a storage lifetime.
+add_executable(test_retention_policy tests/cpp/test_retention_policy.cc)
+add_test(NAME retention_policy COMMAND test_retention_policy)
+
+# Phase 10: an expired prepaid balance or trial reverts to the free capability set
+# with the documented reduced cadence, and no unspecified figure is invented.
+add_executable(test_free_tier tests/cpp/test_free_tier.cc)
+add_test(NAME free_tier COMMAND test_free_tier)
+
+# Phase 15: the six-hour free visibility window is an access bound and stays
+# independent of any storage/retention decision.
+add_test(NAME history_visibility_contract
+         COMMAND python3 -m unittest backend.tests.test_history_visibility_contract -v)
+set_tests_properties(history_visibility_contract PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..)

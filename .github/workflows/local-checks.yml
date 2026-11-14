@@ -21,12 +21,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
+
+      - name: Install JDK 17 (the runner image default moved to JDK 25, which the pinned Gradle cannot use)
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
 
       - name: Shell lint (shellcheck)
         run: |
@@ -48,14 +53,33 @@ jobs:
       - name: Local smoke pipeline (honest skips)
         run: bash tools/smoke-local.sh
 
+      - name: X402 deployment scripts syntax and Neon env regressions (synthetic only)
+        run: |
+          bash -n deploy/x402/api/staging-acceptance.sh
+          bash -n deploy/x402/api/validate-env.sh
+          bash -n deploy/x402/api/test-validate-env.sh
+          bash deploy/x402/api/test-validate-env.sh
+          bash -n deploy/x402/api/check-test-mode-off.sh
+          bash -n deploy/x402/api/test-check-test-mode-off.sh
+          bash deploy/x402/api/test-check-test-mode-off.sh
+
   python-format:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
       - name: Byte-compile all Python (fail on syntax errors)
-        run: python3 -m compileall -q tools testkit backend/tests || { echo "::error::python syntax errors"; exit 1; }
+        run: |
+          python3 -m compileall -q tools testkit backend/tests deploy/x402/api/public-synthetic-sos-acceptance.py deploy/x402/api/public-security-baseline.py || { echo "::error::python syntax errors"; exit 1; }
+          if MA_ACCEPTANCE_SYNTHETIC_ONLY=NO python3 deploy/x402/api/public-synthetic-sos-acceptance.py > /tmp/public-sos-negative.log 2>&1; then
+            echo "::error::public SOS test must fail closed without explicit synthetic authorization"
+            exit 1
+          fi
+          if MA_SECURITY_BASELINE_AUTHORIZED=NO python3 deploy/x402/api/public-security-baseline.py >/tmp/security-negative.log 2>&1; then
+            echo "::error::public security baseline must fail closed without owner authorization"
+            exit 1
+          fi

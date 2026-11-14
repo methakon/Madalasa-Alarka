@@ -25,10 +25,19 @@ data class ChildPurposeDecision(
     val noticeVersion: String
 )
 
+data class ChildPrivacyJob(
+    val requestId: String,
+    val state: String,
+    val requestedAt: String,
+    val kind: String
+)
+
 interface PrivacyGateway {
     suspend fun guardianGrants(childId: String): Result<List<GuardianPrivacyGrant>>
     suspend fun childConsents(childId: String): Result<List<ChildPurposeDecision>>
     suspend fun revokeGuardianGrant(childId: String, grantId: String): Result<Unit>
+    suspend fun erasureRequests(childId: String): Result<List<ChildPrivacyJob>>
+    suspend fun exportRequests(childId: String): Result<List<ChildPrivacyJob>>
 }
 
 /** Used until the real Google sign-in/opaque-session exchange is connected. */
@@ -41,6 +50,10 @@ class UnauthenticatedPrivacyGateway : PrivacyGateway {
         unavailable<List<ChildPurposeDecision>>()
     override suspend fun revokeGuardianGrant(childId: String, grantId: String) =
         unavailable<Unit>()
+    override suspend fun erasureRequests(childId: String) =
+        unavailable<List<ChildPrivacyJob>>()
+    override suspend fun exportRequests(childId: String) =
+        unavailable<List<ChildPrivacyJob>>()
 }
 
 /**
@@ -127,4 +140,31 @@ class HttpsPrivacyGateway(
                 Unit
             }
         }
+    // Read-only until legal retention and deletion authorization are approved.
+    // Never infer COMPLETED from a successful HTTP request or job submission.
+    private suspend fun listPrivacyJobs(childId: String, kind: String): Result<List<ChildPrivacyJob>> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val route = if (kind == "ERASURE") "erasure-requests" else "export-requests"
+                val payload = JSONObject(request("GET", "/v1/children/${pathId(childId)}/$route"))
+                val items = payload.getJSONArray("items")
+                check(items.length() <= 50) { "Unexpected privacy request count" }
+                (0 until items.length()).map { i ->
+                    val o = items.getJSONObject(i)
+                    ChildPrivacyJob(
+                        requestId = pathId(o.getString("request_id")),
+                        state = o.getString("state").take(80),
+                        requestedAt = o.optString("requested_at").take(80),
+                        kind = kind
+                    )
+                }
+            }
+        }
+
+    override suspend fun erasureRequests(childId: String): Result<List<ChildPrivacyJob>> =
+        listPrivacyJobs(childId, "ERASURE")
+
+    override suspend fun exportRequests(childId: String): Result<List<ChildPrivacyJob>> =
+        listPrivacyJobs(childId, "EXPORT")
+
 }

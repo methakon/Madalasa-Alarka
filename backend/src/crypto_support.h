@@ -260,22 +260,34 @@ inline std::string bytes_to_pg_bytea(std::string_view data) {
   return s;
 }
 
-// Convert PostgreSQL \x hex string or raw string back to binary bytes.
-inline std::string pg_bytea_to_bytes(std::string_view hex) {
-  if (hex.starts_with("\\x")) hex.remove_prefix(2);
+// Convert a PostgreSQL bytea value as returned by the driver into raw bytes.
+//
+// Drogon's PostgreSQL driver does NOT return the "\x" hex text literal for a
+// bytea column: it returns the raw stored bytes (a bytea holding 32 bytes
+// arrives as exactly 32 bytes). Only the textual form is hex-encoded, so the
+// hex branch below exists purely for callers that hand over a "\x..." value
+// produced by psql/text output. Treating raw driver bytes as hex text silently
+// dropped every non-hex byte, which corrupted stored challenge hashes and SPKI
+// material and made every enrollment proof fail the nonce comparison.
+inline std::string pg_bytea_to_bytes(std::string_view value) {
+  // Hex text is unambiguous only when the complete value is "\x" + an even
+  // number of hex digits; anything else is already raw binary.
+  if (value.size() < 4 || !value.starts_with("\\x") || ((value.size() - 2) % 2) != 0) {
+    return std::string(value);
+  }
   auto nib = [](char c) -> int {
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'a' && c <= 'f') return c - 'a' + 10;
     if (c >= 'A' && c <= 'F') return c - 'A' + 10;
     return -1;
   };
+  for (std::size_t i = 2; i < value.size(); ++i) {
+    if (nib(value[i]) < 0) return std::string(value);
+  }
   std::string out;
-  out.reserve(hex.size() / 2);
-  for (std::size_t i = 0; i + 1 < hex.size(); i += 2) {
-    int hi = nib(hex[i]), lo = nib(hex[i + 1]);
-    if (hi >= 0 && lo >= 0) {
-      out.push_back(static_cast<char>((hi << 4) | lo));
-    }
+  out.reserve((value.size() - 2) / 2);
+  for (std::size_t i = 2; i + 1 < value.size(); i += 2) {
+    out.push_back(static_cast<char>((nib(value[i]) << 4) | nib(value[i + 1])));
   }
   return out;
 }
