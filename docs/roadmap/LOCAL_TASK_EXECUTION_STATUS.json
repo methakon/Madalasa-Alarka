@@ -119,9 +119,9 @@
     "REVIEW_REQUIRED"
   ],
   "counts": {
+    "PASS": 148,
     "IN_PROGRESS": 1,
-    "NOT_STARTED": 118,
-    "PASS": 143
+    "NOT_STARTED": 113
   },
   "task_statuses": {
     "L00-001": {
@@ -1261,11 +1261,13 @@
       "verification": "AUTOMATED_TEST: ctest 28/28 PASS re-verifies billing_catalog (UNVERIFIED rows never quote a price); runtime read of the catalog rows exercised in the disposable-PostgreSQL suite (368 tests OK, 10 skipped)"
     },
     "L10-006": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L10-006.md",
+      "commit_sha": "451e7b7e5207fc4add41b583b673f02ac5936c60",
+      "verified_at_utc": "2026-11-14T21:35:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "testkit/fake-play",
+      "verification": "AUTOMATED_TEST: python3 -m unittest discover -s testkit/fake-play -p 'test_*.py' -v (12 tests OK in 0.001s). Synthetic purchase tokens strictly enforce prefix synthetic-play:sub:<family_id>:<child_id>:<sku>:<nonce>; offline developer API simulator for standard and founding pricing with zero financial charge; Cloud Pub/Sub RTDN webhook emitter and parser for PURCHASED, RENEWED, CANCELED, EXPIRED."
     },
     "L10-007": {
       "status": "NOT_STARTED",
@@ -1440,11 +1442,13 @@
       "verification": "AUTOMATED_TEST: Gradle :madalasa:testDebugUnitTest and :madalasa:testReleaseUnitTest (37 tasks, 0 failures) includes ParentDeepLinkNavigatorTest (10 cases). Deep links require valid parent authentication and exact-child admitted grants; unauthenticated callers redirect to auth; unauthorized child IDs or non-admitted states redirect to child_selection without exposing child data; sub-route destinations (location, privacy) preserved upon authorization."
     },
     "L12-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L12-003.md",
+      "commit_sha": "861b6a94d9e70fbd20322c956b62c52ead8b1583",
+      "verified_at_utc": "2026-11-14T21:50:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/madalasa/src/main/kotlin/org/madalasa/madalasa/ui/screens/ChildActivityCard.kt",
+      "verification": "AUTOMATED_TEST: Gradle :madalasa:testReleaseUnitTest (36 tasks, 0 failures) includes ChildActivityCardTest (12 cases). Activity card displays battery percentage, charging state, low battery warnings (<15% critical, <25% low), trip/movement indicators (STATIONARY, MOVING, ARRIVED, DEPARTED), safe place status, and stale data indicators (>15 min stale, >60 min offline); unavailable state when location permission is not granted; zero raw coordinates or sensor surveillance."
     },
     "L12-004": {
       "status": "NOT_STARTED",
@@ -1542,11 +1546,13 @@
       "verification": "AUTOMATED_TEST: Gradle :alarka:testDebugUnitTest and :alarka:testReleaseUnitTest (37 tasks, 0 failures) includes ChildConsentAndSetupDisclosureTest (5 cases). Child companion setup begins on TransparencyDisclosureScreen; pairing is blocked unless disclosure is acknowledged; active monitoring strictly requires a child-visible, persistent, ongoing notification identifying Alarka; covert or dismissible monitoring is rejected by policy; AndroidManifest declares isMonitoringTool=child_monitoring."
     },
     "L13-003": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L13-003.md",
+      "commit_sha": "efdf8773889cb0b92900ec9c06013c616f1c9448",
+      "verified_at_utc": "2026-11-14T21:55:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "android/alarka/src/main/kotlin/org/madalasa/alarka/ui/screens/PermissionChecklist.kt",
+      "verification": "AUTOMATED_TEST: Gradle :alarka:testReleaseUnitTest (36 tasks, 0 failures) includes PermissionChecklistTest (10 cases). Capability scan evaluates hardware availability (GPS, Bluetooth, Battery) separately from OS permission state (ACCESS_FINE_LOCATION, POST_NOTIFICATIONS, BATTERY_OPTIMIZATIONS); checklist renders exact status (GRANTED, DENIED, PERMANENTLY_DENIED, RESTRICTED); hardware presence is never presented as an active grant; zero mic/camera permissions requested in Free V1."
     },
     "L13-004": {
       "status": "NOT_STARTED",
@@ -1639,11 +1645,13 @@
       "verification": "AUTOMATED_TEST: ctest 32/32 PASS includes test_admin_owner. ap_m1.owner_identity_allowlist verifies Google OIDC subject and issuer; owner queue authorization requires OWNER_MANAGE permission; only verified owner can grant or revoke roles via decide_admin_request; non-owner role modifications return 403 / SQLSTATE 42501."
     },
     "L14-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L14-004.md",
+      "commit_sha": "19bc09974abb25c60be87f426677eae79ba1edd8",
+      "verified_at_utc": "2026-11-14T21:40:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/admin/access_state.cc",
+      "verification": "AUTOMATED_TEST: ctest 34/34 PASS includes test_admin_access_state. Evaluates caller role against require_owner, required_role, required_permission; unapproved OIDC subjects evaluate to NO_ACCESS (HTTP 403 / state UNAPPROVED); disabled subjects evaluate to DISABLED (HTTP 403); active admins evaluate to ACTIVE with granular permissions; zero access to child tracking or credentials."
     },
     "L14-005": {
       "status": "NOT_STARTED",
@@ -1771,11 +1779,13 @@
       "verification": "AUTOMATED_TEST: ctest 32/32 PASS includes deletion_workflow (7 negative/contract cases). Child erasure request returns HTTP 202 Accepted with completed=false and explicit pending notice indicating primary deletion and external/backup verification are separate; unauthenticated, malformed UUID, missing confirmation, oversized payload (>1024 bytes), and offline DB fail closed."
     },
     "L15-004": {
-      "status": "NOT_STARTED",
-      "evidence_path": null,
-      "commit_sha": null,
-      "verified_at_utc": null,
-      "verified_by": null
+      "status": "PASS",
+      "evidence_path": "evidence/local/tasks/L15-004.md",
+      "commit_sha": "b4a550e91e32793c6f061be2361a65ef0b0431a6",
+      "verified_at_utc": "2026-11-14T21:45:00Z",
+      "verified_by": "Swarna Sekhar Dhar",
+      "target_artifact": "backend/src/privacy/tombstones.cc",
+      "verification": "AUTOMATED_TEST: ctest 34/34 PASS includes test_device_revocation_before_erasure. When child erasure is executed, all parent and child device tokens/refresh tokens are revoked immediately; device tokens marked tombstoned; ErasureReplayGuard rejects offline GPS replay cached before, during, or after erasure; unauthorized revocation attempts fail closed."
     },
     "L15-005": {
       "status": "NOT_STARTED",
