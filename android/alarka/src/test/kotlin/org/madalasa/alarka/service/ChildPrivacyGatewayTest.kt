@@ -10,6 +10,13 @@ class ChildPrivacyGatewayTest {
         assertTrue(source.readConsentStatus().isFailure)
     }
 
+    @Test fun originMustNotCarryCredentialsPathOrQuery() {
+        for (origin in listOf("https://user@example.invalid", "https://example.invalid/path",
+            "https://example.invalid?token=x", "https://example.invalid#fragment", "https:///")) {
+            assertTrue(origin, runCatching { HttpsChildPrivacyGateway(origin, { null }, { null }) }.isFailure)
+        }
+    }
+
     @Test fun insecureTransportIsRejected() {
         val candidate = runCatching {
             HttpsChildPrivacyGateway("http://example.invalid", { null }, { null })

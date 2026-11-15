@@ -220,7 +220,13 @@ def main(binary):
         expect(error_code(call(url, 'GET', f"/v1/children/{child['id']}", bearer(token)), 404, 'NOT_FOUND'),
                'ownership does not imply exact-child access (no grant/consent)')
         status, body, _ = call(url, 'GET', f"/v1/families/{family['id']}/children", bearer(token))
-        expect(status == 200 and body == {'items': []}, 'child listing requires per-child VIEW_CHILD_PROFILE')
+        # Free-first signup allows the verified creator/owner to review
+        # their child's registration and slot status before any monitoring
+        # grant. This does NOT authorize location, pairing or child telemetry.
+        expect(status == 200 and len(body.get('items', [])) == 1
+               and body['items'][0]['id'] == child['id']
+               and body['items'][0]['free_service_state'] in ('ADMITTED', 'WAITLISTED'),
+               'verified owner sees own child signup status, not monitoring authority')
         expect(error_code(call(url, 'POST', f"/v1/children/{child['id']}/pairing-codes",
                                dict(bearer(token), **{'Idempotency-Key': str(uuid.uuid4())}),
                                {'requested_ttl_seconds': 300}), 404, 'NOT_FOUND'),

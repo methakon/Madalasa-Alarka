@@ -100,7 +100,23 @@ inline drogon::Task<drogon::HttpResponsePtr> create_child(
     result["id"] = created.at(0)["id"].as<std::string>();
     result["family_id"] = *family;
     result["alias"] = alias;
-    result["state"] = "ACTIVE"; // schema default on successful synthetic create
+    result["state"] = "ACTIVE"; // profile exists; this is NOT free service activation
+    auto admitted=co_await trans->execSqlCoro(
+        "SELECT service_state,queue_position,max_children "
+        "FROM ap_m1.free_child_admission_status($1::uuid)",result["id"].as<std::string>());
+    if(admitted.empty()) {
+      rollback_quietly(trans);
+      co_return error_response("INTERNAL_ERROR","admission state unavailable",rid);
+    }
+    const auto service_state=admitted.at(0)["service_state"].as<std::string>();
+    result["free_service_state"]=service_state;
+    result["slot_limit"]=admitted.at(0)["max_children"].as<int>();
+    result["queue_position"]=admitted.at(0)["queue_position"].isNull()
+        ? Json::Value(Json::nullValue)
+        : Json::Value(static_cast<Json::Int64>(admitted.at(0)["queue_position"].as<long long>()));
+    result["message"]=service_state=="WAITLISTED"
+        ? "You are in the service queue. Your child's free services will become available when a slot opens."
+        : "A free child slot is allocated. Tracking still requires verified consent, device pairing and Android permissions.";
     auto rec = co_await trans->execSqlCoro(
         "SELECT ap_m1.idempotency_record($1::uuid,$2,$3::bytea,201,$4::jsonb) AS ok",
         principal,std::string(kCreateChildNamespace),key,canonical_json(result));

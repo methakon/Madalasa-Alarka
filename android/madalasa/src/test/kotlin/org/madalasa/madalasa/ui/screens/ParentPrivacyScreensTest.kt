@@ -37,7 +37,7 @@ class ParentPrivacyScreensTest {
         }
         assertNotNull(parentPrivacyRows(ParentPrivacyPage.REQUESTS)
             .firstOrNull { it.heading == "Request progress" &&
-                it.detail.contains("No request submitted") })
+                it.detail.contains("Server request states load only after authenticated authorization") })
     }
     @Test fun verifiedPurposeDataStillAllowsNavigationToAllPrivacyPages() {
         val rows = parentVerifiedOverviewRows(listOf(

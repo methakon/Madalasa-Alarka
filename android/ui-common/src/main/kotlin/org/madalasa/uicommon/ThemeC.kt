@@ -29,3 +29,24 @@ private val DarkColors = darkColorScheme(primary = Color(0xFFB7D0F4), secondary 
 @Composable fun MadalasaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     MaterialTheme(colorScheme = if (darkTheme) DarkColors else LightColors, content = content)
 }
+
+/**
+ * Theme C typography scale, expressed as sizes in sp so the contract can be asserted
+ * without a device. No custom font binary is shipped: the platform default typeface is
+ * used deliberately, which avoids font-licensing exposure and keeps the bundle small.
+ */
+object ThemeCTypography {
+    val DisplaySmall = 36f
+    val HeadlineMedium = 28f
+    val TitleLarge = 22f
+    val TitleMedium = 18f
+    val BodyLarge = 16f
+    val BodyMedium = 14f
+    val LabelSmall = 12f
+
+    /** Ordered smallest to largest; used to assert the scale never inverts. */
+    val ascending: List<Float> = listOf(LabelSmall, BodyMedium, BodyLarge, TitleMedium, TitleLarge, HeadlineMedium, DisplaySmall)
+
+    /** Android accessibility guidance: body text should not fall below 12 sp. */
+    const val MinimumReadableSp = 12f
+}

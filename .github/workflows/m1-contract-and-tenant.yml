@@ -39,6 +39,14 @@ on:
       - "tools/database/**"
       - "infra/local/**"
       - "docs/data-model/local-postgresql/**"
+# CMake 4 on current runner images rejects the pinned jsoncpp's `cmake_policy(VERSION <3.5)`; this keeps the pinned
+# dependency building without changing its pin.
+env:
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
+permissions:
+  contents: read
+
 jobs:
   contracts-and-isolation:
     runs-on: ubuntu-latest
@@ -60,7 +68,7 @@ jobs:
       PGPASSWORD: synthetic_test_only_password
       PGDATABASE: amar_pola_m1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Structural OpenAPI M1 lint
         run: python3 backend/tests/lint_openapi_m1.py docs/openapi-m1.yaml
       - name: Swagger UI M1 and planned-spec local security regression
@@ -138,12 +146,12 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: synthetic_test_only_password
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: System packages
         run: sudo apt-get update && sudo apt-get install -y libpq-dev uuid-dev zlib1g-dev libssl-dev libcurl4-openssl-dev cmake g++
       - name: Cache pinned dependencies
         id: deps-cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/ma-deps
           key: ma-deps-${{ hashFiles('backend/scripts/build_deps.sh') }}
@@ -193,8 +201,8 @@ jobs:
       MA_CI_SYNTHETIC: "1"
       MA_CI_ADMIN_PASSWORD: synthetic_test_only_password
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
       - name: Install the pinned PostgreSQL client driver
@@ -213,6 +221,10 @@ jobs:
         run: python3 tools/database/manage.py verify
       - name: Full synthetic versioned-database regression suite
         run: python3 tools/database/manage.py test
+      - name: Family trial policy (one per family and payer, no device identifiers)
+        run: |
+          PGPASSWORD="$MA_CI_ADMIN_PASSWORD" psql -X -h 127.0.0.1 -U postgres -d madalasa_alarka_test \
+            -v ON_ERROR_STOP=1 -f backend/tests/m1_trial_policy.sql
       # Byte-level catalog drift is verified against the recorded local instance
       # (`export_schema.py --check`, executed and recorded in evidence). It is not
       # repeated here because `pg_get_constraintdef` renders nested AND groups
@@ -241,8 +253,8 @@ jobs:
       MA_CI_SYNTHETIC: "1"
       MA_CI_ADMIN_PASSWORD: synthetic_test_only_password
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
       - name: Install the pinned PostgreSQL client driver
@@ -251,7 +263,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libpq-dev uuid-dev zlib1g-dev libssl-dev libcurl4-openssl-dev cmake g++
       - name: Cache pinned dependencies
         id: deps-cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/ma-deps
           key: ma-deps-${{ hashFiles('backend/scripts/build_deps.sh') }}
@@ -276,3 +288,21 @@ jobs:
         run: python3 backend/tests/integration_parent_session_v2.py build-it/ma_backend
       - name: Admin back-office session, CSRF and RBAC HTTP end-to-end
         run: python3 backend/tests/integration_admin_v2.py build-it/ma_backend
+      - name: Build production-auth variant for real pairing proof
+        run: |
+          cmake -S backend -B build-pairing -DCMAKE_PREFIX_PATH=$HOME/ma-deps -DCMAKE_BUILD_RPATH=$HOME/ma-deps/lib -DMA_SYNTHETIC_AUTH=OFF
+          cmake --build build-pairing -j2 --target ma_backend
+      - name: Pairing code, P-256 enrollment, bearer ingestion and guardian read-back
+        run: |
+          python3 backend/tests/integration_freev1_pairing_enrollment.py build-pairing/ma_backend \
+            --allow-disposable-db --evidence "$RUNNER_TEMP/pairing-http-evidence.json"
+      - name: Test-mode switch guard (SQL, production-name refusal)
+        run: |
+          PGPASSWORD="$MA_CI_ADMIN_PASSWORD" psql -X -h 127.0.0.1 -U postgres -d madalasa_alarka_test \
+            -v ON_ERROR_STOP=1 -f backend/tests/m1_test_mode_guard.sql
+          PGHOST=127.0.0.1 PGUSER=postgres PGPASSWORD="$MA_CI_ADMIN_PASSWORD" PGDATABASE=madalasa_alarka_test \
+            bash backend/tests/m1_test_mode_guard_prod_name.sh
+      - name: Test-mode switch guard (deployable binary refuses traffic while the switch is on)
+        run: bash backend/tests/integration_test_mode_guard.sh build-pairing/ma_backend
+      - name: Synthetic load and privileged fixture refusal regressions
+        run: python3 -m unittest discover -s backend/tests/load -v

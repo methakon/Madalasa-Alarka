@@ -11,6 +11,7 @@
 #include "db_support.h"
 #include "http_support.h"
 #include "idempotency_key.h"
+#include "parent_session.h"
 #include "validation.h"
 
 namespace ma {
@@ -75,16 +76,35 @@ inline drogon::Task<drogon::HttpResponsePtr> redeem_enrollment(drogon::HttpReque
   if (app_version.size() > 60) {
     co_return error_response("VALIDATION_FAILED", "app_version exceeds max length", rid);
   }
+  // Device descriptions are informational only and must not be used as a
+  // device identity, parent approval, or monitoring authorization.
+  const bool has_device_info = body.isMember("device_info");
+  std::string device_make;
+  std::string device_model;
+  if (has_device_info) {
+    const auto& info = body["device_info"];
+    if (!info.isObject() || info.size() != 2 ||
+        !info["manufacturer"].isString() || !info["model"].isString()) {
+      co_return error_response("VALIDATION_FAILED","device_info requires manufacturer and model",rid);
+    }
+    device_make=info["manufacturer"].asString();
+    device_model=info["model"].asString();
+    if (device_make.size()>80 || device_model.size()>120 ||
+        device_make.find_first_of("\\r\\n\\t")!=std::string::npos ||
+        device_model.find_first_of("\\r\\n\\t")!=std::string::npos) {
+      co_return error_response("VALIDATION_FAILED","device_info exceeds allowed bounds",rid);
+    }
+  }
 
   auto spki_bytes = base64_decode(spki_b64);
   if (!spki_bytes || !validate_ec_p256_spki(*spki_bytes)) {
     co_return error_response("VALIDATION_FAILED", "invalid EC P-256 SPKI public key", rid);
   }
 
-  if (!app().hasDbClient(kDbClientName)) {
+  if (!app().hasDbClient(kAuthDbClientName)) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
-  auto db = app().getDbClient(kDbClientName);
+  auto db = app().getDbClient(kAuthDbClientName);
   if (!db) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
@@ -112,10 +132,21 @@ inline drogon::Task<drogon::HttpResponsePtr> redeem_enrollment(drogon::HttpReque
 
     const std::string enrollment_id = res.at(0)["enrollment_id"].as<std::string>();
     const std::string device_id = res.at(0)["device_id"].as<std::string>();
+    if (has_device_info) {
+      auto profile_saved=co_await trans->execSqlCoro(
+          "SELECT ap_m1.store_pending_device_profile("
+          "$1::uuid,$2,$3,$4,$5,$6) AS saved",
+          enrollment_id,device_make,device_model,android_api,app_version,
+          std::string("PARENT_CODE"));
+      if (profile_saved.empty() || !profile_saved.at(0)["saved"].as<bool>()) {
+        rollback_quietly(trans);
+        co_return error_response("VALIDATION_FAILED","device profile could not be saved",rid);
+      }
+    }
 
     auto time_res = co_await trans->execSqlCoro(
         "SELECT to_char(expires_at AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS expires_iso "
-        "FROM ap_m1.enrollment_challenges WHERE id = $1::uuid", enrollment_id);
+        "FROM ap_m1.read_enrollment_challenge_expiry($1::uuid) AS expires_at", enrollment_id);
 
     const std::string expires_iso = time_res.empty() ? "" : time_res.at(0)["expires_iso"].as<std::string>();
 
@@ -193,10 +224,10 @@ inline drogon::Task<drogon::HttpResponsePtr> complete_enrollment_proof(
     co_return error_response("UNAUTHENTICATED", "invalid signature encoding", rid);
   }
 
-  if (!app().hasDbClient(kDbClientName)) {
+  if (!app().hasDbClient(kAuthDbClientName)) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
-  auto db = app().getDbClient(kDbClientName);
+  auto db = app().getDbClient(kAuthDbClientName);
   if (!db) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
@@ -225,8 +256,10 @@ inline drogon::Task<drogon::HttpResponsePtr> complete_enrollment_proof(
       }
 
       device_id = res.at(0)["device_id"].as<std::string>();
-      stored_nonce_hash_raw = pg_bytea_to_bytes(res.at(0)["nonce_sha256"].as<std::string>());
-      spki_raw = pg_bytea_to_bytes(res.at(0)["spki_public_key"].as<std::string>());
+      // Drogon's bytea fields are already binary. Never infer encoding from
+      // the bytes: a legitimate raw value may itself begin with "\\x".
+      stored_nonce_hash_raw = res.at(0)["nonce_sha256"].as<std::string>();
+      spki_raw = res.at(0)["spki_public_key"].as<std::string>();
 
       if (!(co_await commit(std::move(trans1)))) {
         co_return error_response("SERVICE_UNAVAILABLE", "database commit unavailable; retry request", rid, true);

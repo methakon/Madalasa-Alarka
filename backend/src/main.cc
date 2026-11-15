@@ -2,11 +2,13 @@
 // Business routes are added against docs/openapi-m1.yaml in later changes. SYNTHETIC DATA ONLY.
 #include <cstdlib>
 #include <iostream>
+#include <unistd.h>
 
 #include <drogon/drogon.h>
 
 #include "auth.h"
 #include "db_support.h"
+#include "pg_tls_policy.h"
 #include "device_activity.h"
 #include "device_credentials.h"
 #include "enrollment.h"
@@ -25,7 +27,15 @@
 #include "http_support.h"
 #include "pairing.h"
 #include "parent_session.h"
+#include "billing_catalog.h"
+#include "test_mode_guard.h"
+#include "billing_trial.h"
 #include "privacy_endpoints.h"
+#include "privacy_request_endpoints.h"
+#include "release_profile.h"
+#include "free_location_reads.h"
+#include "child_device_pairing_status.h"
+#include "safety_signal_endpoints.h"
 
 namespace {
 // Admin back-office routes (admin_auth.h, admin_backoffice.h). Authorization is SQL-side.
@@ -119,6 +129,23 @@ int main() {
     std::cerr << "invalid database limit configuration" << std::endl;
     return 78;
   }
+  // Payment and 48h trial must stay inaccessible in the free-first release.
+  const auto release_profile=ma::parse_release_profile(std::getenv("MA_RELEASE_PROFILE"));
+  if(!release_profile) {
+    std::cerr << "invalid MA_RELEASE_PROFILE: expected FREE_ONLY or PAID_VERIFIED" << std::endl;
+    return 78;
+  }
+  if(*release_profile==ma::ReleaseProfile::PaidVerified &&
+      !ma::paid_release_authorized(*release_profile,
+        std::getenv("MA_OWNER_PAID_RELEASE_APPROVAL"),
+        std::getenv("MA_BILLDESK_APPROVAL"),
+        std::getenv("MA_PLAY_BILLING_APPROVAL"))) {
+    std::cerr << "paid release blocked pending owner, provider and Play approval" << std::endl;
+    return 78;
+  }
+  const auto release_caps=*release_profile==ma::ReleaseProfile::FreeOnly
+      ? ma::free_release_capabilities() : ma::paid_release_capabilities();
+
   // Parent authentication mode: V2 opaque sessions unless the frozen M1 schema
   // is selected explicitly. Unknown values never fall back to a weaker mode.
   const auto parent_mode = ma::parse_parent_auth_mode(std::getenv("MA_PARENT_AUTH_MODE"));
@@ -149,10 +176,15 @@ int main() {
   const std::string addr = addr_env ? addr_env : "127.0.0.1";
 
   // Every request gets a fresh server-generated id before routing; every response carries it.
-  app().registerPreRoutingAdvice([](const HttpRequestPtr& req, AdviceCallback&&, AdviceChainCallback&& next) {
+  app().registerPreRoutingAdvice([](const HttpRequestPtr& req, AdviceCallback&& stop, AdviceChainCallback&& next) {
     req->getAttributes()->insert(ma::kRequestIdAttr, ma::new_request_id());
+    if (ma::test_mode_tripped().load() && !ma::path_exempt_from_test_mode_block(req->path())) {
+      stop(ma::error_response("SERVICE_UNAVAILABLE", "service unavailable", ma::request_id_of(req), true));
+      return;
+    }
     next();
   });
+  ma::start_test_mode_guard();
   app().registerPreSendingAdvice([](const HttpRequestPtr& req, const HttpResponsePtr& resp) {
     resp->removeHeader(ma::kRequestIdHeader);
     resp->addHeader(ma::kRequestIdHeader, ma::request_id_of(req));
@@ -168,6 +200,105 @@ int main() {
       },
       {Get});
 
+  // Readiness is separate from liveness: a missing/unusable database must never
+  // be considered ready for guardian, enrollment, deletion or admin operations.
+  // Expose only behind local operational checks; nginx must not proxy /readyz.
+  app().registerHandler(
+      "/readyz",
+      [](HttpRequestPtr) -> Task<HttpResponsePtr> {
+        Json::Value body(Json::objectValue);
+        body["status"] = "not_ready";
+        if (!app().hasDbClient(ma::kDbClientName) ||
+            !app().hasDbClient(ma::kAuthDbClientName)) {
+          auto resp = HttpResponse::newHttpJsonResponse(body);
+          resp->setStatusCode(k503ServiceUnavailable);
+          co_return resp;
+        }
+        auto db = app().getDbClient(ma::kDbClientName);
+        auto issuer = app().getDbClient(ma::kAuthDbClientName);
+        if (!db || !issuer) {
+          auto resp = HttpResponse::newHttpJsonResponse(body);
+          resp->setStatusCode(k503ServiceUnavailable);
+          co_return resp;
+        }
+        try {
+          // Read-only catalog probes on the actual handler logins: do not mint a
+          // session, consume a challenge, bypass RLS or require migration-owner access.
+          // Exact signatures come from the handlers and migrations 0020..0024/0030;
+          // no unrelated migration-version floor is needed for this readiness gate.
+          const auto res = co_await db->execSqlCoro(
+              "SELECT session_user::text AS login, ("
+              "NOT rolsuper AND NOT rolbypassrls "
+              "AND pg_has_role(session_user,'ap_m1_api','MEMBER') "
+              "AND NOT pg_has_role(session_user,'ap_auth_issuer','MEMBER') "
+              "AND has_schema_privilege(current_user,'ap_m1','USAGE') "
+              "AND to_regclass('ap_m1.devices') IS NOT NULL "
+              "AND to_regclass('ap_m1.guardian_memberships') IS NOT NULL "
+              "AND to_regclass('ap_m1.admin_accounts') IS NOT NULL "
+              "AND (SELECT bool_and(COALESCE(has_function_privilege(current_user,"
+              "to_regprocedure(signature),'EXECUTE'),false)) FROM (VALUES "
+              "('ap_m1.ingest_location_batch_receipt(uuid,uuid,jsonb)'),"
+              "('ap_m1.issue_device_pairing_code(uuid,bytea,integer)')"
+              ") AS required(signature))) AS ready "
+              "FROM pg_catalog.pg_roles WHERE rolname=current_user");
+          const auto auth = co_await issuer->execSqlCoro(
+              "SELECT session_user::text AS login, ("
+              "NOT rolsuper AND NOT rolbypassrls "
+              "AND pg_has_role(session_user,'ap_auth_issuer','MEMBER') "
+              "AND NOT pg_has_role(session_user,'ap_m1_api','MEMBER') "
+              "AND has_schema_privilege(current_user,'ap_m1','USAGE') "
+              "AND (SELECT bool_and(COALESCE(has_function_privilege(current_user,"
+              "to_regprocedure(signature),'EXECUTE'),false)) FROM (VALUES "
+              "('ap_m1.exchange_parent_oidc_session(text,text,bytea,integer)'),"
+              "('ap_m1.issue_admin_login_challenge()'),"
+              "('ap_m1.exchange_admin_oidc_session(text,text,text,text,text,integer)'),"
+              "('ap_m1.redeem_pairing_code(bytea,bytea,bytea,integer)'),"
+              "('ap_m1.read_enrollment_challenge_expiry(uuid)'),"
+              "('ap_m1.store_pending_device_profile(uuid,text,text,integer,text,text)'),"
+              "('ap_m1.consume_enrollment_challenge(uuid)'),"
+              "('ap_m1.activate_enrolled_device(uuid,bytea,integer)')"
+              ") AS required(signature))) AS ready "
+              "FROM pg_catalog.pg_roles WHERE rolname=current_user");
+          const bool runtime_ready = res.size() == 1 && !res.at(0)["ready"].isNull() &&
+                                     res.at(0)["ready"].as<bool>();
+          const bool issuer_ready = auth.size() == 1 && !auth.at(0)["ready"].isNull() &&
+                                    auth.at(0)["ready"].as<bool>() &&
+                                    !res.empty() && !res.at(0)["login"].isNull() &&
+                                    !auth.at(0)["login"].isNull() &&
+                                    res.at(0)["login"].as<std::string>() != auth.at(0)["login"].as<std::string>();
+          if (runtime_ready && issuer_ready) {
+            body["status"] = "ready";
+            co_return HttpResponse::newHttpJsonResponse(body);
+          }
+        } catch (const std::exception&) {
+          // No database details, SQL or credentials in readiness response.
+        }
+        auto resp = HttpResponse::newHttpJsonResponse(body);
+        resp->setStatusCode(k503ServiceUnavailable);
+        co_return resp;
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/release/capabilities",
+      [release_caps](const HttpRequestPtr&,
+                     std::function<void(const HttpResponsePtr&)>&& cb) {
+        Json::Value body(Json::objectValue);
+        body["release_profile"]=release_caps.paidEnabled?"PAID_VERIFIED":"FREE_ONLY";
+        body["plan"]="FREE";
+        body["free_location_tracking"]=true; // design entitlement; Android consent still required
+        body["free_history_hours"]=release_caps.freeHistoryHours;
+        body["moving_location_minutes_min"]=release_caps.movingLocationMinutesMin;
+        body["moving_location_minutes_max"]=release_caps.movingLocationMinutesMax;
+        body["paid_checkout_enabled"]=release_caps.paidEnabled;
+        body["trial_enabled"]=release_caps.trialEnabled;
+        body["premium_media_enabled"]=release_caps.premiumMediaEnabled;
+        body["monitoring_approval_inferred"]=false;
+        body["max_admitted_children"]=108;
+        auto resp=HttpResponse::newHttpJsonResponse(body);
+        ma::add_no_store(resp);cb(resp);
+      },{Get});
+
   // Database: connection settings come from the environment; the role MUST be ap_m1_api (NOBYPASSRLS).
   if (const char* db = std::getenv("MA_PG_DB")) {
     auto env = [](const char* k, const char* d) { const char* v = std::getenv(k); return std::string(v ? v : d); };
@@ -177,6 +308,34 @@ int main() {
     cfg.databaseName = db;
     cfg.username = env("MA_PG_USER", "ap_m1_api");
     cfg.password = env("MA_PG_PASSWORD", "");
+
+    const bool is_loopback = ma::pg_host_is_loopback(cfg.host);
+    if (!is_loopback) {
+      // Remote PostgreSQL (such as managed Neon) requires certificate/hostname-validated TLS.
+      const char* sslmode = std::getenv("PGSSLMODE");
+      // Only verify-full validates both certificate chain and the configured
+      // DB hostname. "require" encrypts without hostname verification; verify-ca
+      // validates the CA but not the hostname. Fail closed on unknown values too.
+      if (sslmode && !ma::remote_pg_sslmode_allowed(sslmode)) {
+        std::cerr << "Remote PostgreSQL requires PGSSLMODE=verify-full" << std::endl;
+        return 78;
+      }
+      if (!sslmode || *sslmode == '\0') {
+        if (setenv("PGSSLMODE", "verify-full", 1) != 0) {
+          std::cerr << "Cannot enforce remote PostgreSQL TLS verification" << std::endl;
+          return 78;
+        }
+      }
+      if (!std::getenv("PGSSLROOTCERT")) {
+        const char* ca_paths[] = {"/etc/ssl/certs/ca-certificates.crt", "/etc/pki/tls/certs/ca-bundle.crt"};
+        for (const char* p : ca_paths) {
+          if (access(p, R_OK) == 0) {
+            setenv("PGSSLROOTCERT", p, 1);
+            break;
+          }
+        }
+      }
+    }
     cfg.connectionNumber = ma::db_limits().connections;
     cfg.name = ma::kDbClientName;
     cfg.isFast = false;
@@ -304,6 +463,45 @@ int main() {
       },
       {Get});
 
+  // Routes remain in source, but are not registered in free-only deployments.
+  if(release_caps.paidEnabled) {
+  // L10-005: product catalog; prices are never quoted until Play metadata is verified.
+  app().registerHandler(
+      "/v1/billing/catalog",
+      [parent](HttpRequestPtr req) -> Task<HttpResponsePtr> {
+        co_return co_await ma::billing_catalog(std::move(req), parent);
+      }, {Get});
+
+  // L10-002: server-side 48h family trial (policy enforced in SQL).
+  app().registerHandler(
+      "/v1/families/{familyId}/trial/eligibility",
+      [parent](HttpRequestPtr req, std::string familyId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::family_trial(std::move(req), std::move(familyId), parent, false);
+      }, {Get});
+  app().registerHandler(
+      "/v1/families/{familyId}/trial/start",
+      [parent](HttpRequestPtr req, std::string familyId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::family_trial(std::move(req), std::move(familyId), parent, true);
+      }, {Post});
+
+  }
+
+  app().registerHandler(
+      "/v1/children/{childId}/paired-device",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::child_pairing_status(std::move(req),std::move(childId),parent);
+      },{Get});
+  app().registerHandler(
+      "/v1/children/{childId}/location/latest",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::free_location_read(std::move(req),std::move(childId),parent,false);
+      },{Get});
+  app().registerHandler(
+      "/v1/children/{childId}/location/history",
+      [parent](HttpRequestPtr req,std::string childId)->Task<HttpResponsePtr>{
+        co_return co_await ma::free_location_read(std::move(req),std::move(childId),parent,true);
+      },{Get});
+
   // Existing master OpenAPI: child-scoped privacy operations, server-enforced.
   app().registerHandler(
       "/v1/children/{childId}/guardian-grants",
@@ -323,6 +521,28 @@ int main() {
         co_return co_await ma::delete_child_privacy_grant(std::move(req), std::move(childId),
                                                            std::move(grantId), parent);
       }, {Delete});
+  // Phase 15: SQL-authorized erasure/export jobs with truthful pending status.
+  app().registerHandler(
+      "/v1/children/{childId}/erasure-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,true,true);
+      }, {Post});
+  app().registerHandler(
+      "/v1/children/{childId}/erasure-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,true,false);
+      }, {Get});
+  app().registerHandler(
+      "/v1/children/{childId}/export-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,false,true);
+      }, {Post});
+  app().registerHandler(
+      "/v1/children/{childId}/export-requests",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::child_privacy_job(std::move(req),std::move(childId),parent,false,false);
+      }, {Get});
+
   app().registerHandler(
       "/v1/devices/{deviceId}/consent-status",
       [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
@@ -417,6 +637,35 @@ int main() {
       "/v1/devices/{deviceId}/locations:batch",
       [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
         co_return co_await ma::ingest_location_batch(std::move(req), std::move(deviceId));
+      },
+      {Post});
+
+  // Manual SOS and child safety signals (Phase-09 / Issue #42 P1).
+  app().registerHandler(
+      "/v1/devices/{deviceId}/signals",
+      [](HttpRequestPtr req, std::string deviceId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::record_child_signal(std::move(req), std::move(deviceId));
+      },
+      {Post});
+
+  app().registerHandler(
+      "/v1/devices/{deviceId}/signals/{eventId}/status",
+      [](HttpRequestPtr req, std::string deviceId, std::string eventId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::get_child_signal_status(std::move(req), std::move(deviceId), std::move(eventId));
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/children/{childId}/signals",
+      [parent](HttpRequestPtr req, std::string childId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::list_child_signals(std::move(req), std::move(childId), parent);
+      },
+      {Get});
+
+  app().registerHandler(
+      "/v1/children/{childId}/signals/{eventId}/ack",
+      [parent](HttpRequestPtr req, std::string childId, std::string eventId) -> Task<HttpResponsePtr> {
+        co_return co_await ma::acknowledge_child_signal(std::move(req), std::move(childId), std::move(eventId), parent);
       },
       {Post});
 

@@ -1,0 +1,36 @@
+{
+  "schema": "issue32.synthetic-postgresql-load/v1",
+  "status": "NOT_RUN",
+  "scope": "DIRECT_POSTGRES_INGEST_FUNCTION_ONLY",
+  "claim": "108 simulated clients is a workload parameter, not measured device capacity",
+  "environment": null,
+  "started_utc": null,
+  "finished_utc": null,
+  "physical_android": {"status": "NOT_RUN", "battery": null},
+  "target_environment_capacity": {"status": "NOT_RUN", "supported_devices": null},
+  "stages": [],
+  "dashboard": {
+    "kind": "metric-path template; not a deployed Grafana dashboard",
+    "source": "metrics.actual.json",
+    "panels": [
+      {"title": "Successful batches/s", "path": "stages[*].successful_batches_per_second", "unit": "batches/s"},
+      {"title": "Committed synthetic events/s", "path": "stages[*].events_per_second", "unit": "events/s"},
+      {"title": "Attempt p50/p95/p99", "path": "stages[*].all_attempt_latency_ms", "unit": "ms"},
+      {"title": "Success p50/p95/p99", "path": "stages[*].success_latency_ms", "unit": "ms"},
+      {"title": "Transaction p50/p95/p99", "path": "stages[*].db_transaction_ms", "unit": "ms"},
+      {"title": "Pool queue p50/p95/p99", "path": "stages[*].pool_queue_ms", "unit": "ms"},
+      {"title": "Logical-client executor wait", "path": "stages[*].executor_wait_ms", "unit": "ms"},
+      {"title": "Peak pool waiters", "path": "stages[*].pool_peak_waiters", "unit": "clients"},
+      {"title": "SQLSTATE/error counts", "path": "stages[*].errors", "unit": "errors"},
+      {"title": "Generator CPU", "path": "stages[*].generator_cpu_seconds", "unit": "CPU-seconds"},
+      {"title": "Generator process peak RSS", "path": "stages[*].generator_peak_rss_bytes", "unit": "bytes"},
+      {"title": "Container CPU one-core equivalent", "path": "stages[*].container_cpu_percent_one_core", "unit": "percent"},
+      {"title": "Container memory endpoints", "path": "stages[*].container_samples[*].memory_current_bytes", "unit": "bytes"},
+      {"title": "PostgreSQL supervisor RSS endpoints (not aggregate)", "path": "stages[*].container_samples[*].postgres_pid1_rss_bytes", "unit": "bytes"},
+      {"title": "Container network receive/transmit delta", "path": "stages[*].container_counter_delta", "unit": "bytes; CPU key is usec"},
+      {"title": "Commit readback", "path": "stages[*].commit_readback.status", "unit": "status"},
+      {"title": "Physical Android battery", "path": "physical_android", "unit": "NOT_RUN until separately measured"},
+      {"title": "Target capacity", "path": "target_environment_capacity", "unit": "NOT_RUN until independently benchmarked"}
+    ]
+  }
+}

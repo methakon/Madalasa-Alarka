@@ -9,19 +9,35 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        // Non-production placeholder ID until publication authorization
-        applicationId = "in.berhampore.alarka.synthetic"
+        // Production package in.berhampore.alarka by default, or overridable via -PalarkaApplicationId
+        applicationId = providers.gradleProperty("alarkaApplicationId").orNull ?: "in.berhampore.alarka"
         minSdk = 29
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0-synthetic"
+        versionCode = providers.gradleProperty("alarkaVersionCode").map { it.toInt() }.orNull ?: 1
+        versionName = providers.gradleProperty("alarkaVersionName").orNull ?: "0.1.0"
 
+        // Empty by default: release can be installed but cannot falsely activate.
+        // Inject a reviewed HTTPS API origin for device/closed tests:
+        // ./gradlew :alarka:assembleDebug -PalarkaApiOrigin=https://api.example
+        resValue("string", "alarka_api_origin",
+            providers.gradleProperty("alarkaApiOrigin").orNull ?: "")
+
+        // Deliberately FALSE until independent legal, Play, Android and
+        // deployment signoff; a UI button cannot override this binary gate.
+        resValue("bool", "alarka_location_release_approved", "false")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            resValue("bool", "alarka_location_lab_enabled",
+                (providers.gradleProperty("alarkaLocationLab").orNull == "true").toString())
+        }
         release {
-            isMinifyEnabled = false
+            resValue("bool", "alarka_location_lab_enabled", "false")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {

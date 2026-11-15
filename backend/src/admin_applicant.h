@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include "admin_session.h"
+#include "admin_auth.h"
 #include "db_support.h"
 #include "http_support.h"
 
@@ -86,6 +87,21 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_applicant_self_read(
           Json::Value(Json::nullValue):Json::Value(Json::Int64(a["profile_revision"].as<std::int64_t>()));
       result["profile_complete"]=!a["profile_revision"].isNull() &&
           a["email_verified"].as<bool>();
+      // Session-derived roles are returned on every authorized refresh, not
+      // inferred from a remembered login response or client-side claims.
+      result["state"]=result["status"];
+      result["allowed_actions"]=Json::Value(Json::arrayValue);
+      result["role_codes"]=Json::Value(Json::arrayValue);
+      if(approved){
+        auto role_rows=co_await tx->execSqlCoro(
+            "SELECT s.role_codes::text AS roles FROM ap_m1.admin_session_state() s");
+        if(!role_rows.empty())
+          result["role_codes"]=admin_text_array(role_rows.at(0)["roles"].as<std::string>());
+      }else if(!a["profile_revision"].isNull() && a["email_verified"].as<bool>() &&
+               request_state!="PENDING_REVIEW"){
+        // UI affordance only. submit_admin_request validates authorization again.
+        result["allowed_actions"].append("REQUEST_ACCESS");
+      }
       result["notice_version"]=a["notice_version"].isNull()?
           Json::Value(Json::nullValue):Json::Value(a["notice_version"].as<std::string>());
     }

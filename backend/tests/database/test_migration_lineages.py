@@ -73,7 +73,7 @@ class MigrationLineages(unittest.TestCase):
             plan = [e['id'] for e in manage.migration_plan(entries, applied=applied)]
             self.assertEqual(plan[:3], ['common:0001', 'm1:0005', 'm1:0006'])
             self.assertLess(plan.index('compat:m1_pre_v2_0017'), plan.index('v2:0017'))
-            self.assertEqual(plan[-1], 'v2:0022')
+            self.assertEqual(plan[-1], 'v2:0033')
         old = set(m1[:4]) | {'v2:%04d' % n for n in range(2, 20)} | {'compat:m1_pre_v2_0016'}
         manage.validate_migration_history(entries, [], self.ledger_rows(old))
         plan = [e['id'] for e in manage.migration_plan(entries, applied=old)]
@@ -82,7 +82,7 @@ class MigrationLineages(unittest.TestCase):
         # reconciliation bridge must still be selected; the historical DDL is not.
         self.assertIn('compat:m1_pre_v2_0017', plan)
         self.assertLess(plan.index('compat:m1_pre_v2_0017'), plan.index('v2:0017'))
-        self.assertEqual(plan[-1], 'v2:0022')
+        self.assertEqual(plan[-1], 'v2:0033')
 
     def ledger_rows(self, ids):
         known = {e['id']: e for e in self.entries()}
@@ -94,7 +94,9 @@ class MigrationLineages(unittest.TestCase):
                          ['common:0001'] + ['m1:%04d' % n for n in range(2, 7)])
         clean = manage.migration_plan(entries, 'v2')
         self.assertEqual([e['id'] for e in clean], ['common:0001'] + ['v2:%04d' % n for n in range(2, 17)]
-                         + ['compat:m1_pre_v2_0017'] + ['v2:%04d' % n for n in range(17, 23)])
+
+                         + ['compat:m1_pre_v2_0017'] + ['v2:%04d' % n for n in range(17, 29)]
+                         + ['compat:v2_0028_retention_hold_guard', 'compat:v2_0028_hold_snapshot_guard', 'v2:0029', 'v2:0030', 'v2:0031', 'v2:0032', 'v2:0033'])
         self.assertEqual([e['id'] for e in manage.migration_plan(entries, 'v2', through='0001')], ['common:0001'])
 
     def entries(self):
@@ -112,10 +114,30 @@ class MigrationLineages(unittest.TestCase):
             with self.assertRaises(ValueError):
                 manage.validate_migration_history(self.entries(), [rows[0], tuple(bad)], [])
 
+    def test_accepted_sha256_preserves_historical_applied_checksum(self):
+        entries = self.entries()
+        v25 = next(e for e in entries if e['id'] == 'v2:0025')
+        self.assertIn('accepted_sha256', v25)
+        old_sha = v25['accepted_sha256'][0]
+        base_ids = ['common:0001'] + ['v2:%04d' % n for n in range(2, 25)]
+        base_ledger = self.ledger_rows(base_ids)
+        expected = set(base_ids) | {'v2:0025'}
+        # Ledger recorded with previous checksum must be accepted
+        ledger = base_ledger + [('v2:0025', Path(v25['path']).name, old_sha, 'APPLIED')]
+        self.assertEqual(manage.validate_migration_history(entries, [], ledger), expected)
+        # Ledger recorded with new pinned checksum must also be accepted
+        ledger_new = base_ledger + [('v2:0025', Path(v25['path']).name, v25['sha256'], 'APPLIED')]
+        self.assertEqual(manage.validate_migration_history(entries, [], ledger_new), expected)
+        # Unaccepted drifting checksum must be rejected
+        ledger_bad = base_ledger + [('v2:0025', Path(v25['path']).name, 'e' * 64, 'APPLIED')]
+        with self.assertRaisesRegex(ValueError, 'Unknown or drifting migration history'):
+            manage.validate_migration_history(entries, [], ledger_bad)
+
     def test_m1_upgrade_order_and_downgrade_block(self):
         applied = manage.validate_migration_history(self.entries(), self.rows(['common:0001','m1:0002','m1:0003','m1:0004']), [])
         plan = [e['id'] for e in manage.migration_plan(self.entries(), applied=applied)]
-        self.assertEqual(plan[-8:], ['v2:0016', 'compat:m1_pre_v2_0017', 'v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022'])
+
+        self.assertEqual(plan[-21:], ['v2:0016', 'compat:m1_pre_v2_0017', 'v2:0017', 'v2:0018', 'v2:0019', 'v2:0020', 'v2:0021', 'v2:0022', 'v2:0023', 'v2:0024', 'v2:0025', 'v2:0026', 'v2:0027', 'v2:0028', 'compat:v2_0028_retention_hold_guard', 'compat:v2_0028_hold_snapshot_guard', 'v2:0029', 'v2:0030', 'v2:0031', 'v2:0032', 'v2:0033'])
         self.assertEqual([e['id'] for e in manage.migration_plan(self.entries(), applied={
             'common:0001','m1:0002','m1:0003','m1:0004'})][:4],
             ['common:0001', 'm1:0005', 'm1:0006', 'v2:0002'])

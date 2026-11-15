@@ -95,11 +95,14 @@ inline drogon::Task<drogon::HttpResponsePtr> get_child(
       rollback_quietly(trans);
       co_return error_response("UNAUTHENTICATED", "missing, expired or invalid credential", rid);
     }
-    // RLS children_r limits this to exact-child VIEW_CHILD_PROFILE.
-    // Unknown and unauthorized children are deliberately indistinguishable.
+    // RLS restricts guardian profiles to exact-child scope; a verified
+    // owner may also read the queued child profile that they created.
     auto rows = co_await trans->execSqlCoro(
-        "SELECT id::text AS id,family_id::text AS family_id,alias,state "
-        "FROM ap_m1.children WHERE id=$1::uuid",*child);
+        "SELECT c.id::text AS id,c.family_id::text AS family_id,c.alias,c.state,"
+        " a.service_state,a.queue_position,a.max_children "
+        "FROM ap_m1.children c "
+        "LEFT JOIN LATERAL ap_m1.free_child_admission_status(c.id) a ON true "
+        "WHERE c.id=$1::uuid",*child);
     if (rows.empty()) {
       rollback_quietly(trans);
       co_return error_response("NOT_FOUND","child not found",rid);
@@ -109,6 +112,12 @@ inline drogon::Task<drogon::HttpResponsePtr> get_child(
     body["family_id"] = rows.at(0)["family_id"].as<std::string>();
     body["alias"] = rows.at(0)["alias"].as<std::string>();
     body["state"] = rows.at(0)["state"].as<std::string>();
+    body["free_service_state"] = rows.at(0)["service_state"].isNull()
+        ? "UNAVAILABLE" : rows.at(0)["service_state"].as<std::string>();
+    body["queue_position"] = rows.at(0)["queue_position"].isNull()
+        ? Json::Value(Json::nullValue)
+        : Json::Value(static_cast<Json::Int64>(rows.at(0)["queue_position"].as<long long>()));
+    body["slot_limit"] = rows.at(0)["max_children"].isNull()?108:rows.at(0)["max_children"].as<int>();
     rollback_quietly(trans);
     co_return m1_json_ok(body,rid);
   } catch (const drogon::orm::SqlError& e) {

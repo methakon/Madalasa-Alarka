@@ -66,6 +66,27 @@ class PermissionMatrixInstrumentedTest {
     }
 
     @Test
+    fun scannedManifestAndGrantsCannotBypassPairingConsentOrLegalGate() {
+        val report = AndroidDeviceCapabilityScanner(context).getCapabilityReport()
+        val preflight = org.madalasa.alarka.service.AndroidPermissionPreflight.evaluate(
+            report = report,
+            pairedWithVerifiedCredential = false,
+            server = null,
+            locationReleaseApproved = false
+        )
+        assertFalse(preflight.mayAttemptVisibleService)
+        assertTrue(report.osVersion >= 29)
+        // Permissions granted by Android must have been requested in this build.
+        assertTrue(report.permissionsGranted.all { it in report.permissionsDeclared })
+        if (report.osVersion >= 34 && report.locationForegroundServiceDeclared) {
+            assertTrue(
+                "Location FGS type must have its Android 14+ permission",
+                "android.permission.FOREGROUND_SERVICE_LOCATION" in report.permissionsDeclared
+            )
+        }
+    }
+
+    @Test
     fun unsupportedCapabilityNeverBypassesOnThisDevice() {
         // Force an out-of-range OS to confirm fail-closed behavior regardless of device.
         val decision = PermissionMatrixEvaluator.evaluate(

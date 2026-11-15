@@ -17,12 +17,12 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        // Non-production placeholder ID until publication authorization
-        applicationId = "in.berhampore.madalasa.synthetic"
-        minSdk = 29
+        // Production release package in.berhampore.madalasa, or overridable via -PmadalasaApplicationId
+        applicationId = providers.gradleProperty("madalasaApplicationId").orNull ?: "in.berhampore.madalasa"
+        minSdk = 28
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0-synthetic"
+        versionCode = providers.gradleProperty("madalasaVersionCode").map { it.toInt() }.orNull ?: 2
+        versionName = providers.gradleProperty("madalasaVersionName").orNull ?: "0.1.0"
 
         resValue("string", "parent_google_web_client_id", parentWebClientId)
         resValue("string", "parent_api_origin", parentApiOrigin)
@@ -31,8 +31,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Preserves synthetic debug package suffix unless overridden
+            val customAppId = providers.gradleProperty("madalasaApplicationId").orNull
+            if (customAppId == null) {
+                applicationIdSuffix = ".synthetic"
+            }
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -66,6 +75,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.junit)
+    testImplementation("org.json:json:20240303")
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

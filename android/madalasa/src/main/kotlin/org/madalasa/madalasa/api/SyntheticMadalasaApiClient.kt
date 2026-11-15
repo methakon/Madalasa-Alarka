@@ -23,12 +23,14 @@ class SyntheticMadalasaApiClient : MadalasaApiClient {
                 ChildSummaryResponse(
                     id = "00000000-0000-0000-0000-0000000000c1",
                     familyId = familyId,
-                    alias = "Alarka (Synthetic Child 1)"
+                    alias = "Alarka (Synthetic Child 1)",
+                    freeServiceState = "ADMITTED"
                 ),
                 ChildSummaryResponse(
                     id = "00000000-0000-0000-0000-0000000000c2",
                     familyId = familyId,
-                    alias = "Alarka (Synthetic Child 2)"
+                    alias = "Alarka (Synthetic Child 2)",
+                    freeServiceState = "ADMITTED"
                 )
             )
         )

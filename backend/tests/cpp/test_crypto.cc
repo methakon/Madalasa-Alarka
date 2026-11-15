@@ -98,6 +98,23 @@ int main() {
     std::string rt = ma::pg_bytea_to_bytes(pg);
     check("pg_bytea roundtrip", rt == test_data);
 
+    // 8. Driver-shaped bytea values. The PostgreSQL driver returns raw bytes,
+    // not a "\x" hex literal; a hash read back must equal the hash used to
+    // store it byte-for-byte, or enrollment/credential proofs can never match.
+    const ma::Sha256 digest = ma::sha256_bytes("device-enroll-nonce-value");
+    const std::string cooked(reinterpret_cast<const char*>(digest.data()), digest.size());
+    check("pg_bytea driver bytes preserved", ma::pg_bytea_to_bytes(cooked) == cooked);
+    const std::string binary_raw =
+        std::string("\x00\x5c\x78\xff\x10\xba\x30\x7f", 8) + cooked;
+    check("pg_bytea raw bytes with hex-looking bytes preserved",
+          ma::pg_bytea_to_bytes(binary_raw) == binary_raw);
+    check("pg_bytea hex text still decodes", ma::pg_bytea_to_bytes(ma::bytes_to_pg_bytea(cooked)) == cooked);
+    const std::string raw_hex_prefix(std::string("\\x") + std::string("\x00\xff", 2));
+    check("pg_bytea raw value starting with a \\x prefix is preserved",
+          ma::pg_bytea_to_bytes(raw_hex_prefix) == raw_hex_prefix);
+    check("pg_bytea malformed hex is not silently dropped",
+          ma::pg_bytea_to_bytes("\\xzz10") == "\\xzz10");
+
   } catch (const std::exception& e) {
     ++failed;
     std::cerr << "FAIL exception: " << e.what() << '\n';

@@ -250,6 +250,12 @@ class CredentialClockTests(unittest.TestCase):
             self.assertGreater(expires_at, c.execute('SELECT clock_timestamp()').fetchone()[0])
         device, challenge, _ = self.w.pending_enrollment(expires_in=120.0, consumed_ago=1.0)
         fresh = uuid4().bytes * 2
+        # One active Alarka per child: explicitly revoke the previously active
+        # synthetic device before completing the new device's proof.
+        from fixtures import admin_connection
+        with admin_connection() as c:
+            c.execute("UPDATE ap_m1.devices SET enrollment_state='REVOKED',"
+                      "revoked_at=clock_timestamp() WHERE id=%s",(self.w.device,))
         with auth_connection() as c:
             rows = c.execute('SELECT * FROM ap_m1.activate_enrolled_device(%s,%s,3600)',
                              (challenge, fresh)).fetchall()

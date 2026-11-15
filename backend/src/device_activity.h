@@ -225,11 +225,15 @@ inline drogon::Task<drogon::HttpResponsePtr> ingest_location_batch(
         "SELECT set_config('lock_timeout', $1, true), set_config('statement_timeout', $2, true)",
         std::to_string(db_limits().lock_ms), std::to_string(db_limits().statement_ms));
 
-    co_await trans->execSqlCoro("SELECT set_config('ap.device_id', $1, true)", *normalized_device);
+    if (!(co_await bind_device_transaction(trans, *device_principal))) {
+      rollback_quietly(trans);
+      co_return error_response("UNAUTHENTICATED", "credential missing, expired or device revoked", rid);
+    }
 
     const std::string events_json = canonical_json(events);
     auto res = co_await trans->execSqlCoro(
-        "SELECT ap_m1.ingest_location_batch($1::uuid, $2::uuid, $3::jsonb)::text AS batch_id",
+        "SELECT ingest_batch_id::text AS batch_id, accepted_count, duplicate_count "
+        "FROM ap_m1.ingest_location_batch_receipt($1::uuid, $2::uuid, $3::jsonb)",
         *normalized_device, *normalized_batch, events_json);
 
     if (res.empty() || res.at(0)["batch_id"].isNull()) {
@@ -242,12 +246,14 @@ inline drogon::Task<drogon::HttpResponsePtr> ingest_location_batch(
     }
 
     Json::Value receipt;
-    receipt["batch_id"] = *normalized_batch;
-    receipt["accepted_count"] = static_cast<Json::UInt>(events.size());
-    receipt["duplicate_count"] = 0;
+    receipt["batch_id"] = res.at(0)["batch_id"].as<std::string>();
+    receipt["accepted_count"] = res.at(0)["accepted_count"].as<int>();
+    receipt["duplicate_count"] = res.at(0)["duplicate_count"].as<int>();
     receipt["rejected_count"] = 0;
     receipt["processing"] = "QUEUED";
-    receipt["durable_stage"] = "INBOX_COMMITTED";
+    // Existing SQL commits observations, dedup and the reconstruction outbox.
+    // QUEUED describes derived work, not an inbox-only implementation.
+    receipt["durable_stage"] = "RAW_OBSERVATIONS_COMMITTED";
 
     auto resp = drogon::HttpResponse::newHttpJsonResponse(receipt);
     resp->setStatusCode(drogon::k202Accepted);

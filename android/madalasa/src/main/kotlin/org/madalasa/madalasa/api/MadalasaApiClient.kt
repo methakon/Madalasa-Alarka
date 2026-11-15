@@ -10,8 +10,23 @@ interface MadalasaApiClient {
     suspend fun getMe(): Result<ParentProfileResponse>
     suspend fun getChildren(familyId: String): Result<List<ChildSummaryResponse>>
     suspend fun getChildLocation(childId: String): Result<VerifiedLocationState>
+    suspend fun getChildHistory(childId: String): Result<FreeChildHistory> =
+        Result.failure(IllegalStateException("History service unavailable"))
     suspend fun createPairingCode(childId: String): Result<PairingCodeResponse>
+    suspend fun getPairedChildDevice(childId: String): Result<PairedChildDevice?> =
+        Result.failure(IllegalStateException("Paired-device status unavailable"))
+    suspend fun createFamily(label: String): Result<String> = Result.failure(IllegalStateException("Family creation unavailable"))
+    suspend fun createChild(familyId: String, alias: String): Result<ChildSummaryResponse> = Result.failure(IllegalStateException("Child registration unavailable"))
+    suspend fun getChildSignals(childId: String): Result<List<ChildSignalSummary>> = Result.success(emptyList())
+    suspend fun acknowledgeChildSignal(childId: String, eventId: String): Result<Boolean> = Result.failure(IllegalStateException("Signal service unavailable"))
 }
+
+data class ChildSignalSummary(
+    val eventId: String,
+    val kind: String,
+    val observedAt: String,
+    val acknowledged: Boolean
+)
 
 data class ParentProfileResponse(
     val adultId: String,
@@ -21,10 +36,24 @@ data class ParentProfileResponse(
 data class ChildSummaryResponse(
     val id: String,
     val familyId: String,
-    val alias: String
+    val alias: String,
+    val freeServiceState: String = "UNAVAILABLE",
+    val queuePosition: Long? = null,
+    val slotLimit: Int = 108
 )
 
 data class PairingCodeResponse(
     val pairingCode: String,
     val expiresAtEpochMs: Long
+)
+
+/** Server-confirmed metadata only; model/manufacturer never identify the device. */
+data class PairedChildDevice(
+    val id: String,
+    val manufacturer: String,
+    val model: String,
+    val androidApi: Int?,
+    val appVersion: String,
+    val pairingMethod: String,
+    val pairedAt: String?
 )

@@ -159,10 +159,10 @@ class SchemaCompletionTests(unittest.TestCase):
             with self.admin.transaction():
                 self.admin.execute("INSERT INTO ap_m1.media_request_device_approvals(child_id,request_id,device_id,device_ui_consent_state,os_decision_reason) VALUES(%s,%s,%s,'NOT_REQUESTED','FEATURE_NOT_RELEASED')",(self.core['child_b'],request,self.d))
         self.admin.execute("INSERT INTO ap_m1.media_request_device_approvals(child_id,request_id,device_id,device_ui_consent_state,os_decision_reason) VALUES(%s,%s,%s,'NOT_REQUESTED','FEATURE_NOT_RELEASED')",(self.c,request,self.d))
-        # A second device of the SAME child is still the wrong device for a request
-        # bound to the first one; approval rows are one per request, so use a new request.
+        # A *pending* second device is still the wrong device for a request
+        # bound to the active one. Two ACTIVE devices are now forbidden by DB.
         other_device=uuid4()
-        self.admin.execute("INSERT INTO ap_m1.devices(id,family_id,child_id,spki_public_key,enrollment_state) VALUES(%s,%s,%s,%s,'ACTIVE')",(other_device,self.core['family_a'],self.c,('SYNTHETIC-NOT-CRYPTO-'+str(other_device)).encode()*2))
+        self.admin.execute("INSERT INTO ap_m1.devices(id,family_id,child_id,spki_public_key,enrollment_state) VALUES(%s,%s,%s,%s,'PENDING_PROOF')",(other_device,self.core['family_a'],self.c,('SYNTHETIC-NOT-CRYPTO-'+str(other_device)).encode()*2))
         second_request=uuid4()
         self.admin.execute("INSERT INTO ap_m1.media_command_requests(id,child_id,device_id,adult_id,kind) VALUES(%s,%s,%s,%s,'IMAGE')",(second_request,self.c,self.d,self.core['a']))
         with self.assertRaises(psycopg.errors.ForeignKeyViolation):

@@ -63,7 +63,7 @@ internal fun parentPrivacyRows(page: ParentPrivacyPage): List<ParentPrivacyRow> 
     ParentPrivacyPage.REQUESTS -> listOf(
         ParentPrivacyRow("Export request", "Secure download requires identity recheck, child-specific scope and server processing."),
         ParentPrivacyRow("Deletion request", "Requires an authenticated request, authorization fence and deletion of eligible data."),
-        ParentPrivacyRow("Request progress", "No request submitted. Backup processing and legal holds require verified server status."),
+        ParentPrivacyRow("Request progress", "Server request states load only after authenticated authorization; backup processing and legal holds require independent verification."),
         ParentPrivacyRow("Safety check", "Do not claim completion until confirmed. Old offline uploads must not resurrect deleted data.")
     )
 }
@@ -155,7 +155,7 @@ fun ParentPrivacyScreen(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
                 Text("Request deletion · unavailable")
             }
-            Text("No export or deletion request has been sent. The authenticated privacy API is not connected.",
+            Text("Request submission remains disabled until retention, legal and integration gates are approved. Existing server request states may be displayed above.",
                 fontSize = 12.sp, color = red)
         }
         Surface(color = Color(0xFFF2E6D2), shape = RoundedCornerShape(12.dp)) {

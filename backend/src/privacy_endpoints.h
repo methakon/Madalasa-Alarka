@@ -197,7 +197,8 @@ inline drogon::Task<drogon::HttpResponsePtr> device_consent_status(
         "ap_m1.has_consent($1::uuid,'CORE') AS core,"
         "ap_m1.has_consent($1::uuid,'LOCATION') AS location,"
         "ap_m1.has_consent($1::uuid,'USAGE') AS usage,"
-        "ap_m1.has_consent($1::uuid,'MEDIA') AS media", actor->child_id);
+        "ap_m1.has_consent($1::uuid,'MEDIA') AS media,"
+        "ap_m1.child_free_admitted($1::uuid) AS free_admitted", actor->child_id);
     if (rows.empty()) co_return error_response("SERVICE_UNAVAILABLE", "policy unavailable", rid, true);
     Json::Value body(Json::objectValue);
     body["device_id"] = actor->device_id;
@@ -206,6 +207,7 @@ inline drogon::Task<drogon::HttpResponsePtr> device_consent_status(
     body["location_consent"] = rows.at(0)["location"].as<bool>();
     body["usage_consent"] = rows.at(0)["usage"].as<bool>();
     body["media_consent"] = rows.at(0)["media"].as<bool>();
+    body["child_service_admitted"] = rows.at(0)["free_admitted"].as<bool>();
     body["android_permission_state"] = "UNKNOWN_DEVICE_LOCAL_ONLY";
     body["collection_authorized"] = false;  // Needs independent platform+purpose eligibility.
     co_return privacy_json(body, rid);
