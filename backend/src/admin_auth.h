@@ -236,8 +236,14 @@ inline AdminIdentityVerifier make_google_admin_verifier(GoogleOidcConfig config,
     try {
       const auto now = clock ? clock() : std::chrono::duration_cast<std::chrono::seconds>(
           std::chrono::system_clock::now().time_since_epoch()).count();
-      return verify_admin_google_id_token(id_token, nonce, config, keys, now);
-    } catch (const std::exception&) {
+      std::string failure_reason;
+      auto identity = verify_admin_google_id_token(id_token, nonce, config, keys, now, &failure_reason);
+      if (!identity && !failure_reason.empty()) {
+        LOG_WARN << "Admin Google OIDC verification rejected: " << failure_reason;
+      }
+      return identity;
+    } catch (const std::exception& e) {
+      LOG_WARN << "Admin Google OIDC verification exception: " << e.what();
       return std::nullopt;  // never log tokens or claims
     }
   };
@@ -266,7 +272,7 @@ inline AdminIdentityVerifier select_admin_verifier() {
     return synthetic_admin_verifier();
   }
 #endif
-  GoogleOidcConfig config{oidc_client_ids(std::getenv("MA_ADMIN_GOOGLE_OIDC_AUDIENCE")), {}, 0};
+  GoogleOidcConfig config{oidc_client_ids(std::getenv("MA_ADMIN_GOOGLE_OIDC_AUDIENCE")), {}, 30};
   if (config.audiences.empty()) {
     LOG_WARN << "Admin Google OIDC audience is not configured: admin login answers 401";
     return reject_all_admin_verifier();

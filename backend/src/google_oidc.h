@@ -1,5 +1,6 @@
 // Google identity validation only: no adult, guardian, consent or child-access authority.
 #pragma once
+#include <chrono>
 #include <cstdint>
 #include <functional>
 #include <map>
@@ -29,6 +30,12 @@ using OidcIdentityAllowed = std::function<bool(const OidcIdentity&)>;
 // Production composition: fixed Google HTTPS source, one bounded background
 // refresher. The returned lookup owns its cache; request callers never do I/O.
 OidcKeyLookup make_google_jwks_lookup();
+
+// Startup helper: block until the shared JWKS worker finishes its first fetch,
+// or until timeout elapses. Call once, before the HTTP server begins accepting
+// connections, so the first admin Google login never fails due to a cold cache.
+// Returns true if the cache became warm within the timeout; false is non-fatal.
+bool warm_google_jwks_cache(std::chrono::milliseconds timeout = std::chrono::milliseconds{5000});
 
 // Bounded, strict public RSA signing JWKS. No private material/token-controlled URL.
 std::optional<OidcKeys> parse_google_jwks(std::string_view body);

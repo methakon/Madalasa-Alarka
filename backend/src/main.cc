@@ -699,6 +699,21 @@ int main() {
 
   app().addListener(addr, static_cast<uint16_t>(port));
   std::cout << "madalasa backend listening on " << addr << ":" << port << std::endl;
+
+  // Pre-warm the Google JWKS cache so the first admin login after (re)start
+  // is never denied by an empty cold cache. The constructor already schedules
+  // the background fetch; we block here (up to 5 s) until it completes.
+  // If the fetch doesn't finish in time we start anyway — the next login attempt
+  // will retry, and the cache 30-second throttle means it will succeed shortly.
+  if (!ma::admin_web_config().origin.empty()) {
+    const bool warm = ma::warm_google_jwks_cache(std::chrono::milliseconds{5000});
+    if (warm) {
+      std::cout << "Google JWKS cache warmed successfully" << std::endl;
+    } else {
+      std::cerr << "Google JWKS pre-warm timed out; first admin login may retry" << std::endl;
+    }
+  }
+
   app().run();
   return 0;
 }

@@ -22,6 +22,7 @@ UMask=0077
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
+ReadWritePaths=/opt/madalasa/backend/uploads
 ProtectHome=true
 ProtectKernelTunables=true
 ProtectKernelModules=true

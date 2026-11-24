@@ -119,8 +119,13 @@ std::optional<GoogleJwksResponse> fetch_google_jwks(std::stop_token stop) {
   bool ok = true;
   auto set = [&](CURLoption option, auto value) { if (curl_easy_setopt(curl.get(), option, value) != CURLE_OK) ok = false; };
   set(CURLOPT_URL, p.url.data());
+#ifdef CURLOPT_PROTOCOLS_STR
   set(CURLOPT_PROTOCOLS_STR, p.protocols.data());
   set(CURLOPT_REDIR_PROTOCOLS_STR, p.protocols.data());
+#else
+  set(CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+  set(CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);
+#endif
   set(CURLOPT_FOLLOWLOCATION, p.follow_redirects ? 1L : 0L);
   set(CURLOPT_MAXREDIRS, 0L);
   set(CURLOPT_SSL_VERIFYPEER, p.verify_peer ? 1L : 0L);
@@ -146,7 +151,9 @@ std::optional<GoogleJwksResponse> fetch_google_jwks(std::stop_token stop) {
 }
 
 GoogleJwksCache::GoogleJwksCache()
-    : GoogleJwksCache(fetch_google_jwks) {}
+    : GoogleJwksCache(fetch_google_jwks) {
+  schedule(clock_());
+}
 GoogleJwksCache::GoogleJwksCache(Fetch fetch, Clock clock)
     : fetch_(std::move(fetch)), clock_(std::move(clock)), snapshot_(nullptr),
       worker_([this](std::stop_token stop) { run(stop); }) {}
@@ -225,17 +232,38 @@ void GoogleJwksCache::run(std::stop_token stop) {
     cv_.notify_all();
   }
 }
+namespace {
+// Shared ownership of the single production JWKS cache. Both make_google_jwks_lookup()
+// and warm_google_jwks_cache() must use the same instance so the pre-warm barrier
+// covers exactly the cache that handles live login requests.
+std::mutex g_jwks_mutex;
+std::weak_ptr<GoogleJwksCache> g_jwks_shared;
+
+std::shared_ptr<GoogleJwksCache> get_or_create_jwks_cache() {
+  std::lock_guard lock(g_jwks_mutex);
+  auto cache = g_jwks_shared.lock();
+  if (!cache) {
+    cache = std::make_shared<GoogleJwksCache>();
+    g_jwks_shared = cache;
+  }
+  return cache;
+}
+} // namespace (anonymous)
+
 OidcKeyLookup make_google_jwks_lookup() {
   // All production lookups share a kid-independent throttle and ONE worker.
   // The lookup owns its cache; release of the last lookup joins the worker.
-  static std::mutex mutex;
-  static std::weak_ptr<GoogleJwksCache> shared;
-  std::lock_guard lock(mutex);
-  auto cache = shared.lock();
-  if (!cache) {
-    cache = std::make_shared<GoogleJwksCache>();
-    shared = cache;
-  }
+  auto cache = get_or_create_jwks_cache();
   return [cache = std::move(cache)](const std::string& kid) { return cache->key(kid); };
+}
+
+bool warm_google_jwks_cache(std::chrono::milliseconds timeout) {
+  // Obtain the shared cache (creating it if it does not yet exist, which also
+  // triggers the initial background JWKS fetch via the GoogleJwksCache ctor).
+  // Block until the first fetch finishes (or timeout). The cache is shared
+  // with any subsequent make_google_jwks_lookup() calls, so callers that come
+  // later immediately see the populated snapshot.
+  auto cache = get_or_create_jwks_cache();
+  return cache->wait_for_idle(timeout);
 }
 } // namespace ma

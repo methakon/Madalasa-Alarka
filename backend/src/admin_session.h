@@ -99,6 +99,7 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_access_me(
     const auto evaluated = admin::evaluate_access_state(
         row["account_state"].as<std::string>(), privileged, row["pending"].as<bool>());
     result["state"] = std::string(admin::to_string(evaluated));
+    result["status"] = std::string(admin::to_string(evaluated));
     result["email_verified"] = row["email_verified"].as<bool>();
     result["request_id"] = row["latest_request"].isNull() ? Json::Value(Json::nullValue)
                                                          : Json::Value(row["latest_request"].as<std::string>());
