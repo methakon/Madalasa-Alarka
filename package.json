@@ -1,0 +1,15 @@
+{
+  "name": "madalasa-alarka",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "admin-web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=madalasa-admin-web",
+    "build": "npm run build --workspace=madalasa-admin-web",
+    "start": "npm run preview --workspace=madalasa-admin-web",
+    "lint": "npm run lint --workspace=madalasa-admin-web",
+    "test": "npm test --workspace=madalasa-admin-web"
+  }
+}
