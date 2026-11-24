@@ -77,4 +77,8 @@ inline drogon::HttpResponsePtr response_for_sqlstate(const std::string& state, c
   return error_response("INTERNAL_ERROR", "unexpected server error", rid);
 }
 
+inline std::string pg_utc(const char* column) {
+  return std::string("to_char(") + column + " AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"')";
+}
+
 }  // namespace ma

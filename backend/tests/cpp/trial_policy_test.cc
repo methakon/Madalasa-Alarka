@@ -4,6 +4,7 @@
 #include <drogon/drogon.h>
 #include <iostream>
 #include "billing_trial.h"
+#include "release_profile.h"
 
 int main() {
   const std::string fam = "00000000-0000-4000-8000-000000000001";
@@ -49,6 +50,26 @@ int main() {
   check(trial_outcome_for_sqlstate("55P03", "").status == 503, "lock timeout is 503");
   check(trial_outcome_for_sqlstate("XX000", "").status == 500, "unknown is 500");
   check(ma::kTrialDurationHours == 48, "duration is 48h");
+
+  // Identifier minimisation: eligibility is decided from the authenticated payer
+  // principal and family only, so the request contract carries exactly one boolean
+  // acknowledgement and admits no device, advertising or hardware identifier.
+  check(!ma::parse_trial_start_body("{\"acknowledge_one_time_trial\":true,\"device_id\":\"abc\"}").has_value(),
+        "device identifier field rejected");
+  check(!ma::parse_trial_start_body("{\"acknowledge_one_time_trial\":true,\"android_id\":\"abc\"}").has_value(),
+        "advertising identifier field rejected");
+  check(!ma::parse_trial_start_body("{\"acknowledge_one_time_trial\":true,\"imei\":\"1\"}").has_value(),
+        "hardware identifier field rejected");
+  check(!ma::parse_trial_start_body("{\"acknowledge_one_time_trial\":true,\"aadhaar\":\"x\"}").has_value(),
+        "national identifier field rejected");
+
+  // The trial cannot become reachable while the release profile is FREE_ONLY: the
+  // free capability set never enables it, and approvals alone cannot escalate a
+  // free profile to the paid latch.
+  check(!ma::free_release_capabilities().trialEnabled, "FREE_ONLY does not enable the trial");
+  check(!ma::paid_release_authorized(ma::ReleaseProfile::FreeOnly, "CONFIRMED", "CONFIRMED", "CONFIRMED"),
+        "approvals cannot enable the trial on the free profile");
+
   if (failed) return 1;
   std::cout << "trial policy handler tests PASS\n";
   return 0;

@@ -1,3 +1,12 @@
+# --- Abuse limits (HTTP context). Real client address via nginx/cloudflare-realip.conf.
+# Admin traffic is low volume, so limits are tight; login steps are tighter still.
+limit_req_zone $binary_remote_addr zone=ma_admin_general:10m rate=10r/s;
+limit_req_zone $binary_remote_addr zone=ma_admin_auth:10m rate=12r/m;
+limit_conn_zone $binary_remote_addr zone=ma_admin_conn:10m;
+limit_req_status 429;
+limit_conn_status 429;
+limit_req_log_level warn;
+
 # Dedicated admin HTTPS vhost; do not expose until DNS, certificate and real admin OIDC are configured.
 # Selected hostname: madalasa.berhampore.in. TLS cert must exist before enabling.
 # Confirm the existing nginx vhost does not already own this name before installing.
@@ -11,6 +20,8 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     server_tokens off;
     client_max_body_size 64k;
+    limit_conn ma_admin_conn 15;
+    limit_req zone=ma_admin_general burst=30 nodelay;
     add_header X-Content-Type-Options nosniff always;
     add_header Referrer-Policy no-referrer always;
     add_header X-Frame-Options DENY always;
@@ -20,6 +31,27 @@ server {
     root /srv/madalasa/admin/current;
     index index.html;
 
+    # Login challenge, Google exchange, CSRF rotation and logout: 12/min per address, burst 6.
+    location ^~ /v1/admin/auth/ {
+        limit_req zone=ma_admin_auth burst=6 nodelay;
+        limit_req zone=ma_admin_general burst=30 nodelay;
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 15s;
+        proxy_send_timeout 15s;
+        proxy_buffering off;
+        add_header Cache-Control "no-store, private" always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header Referrer-Policy no-referrer always;
+        add_header X-Frame-Options DENY always;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://accounts.google.com; frame-src https://accounts.google.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self' https://accounts.google.com; object-src 'none';" always;
+    }
     location ^~ /v1/admin/ {
         proxy_pass http://127.0.0.1:8080;
         proxy_http_version 1.1;

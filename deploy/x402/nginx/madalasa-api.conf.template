@@ -1,3 +1,16 @@
+# --- Abuse limits (HTTP context; this file is included inside http {}). Keyed on the real client address:
+# nginx/cloudflare-realip.conf restores CF-Connecting-IP only for Cloudflare edge ranges, so a spoofed
+# header from anywhere else is ignored. Rates are per address and deliberately generous for carrier NAT.
+#   ma_api_general: every /v1/ call.   ma_api_auth: pre-auth credential/enrollment calls (each costs a
+#   signature or JWKS check and a database round trip, and the pool is small).
+# SOS and location uploads use the general zone only, with a large burst, so a real alert is never starved.
+limit_req_zone $binary_remote_addr zone=ma_api_general:10m rate=20r/s;
+limit_req_zone $binary_remote_addr zone=ma_api_auth:10m rate=30r/m;
+limit_conn_zone $binary_remote_addr zone=ma_api_conn:10m;
+limit_req_status 429;
+limit_conn_status 429;
+limit_req_log_level warn;
+
 # Public API hostname (no child-data service until separate legal, Play and lab gates pass).
 # Proposed API hostname: api.madalasa.berhampore.in; requires an additional DNS A record.
 # Shared Let’s Encrypt lineage contains SANs for admin + API hostnames; validate before enabling.
@@ -20,12 +33,34 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     server_tokens off;
     client_max_body_size 640k; # API location batch <= 512 KiB; endpoint validates.
+    limit_conn ma_api_conn 30;
+    limit_req zone=ma_api_general burst=60 nodelay;
     add_header Cache-Control no-store always;
     add_header X-Content-Type-Options nosniff always;
     add_header Referrer-Policy no-referrer always;
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     location ^~ /v1/admin/ { return 404; } # admin only on dedicated same-origin HTTPS vhost
     location = /healthz { proxy_pass http://127.0.0.1:8080; proxy_set_header Host $host; }
+    # Pre-authentication endpoints: 30/min per address, burst 10. A location that sets limit_req replaces the
+    # inherited one, so the general zone is repeated. Matches /v1/auth/*, /v1/enrollment*, device credential steps.
+    location ~ ^/v1/(auth/|enrollment|devices/[^/]+/credential/) {
+        limit_req zone=ma_api_auth burst=10 nodelay;
+        limit_req zone=ma_api_general burst=60 nodelay;
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 15s;
+        proxy_send_timeout 15s;
+        proxy_buffering off;
+        add_header Cache-Control no-store always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header Referrer-Policy no-referrer always;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    }
     location /v1/ {
         proxy_pass http://127.0.0.1:8080;
         proxy_http_version 1.1;

@@ -174,6 +174,7 @@ class DatabaseContract(unittest.TestCase):
             self.assertEqual(len(c.execute('SELECT * FROM ap_m1.consume_renewal_challenge(%s,%s)',(f['device_a'],ch)).fetchall()),1)
             self.assertEqual(c.execute('SELECT * FROM ap_m1.consume_renewal_challenge(%s,%s)',(f['device_a'],ch)).fetchall(),[])
             args = (f['device_a'],ch,uuid4().bytes*2)
+            self.assertIsNotNone(c.execute('SELECT ap_m1.read_renewal_challenge_expiry(%s)', (ch,)).fetchone()[0])
             self.assertIsNotNone(c.execute('SELECT ap_m1.issue_renewal_credential(%s,%s,%s,300)',args).fetchone()[0])
             self.assertIsNone(c.execute('SELECT ap_m1.issue_renewal_credential(%s,%s,%s,300)',args).fetchone()[0])
             c.rollback()  # Synthetic SQL authorization only, not proof verification.

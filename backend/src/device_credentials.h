@@ -11,6 +11,7 @@
 #include "db_support.h"
 #include "http_support.h"
 #include "idempotency_key.h"
+#include "parent_session.h"
 #include "validation.h"
 
 namespace ma {
@@ -56,10 +57,10 @@ inline drogon::Task<drogon::HttpResponsePtr> request_credential_challenge(
     co_return error_response("VALIDATION_FAILED", "invalid key fingerprint encoding", rid);
   }
 
-  if (!app().hasDbClient(kDbClientName)) {
+  if (!app().hasDbClient(kAuthDbClientName)) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
-  auto db = app().getDbClient(kDbClientName);
+  auto db = app().getDbClient(kAuthDbClientName);
   if (!db) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
@@ -102,7 +103,7 @@ inline drogon::Task<drogon::HttpResponsePtr> request_credential_challenge(
 
     auto time_res = co_await trans->execSqlCoro(
         "SELECT to_char(expires_at AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS expires_iso "
-        "FROM ap_m1.credential_renewal_challenges WHERE id = $1::uuid", challenge_id);
+        "FROM ap_m1.read_renewal_challenge_expiry($1::uuid) AS expires_at", challenge_id);
     const std::string expires_iso = time_res.empty() ? "" : time_res.at(0)["expires_iso"].as<std::string>();
 
     if (!(co_await commit(std::move(trans)))) {
@@ -186,10 +187,10 @@ inline drogon::Task<drogon::HttpResponsePtr> renew_device_credential(
     co_return error_response("UNAUTHENTICATED", "invalid signature encoding", rid);
   }
 
-  if (!app().hasDbClient(kDbClientName)) {
+  if (!app().hasDbClient(kAuthDbClientName)) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }
-  auto db = app().getDbClient(kDbClientName);
+  auto db = app().getDbClient(kAuthDbClientName);
   if (!db) {
     co_return error_response("SERVICE_UNAVAILABLE", "database not configured", rid, true);
   }

@@ -1,5 +1,5 @@
 # DEPRECATED FOR x402 — OWNER NO-GO, 2026-11-05.
-# DO NOT INSTALL/APPLY ON 161.33.146.238: co-located PostgreSQL failed
+# DO NOT INSTALL/APPLY ON the production VM: co-located PostgreSQL failed
 # live resource preflight and must not jeopardize existing mail services.
 # Retained only to document a rejected tuning experiment. Select a separate
 # DB host, or seek separately authorized VM resize + fresh measurements.

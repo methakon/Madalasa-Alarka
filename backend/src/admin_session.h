@@ -8,6 +8,7 @@
 #include <string>
 #include <string_view>
 #include <drogon/drogon.h>
+#include "admin/access_state.h"
 #include "db_support.h"
 #include "http_support.h"
 
@@ -95,8 +96,9 @@ inline drogon::Task<drogon::HttpResponsePtr> admin_access_me(
     const bool privileged = row["owner"].as<bool>() || row["faq"].as<bool>() ||
         row["support"].as<bool>() || row["billing"].as<bool>() || row["usage"].as<bool>();
     Json::Value result(Json::objectValue);
-    result["state"] = active && privileged ? "APPROVED" :
-        row["pending"].as<bool>() ? "PENDING_REVIEW" : "NO_ACCESS";
+    const auto evaluated = admin::evaluate_access_state(
+        row["account_state"].as<std::string>(), privileged, row["pending"].as<bool>());
+    result["state"] = std::string(admin::to_string(evaluated));
     result["email_verified"] = row["email_verified"].as<bool>();
     result["request_id"] = row["latest_request"].isNull() ? Json::Value(Json::nullValue)
                                                          : Json::Value(row["latest_request"].as<std::string>());
