@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Questions — Madalasa · Alarka</title>
+  <meta name="description" content="Find answers to all your questions regarding Madalasa parent app, Alarka child pairing, live location updates, privacy controls, and prepaid pricing." />
+  <link rel="icon" type="image/svg+xml" href="brand/favicon.svg" />
+  <link rel="stylesheet" href="styles/theme-c-web.css" />
+</head>
+<body>
+
+  <!-- Top Notice -->
+  <div class="top-notice-bar">
+    <span>🛡️ Need immediate setup help?</span>
+    <a href="manual.html">Check the Step-by-Step App Manual →</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-row">
+      <a href="home.html" class="brand-lockup">
+        <div class="brand-emblem-cluster">
+          <div class="emblem-disc madalasa">
+            <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Queen Madalasa" />
+          </div>
+          <div class="emblem-disc alarka">
+            <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Prince Alarka" style="transform: scaleX(-1);" />
+          </div>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Madalasa · Alarka</span>
+          <span class="brand-tagline">GUIDED BY WISDOM · FAMILY SAFETY</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="manual.html">App Manual</a></li>
+        <li><a href="faq.html" class="active">FAQ</a></li>
+        <li><a href="refund-policy.html">Refund Policy</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/" class="btn btn-outline btn-sm">Admin Portal</a>
+        <a href="home.html#download" class="btn btn-primary btn-sm">Get the Apps</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <section class="section-pad" style="background: var(--c-surface-warm); border-bottom: 1px solid var(--border-subtle); padding: 60px 0;">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <span class="section-tag">HELP & SUPPORT CENTER</span>
+      <h1 class="section-title">Frequently Asked Questions</h1>
+      <div class="gold-divider"></div>
+      <p class="section-lead">
+        Find clear, verified explanations about device pairing, privacy boundaries, prepaid plans, and background GPS reliability.
+      </p>
+
+      <!-- Instant Search Box -->
+      <div class="search-box-wrap" style="margin-top: 32px;">
+        <svg class="search-icon-pos" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="faqSearchInput" class="search-input" placeholder="Search FAQs by keyword (e.g. pairing, battery, refund, permissions)..." oninput="filterFaqs()" />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="faq-accordion" id="faqContainer">
+
+        <!-- Category: Getting Started -->
+        <div style="margin-bottom: 30px;">
+          <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--c-indigo); margin-bottom: 16px;">
+            1. Getting Started & Pairing
+          </h3>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>How do I link a child phone with the parent app?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Install <strong>Madalasa</strong> on the parent's phone and <strong>Alarka</strong> on the child's phone. In the parent app, navigate to <em>My Children → Add Child</em> to generate a secure, 6-digit cryptographic pairing code (valid for 15 minutes). On the child's phone, open Alarka, accept the transparent permission disclosure, and type that 6-digit code. Pairing completes instantly.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>Can both parents (father and mother) monitor the same child?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Yes. Madalasa supports exact-child co-parent sharing. The primary guardian can issue a co-parent invite specifically scoped to one exact child. There is never automatic sibling mixing or unauthorized third-party access.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>Do I need to root or flash the child's phone?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              <strong>No. Absolutely not.</strong> Rooting or installing custom ROMs breaks Android security sandboxes and voids device warranties. Alarka runs as a standard, compliant user application using official Android APIs on any device running Android 9.0 (Pie) or higher.
+            </div>
+          </div>
+        </div>
+
+        <!-- Category: Privacy & Child Consent -->
+        <div style="margin-bottom: 30px;">
+          <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--c-indigo); margin-bottom: 16px;">
+            2. Privacy, Child Dignity & DPDP Act
+          </h3>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>Can parents secretly turn on the child's microphone or camera?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              <strong>No. Covert recording is strictly prohibited by architecture.</strong> In our Free V1 release, remote mic and camera access are completely deferred. Furthermore, the child's Alarka app always displays a persistent Android system notification whenever location is actively transmitting, ensuring complete transparency and mutual trust.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>How does Madalasa comply with India's DPDP Act 2023?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Madalasa enforces verifiable parental consent for children under 18, stores no behavioral tracking cookies, never sells location datasets to data brokers, and offers an unconditional one-tap Data Deletion portal under Section 12 of the DPDP Act 2023.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>How long is child location history kept?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Free accounts store only the current live position and the last 6 hours of visible breadcrumb history. Older location data points are automatically purged by scheduled database maintenance tasks to minimize privacy exposure.
+            </div>
+          </div>
+        </div>
+
+        <!-- Category: Location & Battery Optimization -->
+        <div style="margin-bottom: 30px;" id="troubleshooting">
+          <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--c-indigo); margin-bottom: 16px;">
+            3. Location Reliability & Battery
+          </h3>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>Why is my child's location not updating when the phone is in their pocket?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Aggressive manufacturer power management (such as Xiaomi MIUI Battery Saver, Samsung Deep Sleeping Apps, or Vivo Background Freezing) often kills background services. To fix this, open Android Settings → Apps → Alarka → Battery, and select <strong>"Unrestricted"</strong> (or disable battery optimization).
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>Will Alarka drain my child's phone battery?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              No. Alarka uses fused location providers and adaptive accelerometer motion detection. When the child is stationary (e.g. sitting in class), GPS radio sleep mode engages. Active GPS polling triggers only upon physical displacement, consuming under 3–5% battery across a full school day.
+            </div>
+          </div>
+        </div>
+
+        <!-- Category: Plans & Billing -->
+        <div>
+          <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--c-indigo); margin-bottom: 16px;">
+            4. Prepaid Plans & Refunds
+          </h3>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>How does the 48-Hour Free Trial work?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Every newly paired family automatically receives 48 hours of full premium location access at zero charge. You do not need to provide a credit card or payment authorization. When the 48 hours end, your account remains active in free basic mode until you choose to upgrade.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>What is the pricing after the free trial?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Premium coverage costs just <strong>₹99/month</strong> or <strong>₹999/year</strong> per paid child seat. It is a strictly prepaid voucher model. We never charge automatic monthly debits to your bank account without your explicit re-authorization.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" onclick="toggleFaq(this)">
+              <span>How can I request a refund?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-body">
+              Read our full <a href="refund-policy.html">Refund and Cancellation Policy</a>. You can request a refund directly through your Google Play Order History within 48 hours of purchase, or email our support desk at <a href="mailto:care@berhampore.in">care@berhampore.in</a> with your Google Play transaction GPA number.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive script -->
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+
+    function filterFaqs() {
+      const q = document.getElementById('faqSearchInput').value.toLowerCase().trim();
+      const items = document.querySelectorAll('.faq-item');
+      items.forEach(it => {
+        const text = it.innerText.toLowerCase();
+        if (!q || text.includes(q)) {
+          it.style.display = 'block';
+          if (q) it.classList.add('open');
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-lockup" style="margin-bottom: 16px;">
+            <div class="emblem-disc madalasa" style="width: 36px; height: 36px;">
+              <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Madalasa" />
+            </div>
+            <span class="brand-name" style="color: #FFF; font-size: 1.4rem;">Madalasa · Alarka</span>
+          </div>
+          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 16px;">
+            Guided by wisdom. Built for family safety. India's respectful, open, and secure child safety ecosystem.
+          </p>
+          <span style="font-size: 0.8rem; color: var(--c-gold-light); font-weight: 600;">Berhampore, Murshidabad, West Bengal</span>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="manual.html">App Setup Manual</a></li>
+            <li><a href="faq.html">Frequently Asked Questions</a></li>
+            <li><a href="contact.html">Contact & Grievances</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Privacy</h4>
+          <ul>
+            <li><a href="refund-policy.html">Refund & Cancellation</a></li>
+            <li><a href="legal/privacy.html">Privacy Notice</a></li>
+            <li><a href="legal/terms.html">Terms of Service</a></li>
+            <li><a href="legal/data-deletion.html">DPDP Data Erasure</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Portals & Support</h4>
+          <ul>
+            <li><a href="/">Admin Back Office</a></li>
+            <li><a href="mailto:care@berhampore.in">care@berhampore.in</a></li>
+            <li><a href="faq.html#troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Madalasa–Alarka Project. Registered in Berhampore, West Bengal, India. All rights reserved.</span>
+        <span>Theme C Design System · Cormorant Garamond & Inter</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

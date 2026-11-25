@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us & Grievance Redressal — Madalasa · Alarka</title>
+  <meta name="description" content="Get in touch with the Madalasa–Alarka team. Support desk, grievance officer, security vulnerability reporting, and Berhampore registered office." />
+  <link rel="icon" type="image/svg+xml" href="brand/favicon.svg" />
+  <link rel="stylesheet" href="styles/theme-c-web.css" />
+</head>
+<body>
+
+  <!-- Top Notice -->
+  <div class="top-notice-bar">
+    <span>🛡️ Free First Edition: 108 founding child seats · 48h unconditional free trial</span>
+    <a href="manual.html">Read Setup Manual →</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-row">
+      <a href="home.html" class="brand-lockup">
+        <div class="brand-emblem-cluster">
+          <div class="emblem-disc madalasa">
+            <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Queen Madalasa" />
+          </div>
+          <div class="emblem-disc alarka">
+            <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Prince Alarka" style="transform: scaleX(-1);" />
+          </div>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Madalasa · Alarka</span>
+          <span class="brand-tagline">GUIDED BY WISDOM · FAMILY SAFETY</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="manual.html">App Manual</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="refund-policy.html">Refund Policy</a></li>
+        <li><a href="contact.html" class="active">Contact Us</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/" class="btn btn-outline btn-sm">Admin Portal</a>
+        <a href="home.html#download" class="btn btn-primary btn-sm">Get the Apps</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <section class="section-pad" style="background: var(--c-surface-warm); border-bottom: 1px solid var(--border-subtle); padding: 60px 0;">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <span class="section-tag">WE ARE HERE FOR YOUR FAMILY</span>
+      <h1 class="section-title">Contact & Grievance Desk</h1>
+      <div class="gold-divider"></div>
+      <p class="section-lead">
+        Have questions about app setup, subscriptions, or privacy rights? Our team in Berhampore is ready to assist you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact Form & Details Grid -->
+  <section class="section-pad">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px; align-items: start;">
+        
+        <!-- Interactive Form -->
+        <div class="contact-form">
+          <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-indigo); margin-bottom: 8px;">
+            Send Us a Message
+          </h2>
+          <p style="color: var(--c-ink-muted); font-size: 0.95rem; margin-bottom: 24px;">
+            Fill out the form below. For pairing assistance or billing issues, please include your registered Google account email.
+          </p>
+
+          <form id="supportContactForm" onsubmit="handleContactSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Parent Full Name</label>
+              <input type="text" class="form-control" required placeholder="e.g. Swarna Sekhar Dhar" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address (Google Account)</label>
+              <input type="email" class="form-control" required placeholder="e.g. parent@example.com" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subject / Topic</label>
+              <select class="form-control" required>
+                <option value="pairing">Device Pairing & Setup Assistance</option>
+                <option value="billing">Prepaid Plans & Google Play Billing</option>
+                <option value="location">Location Accuracy & Geofencing</option>
+                <option value="privacy">DPDP Act & Data Erasure Inquiry</option>
+                <option value="bug">Bug Report / Technical Support</option>
+                <option value="other">General Feedback / Press</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Message</label>
+              <textarea class="form-control" rows="5" required placeholder="Describe your question or issue in detail..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              Send Message to Support Desk
+            </button>
+          </form>
+
+          <div id="contactSuccessMsg" style="display: none; margin-top: 20px; padding: 16px; background: var(--c-leaf-soft); color: var(--c-leaf); border: 1px solid var(--c-leaf); border-radius: var(--radius-sm); font-weight: 500;">
+            ✓ Thank you! Your support message has been received. Our team will get back to you within 24 to 48 business hours.
+          </div>
+        </div>
+
+        <!-- Contact Channels & Address Card -->
+        <div>
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-icon teal">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <h3 class="card-title">Direct Email Channels</h3>
+            <p class="card-desc">
+              <strong>User Care & Billing:</strong> <a href="mailto:care@berhampore.in">care@berhampore.in</a><br />
+              <strong>Technical Support:</strong> <a href="mailto:support@madalasa.berhampore.in">support@madalasa.berhampore.in</a><br />
+              <strong>Security & Vulnerability:</strong> <a href="mailto:security@madalasa.berhampore.in">security@madalasa.berhampore.in</a>
+            </p>
+          </div>
+
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-icon gold">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3 class="card-title">Registered Office Address</h3>
+            <p class="card-desc">
+              <strong>Madalasa–Alarka Project</strong><br />
+              Berhampore Town, Murshidabad District<br />
+              West Bengal, PIN 742101, India.<br />
+              <span style="font-size: 0.85rem; color: var(--c-ink-subtle);">Operating Hours: Mon – Fri, 10:00 AM – 6:00 PM IST</span>
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--c-vermilion);">
+            <div class="card-icon vermilion">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="card-title" style="color: var(--c-vermilion);">Emergency Advisory</h3>
+            <p class="card-desc">
+              Madalasa is a parent-child coordination and peace-of-mind tool. It is <strong>NOT a substitute for government emergency services</strong>. In life-threatening emergencies or severe distress, always immediately call <strong>112 (National Emergency Number, India)</strong> or <strong>1098 (Childline India)</strong>.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      document.getElementById('supportContactForm').style.display = 'none';
+      document.getElementById('contactSuccessMsg').style.display = 'block';
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-lockup" style="margin-bottom: 16px;">
+            <div class="emblem-disc madalasa" style="width: 36px; height: 36px;">
+              <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Madalasa" />
+            </div>
+            <span class="brand-name" style="color: #FFF; font-size: 1.4rem;">Madalasa · Alarka</span>
+          </div>
+          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 16px;">
+            Guided by wisdom. Built for family safety. India's respectful, open, and secure child safety ecosystem.
+          </p>
+          <span style="font-size: 0.8rem; color: var(--c-gold-light); font-weight: 600;">Berhampore, Murshidabad, West Bengal</span>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="manual.html">App Setup Manual</a></li>
+            <li><a href="faq.html">Frequently Asked Questions</a></li>
+            <li><a href="contact.html">Contact & Grievances</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Privacy</h4>
+          <ul>
+            <li><a href="refund-policy.html">Refund & Cancellation</a></li>
+            <li><a href="legal/privacy.html">Privacy Notice</a></li>
+            <li><a href="legal/terms.html">Terms of Service</a></li>
+            <li><a href="legal/data-deletion.html">DPDP Data Erasure</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Portals & Support</h4>
+          <ul>
+            <li><a href="/">Admin Back Office</a></li>
+            <li><a href="mailto:care@berhampore.in">care@berhampore.in</a></li>
+            <li><a href="faq.html#troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Madalasa–Alarka Project. Registered in Berhampore, West Bengal, India. All rights reserved.</span>
+        <span>Theme C Design System · Cormorant Garamond & Inter</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Setup Manual & User Guide — Madalasa · Alarka</title>
+  <meta name="description" content="Step-by-step user manual and pairing instructions for Madalasa (parent app) and Alarka (child app). Battery settings for Xiaomi, Samsung, and OnePlus." />
+  <link rel="icon" type="image/svg+xml" href="brand/favicon.svg" />
+  <link rel="stylesheet" href="styles/theme-c-web.css" />
+</head>
+<body>
+
+  <!-- Top Notice -->
+  <div class="top-notice-bar">
+    <span>🛡️ Free First Edition: 108 founding child seats · 48h unconditional free trial</span>
+    <a href="faq.html">Have questions? Read FAQ →</a>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-row">
+      <a href="home.html" class="brand-lockup">
+        <div class="brand-emblem-cluster">
+          <div class="emblem-disc madalasa">
+            <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Queen Madalasa" />
+          </div>
+          <div class="emblem-disc alarka">
+            <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Prince Alarka" style="transform: scaleX(-1);" />
+          </div>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Madalasa · Alarka</span>
+          <span class="brand-tagline">GUIDED BY WISDOM · FAMILY SAFETY</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="manual.html" class="active">App Manual</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="refund-policy.html">Refund Policy</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/" class="btn btn-outline btn-sm">Admin Portal</a>
+        <a href="home.html#download" class="btn btn-primary btn-sm">Get the Apps</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <section class="section-pad" style="background: var(--c-surface-warm); border-bottom: 1px solid var(--border-subtle); padding: 60px 0;">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <span class="section-tag">STEP-BY-STEP USER MANUAL</span>
+      <h1 class="section-title">Official Application Manual</h1>
+      <div class="gold-divider"></div>
+      <p class="section-lead">
+        A complete walkthrough for parents and children on installing, pairing, establishing safe geofences, and optimizing battery life.
+      </p>
+
+      <!-- Navigation Tabs -->
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 36px; flex-wrap: wrap;">
+        <button id="tabParentBtn" class="btn btn-primary" onclick="switchManualTab('parent')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Madalasa (Parent App Guide)
+        </button>
+        <button id="tabChildBtn" class="btn btn-outline" onclick="switchManualTab('child')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Alarka (Child App Guide)
+        </button>
+        <button id="tabBatteryBtn" class="btn btn-outline" onclick="switchManualTab('battery')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg>
+          Device & Battery Optimization
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 1: PARENT APP GUIDE -->
+  <section class="section-pad" id="parentManualSection">
+    <div class="container" style="max-width: 900px;">
+      <div style="margin-bottom: 24px;">
+        <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--c-indigo);">
+          Madalasa Parent App Walkthrough
+        </h2>
+        <p style="color: var(--c-ink-muted);">
+          Madalasa is installed exclusively on the guardian's smartphone. It manages family membership, geofences, and live GPS map views.
+        </p>
+      </div>
+
+      <div class="step-sequence">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div>
+            <h3 class="step-title">Install & Authenticate with Google</h3>
+            <p class="step-desc">
+              Download <strong>Madalasa</strong> from Google Play. Launch the app and tap <em>Continue with Google</em>. Authenticating with your verified Google account establishes your adult identity safely. No third-party passwords or insecure email tokens are required.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div>
+            <h3 class="step-title">Create Your Family Vault</h3>
+            <p class="step-desc">
+              On first login, tap <em>Create Family</em>. Enter your family name and register your child's display name and age. This provisions an isolated PostgreSQL cryptographic tenant partition under strict Row-Level Security (RLS).
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div>
+            <h3 class="step-title">Generate the 6-Digit Pairing Code</h3>
+            <p class="step-desc">
+              Select your child from the dashboard and tap <strong>"Pair Device"</strong>. Madalasa generates a single-use 6-digit cryptographic code (e.g., <code>849 201</code>). This code is securely tied to this specific child and expires automatically in 15 minutes.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div>
+            <h3 class="step-title">Live Map & Geofence Boundaries</h3>
+            <p class="step-desc">
+              Once paired, view your child's live location on the interactive map. Tap <em>Set Safe Zone</em> to draw geofences around school or home. You will receive notifications whenever your child arrives or leaves.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <div>
+            <h3 class="step-title">Receiving an Emergency SOS</h3>
+            <p class="step-desc">
+              If your child triggers the SOS button in Alarka, Madalasa sounds an immediate audible alert, zooms directly to their live coordinates, and presents one-tap options to phone the child or direct emergency services.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: CHILD APP GUIDE -->
+  <section class="section-pad" id="childManualSection" style="display: none;">
+    <div class="container" style="max-width: 900px;">
+      <div style="margin-bottom: 24px;">
+        <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--c-indigo);">
+          Alarka Child App Walkthrough
+        </h2>
+        <p style="color: var(--c-ink-muted);">
+          Alarka is installed on the child's smartphone (Android 9.0+). It operates with complete transparency and visible system notifications.
+        </p>
+      </div>
+
+      <div class="step-sequence">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div>
+            <h3 class="step-title">Download Alarka onto Child's Phone</h3>
+            <p class="step-desc">
+              Install <strong>Alarka</strong> from Google Play onto your child's Android phone. Open the app together with your child so they understand how their location is shared.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div>
+            <h3 class="step-title">Review Transparent Permissions</h3>
+            <p class="step-desc">
+              Alarka presents an honest permission checklist:
+              <br />• <strong>Location:</strong> Set to <em>"Allow all the time"</em> so location works when walking to school.
+              <br />• <strong>Physical Activity:</strong> Used to sleep GPS sensors when stationary and conserve battery.
+              <br />• <strong>Notifications:</strong> Required for persistent mutual trust shield notification.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div>
+            <h3 class="step-title">Enter Parent's 6-Digit Code</h3>
+            <p class="step-desc">
+              Type the 6-digit pairing code generated on the parent's Madalasa app. The two phones establish an authenticated cryptographic handshake. The screen confirms: <em>"Paired with [Parent Name]"</em>.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div>
+            <h3 class="step-title">The Trust Shield & One-Tap SOS</h3>
+            <p class="step-desc">
+              The home screen displays the child's safety status. In any dangerous situation, holding the prominent red <strong>EMERGENCY SOS</strong> button for 2 seconds immediately alerts guardians with high-precision location updates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: BATTERY & OPTIMIZATION -->
+  <section class="section-pad" id="batteryManualSection" style="display: none;">
+    <div class="container" style="max-width: 900px;">
+      <div style="margin-bottom: 24px;">
+        <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--c-indigo);">
+          Android Battery & Background Optimization
+        </h2>
+        <p style="color: var(--c-ink-muted);">
+          To ensure uninterrupted location protection when the child's phone screen is turned off, apply these settings according to your phone brand:
+        </p>
+      </div>
+
+      <div class="step-sequence">
+        <div class="step-card">
+          <div class="step-num">A</div>
+          <div>
+            <h3 class="step-title">Xiaomi / Redmi / POCO (MIUI / HyperOS)</h3>
+            <p class="step-desc">
+              1. Open <strong>Settings → Apps → Manage Apps → Alarka</strong>.<br />
+              2. Enable <strong>Autostart</strong>.<br />
+              3. Tap <strong>Battery Saver</strong> and select <strong>"No restrictions"</strong>.<br />
+              4. Open Recent Apps screen, long-press Alarka, and tap the <strong>Lock icon</strong> to prevent clearing from memory.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">B</div>
+          <div>
+            <h3 class="step-title">Samsung Galaxy (OneUI)</h3>
+            <p class="step-desc">
+              1. Open <strong>Settings → Battery and device care → Battery</strong>.<br />
+              2. Tap <strong>Background usage limits</strong>.<br />
+              3. Check <em>Never sleeping apps</em> and tap <strong>+</strong> to add <strong>Alarka</strong>.<br />
+              4. Ensure <em>Adaptive battery</em> is not throttling Alarka.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">C</div>
+          <div>
+            <h3 class="step-title">OnePlus / Oppo / Realme (OxygenOS / ColorOS)</h3>
+            <p class="step-desc">
+              1. Open <strong>Settings → Battery → More battery settings → Optimize battery use</strong>.<br />
+              2. Find <strong>Alarka</strong> and set to <strong>"Don't optimize"</strong>.<br />
+              3. In <em>App Management → Alarka</em>, enable <strong>Allow background activity</strong> and <strong>Allow auto launch</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Script for switching tabs -->
+  <script>
+    function switchManualTab(tab) {
+      document.getElementById('parentManualSection').style.display = tab === 'parent' ? 'block' : 'none';
+      document.getElementById('childManualSection').style.display = tab === 'child' ? 'block' : 'none';
+      document.getElementById('batteryManualSection').style.display = tab === 'battery' ? 'block' : 'none';
+
+      document.getElementById('tabParentBtn').className = tab === 'parent' ? 'btn btn-primary' : 'btn btn-outline';
+      document.getElementById('tabChildBtn').className = tab === 'child' ? 'btn btn-primary' : 'btn btn-outline';
+      document.getElementById('tabBatteryBtn').className = tab === 'battery' ? 'btn btn-primary' : 'btn btn-outline';
+    }
+
+    // Auto-select tab if URL hash is present
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash === '#child-app') switchManualTab('child');
+      if (window.location.hash === '#battery') switchManualTab('battery');
+    });
+  </script>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-lockup" style="margin-bottom: 16px;">
+            <div class="emblem-disc madalasa" style="width: 36px; height: 36px;">
+              <img src="brand/figma_renders/brand-2026-website-two-character-faces-512@2x.png" alt="Madalasa" />
+            </div>
+            <span class="brand-name" style="color: #FFF; font-size: 1.4rem;">Madalasa · Alarka</span>
+          </div>
+          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 16px;">
+            Guided by wisdom. Built for family safety. India's respectful, open, and secure child safety ecosystem.
+          </p>
+          <span style="font-size: 0.8rem; color: var(--c-gold-light); font-weight: 600;">Berhampore, Murshidabad, West Bengal</span>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="manual.html">App Setup Manual</a></li>
+            <li><a href="faq.html">Frequently Asked Questions</a></li>
+            <li><a href="contact.html">Contact & Grievances</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Privacy</h4>
+          <ul>
+            <li><a href="refund-policy.html">Refund & Cancellation</a></li>
+            <li><a href="legal/privacy.html">Privacy Notice</a></li>
+            <li><a href="legal/terms.html">Terms of Service</a></li>
+            <li><a href="legal/data-deletion.html">DPDP Data Erasure</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Portals & Support</h4>
+          <ul>
+            <li><a href="/">Admin Back Office</a></li>
+            <li><a href="mailto:care@berhampore.in">care@berhampore.in</a></li>
+            <li><a href="faq.html#troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Madalasa–Alarka Project. Registered in Berhampore, West Bengal, India. All rights reserved.</span>
+        <span>Theme C Design System · Cormorant Garamond & Inter</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

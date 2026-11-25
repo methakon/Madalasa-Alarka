@@ -214,3 +214,26 @@
   padding-top: 10px;
   border-top: 1px dashed #ede8df;
 }
+.public-portal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  background: #ffffff;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  border: 1px solid #e7b44a;
+  box-shadow: 0 2px 8px rgba(35, 63, 105, 0.06);
+}
+.public-portal-nav a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #233f69;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.public-portal-nav a:hover {
+  color: #e7b44a;
+}
