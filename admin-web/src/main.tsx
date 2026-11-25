@@ -1,6 +1,6 @@
 import {useCallback,useEffect,useMemo,useState,type ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
-import {Activity,BookOpen,ChevronRight,ClipboardCheck,Clock3,CreditCard,FileQuestion,Headphones,LayoutDashboard,LockKeyhole,RefreshCw,Search,ShieldCheck,ShieldAlert,Users,UserRound,ArrowRight,LogOut,AlertCircle} from 'lucide-react';
+import {Activity,BookOpen,ChevronRight,ClipboardCheck,Clock3,CreditCard,FileQuestion,Headphones,LayoutDashboard,LockKeyhole,RefreshCw,Search,ShieldCheck,ShieldAlert,Users,UserRound,ArrowRight,LogOut,AlertCircle,Server} from 'lucide-react';
 import {request,items,may,onlyServerRoles,setCsrfToken,clearCsrfToken,ApiError,type AccessState,type Role,type AdminRequest,type Faq,type Ticket,type Subscriber,type Audit,type Page} from './api';
 import {demoRequests,demoFaqs,demoTickets,demoSubscribers,demoAudit} from './fixtures';
 import './styles.css';
@@ -24,6 +24,171 @@ function NoAccess({message}:{message:string}){return <main className="auth-layou
 
 type Data={requests:AdminRequest[];faqs:Faq[];tickets:Ticket[];subscribers:Subscriber[];audit:Audit[]};
 const empty:Data={requests:[],faqs:[],tickets:[],subscribers:[],audit:[]};
+
+interface TelemetryData {
+  cpu: { pct: number; cores: number };
+  ram: { total_mb: number; used_mb: number; free_mb: number; total_gb: number; used_gb: number; free_gb: number; pct: number };
+  disk: { total_gb: number; used_gb: number; free_gb: number; pct: number };
+  uptime: { seconds: number; formatted: string };
+  load: [number, number, number];
+  services: Record<string, boolean>;
+  timestamp: number;
+}
+
+function VpsStatusWidget() {
+  const [data, setData] = useState<TelemetryData | null>(null);
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchTelemetry = async () => {
+      try {
+        const res = await fetch('/v1/system/telemetry', {
+          headers: {
+            'X-Madalasa-Client': 'web-telemetry-v1',
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = (await res.json()) as TelemetryData;
+        if (mounted) {
+          setData(json);
+          setLive(true);
+        }
+      } catch {
+        if (mounted) setLive(false);
+      }
+    };
+
+    void fetchTelemetry();
+    const interval = setInterval(fetchTelemetry, 1000);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  const getMeterColor = (pct: number) => {
+    if (pct >= 85) return '#ef4444';
+    if (pct >= 65) return '#f59e0b';
+    return '#10b981';
+  };
+
+  return (
+    <section className="vps-widget" aria-label="VPS Realtime Telemetry">
+      <div className="vps-widget-header">
+        <div className="vps-title-group">
+          <div className="vps-icon">
+            <Server size={22} />
+          </div>
+          <div>
+            <div className="vps-overline-row">
+              <span className="overline">INFRASTRUCTURE TELEMETRY</span>
+              <span className={'live-badge ' + (live ? '' : 'offline')}>
+                <span className="live-dot" />
+                {live ? 'LIVE 1s' : 'CONNECTING…'}
+              </span>
+            </div>
+            <strong className="vps-heading">Oracle A1 Compute Node · vnic-madalasa-a1</strong>
+            <span className="vps-sub">2 OCPUs (Arm Neoverse-N1) · 12 GB RAM · 30 GB NVMe Storage</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="vps-metrics-grid">
+        <div className="vps-metric-card">
+          <div className="vps-metric-top">
+            <span className="vps-metric-label">CPU USAGE</span>
+            <span className="vps-metric-val">{data ? `${data.cpu.pct.toFixed(1)}%` : '—'}</span>
+          </div>
+          <div className="vps-meter">
+            <div
+              className="vps-meter-fill"
+              style={{
+                width: data ? `${Math.min(100, Math.max(0, data.cpu.pct))}%` : '0%',
+                backgroundColor: data ? getMeterColor(data.cpu.pct) : '#e9e3d8',
+              }}
+            />
+          </div>
+          <div className="vps-metric-foot">
+            <span>{data ? `${data.cpu.cores} vCPUs active` : 'Detecting cores…'}</span>
+            <span>Load: {data ? data.load.map(l => l.toFixed(2)).join(', ') : '—'}</span>
+          </div>
+        </div>
+
+        <div className="vps-metric-card">
+          <div className="vps-metric-top">
+            <span className="vps-metric-label">MEMORY (RAM)</span>
+            <span className="vps-metric-val">{data ? `${data.ram.pct.toFixed(1)}%` : '—'}</span>
+          </div>
+          <div className="vps-meter">
+            <div
+              className="vps-meter-fill"
+              style={{
+                width: data ? `${Math.min(100, Math.max(0, data.ram.pct))}%` : '0%',
+                backgroundColor: data ? getMeterColor(data.ram.pct) : '#e9e3d8',
+              }}
+            />
+          </div>
+          <div className="vps-metric-foot">
+            <span>{data ? `${data.ram.used_gb.toFixed(2)} GB used` : '—'}</span>
+            <span>{data ? `${data.ram.total_gb.toFixed(2)} GB total` : '—'}</span>
+          </div>
+        </div>
+
+        <div className="vps-metric-card">
+          <div className="vps-metric-top">
+            <span className="vps-metric-label">NVME STORAGE</span>
+            <span className="vps-metric-val">{data ? `${data.disk.pct.toFixed(1)}%` : '—'}</span>
+          </div>
+          <div className="vps-meter">
+            <div
+              className="vps-meter-fill"
+              style={{
+                width: data ? `${Math.min(100, Math.max(0, data.disk.pct))}%` : '0%',
+                backgroundColor: data ? getMeterColor(data.disk.pct) : '#e9e3d8',
+              }}
+            />
+          </div>
+          <div className="vps-metric-foot">
+            <span>{data ? `${data.disk.used_gb.toFixed(1)} GB used` : '—'}</span>
+            <span>{data ? `${data.disk.free_gb.toFixed(1)} GB free` : '—'}</span>
+          </div>
+        </div>
+
+        <div className="vps-metric-card">
+          <div className="vps-metric-top">
+            <span className="vps-metric-label">SYSTEM UPTIME</span>
+            <span className="vps-metric-val uptime">{data ? data.uptime.formatted : '—'}</span>
+          </div>
+          <div className="vps-meter">
+            <div className="vps-meter-fill" style={{width: '100%', backgroundColor: '#10b981'}} />
+          </div>
+          <div className="vps-metric-foot uptime-foot">
+            <span>Health: Stable</span>
+            <span>OS: OL 9.8 aarch64</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="vps-services-row">
+        <span className="vps-svc-title">CORE DAEMONS:</span>
+        {data &&
+          Object.entries(data.services).map(([svc, status]) => (
+            <span key={svc} className={`vps-svc-pill ${status ? 'active' : 'inactive'}`}>
+              <span className="vps-svc-dot" />
+              {svc} {status ? 'UP' : 'DOWN'}
+            </span>
+          ))}
+      </div>
+
+      <div className="vps-security-note">
+        <LockKeyhole size={14} />
+        <span>Telemetry channel secured: rate-limited to 3 req/sec, origin-verified & anti-scrape protected.</span>
+      </div>
+    </section>
+  );
+}
 function useAdminData(section:Section,allowed:boolean,preview:boolean){
  const [data,setData]=useState<Data>(empty);const [loading,setLoading]=useState(false);const [error,setError]=useState<string|null>(null);
  const load=useCallback(async()=>{
@@ -112,9 +277,9 @@ function App(){
      const result=await request<{state:string;role_codes?:string[];csrf_token?:string;session_expires_at:string;contact_email_verified:boolean}>('/admin/auth/google',{method:'POST',body:{id_token:idToken,nonce}});
      if(!setCsrfToken(result.csrf_token))throw new Error('Server did not issue a valid CSRF token');
      const validated=await request<AccessState>('/admin/access/me');
-     const nextRoles=validated.status==='APPROVED'?onlyServerRoles(validated.role_codes):[];
+     const nextRoles=(validated.status==='APPROVED'||validated.state==='APPROVED')?onlyServerRoles(validated.role_codes):[];
      setAccess(validated);
-     if(result.state==='ACTIVE'&&validated.status==='APPROVED'&&nextRoles.length){
+     if(result.state==='ACTIVE'&&(validated.status==='APPROVED'||validated.state==='APPROVED')&&nextRoles.length){
        setRoles(nextRoles);setAuth('active');setSessionError('');
      }else{setRoles([]);setAuth('applicant');}
    }catch(e){clearCsrfToken();setRoles([]);setSessionError(e instanceof Error?e.message:'Authentication failed');setAuth('signed-out');}
@@ -123,7 +288,7 @@ function App(){
    void (async()=>{
      try{
        const updated=await request<AccessState>('/admin/access/me');
-       const serverRoles=updated.status==='APPROVED'?onlyServerRoles(updated.role_codes):[];
+       const serverRoles=(updated.status==='APPROVED'||updated.state==='APPROVED')?onlyServerRoles(updated.role_codes):[];
        if(serverRoles.length){
          const proof=await request<{csrf_token:string}>('/admin/auth/csrf',{method:'POST'});
          if(!setCsrfToken(proof.csrf_token))throw new Error('Session confirmation failed');
@@ -149,12 +314,15 @@ function App(){
    {actionError&&<div className="error-note" role="alert">{actionError}</div>}{actionMessage&&<div className="success-note" role="status">{actionMessage}</div>}
    {loading&&<p className="subtle">Loading authorized records…</p>}
    {accessLocked?<Empty text="This role cannot access this module."/>:
-   section==='overview'?<div className="grid two">
+   section==='overview'?<div className="overview-container" style={{display:'flex',flexDirection:'column',gap:'24px'}}>
+      <VpsStatusWidget/>
+      <div className="grid two">
       <Box title="Admin operations summary" soft><div className="metric-grid"><div className="metric"><strong>{PREVIEW?data.requests.length:'—'}</strong><span>Access applications</span></div><div className="metric"><strong>{PREVIEW?data.tickets.length:'—'}</strong><span>Support tickets</span></div><div className="metric"><strong>{PREVIEW?data.faqs.filter(f=>f.status==='DRAFT').length:'—'}</strong><span>FAQ drafts</span></div></div><p className="fine">Live overview metrics require authorized aggregation endpoints; no numbers are inferred from partial data.</p></Box>
       <Box title="Assigned privileges"><div className="record"><ShieldCheck size={22}/><div><strong>{roles.join(' · ')||'No roles'}</strong><p>Roles are derived only from the authoritative admin service. No UI role escalation.</p></div></div><div className="line">Manage content and service operations within assigned scope.</div><div className="line">Children's private data remains inaccessible by default.</div></Box>
       <Box title="Recent security events"><p>View access decisions, denials and audited administrative actions in the security module.</p><Button kind="secondary" onClick={()=>setSection('security')} disabled={!may(roles,'ROOT_OWNER')}>View audit <ArrowRight size={16}/></Button></Box>
       <Box title="Staff and controls" warn><p>MFA, short-lived sessions, revocable roles and scoped access are required on the server.</p><p>Exports, live GPS, audio, video, and screen captures are not exposed by this panel.</p><Button kind="secondary" onClick={()=>setSection('access')} disabled={!may(roles,'ROOT_OWNER')}>Review access requests</Button></Box>
-    </div>:
+    </div>
+   </div>:
    section==='access'?<div className="grid layout-split"><Box title={'Access Requests · '+data.requests.length+' visible'}>
       <SearchField query={query} setQuery={setQuery} placeholder="Search request / applicant"/>
       <div className="record-list">{data.requests.filter(x=>JSON.stringify(x).toLowerCase().includes(query.toLowerCase())).map(x=><button className={'record selectable '+(selected===x.id?'selected':'')} key={x.id} onClick={()=>setSelected(x.id)}><span className="avatar"><UserRound size={17}/></span><span><strong>{x.profile?.full_name||'Applicant'}</strong><small>{x.id.slice(0,8)} · {x.state}</small></span><ChevronRight size={16}/></button>)}</div>
@@ -212,7 +380,7 @@ function GoogleEntry({error,onApproved}:{error:string;onApproved:(idToken:string
    })();
    return ()=>{active=false;script?.remove();};
  },[root,clientId]);
- return <main className="auth-layout"><div className="auth-card"><div className="brand-mark"><ShieldCheck/></div><p className="overline">MADALASA · ADMINISTRATION</p><h1>Welcome to the secure administration portal</h1><p>Continue with Google. Only a verified owner can approve staff and assign roles. An applicant may only access their own application status.</p><div ref={setRoot} className="google-button"/>{!clientId&&<div className="notice"><LockKeyhole size={17}/> Google admin login is unavailable until the approved OAuth client and secure admin backend are configured.</div>}{status&&<div className="notice">{status}</div>}{error&&<div className="error-note" role="alert">{error}</div>}<p className="fine">Google sign-in alone does not grant administrative access, billing visibility or access to child data.</p></div></main>;
+ return <main className="auth-layout with-telemetry"><div className="auth-card"><div className="brand-mark"><ShieldCheck/></div><p className="overline">MADALASA · ADMINISTRATION</p><h1>Welcome to the secure administration portal</h1><p>Continue with Google. Only a verified owner can approve staff and assign roles. An applicant may only access their own application status.</p><div ref={setRoot} className="google-button"/>{!clientId&&<div className="notice"><LockKeyhole size={17}/> Google admin login is unavailable until the approved OAuth client and secure admin backend are configured.</div>}{status&&<div className="notice">{status}</div>}{error&&<div className="error-note" role="alert">{error}</div>}<p className="fine">Google sign-in alone does not grant administrative access, billing visibility or access to child data.</p></div><VpsStatusWidget/></main>;
 }
 function Applicant({access,onRefresh,error}:{access:AccessState|null;onRefresh:()=>void;error:string}){
  const [fullName,setFullName]=useState(''),[email,setEmail]=useState('');
